@@ -20,5 +20,6 @@ mix.sass('resources/sass/app.scss', 'public/css');
 /**
  * For admin site
  */
-mix.js('resources/assets/js/app.js', 'public/js/admin');
-mix.sass('resources/assets/sass/app.scss', 'public/css/admin');
+mix.copy('node_modules/admin-lte/dist/img', 'public/assets/img');
+mix.js('resources/assets/js/app.js', 'public/assets/js');
+mix.sass('resources/assets/sass/app.scss', 'public/assets/css');

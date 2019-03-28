@@ -6,8 +6,10 @@
 
 try {
     window._ = require('lodash');
-    window.$ = window.jQuery = require('jquery');
+    window.$ = window.jQuery = require('admin-lte/bower_components/jquery/dist/jquery.min');
     window.axios = require('axios');
+    require('admin-lte/bower_components/bootstrap/dist/js/bootstrap.min');
+    require('admin-lte/dist/js/adminlte.min');
 } catch (e) {
     console.log(e);
 }
