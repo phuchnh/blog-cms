@@ -23,3 +23,17 @@ mix.sass('resources/sass/app.scss', 'public/css');
 mix.copy('node_modules/admin-lte/dist/img', 'public/assets/img');
 mix.js('resources/assets/js/app.js', 'public/assets/js');
 mix.sass('resources/assets/sass/app.scss', 'public/assets/css');
+
+
+mix.webpackConfig(() => {
+    const config = {};
+
+    config.resolve = {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': __dirname + '/resources/assets/js'
+        }
+    };
+    return config;
+});

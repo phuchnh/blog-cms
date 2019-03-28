@@ -12,10 +12,10 @@
 </template>
 
 <script>
-    import Header from './layouts/Header';
-    import Sidebar from './layouts/Sidebar';
-    import PageContent from './layouts/PageContent';
-    import Footer from './layouts/Footer';
+    import Header from '@/layouts/Header';
+    import Sidebar from '@/layouts/Sidebar';
+    import PageContent from '@/layouts/PageContent';
+    import Footer from '@/layouts/Footer';
 
     export default {
         components: {
