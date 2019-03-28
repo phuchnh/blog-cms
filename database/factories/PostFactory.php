@@ -16,11 +16,16 @@ use Faker\Generator as Faker;
 /**
  * @var $factory \Illuminate\Database\Eloquent\Factory
  */
-$factory->define(\App\Models\User::class, function (Faker $faker) {
+$factory->define(\App\Models\Post::class, function (Faker $faker) {
+    $title = $faker->sentence;
+
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        'tilte' => $faker->sentence,
+        'description' => $faker->sentence,
+        'content' => $faker->paragraph,
+        'slug' => Str::slug($title),
+        'thumbnail' => $faker->imageUrl(),
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 });
