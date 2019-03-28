@@ -28,6 +28,13 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Where to redirect admin after login.
+     *
+     * @var string
+     */
+    protected $redirectToAdmin = '/admin';
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -35,5 +42,24 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Get the post register / login redirect path.
+     *
+     * @return string
+     */
+    public function redirectPath()
+    {
+        /**
+         * @var $user \App\Models\User
+         */
+        $user = auth()->user();
+
+        if ($user->type === 'admin') {
+            return property_exists($this, 'redirectToAdmin') ? $this->redirectToAdmin : '/admin';
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
     }
 }
