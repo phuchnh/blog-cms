@@ -45,32 +45,25 @@ class LoginController extends Controller
     }
 
     /**
-     * Get the post register / login redirect path.
+     * The user has been authenticated.
      *
-     * @return string
+     * @param  \Illuminate\Http\Request $request
+     * @param  mixed $user
+     * @return mixed
      */
-    public function authenticated()
+    protected function authenticated($request, $user)
     {
-        /**
-         * @var $user \App\Models\User
-         */
-        $user = auth()->user();
+        if ($user->type === \App\Models\Admin::ADMIN) {
+            $credentials = $request->only(['email', 'password']);
 
-        if ($admin = \App\Models\Admin::newModelInstance($user)) {
-            $this->addTokenToCookie($admin);
+            if ($token = auth('api')->attempt($credentials)) {
+                $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
+                setcookie('token', $token, $minutes, $this->redirectToAdmin ?: '/admin');
+            }
 
             return redirect()->intended($this->redirectToAdmin ?: '/admin');
         }
 
         return redirect()->intended($this->redirectTo ?: '/home');
-    }
-
-    private function addTokenToCookie(\App\Models\Admin $admin)
-    {
-        $token = \JWTAuth::fromUser($admin);
-        $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
-        setcookie('token', $token, $minutes, $this->redirectToAdmin ?: '/admin');
-
-        return $token;
     }
 }
