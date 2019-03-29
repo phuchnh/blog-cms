@@ -1,0 +1,25 @@
+.practise {
+  .practise__content {
+    .container {
+      padding: 0 10%;
+      @media #{$info-phone} {
+        padding: 0 15px;
+      }
+    }
+    p {
+      margin-bottom: 3%;
+      span {
+        color: $primary-orange;
+      }
+    }
+    .custom-btn {
+      margin: 5% 0;
+    }
+    iframe {
+      margin: auto;
+      width: 100%;
+      max-width: 580px;
+      display: block;
+    }
+  }
+}

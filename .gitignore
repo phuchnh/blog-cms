@@ -8,6 +8,7 @@
 /public/assets
 /public/fonts
 /public/storage
+/public/app
 /storage/*.key
 /vendor
 .env

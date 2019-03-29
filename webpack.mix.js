@@ -14,8 +14,9 @@ const mix = require('laravel-mix');
 /**
  * For user site
  */
-mix.js('resources/js/app.js', 'public/js');
-mix.sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/assets_frontend/js/app.js', 'public/app/js');
+mix.sass('resources/assets_frontend/sass/app.scss', 'public/app/css');
+mix.copy('resources/assets_frontend/img', 'public/app/img');
 
 /**
  * For admin site
@@ -23,7 +24,6 @@ mix.sass('resources/sass/app.scss', 'public/css');
 mix.copy('node_modules/admin-lte/dist/img', 'public/assets/img');
 mix.js('resources/assets/js/app.js', 'public/assets/js');
 mix.sass('resources/assets/sass/app.scss', 'public/assets/css');
-
 
 mix.webpackConfig(() => {
     const config = {};

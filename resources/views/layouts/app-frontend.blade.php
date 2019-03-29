@@ -10,9 +10,6 @@
 
 <!-- main content -->
 <main id="main">
-    {!! Ssr::entry('js/entry-server.js')->fallback('<div id="app"></div>')->render() !!}
-    <script src="{{ asset('js/entry-client.js') }}"></script>
-
     @yield('content')
 </main>
 

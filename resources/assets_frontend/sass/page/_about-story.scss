@@ -1,0 +1,126 @@
+.a-story {
+  .a-story__content {
+    overflow: hidden;
+    margin-bottom: 7%;
+    img {
+      max-width: 50%;
+      @media #{$info-phone} {
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 600px;
+        display: block;
+        float: none;
+      }
+    }
+    .a-story__content--left {
+      img {
+        float: left;
+        margin-right: 5.4%;
+        margin-top: 10.5%;
+      }
+    }
+    .a-story__content--right {
+      img {
+        margin-left: 5.4%;
+        float: right;
+      }
+    }
+
+    .a-story__content__top {
+      position: relative;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      padding: 9.7% 0 4%;
+      margin-bottom: 3%;
+      &:after {
+        content: '';
+        width: 200vw;
+        left: -50vw;
+        top: 0;
+        background-color: #ebebeb;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+      }
+      b {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 1%;
+      }
+    }
+    p {
+      margin-bottom: 3%;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .a-story__content__circle {
+      text-align: center;
+      margin: 3% 0;
+      span {
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+        display: inline-block;
+        margin: 0 20px;
+        background-color: $primary-green;
+        @media #{$info-tablet-vertical} {
+          width: 40px;
+          height: 40px;
+          margin: 0 10px;
+        }
+        @media #{$info-phone} {
+          width: 30px;
+          height: 30px;
+          margin: 0 5px;
+        }
+        &.a-story__content__circle--orange {
+          background-color: $primary-orange;
+        }
+      }
+    }
+  }
+
+  .a-story__content-02 {
+    overflow: hidden;
+    text-align: center;
+    .text-center {
+      position: relative;
+      padding: 7% 0 160px;
+      &:after {
+        content: '';
+        width: 200vw;
+        left: -50vw;
+        top: 0;
+        background-color: #fff5d5;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+      }
+      p {
+        margin-bottom: 3%;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    iframe {
+      margin: auto;
+      width: 100%;
+      max-width: 580px;
+      @include css3-prefix(transform, translateY(-120px));
+    }
+  }
+
+  .a-story__btn {
+    padding: 10px 25px;
+    background: $primary-green;
+    color: #fff;
+    border-radius: 2em;
+    font-size: 0.875rem;
+    font-weight: bold;
+    display: inline-block;
+    @include css3-prefix(transform, translateY(-50px));
+  }
+}

@@ -8,9 +8,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script src="../assets/js/plugin/slick-slider.min.js" type="text/javascript"></script>
-<script src="../assets/js/main.js" type="text/javascript"></script>
+
+<script src="{{ asset('app/js/app.js') }}" type="text/javascript"></script>
 
 <!-- Styles -->
-<link rel="stylesheet" href="{{ asset('assets/css/standard.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+<link rel="stylesheet" href="{{ asset('app/css/app.css') }}">
