@@ -49,17 +49,28 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function redirectPath()
+    public function authenticated()
     {
         /**
          * @var $user \App\Models\User
          */
         $user = auth()->user();
 
-        if ($user->type === 'admin') {
-            return property_exists($this, 'redirectToAdmin') ? $this->redirectToAdmin : '/admin';
+        if ($admin = \App\Models\Admin::newModelInstance($user)) {
+            $this->addTokenToCookie($admin);
+
+            return redirect()->intended($this->redirectToAdmin ?: '/admin');
         }
 
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+        return redirect()->intended($this->redirectTo ?: '/home');
+    }
+
+    private function addTokenToCookie(\App\Models\Admin $admin)
+    {
+        $token = \JWTAuth::fromUser($admin);
+        $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
+        setcookie('token', $token, $minutes, $this->redirectToAdmin ?: '/admin');
+
+        return $token;
     }
 }
