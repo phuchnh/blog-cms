@@ -4,7 +4,7 @@
     <article class="about a-press">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">
@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 a-press__item ">
                         <div class="custom-item-press">
-                            <img src="../assets/img/inthepress/inthepress_02.jpg" alt="">
+                            <img src="/app/img/inthepress/inthepress_02.jpg" alt="">
                             <div class="d-block">
                                 <div class=" font_color--white">
                                     <header class="font-italic">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 a-press__item">
                         <div class="custom-item-press">
-                            <img src="../assets/img/inthepress/inthepress_01.jpg" alt="">
+                            <img src="/app/img/inthepress/inthepress_01.jpg" alt="">
                             <div class="d-block">
                                 <div class=" font_color--white">
                                     <header class="font-italic">
@@ -83,7 +83,7 @@
                 <div class="row a-press__content--child">
                     <div class="col-xs-12 col-sm-4 a-press__item a-press__item--child">
                         <div class="custom-item-press">
-                            <img src="../assets/img/about-press-01.jpg" alt="">
+                            <img src="/app/img/about-press-01.jpg" alt="">
                             <div class="d-block">
                                 <div class=" font_color--white">
                                     <header class="font-italic">
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-4 a-press__item a-press__item--child">
                         <div class="custom-item-press">
-                            <img src="../assets/img/about-press-01.jpg" alt="">
+                            <img src="/app/img/about-press-01.jpg" alt="">
                             <div class="d-block">
                                 <div class=" font_color--white">
                                     <header class="font-italic">
@@ -127,7 +127,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-4 a-press__item a-press__item--child">
                         <div class="custom-item-press">
-                            <img src="../assets/img/about-press-01.jpg" alt="">
+                            <img src="/app/img/about-press-01.jpg" alt="">
                             <div class="d-block">
                                 <div class=" font_color--white">
                                     <header class="font-italic">

@@ -4,7 +4,7 @@
     <article class="about a-story">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">
@@ -33,7 +33,7 @@
         <section class="a-story__content">
             <div class="container">
                 <div class="a-story__content--left clearfix">
-                    <img src="../assets/img/about-story-01.jpg" alt="" />
+                    <img src="/app/img/about-story-01.jpg" alt="" />
                     <div class="a-story__content__top">
                         <b>Welcome to One Life Connection!</b>
                         We are proud to be the first professionaltraining & coaching company in Vietnam with both internationally certified and self-designed mindfulness program.
@@ -50,7 +50,7 @@
                     <span></span>
                 </div>
                 <div class="a-story__content--right clearfix">
-                    <img src="../assets/img/about-story-02.jpg" alt="" />
+                    <img src="/app/img/about-story-02.jpg" alt="" />
                     <img src="" />
                     <p>
                         On a personal quest to bridge the gap between Vietnam and other countries,Tien founded One Life Connection Training & Consultancy in 2011 to deliver high quality skills training and coaching services for clients in pharmaceutical, legal,investment, retail and consuming goods, from multinationals and foreign-invested companies.

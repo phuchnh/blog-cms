@@ -14,9 +14,11 @@ const mix = require('laravel-mix');
 /**
  * For user site
  */
-mix.js('resources/assets_frontend/js/app.js', 'public/app/js');
+mix.js('resources/assets_frontend/js/app.js', 'public/app/js').autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery'],
+});
 mix.sass('resources/assets_frontend/sass/app.scss', 'public/app/css');
-mix.copy('resources/assets_frontend/img', 'public/app/img');
+mix.copy('resources/assets_frontend/sass/img', 'public/app/img');
 
 /**
  * For admin site

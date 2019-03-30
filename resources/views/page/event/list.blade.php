@@ -4,7 +4,7 @@
     <article class="event-section">
         <!-- Banner -->
         <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
-                 style="background:url('../../assets/img/event/event-banner.jpg')">
+                 style="background:url('/app/img/event/event-banner.jpg')">
 
             <div class="font_color--white font-weight-bold">
                 EVENTS & PROGRAMS
@@ -74,8 +74,8 @@
                         <div class="card-deck">
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
@@ -100,8 +100,8 @@
                             </div>
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_15.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_15.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_15.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_15.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
@@ -126,8 +126,8 @@
                             </div>
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_17.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_17.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_17.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_17.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
@@ -155,8 +155,8 @@
                         <div class="card-deck">
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_32.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_32.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_32.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_32.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
@@ -181,8 +181,8 @@
                             </div>
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_33.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_33.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_33.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_33.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
@@ -207,8 +207,8 @@
                             </div>
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_35.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_35.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_35.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_35.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font_color--green fs--0-8em font-italic">Category</h6>

@@ -4,7 +4,7 @@
     <article class="about a-expert">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">
@@ -37,7 +37,7 @@
             <div class="container">
                 <div class="a-expert__member__item a-expert__member--boss">
                     <h2>
-                        <img src="../assets/img/about-expert-01.jpg" alt="" />
+                        <img src="/app/img/about-expert-01.jpg" alt="" />
                         Founder, Luong Ngoc Tien
                         <span>The first Vietnamese Search Inside Yourself Teacher in Vietnam</span>
                     </h2>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="a-expert__member__item">
                     <h2>
-                        <img src="../assets/img/about-expert-01.jpg" alt="" />
+                        <img src="/app/img/about-expert-01.jpg" alt="" />
                         Arnaud Duran
                         <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
                     </h2>

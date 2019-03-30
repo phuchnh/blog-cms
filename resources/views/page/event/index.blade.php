@@ -4,7 +4,7 @@
     <article class="event-section">
         <!-- Banner -->
         <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
-                 style="background:url('../../assets/img/event/event-banner.jpg')">
+                 style="background:url('/app/img/event/event-banner.jpg')">
 
             <div class="font_color--white font-weight-bold">
                 EVENTS & PROGRAMS
@@ -24,8 +24,8 @@
                         <div class="card-deck">
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold fs--1-3em">EVENTS</h5>
@@ -40,8 +40,8 @@
                             </div>
                             <div class="card border_radius--none border_none">
                                 <div class="card-img-top background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold fs--1-3em">PROGRAMS</h5>

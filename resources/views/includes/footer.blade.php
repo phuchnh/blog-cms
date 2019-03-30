@@ -33,7 +33,7 @@
                 <div class="col-sm-3 col-xs-12 mr-auto">
                     <div class="footer_information__address">
                         <a href="#">
-                            <img src="../assets/img/onlifeconnection-logo-orange.png" height="50" width="auto">
+                            <img src="/app/img/onlifeconnection-logo-orange.png" height="50" width="auto">
                         </a>
 
                         <div class="content fs--1rem margin_top--30">

@@ -44,7 +44,7 @@
             <div class="header-main background--orange font_color--white">
                 <nav class="navbar navbar-expand-lg navbar-light padding--none">
                     <a class="navbar-brand" href="#">
-                        <img src="../assets/img/onelifeconnection-logo.png" width="" height="50" alt="">
+                        <img src="/app/img/onelifeconnection-logo.png" width="" height="50" alt="">
                     </a>
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_navigate"

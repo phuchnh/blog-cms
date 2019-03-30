@@ -4,7 +4,7 @@
     <article class="about faq">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">

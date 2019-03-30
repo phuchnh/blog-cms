@@ -4,7 +4,7 @@
     <article class="about benefits">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">
@@ -30,7 +30,7 @@
         <div class="benefits__content">
             <div class="container benefits__content-01">
                 <p class="text-center">
-                    <img src="../assets/img/benefits-01.png" alt="" />
+                    <img src="/app/img/benefits-01.png" alt="" />
                 </p>
                 <p>
                     Meditation is no longer some esoteric practice that requires you to completely disconnect from your life, and travelto a retreat in a remote part of the world.
@@ -45,12 +45,12 @@
                     Scientifically proven, Mindfulness increases Attentional Control, Self Awarness, Emotion and Behavior Regulation. Having Mindfulness skills will lead to long lasting impacts that individuals and organizations are looking for:
                 </p>
                 <p class="text-center">
-                    <img src="../assets/img/benefits-02.png" alt="" />
+                    <img src="/app/img/benefits-02.png" alt="" />
                 </p>
             </div>
             <div class="benefits__content-02">
                 <div class="container text-center">
-                    <img src="../assets/img/benefits-03.png" alt="" />
+                    <img src="/app/img/benefits-03.png" alt="" />
                 </div>
             </div>
             <div class="container">

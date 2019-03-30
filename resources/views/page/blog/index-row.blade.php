@@ -4,7 +4,7 @@
     <article class="about blog">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">
@@ -28,8 +28,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 
@@ -54,8 +54,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 
@@ -80,8 +80,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 
@@ -106,8 +106,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 
@@ -132,8 +132,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 
@@ -158,8 +158,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 
@@ -184,8 +184,8 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
                                 <div class="blog__content03--item-image background__cover--center"
-                                     style="background: url('../../assets/img/event/event_14.jpg')">
-                                    <img class="d-none" src="../assets/img/event/event_14.jpg" alt="Card image cap">
+                                     style="background: url('/app/img/event/event_14.jpg')">
+                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
                                 </div>
                             </div>
 

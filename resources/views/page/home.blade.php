@@ -4,7 +4,7 @@
     <article>
         <!-- Banner -->
         <section class="banner banner__home-page background__cover--center"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
             <div class="banner_content text-center font_color--white">
                 <h1>
                     WE ARE
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class=" col-xs-12 col-sm-6">
-                        <img src="../assets/img/olc-banner_home.jpg" width="484" height="315">
+                        <img src="/app/img/olc-banner_home.jpg" width="484" height="315">
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             <div class="section-content__container container padding_left--0 padding_right--0 margin_bottom--30">
                 <div id="inThePress" class="inthepress-carousel">
                     <div class="custom-item-press">
-                        <img src="../assets/img/inthepress/inthepress_02.jpg" alt=""/>
+                        <img src="/app/img/inthepress/inthepress_02.jpg" alt=""/>
                         <div class="d-block">
                             <div class=" font_color--white">
                                 <header class="font-italic">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="custom-item-press">
-                        <img src="../assets/img/inthepress/inthepress_01.jpg" alt=""/>
+                        <img src="/app/img/inthepress/inthepress_01.jpg" alt=""/>
                         <div class="d-block">
                             <div class=" font_color--white">
                                 <header>forbes</header>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="custom-item-press">
-                        <img src="../assets/img/inthepress/inthepress_02.jpg" alt=""/>
+                        <img src="/app/img/inthepress/inthepress_02.jpg" alt=""/>
                         <div class="d-block">
                             <div class=" font_color--white">
                                 <header>CAFEBIZ</header>
@@ -127,39 +127,39 @@
                 <!-- Client Logo-->
                 <div id="client-logo" class="client-logo-carousel w-100">
                     <div class="">
-                        <img src="../assets/img/clients/client_logo_01.jpg" alt="...">
+                        <img src="/app/img/clients/client_logo_01.jpg" alt="...">
                     </div>
 
                     <div class="">
-                        <img src="../assets/img/clients/client_logo_02.jpg" alt="...">
+                        <img src="/app/img/clients/client_logo_02.jpg" alt="...">
                     </div>
 
                     <div class="">
-                        <img src="../assets/img/clients/client_logo_03.jpg" alt="...">
+                        <img src="/app/img/clients/client_logo_03.jpg" alt="...">
                     </div>
 
                     <div class="">
-                        <img src="../assets/img/clients/client_logo_04.jpg" alt="...">
+                        <img src="/app/img/clients/client_logo_04.jpg" alt="...">
                     </div>
 
                     <div class="">
-                        <img src="../assets/img/clients/client_logo_01.jpg" alt="...">
+                        <img src="/app/img/clients/client_logo_01.jpg" alt="...">
                     </div>
                 </div>
                 <!-- Client Masonry-->
                 <div class="client_images">
                     <div class="card-columns">
                         <div class="card">
-                            <img src="../assets/img/clients/client_image_188.jpg" alt="">
+                            <img src="/app/img/clients/client_image_188.jpg" alt="">
                         </div>
                         <div class="card">
-                            <img src="../assets/img/clients/client_image_215.jpg" alt="">
+                            <img src="/app/img/clients/client_image_215.jpg" alt="">
                         </div>
                         <div class="card">
-                            <img src="../assets/img/clients/client_image_190.jpg" alt="">
+                            <img src="/app/img/clients/client_image_190.jpg" alt="">
                         </div>
                         <div class="card">
-                            <img src="../assets/img/clients/client_image_192.jpg" alt="">
+                            <img src="/app/img/clients/client_image_192.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -176,8 +176,8 @@
                 <div class="row background--white margin_left--0 margin_right--0">
                     <div class="col-sm-4 col-xs-12 padding_left--0">
                         <div class="event-image background__cover--center"
-                             style="background:url('../../assets/img/olc-banner_home.jpg')">
-                            <img class="d-none" src="../assets/img/olc-banner_home.jpg" width="370" height="325">
+                             style="background:url('/app/img/olc-banner_home.jpg')">
+                            <img class="d-none" src="/app/img/olc-banner_home.jpg" width="370" height="325">
                         </div>
                     </div>
                     <div class="col-sm-8 col-xs-12">
@@ -210,8 +210,8 @@
                 <div class="row background--white margin_left--0 margin_right--0">
                     <div class="col-sm-4 col-xs-12 padding_left--0">
                         <div class="event-image background__cover--center"
-                             style="background:url('../../assets/img/olc-banner_home.jpg')">
-                            <img class="d-none" src="../assets/img/olc-banner_home.jpg" width="370" height="325">
+                             style="background:url('/app/img/olc-banner_home.jpg')">
+                            <img class="d-none" src="/app/img/olc-banner_home.jpg" width="370" height="325">
                         </div>
                     </div>
                     <div class="col-sm-8 col-xs-12">
@@ -244,8 +244,8 @@
                 <div class="row background--white margin_left--0 margin_right--0">
                     <div class="col-sm-4 col-xs-12 padding_left--0">
                         <div class="event-image background__cover--center"
-                             style="background:url('../../assets/img/olc-banner_home.jpg')">
-                            <img class="d-none" src="../assets/img/olc-banner_home.jpg" width="370" height="325">
+                             style="background:url('/app/img/olc-banner_home.jpg')">
+                            <img class="d-none" src="/app/img/olc-banner_home.jpg" width="370" height="325">
                         </div>
                     </div>
                     <div class="col-sm-8 col-xs-12">
@@ -278,8 +278,8 @@
                 <div class="row background--white margin_left--0 margin_right--0">
                     <div class="col-sm-4 col-xs-12 padding_left--0">
                         <div class="event-image background__cover--center"
-                             style="background:url('../../assets/img/olc-banner_home.jpg')">
-                            <img class="d-none" src="../assets/img/olc-banner_home.jpg" width="370" height="325">
+                             style="background:url('/app/img/olc-banner_home.jpg')">
+                            <img class="d-none" src="/app/img/olc-banner_home.jpg" width="370" height="325">
                         </div>
                     </div>
                     <div class="col-sm-8 col-xs-12">

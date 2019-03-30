@@ -4,7 +4,7 @@
     <article class="about about-contact">
         <!-- Banner -->
         <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('../../assets/img/olc-banner_home.jpg')">
+                 style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
         <section class="about__navigate container-fluid background--light-grey">
@@ -55,7 +55,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
-                        <img src="../assets/img/about-contact-01.jpg" alt="contact about" />
+                        <img src="/app/img/about-contact-01.jpg" alt="contact about" />
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <h2>You want to connect with us.</h2>
