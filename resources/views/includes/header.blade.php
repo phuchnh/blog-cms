@@ -54,24 +54,24 @@
 
                     <div class="collapse navbar-collapse" id="main_navigate">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item @if ($navigate === 'home') active @endif">
                                 <a class="nav-link text-uppercase" href="#">Home <span
                                             class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-uppercase" href="about-us-story.html">ABOUT</a>
+                            <li class="nav-item @if ($navigate === 'about') active @endif">
+                                <a class="nav-link text-uppercase" href="/about">ABOUT</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-uppercase" href="event-program.html">EVENT & PROGRAMS</a>
+                            <li class="nav-item @if ($navigate === 'event') active @endif">
+                                <a class="nav-link text-uppercase" href="/event">EVENT & PROGRAMS</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-uppercase" href="result-approach.html">RESULTS</a>
+                            <li class="nav-item @if ($navigate === 'results') active @endif">
+                                <a class="nav-link text-uppercase" href="/results">RESULTS</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-uppercase" href="benefits.html">WHY MINDFULNESS</a>
+                            <li class="nav-item @if ($navigate === 'whymindfullness') active @endif">
+                                <a class="nav-link text-uppercase" href="/whymindfullness">WHY MINDFULNESS</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-uppercase" href="result-approach.html">RESOURCES</a>
+                            <li class="nav-item @if ($navigate === 'resources') active @endif">
+                                <a class="nav-link text-uppercase" href="/resources">RESOURCES</a>
                             </li>
                         </ul>
                         <form class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">

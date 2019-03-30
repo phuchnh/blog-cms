@@ -1,4 +1,4 @@
-@extends('app-frontend')
+@extends('layouts.app-frontend')
 
 @section('content')
     <article class="about about-contact">
@@ -7,22 +7,7 @@
                  style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
-        <section class="about__navigate container-fluid background--light-grey">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="about-us-story.html">STORY</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="about-us-expert.html">EXPERT</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about-us-press.html">IN THE PRESS</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="about-us-contact.html">CONTACT US</a>
-                </li>
-            </ul>
-        </section>
+        @include('page.about.navigate')
 
         <div class="about-contact__top">
             <div class="container">
