@@ -16,5 +16,5 @@ use Faker\Generator as Faker;
  * @var $factory \Illuminate\Database\Eloquent\Factory
  */
 $factory->define(\App\Models\Faq::class, function (Faker $faker) {
-    return ['type' => \App\Models\Faq::DEFAULT_TYPE] + factory(\App\Models\Post::class)->raw();
+    return ['type' => \App\Models\Faq::POST_TYPE] + factory(\App\Models\Post::class)->raw();
 });

@@ -41,7 +41,7 @@ class Post extends Model implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'tilte',
+        'title',
         'description',
         'content',
         'publish',

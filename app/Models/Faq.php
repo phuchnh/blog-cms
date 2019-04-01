@@ -15,7 +15,7 @@ class Faq extends Post
      * Default post type
      * @var string
      */
-    public const DEFAULT_TYPE = 'post_faq';
+    public const POST_TYPE = 'post_faq';
 
 
     /**
@@ -24,7 +24,7 @@ class Faq extends Post
      * @var array
      */
     protected $attributes = [
-        'type' => self::DEFAULT_TYPE
+        'type' => self::POST_TYPE
     ];
 
     public static function boot()
@@ -34,7 +34,7 @@ class Faq extends Post
             /**
              * @var $query \Illuminate\Database\Eloquent\Builder
              */
-            $query->where('type', self::DEFAULT_TYPE);
+            $query->where('type', self::POST_TYPE);
         });
     }
 }
