@@ -7,10 +7,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>123123</p>
+                    <p>Alexander Pierce</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
@@ -32,7 +32,12 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+                <li><router-link :to="{name: 'userList'}"><i class="fa fa-link"></i> <span>User</span></router-link></li>
+                <li><router-link :to="{name: 'inThePressList'}"><i class="fa fa-link"></i> <span>In The Press</span></router-link></li>
+                <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Guided Meditation</span></router-link></li>
+                <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Daily Practice</span></router-link></li>
+                <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Client</span></router-link></li>
+                <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Subscriber</span></router-link></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
@@ -53,9 +58,9 @@
 </template>
 
 <script>
-    export default {
-        name: 'Sidebar',
-    };
+  export default {
+    name: 'Sidebar',
+  };
 </script>
 
 <style scoped>
