@@ -4,17 +4,7 @@
         <!-- /.box-header -->
         <!-- /.box-box-body -->
         <div class="box-body">
-            <a-table :columns="columns" :dataSource="data" bordered>
-                <template slot="name" slot-scope="text">
-                    <a href="javascript:void(0)">{{text}}</a>
-                </template>
-                <template slot="title" slot-scope="currentPageData">
-                    Header
-                </template>
-                <template slot="footer" slot-scope="currentPageData">
-                    Footer
-                </template>
-            </a-table>
+            <pre>{{ faqs }}</pre>
         </div>
         <!-- /.box-box-body -->
         <!-- /.box-footer -->
@@ -33,40 +23,36 @@
     const columns = [{
         title: 'Name',
         dataIndex: 'name',
-        scopedSlots: { customRender: 'name' },
+        scopedSlots: { customRender: 'name' }
     }, {
         title: 'Cash Assets',
         className: 'column-money',
-        dataIndex: 'money',
+        dataIndex: 'money'
     }, {
         title: 'Address',
-        dataIndex: 'address',
+        dataIndex: 'address'
     }];
 
-    const data = [{
-        key: '1',
-        name: 'John Brown',
-        money: '￥300,000.00',
-        address: 'New York No. 1 Lake Park',
-    }, {
-        key: '2',
-        name: 'Jim Green',
-        money: '￥1,256,000.00',
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '3',
-        name: 'Joe Black',
-        money: '￥120,000.00',
-        address: 'Sidney No. 1 Lake Park',
-    }];
+
+    import { mapState } from 'vuex';
+
     export default {
         name: 'FaqList',
-        data() {
-            return {
-                data,
-                columns,
-            }
-        }
+        computed: mapState({
+            faqs: state => state.faq.data
+        }),
+        beforeRouteEnter(to, from, next) {
+            let params = {
+                page: 1,
+                perPage: 10,
+            };
+            next(
+                vm => vm.$store.dispatch('faq/fetchFaqList', params)
+            );
+        },
+        beforeRouteUpdate(to, from, next) {
+        },
+        methods: {}
     };
 </script>
 
