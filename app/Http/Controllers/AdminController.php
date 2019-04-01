@@ -13,6 +13,7 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('auth.admin');
+        $this->middleware('auth.token');
     }
 
     public function __invoke()
