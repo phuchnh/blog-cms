@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Admin from '@/view/Admin';
 import Dashboard from '@/view/Dashboard';
 import PageNotFound from '@/view/PageNotFound';
+import FaqList from '@/view/FaqList';
 
 Vue.use(Router);
 
@@ -19,6 +20,7 @@ export function createRouter() {
                 redirect: { name: 'dashboard' },
                 children: [
                     { path: 'dashboard', name: 'dashboard', component: Dashboard },
+                    { path: 'faq', name: 'faq', component: FaqList },
                     { path: '*', name: 'pageNotFound', component: PageNotFound }
                 ]
             }
