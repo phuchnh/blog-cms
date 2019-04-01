@@ -15,7 +15,7 @@
             };
         },
         mounted() {
-            console.log('mounted');
+            console.log('Admin');
         }
     };
 </script>

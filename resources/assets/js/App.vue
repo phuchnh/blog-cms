@@ -24,7 +24,10 @@
             PageContent: PageContent,
             Footer: Footer
         },
-        name: 'App'
+        name: 'App',
+        mounted() {
+            console.log('App');
+        }
     };
 </script>
 

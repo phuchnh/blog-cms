@@ -15,6 +15,7 @@ export function createRouter() {
                 path: '/admin',
                 name: 'admin',
                 component: Admin,
+                meta: { requiredAuth: true },
                 redirect: { name: 'dashboard' },
                 children: [
                     { path: 'dashboard', name: 'dashboard', component: Dashboard },

@@ -10,9 +10,11 @@
 |
 */
 
-Route::prefix('auth')->group(function () {
-    Route::post('login', 'AuthController@login');
-    Route::delete('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::get('user', 'AuthController@user');
+Route::middleware('api')->group(function () {
+    Route::prefix('auth')->namespace('API')->group(function () {
+        Route::post('login', 'AuthController@login');
+        Route::delete('logout', 'AuthController@logout');
+        Route::get('refresh', 'AuthController@refresh');
+        Route::get('user', 'AuthController@user');
+    });
 });

@@ -6,12 +6,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends ApiBaseController
 {
-    /**
-     * AuthController constructor.
-     */
+
     public function __construct()
     {
-        $this->middleware('jwt.refresh', [ 'only' =>'refresh']);
+        $this->middleware('jwt.refresh', ['only' => 'refresh']);
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
@@ -21,7 +19,7 @@ class AuthController extends ApiBaseController
     public function login()
     {
         $credentials = request(['email', 'password']);
-        if (!$token = $this->auth()->attempt($credentials)) {
+        if (! $token = $this->auth()->attempt($credentials)) {
             return $this->unauthorized();
         }
 
@@ -47,19 +45,18 @@ class AuthController extends ApiBaseController
      */
     public function user()
     {
-        return $this->ok([
-            'user' => $this->auth()->user(),
-        ]);
+        return $this->ok($this->auth()->user());
     }
 
     /**
      * Refresh token
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Tymon\JWTAuth\Exceptions\JWTException
      */
     public function refresh()
     {
-        if (!$token = JWTAuth::parseToken()->authenticate()) {
+        if (! $token = \JWTAuth::parseToken()->authenticate()) {
             return $this->forbidden();
         }
 
@@ -77,7 +74,7 @@ class AuthController extends ApiBaseController
         return $this->ok([
             'token'     => $token,
             'user'      => $this->auth()->user(),
-            'expiresIn' => $this->auth()->factory()->getTTL() * 5,
+            'expiresIn' => \JWTFactory::getTTL() * config('jwt.ttl'),
         ]);
     }
 

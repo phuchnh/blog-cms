@@ -15,7 +15,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->type === 'admin') {
+        if (auth()->user()->type === \App\Models\Admin::ADMIN) {
             return $next($request);
         }
 

@@ -123,14 +123,14 @@
               <!-- The user image in the navbar-->
               <!--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">123</span>
+              <span class="hidden-xs" v-if="currentUser">{{ currentUser.name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-12 text-center">
-                    <p>name</p>
+                    <p v-if="currentUser">{{ currentUser.email }}</p>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -158,7 +158,12 @@
 
 <script>
     export default {
-        name: 'Header'
+        name: 'Header',
+        computed: {
+            currentUser() {
+                return this.$store.state.auth.currentUser;
+            }
+        }
     };
 </script>
 
