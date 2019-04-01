@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { PostModule } from './modules';
+import { ClientModule } from './modules';
+import { UserModule } from './modules';
 import { AuthModule } from './modules';
 import { FaqModule } from './modules';
 
@@ -12,7 +15,11 @@ export function createStore() {
         mutations: {},
         modules: {
             auth: AuthModule,
-            faq: FaqModule
+            faq: FaqModule,
+            post: PostModule,
+            client: ClientModule,
+            user: UserModule
         }
     });
 }
+
