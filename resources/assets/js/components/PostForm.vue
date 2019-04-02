@@ -46,7 +46,7 @@
       <div class="form-group">
         <label for="content" class="col-sm-2 control-label">Content</label>
         <div class="col-sm-8">
-          <ckeditor name="content" :editor="editor" v-model="post.content"></ckeditor>
+          <ckeditor name="content" :editor="editor" v-model="post.content" :config="config"></ckeditor>
         </div>
       </div>
       <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
@@ -100,7 +100,6 @@
         deep: true,
         handler(val, oldVal) {
           if (val.id === oldVal.id && val !== oldVal) {
-            debugger;
             this.$store.dispatch('post/savedPost', false);
           }
         }
@@ -109,6 +108,16 @@
     data() {
       return {
         editor: ClassicEditor,
+        config: {
+          fontFamily: {
+            options: [
+              'default',
+              'Ubuntu, Arial, sans-serif',
+              'Ubuntu Mono, Courier New, Courier, monospace'
+            ]
+          },
+          toolbar: [ 'bold', 'italic', '|', 'undo', 'redo', 'bulletedList', 'fontFamily' ]
+        },
         postStatus: [
           {name: 'Publish', value: 1},
           {name: 'Draft', value: 0}

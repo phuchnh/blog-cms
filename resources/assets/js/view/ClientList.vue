@@ -10,7 +10,7 @@
                     <button @click="" class="btn btn-primary" style="margin: 20px 0">Add New</button>
                     <a-table bordered :dataSource="clients" :columns="columns" rowKey="id" :loading="loading">
                         <template slot="action" slot-scope="text, record">
-                            <a-button @click="$emit('edit', record.id)">Edit</a-button>
+                            <a-button @click="routeToDetail(record.id)">Edit</a-button>
                             <a-popconfirm
                                     v-if="clients.length"
                                     title="Are you sure to delete?"
@@ -69,6 +69,9 @@
       },
       onDelete (key) {
         this.$store.dispatch('client/deleteClient', key).then(() => this.fetchClientList());
+      },
+      routeToDetail(id) {
+        this.$router.push({name: 'clientDetail', params: {id: id}});
       },
     }
   };

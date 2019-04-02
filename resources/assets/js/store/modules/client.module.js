@@ -35,13 +35,16 @@ const actions = {
     });
   },
   updateClient({commit}, payload) {
-    return ApiService.put('/clients', payload.id, payload);
+    return ApiService.put(`/clients/${payload.id}`, payload);
   },
   createClient({commit}, payload) {
     ApiService.post('/clients', payload);
   },
   resetState({commit}) {
     commit('resetState');
+  },
+  savedClient({commit}, payload) {
+    commit('savedClient', payload);
   }
 };
 
@@ -61,6 +64,9 @@ const mutations = {
     state.client = {};
     state.clients = [];
     state.saved = false;
+  },
+  savedClient(state, saved) {
+    state.saved = saved;
   }
 };
 

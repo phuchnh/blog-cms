@@ -12,6 +12,8 @@ import InThePressDetail from '@/view/InThePressDetail';
 import BlogList from '@/view/BlogList';
 import BlogNew from '@/view/BlogNew';
 import BlogDetail from '@/view/BlogDetail';
+import ClientList from './view/ClientList';
+import ClientDetail from './view/ClientDetail';
 
 Vue.use(Router);
 
@@ -40,6 +42,9 @@ export function createRouter() {
           {path: 'blogs', name: 'blogList', component: BlogList},
           {path: 'blogs/new', name: 'blogNew', component: BlogNew},
           {path: 'blogs/:id', name: 'blogDetail', component: BlogDetail},
+
+          {path: 'clients', name: 'clientList', component: ClientList},
+          {path: 'clients/:id', name: 'clientDetail', component: ClientDetail},
 
           {path: '*', name: 'pageNotFound', component: PageNotFound},
         ]
