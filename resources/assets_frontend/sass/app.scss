@@ -1,0 +1,62 @@
+// Import Font Url
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&subset=vietnamese');
+
+// Variables + Mixins + Functions
+@import "helpers/variables";
+
+// Always include variable 1st !
+@import "helpers/mixins";
+
+// Base
+@import "base/typography";
+
+// Vendors
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.min.css";
+// Themes
+
+// Layout
+@import "layout/common";
+@import "layout/header";
+@import "layout/main";
+@import "layout/sidebar";
+@import "layout/footer";
+
+// Components
+@import "components/grid";
+@import "components/nav";
+@import "components/button";
+@import "components/forms";
+@import "components/tabs";
+@import "components/misc";
+@import "components/label";
+@import "components/bar";
+@import "components/radio";
+@import "components/checkbox";
+@import "components/panel";
+@import "components/table";
+@import "components/dialog";
+@import "components/select";
+@import "components/popup";
+@import "components/pagination";
+@import "components/listgroup";
+@import "components/breadcrumb";
+@import "components/thumbnail";
+
+// Page specific styles
+@import "css/standard.css";
+@import "css/plugin/slick-slider.css";
+
+// Page
+@import "page/home";
+@import "page/event";
+@import "page/about-contact";
+@import "page/about-expert";
+@import "page/about-press";
+@import "page/about-story";
+@import "page/faq";
+@import "page/practise";
+@import "page/benefits";
+@import "page/blog";
+@import "page/result-approach";
+@import "page/result-testimonial";

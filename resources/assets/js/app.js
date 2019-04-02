@@ -1,7 +1,19 @@
 import Vue from 'vue';
 import App from './App.vue';
-import { createRouter } from './router';
-import { createStore } from './store';
+import {createRouter} from './router';
+import {createStore} from './store';
+import Antd from 'ant-design-vue';
+import {ApiService} from './api';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import VeeValidate from 'vee-validate';
+import _ from 'lodash';
+
+Vue.prototype._ = _;
+Vue.config.productionTip = false;
+Vue.use(Antd);
+Vue.use(CKEditor);
+Vue.use(VeeValidate, {locale: 'vi'});
+ApiService.init();
 
 export function createApp() {
 
@@ -18,7 +30,7 @@ export function createApp() {
             if (!store.state.auth.isAuthenticated) {
                 next({
                     path: '/login',
-                    query: { redirect: to.fullPath }
+                    query: {redirect: to.fullPath}
                 });
             } else {
                 store.dispatch('auth/CHECK_AUTH').then(() => next());
@@ -29,17 +41,16 @@ export function createApp() {
     });
 
     const app = new Vue({
-        // inject store into root Vue instance
-        store,
+        createStore,
         // inject router into root Vue instance
         router,
         // the root instance simply renders the App component.
         render: h => h(App)
     });
-    return { app, router, store };
+    return {app, router, store};
 }
 
 require('./bootstrap');
 
-const { app } = createApp();
+const {app} = createApp();
 app.$mount('#app');

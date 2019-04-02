@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Cookie } from '@/util/cookie';
+import {Cookie} from '@/util/cookie';
 
 const axiosInstance = axios.create({
     baseURL: '/api',
@@ -28,8 +28,12 @@ axiosInstance.interceptors.request.use(
 );
 
 export const ApiService = {
+    init: () => {
+        axios.defaults.baseURL = '/api';
+    },
+
     get(url, params = {}) {
-        return axiosInstance.get(`${url}`, { params });
+        return axiosInstance.get(`${url}`, {params});
     },
 
     post(url, body) {
@@ -37,7 +41,7 @@ export const ApiService = {
     },
 
     put(url, body, params = {}) {
-        return axiosInstance.put(`${url}`, body, { params });
+        return axiosInstance.put(`${url}`, body, {params});
     },
 
     delete(url, params = {}) {

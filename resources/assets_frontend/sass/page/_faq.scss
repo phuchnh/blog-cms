@@ -1,0 +1,58 @@
+.faq {
+  .faq-content {
+    overflow: hidden;
+    i {
+      color: $primary-orange;
+    }
+
+    .faq-content__item {
+      position: relative;
+      &:after {
+        content: '';
+        width: 200vw;
+        height: 2px;
+        left: -50vw;
+        bottom: 0;
+        position: absolute;
+        background-color: $primary-green;
+      }
+      .faq-content__item__quest {
+        font-weight: bold;
+        padding: 12px 0;
+        position: relative;
+        padding-left: 55px;
+        cursor: pointer;
+        @media #{$info-phone} {
+          padding-left: 20px;
+        }
+        i {
+          position: absolute;
+          left: 0;
+          top: 50%;
+          @include css3-prefix(transform, translateY(-50%));
+          margin-right: 37px;
+        }
+      }
+      .faq-content__item__answer {
+        font-size: 0.93rem;
+        padding-left: 55px;
+        padding-bottom: 20px;
+        display: none;
+        @media #{$info-phone} {
+          padding-left: 20px;
+        }
+      }
+    }
+
+    .faq-content__btn {
+      padding: 10px 25px;
+      background: $primary-green;
+      color: #fff;
+      border-radius: 2em;
+      font-size: 0.875rem;
+      font-weight: bold;
+      display: inline-block;
+      margin: 5% 0;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+ul, li {
+  list-style: none;
+}
+
+ul, ol, p {
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+* {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+b {
+  font-weight: bold;
+}

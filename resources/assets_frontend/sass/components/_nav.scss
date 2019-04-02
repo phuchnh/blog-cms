@@ -1,0 +1,25 @@
+#main_navigate {
+  .navbar-nav {
+    .nav-item {
+      &.active .nav-link {
+        font-weight: 700;
+        text-decoration: underline;
+        color: #fff
+      }
+    }
+  }
+
+  @media #{$info-tablet-horizontal} {
+    .navbar-light .navbar-brand {
+
+    }
+
+    .navbar-nav {
+      .nav-item {
+        .nav-link {
+
+        }
+      }
+    }
+  }
+}
