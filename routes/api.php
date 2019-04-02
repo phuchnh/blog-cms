@@ -16,3 +16,8 @@ Route::prefix('auth')->group(function () {
     Route::post('refresh', 'AuthController@refresh');
     Route::get('user', 'AuthController@user');
 });
+Route::group(['namespace' => 'API'], function () {
+    Route::apiResource('posts', 'PostController');
+    Route::apiResource('users', 'UserController', ['except' => ['store']]);
+    Route::apiResource('clients', 'ClientController');
+});

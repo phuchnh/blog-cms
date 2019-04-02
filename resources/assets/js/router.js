@@ -26,7 +26,6 @@ export function createRouter() {
                 redirect: { name: 'dashboard' },
                 children: [
                     { path: 'dashboard', name: 'dashboard', component: Dashboard },
-                    { path: '*', name: 'pageNotFound', component: PageNotFound },
                     {path: 'users', name: 'userList', component: UserList},
                     {path: 'users/:id', name: 'userDetail', component: UserDetail},
                     {path: 'in-the-press/new', name: 'inThePressNew', component: InThePressNew},
@@ -35,6 +34,7 @@ export function createRouter() {
                     {path: 'blogs', name: 'blogList', component: BlogList},
                     {path: 'blogs/new', name: 'blogNew', component: BlogNew},
                     {path: 'blogs/:id', name: 'blogDetail', component: BlogDetail},
+                    { path: '*', name: 'pageNotFound', component: PageNotFound }
                 ]
             }
         ]

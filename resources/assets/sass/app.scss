@@ -2,5 +2,18 @@
 @import '~admin-lte/bower_components/bootstrap/dist/css/bootstrap.min.css';
 @import '~admin-lte/bower_components/font-awesome/css/font-awesome.min.css';
 @import '~admin-lte/bower_components/Ionicons/css/ionicons.min.css';
+@import '~ant-design-vue/dist/antd.min.css';
 @import '~admin-lte/dist/css/AdminLTE.min.css';
 @import '~admin-lte/dist/css/skins/skin-blue.min.css';
+
+.ant-message {
+  z-index: 9999 !important;
+}
+
+.ck-editor__editable {
+  min-height: 500px;
+}
+
+.required {
+  color: red;
+}
