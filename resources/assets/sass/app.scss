@@ -19,3 +19,15 @@
 .required {
   color: red;
 }
+
+.ck {
+  &.ck-content {
+    border: 1px solid #c4c4c4 !important;
+    border-top: none !important;
+  }
+}
+
+.ck-content .image > figcaption {
+  height: auto;
+  min-height: auto;
+}

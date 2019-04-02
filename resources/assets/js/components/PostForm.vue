@@ -94,6 +94,11 @@
           ckfinder: {
             // Upload the images to the server using the CKFinder QuickUpload command.
             uploadUrl: '/api/ckfinder/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+            // Open the file manager in the pop-up window.
+            openerMethod: 'popup',
+            options: {
+              resourceType: 'Images'
+            }
           }
         }
       }
