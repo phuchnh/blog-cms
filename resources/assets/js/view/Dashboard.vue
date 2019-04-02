@@ -1,21 +1,25 @@
 <template>
   <div>
-    <h1> {{ message }}</h1>
+    <PageHeader :title="'Dashboard'"></PageHeader>
   </div>
 </template>
 
 <script>
-    export default {
-        name: 'Dashboard',
-        mounted() {
-            console.log('Dashboard');
-        },
-        data() {
-            return {
-                message: 'Dashboard'
-            };
-        }
-    };
+  import {Cookie} from '@/util/cookie';
+  import PageHeader from './../components/PageHeader';
+
+  export default {
+    name: 'Dashboard',
+    components: {PageHeader},
+    mounted() {
+      console.log('Dashboard');
+    },
+    data() {
+      return {
+        message: 'Dashboard'
+      };
+    }
+  };
 </script>
 
 <style scoped>

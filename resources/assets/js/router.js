@@ -16,34 +16,34 @@ import BlogDetail from '@/view/BlogDetail';
 Vue.use(Router);
 
 export function createRouter() {
-    return new Router({
-        base: __dirname,
-        mode: 'history',
-        routes: [
-            {
-                path: '/admin',
-                name: 'admin',
-                component: Admin,
-                meta: {requiredAuth: true},
-                redirect: {name: 'dashboard'},
-                children: [
-                    {path: 'dashboard', name: 'dashboard', component: Dashboard},
-                    {path: 'faq', name: 'faq', component: FaqList},
+  return new Router({
+    base: __dirname,
+    mode: 'history',
+    routes: [
+      {
+        path: '/admin',
+        name: 'admin',
+        component: Admin,
+        meta: {requiredAuth: true},
+        redirect: {name: 'dashboard'},
+        children: [
+          {path: 'dashboard', name: 'dashboard', component: Dashboard},
+          {path: 'faq', name: 'faq', component: FaqList},
 
-                    {path: 'users', name: 'userList', component: UserList},
-                    {path: 'users/:id', name: 'userDetail', component: UserDetail},
+          {path: 'users', name: 'userList', component: UserList},
+          {path: 'users/:id', name: 'userDetail', component: UserDetail},
 
-                    {path: 'in-the-press/new', name: 'inThePressNew', component: InThePressNew},
-                    {path: 'in-the-press', name: 'inThePressList', component: InThePressList},
-                    {path: 'in-the-press/:id', name: 'inThePressDetail', component: InThePressDetail},
+          {path: 'in-the-press/new', name: 'inThePressNew', component: InThePressNew},
+          {path: 'in-the-press', name: 'inThePressList', component: InThePressList},
+          {path: 'in-the-press/:id', name: 'inThePressDetail', component: InThePressDetail},
 
-                    {path: 'blogs', name: 'blogList', component: BlogList},
-                    {path: 'blogs/new', name: 'blogNew', component: BlogNew},
-                    {path: 'blogs/:id', name: 'blogDetail', component: BlogDetail},
+          {path: 'blogs', name: 'blogList', component: BlogList},
+          {path: 'blogs/new', name: 'blogNew', component: BlogNew},
+          {path: 'blogs/:id', name: 'blogDetail', component: BlogDetail},
 
-                    {path: '*', name: 'pageNotFound', component: PageNotFound},
-                ]
-            }
+          {path: '*', name: 'pageNotFound', component: PageNotFound},
         ]
-    });
+      }
+    ]
+  });
 }

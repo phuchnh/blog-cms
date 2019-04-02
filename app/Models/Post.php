@@ -45,8 +45,7 @@ class Post extends Model implements HasMedia
         'description',
         'content',
         'publish',
-        'slug',
-        'thumbnail',
+        'slug'
     ];
 
     /**
@@ -78,12 +77,11 @@ class Post extends Model implements HasMedia
      * @var array
      */
     public static $rules = [
-        'tilte'       => 'required|string',
+        'title'       => 'required|string',
         'description' => 'nullable|string',
         'content'     => 'nullable|string',
         'slug'        => 'nullable|string',
         'publish'     => 'nullable|boolean',
-        'thumbnail'   => 'nullable|string',
     ];
 
     /**

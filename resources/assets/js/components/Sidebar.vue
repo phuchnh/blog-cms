@@ -7,7 +7,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p v-if="currentUser">{{ currentUser.name }}</p>
@@ -32,31 +32,24 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-        <li>
-          <router-link :to="{name: 'userList'}"><i class="fa fa-link"></i> <span>User</span></router-link>
-        </li>
-        <li>
-          <router-link :to="{name: 'inThePressList'}"><i class="fa fa-link"></i> <span>In The Press</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Guided Meditation</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Daily Practice</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Client</span></router-link>
-        </li>
-        <li>
-          <router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Subscriber</span>
-          </router-link>
-        </li>
+        <li><router-link :to="{name: 'userList'}"><i class="fa fa-link"></i> <span>User</span></router-link></li>
+        <li><router-link :to="{name: 'inThePressList'}"><i class="fa fa-link"></i> <span>In The Press</span></router-link></li>
+        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Blog</span></router-link></li>
+        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Guided Meditation</span></router-link></li>
+        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Daily Practice</span></router-link></li>
+        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Client</span></router-link></li>
+        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Subscriber</span></router-link></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-        <li>
-          <router-link :to="{name: 'faq'}"><i class="fa fa-link"></i> <span>FAQ</span></router-link>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">Link in level 2</a></li>
+          </ul>
         </li>
       </ul>
       <!-- /.sidebar-menu -->
