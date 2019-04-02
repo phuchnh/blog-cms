@@ -12,23 +12,23 @@
 </template>
 
 <script>
-    import Header from '@/components/Header';
-    import Sidebar from '@/components/Sidebar';
-    import PageContent from '@/components/PageContent';
-    import Footer from '@/components/Footer';
+  import Header from '@/components/Header';
+  import Sidebar from '@/components/Sidebar';
+  import PageContent from '@/components/PageContent';
+  import Footer from '@/components/Footer';
 
-    export default {
-        components: {
-            Header: Header,
-            Sidebar: Sidebar,
-            PageContent: PageContent,
-            Footer: Footer
-        },
-        name: 'App',
-        mounted() {
-            console.log('App');
-        }
-    };
+  export default {
+    components: {
+      Header: Header,
+      Sidebar: Sidebar,
+      PageContent: PageContent,
+      Footer: Footer
+    },
+    name: 'App',
+    mounted() {
+      console.log('App');
+    }
+  };
 </script>
 
 <style scoped>

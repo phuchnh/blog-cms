@@ -41,9 +41,9 @@ export function createApp() {
     });
 
     const app = new Vue({
-        createStore,
         // inject router into root Vue instance
         router,
+        store,
         // the root instance simply renders the App component.
         render: h => h(App)
     });
