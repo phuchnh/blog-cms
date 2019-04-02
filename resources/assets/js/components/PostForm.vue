@@ -44,9 +44,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="content" class="col-sm-2 control-label">Content</label>
+        <label class="col-sm-2 control-label">Content</label>
         <div class="col-sm-8">
-          <ckeditor name="content" :editor="editor" v-model="post.content"></ckeditor>
+          <ckeditor name="content" :editor="editor" v-model="post.content" @ready="onReady" :config="editorConfig"></ckeditor>
         </div>
       </div>
       <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
@@ -74,10 +74,30 @@
 
 <script>
   import {mapGetters} from 'vuex';
-  import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+  // CKEDIT PACKAGE
+  import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
   export default {
     name: 'PostForm',
+    data() {
+      return {
+        postStatus: [
+          {name: 'Publish', value: 1},
+          {name: 'Draft', value: 0}
+        ],
+        imgUrl: null,
+
+        // Setting CkEditer
+        editor: DecoupledEditor,
+        editorConfig: {
+          ckfinder: {
+            // Upload the images to the server using the CKFinder QuickUpload command.
+            uploadUrl: '/api/ckfinder/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+          }
+        }
+      }
+    },
     computed: {
       ...mapGetters({
         post: 'post/post',
@@ -106,17 +126,18 @@
         }
       }
     },
-    data() {
-      return {
-        editor: ClassicEditor,
-        postStatus: [
-          {name: 'Publish', value: 1},
-          {name: 'Draft', value: 0}
-        ],
-        imgUrl: null
-      }
-    },
     methods: {
+      /**
+       * load CkEditer
+       * @param editor
+       */
+      onReady( editor )  {
+        // Insert the toolbar before the editable area.
+        editor.ui.getEditableElement().parentElement.insertBefore(
+            editor.ui.view.toolbar.element,
+            editor.ui.getEditableElement()
+        );
+      },
       submit() {
         this.post.type = this.type;
         this.$validator.validateAll().then((result) => {

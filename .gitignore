@@ -9,6 +9,7 @@
 /public/fonts
 /public/storage
 /public/app
+/public/images
 /storage/*.key
 /vendor
 .env
