@@ -55,9 +55,9 @@ class LoginController extends Controller
     {
         if ($user->type === \App\Models\Admin::ADMIN) {
             $credentials = $request->only(['email', 'password']);
+            $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
 
-            if ($token = auth('api')->attempt($credentials)) {
-                $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
+            if ($token = auth('api')->attempt($credentials, ['exp' => $minutes])) {
                 setcookie('token', $token, $minutes, $this->redirectToAdmin ?: '/admin');
             }
 
