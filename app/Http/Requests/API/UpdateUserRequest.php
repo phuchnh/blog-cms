@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API;
 
-class UpdatePostRequest extends ApiBaseRequest
+class UpdateUserRequest extends ApiBaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,23 +15,16 @@ class UpdatePostRequest extends ApiBaseRequest
     }
 
     /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        //
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
     public function rules()
     {
-        return \App\Models\Post::$rules;
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'type' => 'required|in:admin,editor',
+        ];
     }
 }

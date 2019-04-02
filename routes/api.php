@@ -20,3 +20,8 @@ Route::middleware('api')->namespace('API')->group(function () {
 
     Route::apiResource('faqs', 'FaqController');
 });
+Route::group(['namespace' => 'API'], function () {
+    Route::apiResource('posts', 'PostController');
+    Route::apiResource('users', 'UserController', ['except' => ['store']]);
+    Route::apiResource('clients', 'ClientController');
+});

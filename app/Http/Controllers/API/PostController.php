@@ -18,7 +18,12 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        return $this->ok($posts->with('media')->get());
+        return $this->ok($posts->with('media')
+                               ->when($request->input('type'), function ($query) use ($request) {
+                                   /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                   return $query->where('type', $request->input('type'));
+                               })
+                               ->orderBy('id', 'desc')->get());
     }
 
     /**
@@ -30,6 +35,11 @@ class PostController extends ApiBaseController
      */
     public function show(Request $request, Post $post)
     {
+        if ($post->media()->count() > 0) {
+            $post->thumbnail = $post->media()->thumbnailUrl();
+        } else {
+            $post->thumbnail = null;
+        }
         return $this->ok($post->load('media'));
     }
 
@@ -38,12 +48,19 @@ class PostController extends ApiBaseController
      *
      * @param \App\Http\Requests\API\CreatePostRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
     public function store(CreatePostRequest $request)
     {
         $post = Post::create($request->validated());
         if ($thumbnail = $request->get('thumbnail')) {
-            $post->addMediaFromBase64('thumbnail')->toMediaCollection();
+            $fileName = array_get($thumbnail, 'name');
+            $fileContent = array_get($thumbnail, 'body');
+            $post->addMediaFromBase64($fileContent)
+                 ->usingFileName($fileName)
+                 ->withCustomProperties(['thumbnail'])
+                 ->toMediaCollection();
         }
 
         return $this->created($post);
@@ -55,11 +72,22 @@ class PostController extends ApiBaseController
      * @param \App\Http\Requests\API\UpdatePostRequest $request
      * @param \App\Models\Post $post
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
         $post->fill($request->validated());
         $post->save();
+
+        if (is_array($thumbnail = $request->get('thumbnail'))) {
+            $fileName = array_get($thumbnail, 'name');
+            $fileContent = array_get($thumbnail, 'body');
+            $post->addMediaFromBase64($fileContent)
+                 ->usingFileName($fileName)
+                 ->withCustomProperties(['thumbnail'])
+                 ->toMediaCollection();
+        }
 
         return $this->noContent();
     }

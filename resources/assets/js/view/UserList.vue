@@ -7,7 +7,6 @@
         <section class="content container-fluid">
             <div class="box">
                 <div class="box-body">
-                    <button @click="" class="btn btn-primary" style="margin: 20px 0">Add New</button>
                     <a-table bordered :dataSource="users" :columns="columns" rowKey="id" :loading="loading">
                         <template slot="action" slot-scope="text, record">
                             <a-button @click="routeToDetail(record.id)">Edit</a-button>
