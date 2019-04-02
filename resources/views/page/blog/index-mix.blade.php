@@ -1,4 +1,4 @@
-@extends('app-frontend')
+@extends('layouts.app-frontend')
 
 @section('content')
     <article class="about blog">
@@ -7,19 +7,7 @@
                  style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
-        <section class="about__navigate container-fluid background--light-grey">
-            <ul class="nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="blog.html">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="blog-resource-guild.html">Guided Meditation</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="blog-daily-practise.html">Daily practices</a>
-                </li>
-            </ul>
-        </section>
+        @include('page.blog.navigate')
 
         <div class="child-page-top-desc">
             <div class="container">
@@ -42,7 +30,7 @@
                                     content.</div>
 
                                 <p class="text-right">
-                                    <a href="#" class="font_color--orange">
+                                    <a href="/resources/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -62,7 +50,7 @@
                                     content.</div>
 
                                 <p class="text-right">
-                                    <a href="#" class="font_color--orange">
+                                    <a href="/resources/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -85,7 +73,7 @@
                                         content.</div>
 
                                     <p class="text-right">
-                                        <a href="#" class="font_color--orange">
+                                        <a href="/resources/item" class="font_color--orange">
                                             View more
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>
@@ -104,7 +92,7 @@
                                     <div class="card-text margin_bottom--20">This card has supporting text below as a natural lead-in to additional
                                         content.</div>
                                     <p class="text-right">
-                                        <a href="#" class="font_color--orange">
+                                        <a href="/resources/item" class="font_color--orange">
                                             View more
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>
@@ -124,7 +112,7 @@
                                         content.</div>
 
                                     <p class="text-right">
-                                        <a href="#" class="font_color--orange">
+                                        <a href="/resources/item" class="font_color--orange">
                                             View more
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>
@@ -144,7 +132,7 @@
                                         content.</div>
 
                                     <p class="text-right">
-                                        <a href="#" class="font_color--orange">
+                                        <a href="/resources/item" class="font_color--orange">
                                             View more
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>
@@ -163,7 +151,7 @@
                                     <div class="card-text margin_bottom--20">This card has supporting text below as a natural lead-in to additional
                                         content.</div>
                                     <p class="text-right">
-                                        <a href="#" class="font_color--orange">
+                                        <a href="/resources/item" class="font_color--orange">
                                             View more
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>
@@ -183,7 +171,7 @@
                                         content.</div>
 
                                     <p class="text-right">
-                                        <a href="#" class="font_color--orange">
+                                        <a href="/resources/item" class="font_color--orange">
                                             View more
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>

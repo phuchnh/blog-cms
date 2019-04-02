@@ -7,19 +7,7 @@
                  style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
-        <section class="about__navigate container-fluid background--light-grey">
-            <ul class="nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Benefits</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">How to practise</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">FAQ</a>
-                </li>
-            </ul>
-        </section>
+        @include('page.why.navigate')
 
         <div class="child-page-top-desc">
             <div class="container">

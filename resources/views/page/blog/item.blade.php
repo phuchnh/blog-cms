@@ -1,4 +1,4 @@
-@extends('app-frontend')
+@extends('layouts.app-frontend')
 
 @section('content')
     <article class="event-section">

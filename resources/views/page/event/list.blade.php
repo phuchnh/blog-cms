@@ -1,4 +1,4 @@
-@extends('app-frontend')
+@extends('layouts.app-frontend')
 
 @section('content')
     <article class="event-section">
@@ -11,16 +11,7 @@
             </div>
         </section>
 
-        <section class="sub-navigate container-fluid background--light-grey">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="event-program.html">PROGRAMS</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="event-list.html">EVENTS</a>
-                </li>
-            </ul>
-        </section>
+        @include('page.event.navigate')
 
         <section class="event-main">
             <div class="event-section__header margin_bottom--40 container">
@@ -92,7 +83,7 @@
                                         content.
                                     </div>
 
-                                    <a href="event-detail.html" class="font_color--orange">
+                                    <a href="/event/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -118,7 +109,7 @@
                                         content.
                                     </div>
 
-                                    <a href="event-detail.html" class="font_color--orange">
+                                    <a href="/event/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -144,7 +135,7 @@
                                         content.
                                     </div>
 
-                                    <a href="event-detail.html" class="font_color--orange">
+                                    <a href="/event/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -173,7 +164,7 @@
                                         content.
                                     </div>
 
-                                    <a href="event-detail.html" class="font_color--orange">
+                                    <a href="/event/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -199,7 +190,7 @@
                                         content.
                                     </div>
 
-                                    <a href="event-detail.html" class="font_color--orange">
+                                    <a href="/event/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>
@@ -225,7 +216,7 @@
                                         content.
                                     </div>
 
-                                    <a href="event-detail.html" class="font_color--orange">
+                                    <a href="/event/item" class="font_color--orange">
                                         View more
                                         <i class="fas fa-arrow-right fs--0-9em"></i>
                                     </a>

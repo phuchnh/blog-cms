@@ -1,4 +1,4 @@
-@extends('app-frontend')
+@extends('layouts.app-frontend')
 
 @section('content')
     <article class="about blog">
@@ -7,19 +7,7 @@
                  style="background:url('/app/img/olc-banner_home.jpg')">
         </section>
 
-        <section class="about__navigate container-fluid background--light-grey">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="blog.html">Blog</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="blog-resource-guild.html">Guided Meditation</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="blog-daily-practise.html">Daily practices</a>
-                </li>
-            </ul>
-        </section>
+        @include('page.blog.navigate')
 
         <div class="blog__content">
             <div class="container">
