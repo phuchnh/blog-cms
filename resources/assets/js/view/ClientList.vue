@@ -1,37 +1,27 @@
 <template>
-    <div>
-        <!-- Content Header (Page header) -->
-        <PageHeader :title="'Clients'"></PageHeader>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="box">
-                <div class="box-body">
-                    <button @click="routeToNew" class="btn btn-primary" style="margin: 20px 0">Add New</button>
-                    <a-table bordered :dataSource="clients" :columns="columns" rowKey="id" :loading="loading">
-                        <template slot="action" slot-scope="text, record">
-                            <a-button @click="routeToDetail(record.id)">Edit</a-button>
-                            <a-popconfirm
-                                    v-if="clients.length"
-                                    title="Are you sure to delete?"
-                                    @confirm="onDelete(record.id)">
-                                <a-button type="danger">Delete</a-button>
-                            </a-popconfirm>
-                        </template>
-                    </a-table>
-                </div>
-            </div>
-        </section>
-        <!-- /.content -->
+    <div class="box">
+        <div class="box-body">
+            <button @click="routeToNew" class="btn btn-primary" style="margin: 20px 0">Add New</button>
+            <a-table bordered :dataSource="clients" :columns="columns" rowKey="id" :loading="loading">
+                <template slot="action" slot-scope="text, record">
+                    <a-button @click="routeToDetail(record.id)">Edit</a-button>
+                    <a-popconfirm
+                            v-if="clients.length"
+                            title="Are you sure to delete?"
+                            @confirm="onDelete(record.id)">
+                        <a-button type="danger">Delete</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </div>
     </div>
 </template>
 
 <script>
-  import PageHeader from '../components/PageHeader';
   import {mapGetters} from 'vuex';
   export default {
     name: 'ClientList',
-    components: {PageHeader},
+    components: {},
     computed: {
       ...mapGetters({
         clients: 'client/clients'

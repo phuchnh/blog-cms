@@ -1,25 +1,15 @@
 <template>
-    <div>
-        <!-- Content Header (Page header) -->
-        <PageHeader :title="'Create Blog'"></PageHeader>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="box">
-                <PostForm ref="postForm" :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
-            </div>
-        </section>
-        <!-- /.content -->
+    <div class="box">
+        <PostForm ref="postForm" :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
     </div>
 </template>
 
 <script>
-  import PageHeader from '../components/PageHeader';
   import PostForm from '../components/PostForm';
   import {mapGetters} from 'vuex';
   export default {
     name: 'BlogNew',
-    components: {PageHeader, PostForm},
+    components: {PostForm},
     computed: {
       ...mapGetters({
         saved: 'post/saved'

@@ -7,25 +7,27 @@
 </template>
 
 <script>
-    export default {
-        name: 'Admin',
-        data() {
-            return {
-                messsage: 'Admin'
-            };
-        },
-        mounted() {
-            console.log('Admin');
-        }
-    };
+  export default {
+    name: 'Admin',
+    data () {
+      return {
+        messsage: 'Admin',
+      }
+    },
+    mounted () {
+      console.log('Admin')
+    },
+  }
 </script>
 
 <style scoped lang="scss">
-  .fade-enter-active, .fade-leave-active {
+  .fade-enter-active,
+  .fade-leave-active {
     transition: all 0.5s ease;
   }
 
-  .fade-enter, .fade-leave-active {
-    opacity: 0
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
   }
 </style>

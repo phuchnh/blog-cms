@@ -1,24 +1,14 @@
 <template>
-    <div>
-        <!-- Content Header (Page header) -->
-        <PageHeader :title="'List of Blogs'"></PageHeader>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="box">
-                <PostList :type="type" @edit="routeToDetail" @routeToNew="routeToNew"></PostList>
-            </div>
-        </section>
-        <!-- /.content -->
+    <div class="box">
+        <PostList :type="type" @edit="routeToDetail" @routeToNew="routeToNew"></PostList>
     </div>
 </template>
 
 <script>
   import PostList from '../components/PostList';
-  import PageHeader from '../components/PageHeader';
   export default {
     name: 'BlogList',
-    components: {PageHeader, PostList},
+    components: {PostList},
     beforeRouteLeave(from, to, next) {
       this.$store.dispatch('post/resetState');
       next();

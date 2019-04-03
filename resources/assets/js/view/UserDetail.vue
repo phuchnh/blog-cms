@@ -1,62 +1,51 @@
 <template>
-    <div>
-        <!-- Content Header (Page header) -->
-        <PageHeader :title="'User Detail'"></PageHeader>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="box">
-                <div class="box-body">
-                    <form class="form-horizontal">
-                        <div class="form-group" :class="{ 'has-error': errors.first('name') }">
-                            <label for="name" class="col-sm-2 control-label">Username <span class="required">*</span></label>
-                            <div class="col-sm-8">
-                                <input v-validate="'required'" class="form-control" id="name" name="name" v-model="user.name"  />
-                                <div class="help-block" v-if="errors.first('name')">
-                                    <span>{{ errors.first('name') }}</span>
-                                </div>
-                            </div>
+    <div class="box">
+        <div class="box-body">
+            <form class="form-horizontal">
+                <div class="form-group" :class="{ 'has-error': errors.first('name') }">
+                    <label for="name" class="col-sm-2 control-label">Username <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                        <input v-validate="'required'" class="form-control" id="name" name="name" v-model="user.name"  />
+                        <div class="help-block" v-if="errors.first('name')">
+                            <span>{{ errors.first('name') }}</span>
                         </div>
-                        <div class="form-group" :class="{ 'has-error': errors.first('email') }">
-                            <label for="email" class="col-sm-2 control-label">Email <span class="required">*</span></label>
-                            <div class="col-sm-8">
-                                <input v-validate="'required'" class="form-control" type="email" id="email" name="email" v-model="user.email"  />
-                                <div class="help-block" v-if="errors.first('email')">
-                                    <span>{{ errors.first('email') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" :class="{ 'has-error': errors.first('type') }">
-                            <label for="type" class="col-sm-2 control-label">Level <span class="required">*</span></label>
-                            <div class="col-sm-3">
-                                <select v-validate="'required'" class="form-control" id="type" name="type" v-model="user.type">
-                                    <option v-for="type in userType" :value="type">{{type}}</option>
-                                </select>
-                                <div class="help-block" v-if="errors.first('type')">
-                                    <span>{{ errors.first('type') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-4">
-                                <button @click="cancel" class="btn btn-default margin-r-5" type="button">Cancel</button>
-                                <button @click="submit" type="button" class="btn btn-success">Update</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <!-- /.content -->
+                <div class="form-group" :class="{ 'has-error': errors.first('email') }">
+                    <label for="email" class="col-sm-2 control-label">Email <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                        <input v-validate="'required'" class="form-control" type="email" id="email" name="email" v-model="user.email"  />
+                        <div class="help-block" v-if="errors.first('email')">
+                            <span>{{ errors.first('email') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" :class="{ 'has-error': errors.first('type') }">
+                    <label for="type" class="col-sm-2 control-label">Level <span class="required">*</span></label>
+                    <div class="col-sm-3">
+                        <select v-validate="'required'" class="form-control" id="type" name="type" v-model="user.type">
+                            <option v-for="type in userType" :value="type">{{type}}</option>
+                        </select>
+                        <div class="help-block" v-if="errors.first('type')">
+                            <span>{{ errors.first('type') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-4">
+                        <button @click="cancel" class="btn btn-default margin-r-5" type="button">Cancel</button>
+                        <button @click="submit" type="button" class="btn btn-success">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
 <script>
-  import PageHeader from '../components/PageHeader';
   import {mapGetters} from 'vuex';
   export default {
     name: 'UserDetail',
-    components: {PageHeader},
     computed: {
       ...mapGetters({
         saved: 'user/saved',

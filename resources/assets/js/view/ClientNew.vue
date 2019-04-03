@@ -1,25 +1,15 @@
 <template>
-    <div>
-        <!-- Content Header (Page header) -->
-        <PageHeader :title="'Create New Client'"></PageHeader>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="box">
-                <ClientForm ref="clientForm" :formAction="formAction" @routeToList="routeToList"></ClientForm>
-            </div>
-        </section>
-        <!-- /.content -->
+    <div class="box">
+        <ClientForm ref="clientForm" :formAction="formAction" @routeToList="routeToList"></ClientForm>
     </div>
 </template>
 
 <script>
   import ClientForm from '../components/ClientForm';
-  import PageHeader from '../components/PageHeader';
   import {mapGetters} from 'vuex';
   export default {
     name: 'ClientNew',
-    components: {PageHeader, ClientForm},
+    components: {ClientForm},
     computed: {
       ...mapGetters({
         saved: 'client/saved'

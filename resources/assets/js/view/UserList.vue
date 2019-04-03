@@ -1,36 +1,26 @@
 <template>
-    <div>
-        <!-- Content Header (Page header) -->
-        <PageHeader :title="'List of Users'"></PageHeader>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="box">
-                <div class="box-body">
-                    <a-table bordered :dataSource="users" :columns="columns" rowKey="id" :loading="loading">
-                        <template slot="action" slot-scope="text, record">
-                            <a-button @click="routeToDetail(record.id)">Edit</a-button>
-                            <a-popconfirm
-                                    v-if="users.length"
-                                    title="Are you sure to delete?"
-                                    @confirm="onDelete(record.id)">
-                                <a-button type="danger">Delete</a-button>
-                            </a-popconfirm>
-                        </template>
-                    </a-table>
-                </div>
-            </div>
-        </section>
-        <!-- /.content -->
+    <div class="box">
+        <div class="box-body">
+            <a-table bordered :dataSource="users" :columns="columns" rowKey="id" :loading="loading">
+                <template slot="action" slot-scope="text, record">
+                    <a-button @click="routeToDetail(record.id)">Edit</a-button>
+                    <a-popconfirm
+                            v-if="users.length"
+                            title="Are you sure to delete?"
+                            @confirm="onDelete(record.id)">
+                        <a-button type="danger">Delete</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </div>
     </div>
 </template>
 
 <script>
-  import PageHeader from '../components/PageHeader';
   import {mapGetters} from 'vuex';
   export default {
     name: 'UserList',
-    components: {PageHeader},
+    title: 'User List',
     computed: {
       ...mapGetters({
         users: 'user/users'

@@ -1,24 +1,24 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Admin from '@/view/Admin';
-import Dashboard from '@/view/Dashboard';
-import PageNotFound from '@/view/PageNotFound';
-import FaqList from '@/view/FaqList';
-import UserList from '@/view/UserList';
-import UserDetail from '@/view/UserDetail';
-import InThePressNew from '@/view/InThePressNew';
-import InThePressList from '@/view/InThePressList';
-import InThePressDetail from '@/view/InThePressDetail';
-import BlogList from '@/view/BlogList';
-import BlogNew from '@/view/BlogNew';
-import BlogDetail from '@/view/BlogDetail';
-import ClientList from '@/view/ClientList';
-import ClientDetail from '@/view/ClientDetail';
-import ClientNew from '@/view/ClientNew';
+import Vue from 'vue'
+import Router from 'vue-router'
+import Admin from '@/view/Admin'
+import Dashboard from '@/view/Dashboard'
+import PageNotFound from '@/view/PageNotFound'
+import FaqList from '@/view/FaqList'
+import UserList from '@/view/UserList'
+import UserDetail from '@/view/UserDetail'
+import InThePressNew from '@/view/InThePressNew'
+import InThePressList from '@/view/InThePressList'
+import InThePressDetail from '@/view/InThePressDetail'
+import BlogList from '@/view/BlogList'
+import BlogNew from '@/view/BlogNew'
+import BlogDetail from '@/view/BlogDetail'
+import ClientList from '@/view/ClientList'
+import ClientDetail from '@/view/ClientDetail'
+import ClientNew from '@/view/ClientNew'
 
-Vue.use(Router);
+Vue.use(Router)
 
-export function createRouter() {
+export function createRouter () {
   return new Router({
     base: __dirname,
     mode: 'history',
@@ -27,30 +27,142 @@ export function createRouter() {
         path: '/admin',
         name: 'admin',
         component: Admin,
-        meta: {requiredAuth: true},
-        redirect: {name: 'dashboard'},
+        meta: { requiredAuth: true },
+        redirect: { name: 'dashboard' },
         children: [
-          {path: 'dashboard', name: 'dashboard', component: Dashboard},
-          {path: 'faq', name: 'faq', component: FaqList},
+          {
+            path: 'dashboard',
+            name: 'dashboard',
+            component: Dashboard,
+            meta: {
+              title: 'Dashboard',
+              description: '',
+            },
+          },
+          {
+            path: 'faq',
+            name: 'faq',
+            component: FaqList,
+            meta: {
+              title: 'FaqList',
+              description: '',
+            },
+          },
 
-          {path: 'users', name: 'userList', component: UserList},
-          {path: 'users/:id', name: 'userDetail', component: UserDetail},
+          {
+            path: 'users',
+            name: 'userList',
+            component: UserList,
+            meta: {
+              title: 'UserList',
+              description: '',
+            },
+          },
+          {
+            path: 'users/:id',
+            name: 'userDetail',
+            component: UserDetail,
+            meta: {
+              title: 'UserDetail',
+              description: '',
+            },
+          },
 
-          {path: 'in-the-press/new', name: 'inThePressNew', component: InThePressNew},
-          {path: 'in-the-press', name: 'inThePressList', component: InThePressList},
-          {path: 'in-the-press/:id', name: 'inThePressDetail', component: InThePressDetail},
+          {
+            path: 'in-the-press/new',
+            name: 'inThePressNew',
+            component: InThePressNew,
+            meta: {
+              title: 'InThePressNew',
+              description: '',
+            },
+          },
+          {
+            path: 'in-the-press',
+            name: 'inThePressList',
+            component: InThePressList,
+            meta: {
+              title: 'InThePressList',
+              description: '',
+            },
+          },
+          {
+            path: 'in-the-press/:id',
+            name: 'inThePressDetail',
+            component: InThePressDetail,
+            meta: {
+              title: 'InThePressDetail',
+              description: '',
+            },
+          },
 
-          {path: 'blogs', name: 'blogList', component: BlogList},
-          {path: 'blogs/new', name: 'blogNew', component: BlogNew},
-          {path: 'blogs/:id', name: 'blogDetail', component: BlogDetail},
+          {
+            path: 'blogs',
+            name: 'blogList',
+            component: BlogList,
+            meta: {
+              title: 'BlogList',
+              description: '',
+            },
+          },
+          {
+            path: 'blogs/new',
+            name: 'blogNew',
+            component: BlogNew,
+            meta: {
+              title: 'BlogNew',
+              description: '',
+            },
+          },
+          {
+            path: 'blogs/:id',
+            name: 'blogDetail',
+            component: BlogDetail,
+            meta: {
+              title: 'BlogDetail',
+              description: '',
+            },
+          },
 
-          {path: 'clients', name: 'clientList', component: ClientList},
-          {path: 'clients/new', name: 'clientNew', component: ClientNew},
-          {path: 'clients/:id', name: 'clientDetail', component: ClientDetail},
+          {
+            path: 'clients',
+            name: 'clientList',
+            component: ClientList,
+            meta: {
+              title: 'ClientList',
+              description: '',
+            },
+          },
+          {
+            path: 'clients/new',
+            name: 'clientNew',
+            component: ClientNew,
+            meta: {
+              title: 'ClientNew',
+              description: '',
+            },
+          },
+          {
+            path: 'clients/:id',
+            name: 'clientDetail',
+            component: ClientDetail,
+            meta: {
+              title: 'ClientDetail',
+              description: '',
+            },
+          },
 
-          {path: '*', name: 'pageNotFound', component: PageNotFound},
-        ]
-      }
-    ]
-  });
+          {
+            path: '*',
+            name: 'pageNotFound',
+            component: PageNotFound,
+            meta: {
+              title: 'PageNotFound',
+              description: '',
+            },
+          },
+        ],
+      },
+    ],
+  })
 }

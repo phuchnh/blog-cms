@@ -1,20 +1,22 @@
 <template>
-    <div class="box-body" v-if="posts">
-        <button @click="$emit('routeToNew')" class="btn btn-primary" style="margin: 20px 0">Add New</button>
-        <a-table bordered :dataSource="posts" :columns="columns" rowKey="id" :loading="loading">
-            <template slot="status" slot-scope="text, record">
-                {{text ? 'Publish' : 'Draft'}}
-            </template>
-            <template slot="action" slot-scope="text, record">
-                <a-button @click="$emit('edit', record.id)">Edit</a-button>
-                <a-popconfirm
-                        v-if="posts.length"
-                        title="Are you sure to delete?"
-                        @confirm="onDelete(record.id)">
-                    <a-button type="danger">Delete</a-button>
-                </a-popconfirm>
-            </template>
-        </a-table>
+    <div class="box">
+        <div class="box-body" v-if="posts">
+            <button @click="$emit('routeToNew')" class="btn btn-primary" style="margin: 20px 0">Add New</button>
+            <a-table bordered :dataSource="posts" :columns="columns" rowKey="id" :loading="loading">
+                <template slot="status" slot-scope="text, record">
+                    {{text ? 'Publish' : 'Draft'}}
+                </template>
+                <template slot="action" slot-scope="text, record">
+                    <a-button @click="$emit('edit', record.id)">Edit</a-button>
+                    <a-popconfirm
+                            v-if="posts.length"
+                            title="Are you sure to delete?"
+                            @confirm="onDelete(record.id)">
+                        <a-button type="danger">Delete</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </div>
     </div>
 </template>
 

@@ -1,14 +1,12 @@
 <template>
   <div>
-      <PageHeader :title="'Page Not Found'"></PageHeader>
+    PageNotFound
   </div>
 </template>
 
 <script>
-    import PageHeader from './../components/PageHeader';
     export default {
         name: 'PageNotFound',
-        components: {PageHeader},
         data() {
             return {
                 message: 'PageNotFounds'

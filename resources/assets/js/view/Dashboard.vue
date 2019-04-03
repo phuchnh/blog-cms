@@ -1,25 +1,21 @@
 <template>
-  <div>
-    <PageHeader :title="'Dashboard'"></PageHeader>
-  </div>
+  <div></div>
 </template>
 
 <script>
-  import {Cookie} from '@/util/cookie';
-  import PageHeader from './../components/PageHeader';
+  import { Cookie } from '@/util/cookie'
 
   export default {
     name: 'Dashboard',
-    components: {PageHeader},
-    mounted() {
-      console.log('Dashboard');
+    mounted () {
+      console.log('Dashboard')
     },
-    data() {
+    data () {
       return {
-        message: 'Dashboard'
-      };
-    }
-  };
+        message: 'Dashboard',
+      }
+    },
+  }
 </script>
 
 <style scoped>
