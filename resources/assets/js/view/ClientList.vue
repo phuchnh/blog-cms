@@ -7,7 +7,7 @@
         <section class="content container-fluid">
             <div class="box">
                 <div class="box-body">
-                    <button @click="" class="btn btn-primary" style="margin: 20px 0">Add New</button>
+                    <button @click="routeToNew" class="btn btn-primary" style="margin: 20px 0">Add New</button>
                     <a-table bordered :dataSource="clients" :columns="columns" rowKey="id" :loading="loading">
                         <template slot="action" slot-scope="text, record">
                             <a-button @click="routeToDetail(record.id)">Edit</a-button>
@@ -73,6 +73,9 @@
       routeToDetail(id) {
         this.$router.push({name: 'clientDetail', params: {id: id}});
       },
+      routeToNew() {
+        this.$router.push({name: 'clientNew'});
+      }
     }
   };
 </script>

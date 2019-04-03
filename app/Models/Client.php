@@ -5,9 +5,10 @@ namespace App\Models;
 use App\Traits\HasModify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Client extends Model
+class Client extends Model implements HasMedia
 {
     use SoftDeletes, HasModify, HasMediaTrait;
 

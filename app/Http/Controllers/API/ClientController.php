@@ -47,7 +47,7 @@ class ClientController extends ApiBaseController
         $client->fill($request->validated());
         $client->save();
 
-        if (is_object($thumbnail = $request->get('thumbnail'))) {
+        if (is_array($thumbnail = $request->get('thumbnail'))) {
             $fileName = array_get($thumbnail, 'name');
             $fileContent = array_get($thumbnail, 'body');
             $client->addMediaFromBase64($fileContent)

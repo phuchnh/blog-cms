@@ -100,7 +100,7 @@
                     this.$message.error('Error');
                   });
             } else if (this.formAction === 'create') {
-              this.$store.dispatch('client/createdClient', this.client).then(() => {
+              this.$store.dispatch('client/createClient', this.client).then(() => {
                 this.$store.dispatch('client/savedClient', true);
                 console.log(this.saved);
                 this.$message.success('Create successfully');
