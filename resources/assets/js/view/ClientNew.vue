@@ -16,8 +16,8 @@
       })
     },
     beforeRouteLeave(from, to, next) {
-      if (_.isEmpty(this.$refs.clientForm.post)) {
-        this.$store.dispatch('client/savedPost', true);
+      if (_.isEmpty(this.$refs.clientForm.client)) {
+        this.$store.dispatch('client/savedClient', true);
       }
       if (!this.saved) {
         this.$confirm({
