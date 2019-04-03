@@ -33,7 +33,12 @@ export function createApp() {
                     query: {redirect: to.fullPath}
                 });
             } else {
-                store.dispatch('auth/CHECK_AUTH').then(() => next());
+                if (!store.state.auth.currentUser.name) {
+                    store.dispatch('auth/CHECK_AUTH').then(() => next());
+                }
+                next();
+
+
             }
         } else {
             next();

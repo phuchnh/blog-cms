@@ -37,7 +37,7 @@
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Blog</span></router-link></li>
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Guided Meditation</span></router-link></li>
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Daily Practice</span></router-link></li>
-        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Client</span></router-link></li>
+        <li><router-link :to="{name: 'clientList'}"><i class="fa fa-link"></i> <span>Client</span></router-link></li>
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Subscriber</span></router-link></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
         <li class="treeview">

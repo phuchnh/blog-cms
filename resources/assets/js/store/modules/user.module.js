@@ -33,7 +33,7 @@ const actions = {
     });
   },
   updateUser({commit}, payload) {
-    return ApiService.put('/users', payload.id, payload);
+    return ApiService.put(`/users/${payload.id}`, payload);
   },
   // createUser({commit}, payload) {
   //   ApiService.post('/users', payload);

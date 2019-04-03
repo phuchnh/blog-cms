@@ -37,7 +37,7 @@ const actions = {
   },
   updatePost({commit}, payload) {
     console.log(payload);
-    return ApiService.put('/posts', payload.id, payload);
+    return ApiService.put(`/posts/${payload.id}`, payload);
   },
   createPost({commit}, payload) {
     return ApiService.post('/posts', payload);

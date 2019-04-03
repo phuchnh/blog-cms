@@ -125,7 +125,6 @@
         deep: true,
         handler(val, oldVal) {
           if (val.id === oldVal.id && val !== oldVal) {
-            debugger;
             this.$store.dispatch('post/savedPost', false);
           }
         }
