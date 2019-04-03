@@ -46,8 +46,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Content</label>
         <div class="col-sm-8">
-          <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"
-                     :extra-buttons="customButtons"></jodit-vue>
+          <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
         </div>
       </div>
       <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
@@ -74,7 +73,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import { mapGetters } from 'vuex'
 
   // Jodit
   import JoditVue from 'jodit-vue'
@@ -82,119 +81,108 @@
 
   export default {
     name: 'PostForm',
-    components: {JoditVue},
-    data() {
+    components: { JoditVue },
+    data () {
       return {
         postStatus: [
-          {name: 'Publish', value: 1},
-          {name: 'Draft', value: 0}
+          { name: 'Publish', value: 1 },
+          { name: 'Draft', value: 0 },
         ],
         imgUrl: null,
         editorConfigJS: {
           uploader: {
-            insertImageAsBase64URI: true,
-            // url: '/api/ckfinder/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
-            // queryBuild: function (data) {
-            //   return JSON.stringify(data);
-            // },
-            // contentType: function () {
-            //   return 'application/json';
-            // },
-            // buildData: function (data) {
-            //   return new Promise(function (resolve, reject) {
-            //     var reader = new FileReader();
-            //     reader.readAsDataURL(data.getAll('files[0]')[0]);
-            //     reader.onload = function () {
-            //       return resolve({
-            //         image: reader.result
-            //       });
-            //     };
-            //     reader.onerror = function (error) {
-            //       reject(error);
-            //     }
-            //   });
-            // }
+            url: 'https://xdsoft.net/jodit/connector/index.php?action=fileUpload',
+            queryBuild: function (data) {
+              return JSON.stringify(data);
+            },
+            contentType: function () {
+              return 'application/json';
+            },
+            buildData: function (data) {
+              console.log(data)
+              return {hello: 'Hello world'}
+            }
           },
-        }
+        },
       }
     },
-    created() {
-      this.post.content = this.post.content ? this.post.content : '';
+    created () {
+      this.post.content = this.post.content ? this.post.content : ''
     },
     computed: {
       ...mapGetters({
         post: 'post/post',
-        saved: 'post/saved'
-      })
+        saved: 'post/saved',
+      }),
     },
     props: {
       type: String,
       formAction:
-      String
+      String,
     },
-    mounted() {
+    mounted () {
       if (this.formAction === 'edit') {
-        this.$store.dispatch('post/getPost', this.$route.params.id);
-        this.$store.dispatch('post/savedPost', true);
-        console.log(this.saved);
+        this.$store.dispatch('post/getPost', this.$route.params.id)
+        this.$store.dispatch('post/savedPost', true)
+        console.log(this.saved)
       }
     },
     watch: {
       post: {
         deep: true,
-        handler(val, oldVal) {
+        handler (val, oldVal) {
           if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('post/savedPost', false);
+            this.$store.dispatch('post/savedPost', false)
           }
-        }
-      }
+        },
+      },
     },
     methods: {
-      submit() {
-        this.post.type = this.type;
+      submit () {
+        this.post.type = this.type
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
               this.$store.dispatch('post/updatePost', this.post).then(() => {
-                this.$store.dispatch('post/savedPost', true);
-                console.log(this.saved);
-                this.$message.success('Update successfully');
-                this.$emit('routeToList');
+                this.$store.dispatch('post/savedPost', true)
+                console.log(this.saved)
+                this.$message.success('Update successfully')
+                this.$emit('routeToList')
               }).catch((error) => {
-                console.log(error);
-                this.$message.error('Error');
-              });
+                console.log(error)
+                this.$message.error('Error')
+              })
             } else if (this.formAction === 'create') {
               this.$store.dispatch('post/createPost', this.post).then(() => {
-                this.$store.dispatch('post/savedPost', true);
-                console.log(this.saved);
-                this.$message.success('Create successfully');
-                this.$emit('routeToList');
+                this.$store.dispatch('post/savedPost', true)
+                console.log(this.saved)
+                this.$message.success('Create successfully')
+                this.$emit('routeToList')
               }).catch((error) => {
-                console.log(error);
-                this.$message.error('Error');
-              });
+                console.log(error)
+                this.$message.error('Error')
+              })
             }
           } else {
             this.$message.error('Invalid Form !')
           }
-        });
+        })
       },
-      onFileChange(event) {
-        const file = event.target.files[0];
+      onFileChange (event) {
+        const file = event.target.files[0]
         const temp = {
           name: file.name,
-        };
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+        }
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
         reader.onloadend = () => {
-          this.imgUrl = reader.result;
-          temp.body = reader.result.split(',')[1];
-        };
-        this.post.thumbnail = temp;
-      }
-    }
-  };
+          this.imgUrl = reader.result
+          temp.body = reader.result.split(',')[1]
+        }
+        this.post.thumbnail = temp
+      },
+    },
+  }
 </script>
 
 <style scoped>

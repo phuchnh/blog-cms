@@ -7,12 +7,26 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Post extends Model implements HasMedia
 {
-    use SoftDeletes, Sluggable, SluggableScopeHelpers, HasModify, HasMediaTrait;
+    use SoftDeletes, Sluggable, SluggableScopeHelpers, HasModify, HasMediaTrait, Sortable;
+
+    /**
+     * @var array
+     */
+    public $sortable = [
+        'title',
+        'description',
+        'content',
+        'publish',
+        'slug',
+        'created_at',
+        'updated_at',
+    ];
 
     /**
      * The table associated with the model.
@@ -45,7 +59,7 @@ class Post extends Model implements HasMedia
         'description',
         'content',
         'publish',
-        'slug'
+        'slug',
     ];
 
     /**
@@ -54,7 +68,7 @@ class Post extends Model implements HasMedia
      * @var array
      */
     protected $attributes = [
-        'type' => 'post'
+        'type' => 'post',
     ];
 
     /**
@@ -96,6 +110,7 @@ class Post extends Model implements HasMedia
 
     /**
      * Get taxonomies belongs to this post
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxonomies()

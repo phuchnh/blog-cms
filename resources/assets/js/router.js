@@ -41,7 +41,7 @@ export function createRouter () {
           },
           {
             path: 'faq',
-            name: 'faq',
+            name: 'faqList',
             component: FaqList,
             meta: {
               title: 'FaqList',

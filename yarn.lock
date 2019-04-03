@@ -556,16 +556,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@ckeditor/ckeditor5-build-decoupled-document@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-build-decoupled-document/-/ckeditor5-build-decoupled-document-12.0.0.tgz#ce05c2687e6d3a05e8febdcb1deeb939d97c515f"
-  integrity sha512-4BNWOI8lgpP5XZ7yC3GcbPrCB0H+eVbCuFJWEb5sAknX6sDb31U+4ME33HJg399jYa4dZz99LieIR1q/3IGwiw==
-
-"@ckeditor/ckeditor5-vue@^1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-vue/-/ckeditor5-vue-1.0.0-beta.1.tgz#976bf7b00bd5f9d99637bfa8279e35f2e899c334"
-  integrity sha512-CTNyEdofAfmhVomkft6kYEmbh6yRvZMzkvCC4bHZ8LOBHBY7QWkWXP3gbs19SvimUV7PfnsrsDE093aI0SyXqQ==
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -3542,6 +3532,18 @@ isobject@^2.0.0:
 isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
+
+jodit-vue@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/jodit-vue/-/jodit-vue-1.2.3.tgz#27a4b4f390108c1d0eda7ca88e4f81b7d0eb735a"
+  integrity sha512-2oQUG/otO2tgyBzyu+yWlM1pJZLlyENgp55lpsWChjQFKh3pnldjiA+4jn7xI1YUlyQbbY7HXLI+sUr4yNwPpg==
+  dependencies:
+    jodit "^3.2.21"
+
+jodit@^3.2.21:
+  version "3.2.44"
+  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.2.44.tgz#c717bbb6c51471d40cf61faafaf6834b5b655b8c"
+  integrity sha512-2rwOpQ18zqjjh+YRtuWcexGKYeR4hQo0ekxZsYNb8X0CQr2k6fkvjx48nITu4hzodFptfRXDPaJDIus2QeVE0Q==
 
 jquery-knob@^1.2.11:
   version "1.2.11"

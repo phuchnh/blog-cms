@@ -39,6 +39,7 @@
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Daily Practice</span></router-link></li>
         <li><router-link :to="{name: 'clientList'}"><i class="fa fa-link"></i> <span>Client</span></router-link></li>
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Subscriber</span></router-link></li>
+        <li><router-link :to="{name: 'faqList'}"><i class="fa fa-link"></i> <span>FAQ</span></router-link></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
