@@ -46,8 +46,8 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Content</label>
         <div class="col-sm-8">
-          <ckeditor name="content" :editor="editor" v-model="post.content" @ready="onReady"
-                    :config="editorConfig"></ckeditor>
+          <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"
+                     :extra-buttons="customButtons"></jodit-vue>
         </div>
       </div>
       <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
@@ -76,11 +76,13 @@
 <script>
   import {mapGetters} from 'vuex';
 
-  // CKEDIT PACKAGE
-  import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+  // Jodit
+  import JoditVue from 'jodit-vue'
+  import 'jodit/build/jodit.min.css'
 
   export default {
     name: 'PostForm',
+    components: {JoditVue},
     data() {
       return {
         postStatus: [
@@ -88,21 +90,36 @@
           {name: 'Draft', value: 0}
         ],
         imgUrl: null,
-
-        // Setting CkEditer
-        editor: DecoupledEditor,
-        editorConfig: {
-          ckfinder: {
-            // Upload the images to the server using the CKFinder QuickUpload command.
-            uploadUrl: '/api/ckfinder/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
-            // Open the file manager in the pop-up window.
-            openerMethod: 'popup',
-            options: {
-              resourceType: 'Images'
-            }
-          }
+        editorConfigJS: {
+          uploader: {
+            insertImageAsBase64URI: true,
+            // url: '/api/ckfinder/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+            // queryBuild: function (data) {
+            //   return JSON.stringify(data);
+            // },
+            // contentType: function () {
+            //   return 'application/json';
+            // },
+            // buildData: function (data) {
+            //   return new Promise(function (resolve, reject) {
+            //     var reader = new FileReader();
+            //     reader.readAsDataURL(data.getAll('files[0]')[0]);
+            //     reader.onload = function () {
+            //       return resolve({
+            //         image: reader.result
+            //       });
+            //     };
+            //     reader.onerror = function (error) {
+            //       reject(error);
+            //     }
+            //   });
+            // }
+          },
         }
       }
+    },
+    created() {
+      this.post.content = this.post.content ? this.post.content : '';
     },
     computed: {
       ...mapGetters({
@@ -112,7 +129,8 @@
     },
     props: {
       type: String,
-      formAction: String
+      formAction:
+      String
     },
     mounted() {
       if (this.formAction === 'edit') {
@@ -132,17 +150,6 @@
       }
     },
     methods: {
-      /**
-       * load CkEditer
-       * @param editor
-       */
-      onReady(editor) {
-        // Insert the toolbar before the editable area.
-        editor.ui.getEditableElement().parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-        );
-      },
       submit() {
         this.post.type = this.type;
         this.$validator.validateAll().then((result) => {
@@ -153,28 +160,25 @@
                 console.log(this.saved);
                 this.$message.success('Update successfully');
                 this.$emit('routeToList');
-              })
-                  .catch((error) => {
-                    console.log(error);
-                    this.$message.error('Error');
-                  });
+              }).catch((error) => {
+                console.log(error);
+                this.$message.error('Error');
+              });
             } else if (this.formAction === 'create') {
               this.$store.dispatch('post/createPost', this.post).then(() => {
                 this.$store.dispatch('post/savedPost', true);
                 console.log(this.saved);
                 this.$message.success('Create successfully');
                 this.$emit('routeToList');
-              })
-                  .catch((error) => {
-                    console.log(error);
-                    this.$message.error('Error');
-                  });
+              }).catch((error) => {
+                console.log(error);
+                this.$message.error('Error');
+              });
             }
           } else {
             this.$message.error('Invalid Form !')
           }
         });
-
       },
       onFileChange(event) {
         const file = event.target.files[0];
