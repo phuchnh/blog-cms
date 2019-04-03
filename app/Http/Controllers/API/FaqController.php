@@ -11,7 +11,7 @@ class FaqController extends ApiBaseController
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        //
     }
 
     /**
