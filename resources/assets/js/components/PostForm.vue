@@ -46,7 +46,8 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Content</label>
         <div class="col-sm-8">
-          <ckeditor name="content" :editor="editor" v-model="post.content" @ready="onReady" :config="editorConfig"></ckeditor>
+          <ckeditor name="content" :editor="editor" v-model="post.content" @ready="onReady"
+                    :config="editorConfig"></ckeditor>
         </div>
       </div>
       <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
@@ -135,7 +136,7 @@
        * load CkEditer
        * @param editor
        */
-      onReady( editor )  {
+      onReady(editor) {
         // Insert the toolbar before the editable area.
         editor.ui.getEditableElement().parentElement.insertBefore(
             editor.ui.view.toolbar.element,
