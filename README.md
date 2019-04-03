@@ -7,3 +7,6 @@
 > php artisan ckfinder:download
 
 > php artisan vendor:publish --tag=ckfinder
+
+# install storage link
+> php artisan storage:link
