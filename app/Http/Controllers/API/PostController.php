@@ -60,8 +60,11 @@ class PostController extends ApiBaseController
             $post->addMediaFromBase64($fileContent)
                  ->usingFileName($fileName)
                  ->withCustomProperties(['thumbnail'])
-                 ->toMediaCollection();
+                 ->toMediaCollection('thumbnail');
         }
+
+        // request meta data
+        // save
 
         return $this->created($post);
     }

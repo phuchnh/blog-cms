@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Media extends BaseMedia
 {
-    use SoftDeletes;
-
     /**
      * @param Builder $query
      * @return string

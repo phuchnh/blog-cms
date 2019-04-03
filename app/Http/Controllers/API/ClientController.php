@@ -11,7 +11,7 @@ class ClientController extends ApiBaseController
     public function index(Client $clients)
     {
         return $this->ok($clients->with('media')
-                               ->orderBy('id', 'desc')->get());
+                                 ->orderBy('id', 'desc')->get());
     }
 
     public function show(Client $client)
@@ -29,19 +29,25 @@ class ClientController extends ApiBaseController
     {
         $client = Client::create($request->validated());
 
-
         if ($thumbnail = $request->get('thumbnail')) {
             $fileName = array_get($thumbnail, 'name');
             $fileContent = array_get($thumbnail, 'body');
             $client->addMediaFromBase64($fileContent)
-                 ->usingFileName($fileName)
-                 ->withCustomProperties(['thumbnail'])
-                 ->toMediaCollection();
+                   ->usingFileName($fileName)
+                   ->withCustomProperties(['thumbnail'])
+                   ->toMediaCollection();
         }
 
         return $this->created($client);
     }
 
+    /**
+     * @param \App\Models\Client $client
+     * @param \App\Http\Requests\API\UpdateClientRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
+     */
     public function update(Client $client, UpdateClientRequest $request)
     {
         $client->fill($request->validated());
@@ -50,10 +56,11 @@ class ClientController extends ApiBaseController
         if (is_array($thumbnail = $request->get('thumbnail'))) {
             $fileName = array_get($thumbnail, 'name');
             $fileContent = array_get($thumbnail, 'body');
-            $client->addMediaFromBase64($fileContent)
-                 ->usingFileName($fileName)
-                 ->withCustomProperties(['thumbnail'])
-                 ->toMediaCollection();
+            $client->clearMediaCollection()
+                   ->addMediaFromBase64($fileContent)
+                   ->usingFileName($fileName)
+                   ->withCustomProperties(['thumbnail'])
+                   ->toMediaCollection();
         }
 
         return $this->noContent();
@@ -61,7 +68,7 @@ class ClientController extends ApiBaseController
 
     public function destroy(Client $client)
     {
-        if (!empty($client->media->all())) {
+        if (! empty($client->media->all())) {
             $client->media->each->delete();
         }
         $client->delete();
