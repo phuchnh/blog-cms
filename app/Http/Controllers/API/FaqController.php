@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class FaqController extends ApiBaseController
 {
+    public function __construct()
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +23,7 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
-        return $this->ok($faq->with('media')->get());
+        return $this->ok($faq->with('media')->paginate());
     }
 
     /**

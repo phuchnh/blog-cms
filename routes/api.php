@@ -22,6 +22,7 @@ Route::middleware('api')->namespace('API')->group(function () {
         Route::get('user', 'AuthController@user');
     });
 
+    Route::apiResource('posts', 'PostController');
     Route::apiResource('faqs', 'FaqController');
 });
 

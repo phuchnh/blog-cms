@@ -20,7 +20,7 @@ $factory->define(\App\Models\Post::class, function (Faker $faker) {
     $title = $faker->sentence;
 
     return [
-        'title' => $faker->sentence,
+        'title' => $faker->title,
         'description' => $faker->sentence,
         'content' => $faker->paragraph,
         'slug' => Str::slug($title),

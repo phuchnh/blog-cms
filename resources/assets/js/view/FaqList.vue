@@ -1,17 +1,21 @@
 <template>
-    <div class="box box-widget">
-        <!-- /.box-header -->
-        <!-- /.box-header -->
-        <!-- /.box-box-body -->
-        <div class="box-body">
-            <pre>{{ faqs }}</pre>
-        </div>
-        <!-- /.box-box-body -->
-        <!-- /.box-footer -->
-        <div class="box-footer">
-        </div>
-        <!-- /.box-footer -->
+  <div class="box box-widget">
+    <!-- /.box-header -->
+    <!-- /.box-header -->
+    <!-- /.box-box-body -->
+    <div class="box-body">
+      <a-table :dataSource="faqs"
+               :columns="columns"
+               :rowKey="record => record.id"
+               :loading="loading">
+      </a-table>
     </div>
+    <!-- /.box-box-body -->
+    <!-- /.box-footer -->
+    <div class="box-footer">
+    </div>
+    <!-- /.box-footer -->
+  </div>
 </template>
 
 <script>
@@ -20,35 +24,35 @@
 
     Vue.use(Table);
 
-    const columns = [{
-        title: 'Name',
-        dataIndex: 'name',
-        scopedSlots: { customRender: 'name' }
-    }, {
-        title: 'Cash Assets',
-        className: 'column-money',
-        dataIndex: 'money'
-    }, {
-        title: 'Address',
-        dataIndex: 'address'
-    }];
-
+    const columns = [
+        { title: 'Slug', dataIndex: 'slug', key: 'slug' },
+        { title: 'Title', dataIndex: 'title', key: 'title' },
+        { title: 'Description', dataIndex: 'description', key: 'description' }
+    ];
 
     import { mapState } from 'vuex';
+    import { FaqService } from '../api';
 
     export default {
         name: 'FaqList',
+        data() {
+            return {
+                loading: true,
+                columns: columns
+            };
+        },
         computed: mapState({
             faqs: state => state.faq.data
         }),
         beforeRouteEnter(to, from, next) {
-            let params = {
-                page: 1,
-                perPage: 10,
-            };
-            next(
-                vm => vm.$store.dispatch('faq/fetchFaqList', params)
-            );
+            let params = { page: 1, perPage: 10 };
+            FaqService.fetchList(params).then(res => {
+                const { data } = res.data;
+                next(vm => {
+                    vm.loading = false;
+                    vm.$store.commit('faq/SET_FAQ', data);
+                });
+            });
         },
         beforeRouteUpdate(to, from, next) {
         },
