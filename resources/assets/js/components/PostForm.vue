@@ -17,7 +17,27 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
+        <label class="col-sm-2 control-label">Event</label>
+        <div class="col-sm-8">
+          <a-date-picker
+                  showTime
+                  format="YYYY-MM-DD HH:mm:ss"
+                  placeholder="Select Time"
+                  v-model="post.date"
+          />
+        </div>
+      </div>
+      <div class="form-group" :class="{ 'has-error': errors.first('location') }">
+        <label for="location" class="col-sm-2 control-label">Location <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input v-validate="'required'" class="form-control" id="location" name="location" v-model="post.location"/>
+          <div class="help-block" v-if="errors.first('location')">
+            <span>{{ errors.first('location') }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="thumbnail" class="col-sm-2 control-label">Thumbnail</label>
         <div class="col-sm-8">
                     <span class="btn btn-default btn-sm btn-file">
                         <i class="fa fa-upload"></i> Upload
@@ -74,7 +94,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-
+  import moment from 'moment'
   // Jodit
   import JoditVue from 'jodit-vue'
   import 'jodit/build/jodit.min.css'

@@ -67,9 +67,7 @@ class Post extends Model implements HasMedia
      *
      * @var array
      */
-    protected $attributes = [
-        'type' => 'post',
-    ];
+    protected $attributes = [];
 
     /**
      * The attributes that should be hidden for arrays.

@@ -1,10 +1,10 @@
 import {ApiService} from '../../api';
-
+import moment from 'moment';
 export const namespaced = true;
 const initialState = {
   posts: [],
   post: {},
-  saved: false
+  saved: false,
 };
 
 export const state = { ...initialState };
@@ -12,7 +12,7 @@ export const state = { ...initialState };
 const getters = {
   post: state => state.post,
   posts: state => state.posts,
-  saved: state => state.saved
+  saved: state => state.saved,
 };
 
 const actions = {
@@ -27,6 +27,7 @@ const actions = {
   getPost({commit}, id) {
     return ApiService.get(`/posts/${id}`).then(res => {
       commit('setPost', res.data.data);
+      commit('setPostMeta', res.data.data.post_meta);
     });
   },
   deletePost({commit}, id) {
@@ -36,7 +37,6 @@ const actions = {
     });
   },
   updatePost({commit}, payload) {
-    console.log(payload);
     return ApiService.put(`/posts/${payload.id}`, payload);
   },
   createPost({commit}, payload) {
@@ -53,6 +53,16 @@ const actions = {
 const mutations = {
   setPosts(state, posts) {
     state.posts = posts;
+  },
+  setPostMeta(state, post_meta) {
+    _.each(post_meta, (item) => {
+      if (item.meta_key === 'event_date') {
+        state.post = { ...state.post, date: moment(item.meta_value) };
+      }
+      if (item.meta_key === 'event_location') {
+        state.post = { ...state.post, location: item.meta_value };
+      }
+    });
   },
   setPost(state, post) {
     state.post = post;

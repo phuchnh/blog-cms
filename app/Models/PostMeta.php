@@ -38,7 +38,7 @@ class PostMeta extends Model
      * @var array
      */
     public static $rules = [
-        'meta_key' => 'required|string',
-        'meta_value' => 'required|string',
+        'meta_key' => 'string',
+        'meta_value' => 'string',
     ];
 }

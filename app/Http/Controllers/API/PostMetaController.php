@@ -18,6 +18,7 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
+        $data = $post->postMeta;
         return $this->ok($post->postMeta);
     }
 

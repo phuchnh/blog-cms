@@ -32,6 +32,6 @@ class CreatePostRequest extends ApiBaseRequest
      */
     public function rules()
     {
-        return \App\Models\PostMeta::$rules;
+        return \App\Models\Post::$rules;
     }
 }

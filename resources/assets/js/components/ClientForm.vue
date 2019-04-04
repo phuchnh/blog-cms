@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
+        <label for="thumbnail" class="col-sm-2 control-label">Thumbnail</label>
         <div class="col-sm-8">
                     <span class="btn btn-default btn-sm btn-file">
                         <i class="fa fa-upload"></i> Upload
