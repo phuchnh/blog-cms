@@ -31,3 +31,28 @@
   height: auto;
   min-height: auto;
 }
+
+.button-section-fixed {
+  position: fixed;
+  padding: 15px;
+  background: #fff;
+  -webkit-box-shadow: 0px -4px 5px 0px rgba(219, 219, 219, 1);
+  -moz-box-shadow: 0px -4px 5px 0px rgba(219, 219, 219, 1);
+  box-shadow: 0px -4px 5px 0px rgba(219, 219, 219, 1);
+  bottom: 0;
+  right: 0;
+  width: calc(100% - 230px);
+
+  .form-group {
+    margin-bottom: 0;
+
+    .btn {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+}

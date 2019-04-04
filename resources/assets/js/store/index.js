@@ -5,6 +5,7 @@ import {FaqModule} from './modules';
 import post from './modules/post.module';
 import user from './modules/user.module';
 import client from './modules/client.module';
+import meta from './modules/meta.module'
 
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ export function createStore() {
             faq: FaqModule,
             post,
             user,
-            client
+            client,
+            meta
         }
     });
 }

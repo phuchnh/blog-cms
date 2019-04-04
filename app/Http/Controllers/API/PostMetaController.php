@@ -30,8 +30,8 @@ class PostMetaController extends ApiBaseController
      */
     public function store(CreatePostMetaRequest $request, Post $post)
     {
-        $postMeta = $post->postMeta()->create($request->validated());
-
+        $postMeta = $post->postMeta()->createMany($request->validated());
+        dd($postMeta);
         return $this->created($postMeta);
     }
 

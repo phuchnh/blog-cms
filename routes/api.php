@@ -21,4 +21,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('faqs', 'FaqController');
     Route::apiResource('users', 'UserController', ['except' => ['store']]);
     Route::apiResource('clients', 'ClientController');
+    Route::apiResource('posts.post_meta', 'PostMetaController')->parameters([
+        'meta' => 'post_meta'
+    ]);
 });
