@@ -117,8 +117,7 @@
     },
     props: {
       type: String,
-      formAction:
-      String,
+      formAction: String,
     },
     mounted () {
       if (this.formAction === 'edit') {

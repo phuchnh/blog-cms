@@ -4,12 +4,10 @@ import { createRouter } from './router'
 import { createStore } from './store'
 import Antd from 'ant-design-vue'
 import { ApiService } from './api'
-import CKEditor from '@ckeditor/ckeditor5-vue'
 import VeeValidate from 'vee-validate'
 
 Vue.config.productionTip = false
 Vue.use(Antd)
-Vue.use(CKEditor)
 Vue.use(VeeValidate, { locale: 'vi' })
 ApiService.init()
 
