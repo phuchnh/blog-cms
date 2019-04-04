@@ -1,36 +1,108 @@
-import { FaqService } from '@/api';
+import { FaqService } from '@/api'
 
 const state = () => {
-    return {
-        data: [],
-        pagination: {},
-        errors: []
-    };
-};
+  return {
+    list: [],
+    item: {},
+    paginator: {},
+    errors: [],
+  }
+}
 const getters = {
-    getFaqList: state => {
-        return state.faqs;
-    }
-};
+  getAll: state => {
+    return state.list
+  },
+  getItem: state => {
+    return state.item
+  },
+  getPaginator: state => {
+    return state.paginator
+  },
+}
 
 const actions = {
-    fetchFaqList: ({ commit }, payload) => {
-        console.log(payload);
-        return FaqService.fetchList().then(response => {
-            const data = response.data.data;
-            commit('SET_FAQ', data);
-        });
-    }
-};
+  /**
+   *
+   * @param commit
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async fetchList ({ commit }, payload) {
+    const resp = await FaqService.getAll(payload)
+    const { data } = resp.data
+    const { pagination } = resp.data
+    commit('SET_LIST', data)
+    commit('SET_PAGINATOR', {
+      total: pagination.total,
+      pageSize: pagination.perPage,
+    })
+    return resp
+  },
+  /**
+   *
+   * @param commit
+   * @param id
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async fetchItem ({ commit }, id, payload) {
+    const resp = await FaqService.getById(id, payload)
+    const { data } = resp.data
+    commit('SET_ITEM', data)
+    return resp
+  },
 
+  /**
+   *
+   * @param commit
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async create ({ commit }, payload) {
+    const resp = await FaqService.create(payload)
+    const { data } = resp.data
+    commit('SET_ITEM', data)
+    return resp
+  },
+
+  /**
+   *
+   * @param commit
+   * @param id
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async update ({ commit }, id, payload) {
+    const resp = await FaqService.update(id, payload)
+    const { data } = resp.data
+    commit('SET_ITEM', data)
+    return resp
+  },
+
+  /**
+   *
+   * @param commit
+   * @param id
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async delete ({ commit }, id, payload) {
+    const resp = await FaqService.delete(id, payload)
+    const { data } = resp.data
+    commit('SET_ITEM', data)
+    return resp
+  },
+}
 const mutations = {
-    SET_FAQ: (state, payload) => {
-        state.data = [...payload];
-    },
-    UPDATE_ERROR: (state, error) => {
-        state.currentUser = {};
-        state.errors.push(error);
-    }
-};
+  SET_LIST: (state, data) => {
+    state.list = [...data]
+  },
+  SET_PAGINATOR: (state, paginator) => {
+    state.paginator = { ...paginator }
+  },
+  SET_ITEM: (state, item) => {
+    state.item = { ...item }
+  },
+}
 
-export const FaqModule = { namespaced: true, state, getters, mutations, actions };
+export const FaqModule = { namespaced: true, state, getters, mutations, actions }
