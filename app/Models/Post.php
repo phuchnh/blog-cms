@@ -60,6 +60,7 @@ class Post extends Model implements HasMedia
         'content',
         'publish',
         'slug',
+        'type',
     ];
 
     /**
@@ -67,9 +68,7 @@ class Post extends Model implements HasMedia
      *
      * @var array
      */
-    protected $attributes = [
-        'type' => 'post',
-    ];
+    protected $attributes = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -92,6 +91,7 @@ class Post extends Model implements HasMedia
      */
     public static $rules = [
         'title'       => 'required|string',
+        'type'        => 'required|string',
         'description' => 'nullable|string',
         'content'     => 'nullable|string',
         'slug'        => 'nullable|string',

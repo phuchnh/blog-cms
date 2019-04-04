@@ -18,6 +18,7 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
+        $data = $post->postMeta;
         return $this->ok($post->postMeta);
     }
 
@@ -31,7 +32,6 @@ class PostMetaController extends ApiBaseController
     public function store(CreatePostMetaRequest $request, Post $post)
     {
         $postMeta = $post->postMeta()->createMany($request->validated());
-        dd($postMeta);
         return $this->created($postMeta);
     }
 

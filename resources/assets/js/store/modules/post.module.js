@@ -1,6 +1,8 @@
 import { ApiService } from '../../api'
+import moment from 'moment'
 
 export const namespaced = true
+
 const initialState = {
   posts: [],
   post: {},
@@ -27,8 +29,10 @@ const actions = {
   getPost ({ commit }, id) {
     return ApiService.get(`/posts/${ id }`).then(res => {
       commit('setPost', res.data.data)
+      commit('setPostMeta', res.data.data.post_meta)
     })
   },
+
   deletePost ({ commit }, id) {
     console.log(id)
     return ApiService.delete(`posts/${ id }`).then(() => {
@@ -36,39 +40,21 @@ const actions = {
     })
   },
   updatePost ({ commit }, payload) {
-    console.log(payload)
-    return ApiService.put(`/posts/${ payload.id }`, payload)
+    let input = _.omit(payload, ['meta', 'media', 'thumbnail'])
+    return ApiService.put(`/posts/${ payload.id }`, input)
   },
   createPost ({ dispatch, commit }, payload) {
     let input = _.omit(payload, ['meta'])
 
     return ApiService.post('/posts', input).then((res) => {
-      if (res.data.status === 201 && res.data.success === true) {
-        commit('setPost', res.data.data)
+        if (res.data.status === 201 && res.data.success === true) {
+          commit('setPost', res.data.data)
 
-        let meta = [
-          {
-            post_id: res.data.data.id,
-            meta_key: 'title',
-            meta_value: payload.meta.title
-          }
-        ]
-
-        meta.push({
-          post_id: res.data.data.id,
-          meta_key: 'keywords',
-          meta_value: payload.meta.keywords,
-        })
-
-        meta.push({
-          post_id: res.data.data.id,
-          meta_key: 'description',
-          meta_value: payload.meta.description,
-        })
-
-        dispatch('meta/createMeta', { data: meta, post_id: res.data.data.id }, { root: true })
-      }
-    })
+          // insert to meta table
+          dispatch('meta/createMeta', { data: payload.meta, post_id: res.data.data.id }, { root: true })
+        }
+      },
+    )
   },
   resetState ({ commit }) {
     commit('resetState')
@@ -84,6 +70,16 @@ const mutations = {
   },
   setPost (state, post) {
     state.post = post
+  },
+  setPostMeta (state, post_meta) {
+    _.each(post_meta, (item) => {
+      if (item.meta_key === 'event_date') {
+        state.post = { ...state.post, date: moment(item.meta_value) }
+      }
+      if (item.meta_key === 'event_location') {
+        state.post = { ...state.post, location: item.meta_value }
+      }
+    })
   },
   deletePost (state, id) {
     state.posts = _.filter(state.posts, (item) => {

@@ -5,10 +5,22 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreatePostRequest;
 use App\Http\Requests\API\UpdatePostRequest;
 use App\Models\Post;
+use App\Models\PostMeta;
+use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
 class PostController extends ApiBaseController
 {
+    /**
+     * @var PostTransformer
+     */
+    private $postTransformer;
+
+    public function __construct(PostTransformer $postTransformer)
+    {
+        $this->postTransformer = $postTransformer;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +30,7 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        return $this->ok($posts->with('media')
+        return $this->ok($posts->with(['media', 'postMeta'])
                                ->when($request->input('type'), function ($query) use ($request) {
                                    /**@var \Illuminate\Database\Eloquent\Builder $query */
                                    return $query->where('type', $request->input('type'));
@@ -40,7 +52,8 @@ class PostController extends ApiBaseController
         } else {
             $post->thumbnail = null;
         }
-        return $this->ok($post->load('media'));
+
+        return $this->ok((new PostTransformer)->transformWithMeta($post->load('media', 'postMeta')));
     }
 
     /**
@@ -61,6 +74,24 @@ class PostController extends ApiBaseController
                  ->usingFileName($fileName)
                  ->withCustomProperties(['thumbnail'])
                  ->toMediaCollection('thumbnail');
+        }
+
+        if ($request->get('date')) {
+            $data = [];
+            $data['meta_key'] = 'event_date';
+            $data['meta_value'] = $request->get('date');
+            $postMeta = new PostMeta();
+            $postMeta->fill($data);
+            $post->postMeta()->save($postMeta);
+        }
+
+        if ($request->get('location')) {
+            $data = [];
+            $data['meta_key'] = 'event_location';
+            $data['meta_value'] = $request->get('location');
+            $postMeta = new PostMeta();
+            $postMeta->fill($data);
+            $post->postMeta()->save($postMeta);
         }
 
         // request meta data
@@ -91,6 +122,12 @@ class PostController extends ApiBaseController
                  ->withCustomProperties(['thumbnail'])
                  ->toMediaCollection();
         }
+        $postMetaDate = $post->postMeta()->where('meta_key', 'event_date')->first();
+        $postMetaDate->meta_value = $request->get('date');
+        $postMetaDate->save();
+        $postMetaLocation = $post->postMeta()->where('meta_key', 'event_location')->first();
+        $postMetaLocation->meta_value = $request->get('location');
+        $postMetaLocation->save();
 
         return $this->noContent();
     }

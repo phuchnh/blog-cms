@@ -36,7 +36,7 @@
     props: ['metaData'],
     data () {
       return {
-        item: {},
+        item: this.metaData.meta ? this.metaData.meta : {},
       }
     },
     watch: {
@@ -48,6 +48,9 @@
         this.metaData.meta = val
 
         this.$emit('item', this.metaData)
+      },
+      metaData (val) {
+        this.item = val.meta ? val.meta : {}
       },
     },
   }

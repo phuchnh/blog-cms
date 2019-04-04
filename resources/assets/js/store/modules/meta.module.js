@@ -1,4 +1,5 @@
 import { ApiService } from '../../api'
+import { Helper } from '../../util/helper'
 
 export const namespaced = true
 
@@ -25,12 +26,24 @@ const actions = {
       commit('deleteMeta', id)
     })
   },
+  /**
+   * update meta data
+   * @param commit
+   * @param payload
+   * @returns {*}
+   */
   updateMeta ({ commit }, payload) {
     return ApiService.put(`/meta/${ payload.id }`, payload)
   },
+  /**
+   * create new meta data
+   * @param commit
+   * @param payload
+   */
   createMeta ({ commit }, payload) {
-    console.log(payload)
-    ApiService.post(`/posts/${payload.post_id}/post_meta`, payload.data).then((res) => {
+    let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
+
+    ApiService.post(`/posts/${ payload.post_id }/post_meta`, inputMeta).then((res) => {
       console.log(res)
       commit('setMeta', res.data.data)
     })

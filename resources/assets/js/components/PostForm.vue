@@ -6,6 +6,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">General Informaion</h3>
         </div>
+
         <div class="box-body">
           <div class="form-group" :class="{ 'has-error': errors.first('title') }">
             <label for="title" class="col-sm-2 control-label">Title <span class="required">*</span></label>
@@ -16,6 +17,7 @@
               </div>
             </div>
           </div>
+
           <div class="form-group" v-if="formAction === 'edit'">
             <label for="slug" class="col-sm-2 control-label">Slug</label>
             <div class="col-sm-8">
@@ -23,38 +25,63 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
+            <label class="col-sm-2 control-label">Event</label>
             <div class="col-sm-8">
-                    <span class="btn btn-default btn-sm btn-file">
-                        <i class="fa fa-upload"></i> Upload
-                        <input type="file" class="form-control"
-                               id="thumbnail"
-                               name="thumbnail"
-                               accept="image/*"
-                               @change="onFileChange($event)"/>
-                    </span>
-              <div>
-                <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
-                     v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+              <a-date-picker
+                  showTime
+                  format="YYYY-MM-DD HH:mm:ss"
+                  placeholder="Select Time"
+                  v-model="post.date"
+              />
+            </div>
+          </div>
+
+          <div class="form-group" :class="{ 'has-error': errors.first('location') }">
+            <label for="location" class="col-sm-2 control-label">Location <span class="required">*</span></label>
+            <div class="col-sm-8">
+              <input v-validate="'required'" class="form-control" id="location" name="location"
+                     v-model="post.location"/>
+              <div class="help-block" v-if="errors.first('location')">
+                <span>{{ errors.first('location') }}</span>
               </div>
             </div>
           </div>
-          <div class="form-group" :class="{ 'has-error': errors.first('description') }">
-            <label for="description" class="col-sm-2 control-label">Description <span class="required">*</span></label>
+
+          <div class="form-group">
+            <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
             <div class="col-sm-8">
-          <textarea v-validate="'required'" class="form-control" name="description" id="description"
-                    v-model="post.description" rows="3"></textarea>
+                <span class="btn btn-default btn-sm btn-file">
+                    <i class="fa fa-upload"></i> Upload
+                    <input type="file" class="form-control"
+                           id="thumbnail"
+                           name="thumbnail"
+                           accept="image/*"
+                           @change="onFileChange($event)"/>
+                </span>
+              <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
+                   v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+            </div>
+          </div>
+
+          <div class="form-group" :class="{ 'has-error': errors.first('description') }">
+            <label for="description" class="col-sm-2 control-label">Description <span
+                class="required">*</span></label>
+            <div class="col-sm-8">
+              <textarea v-validate="'required'" class="form-control" name="description" id="description"
+                        v-model="post.description" rows="3"></textarea>
               <div class="help-block" v-if="errors.first('description')">
                 <span>{{ errors.first('description') }}</span>
               </div>
             </div>
           </div>
+
           <div class="form-group">
             <label class="col-sm-2 control-label">Content</label>
             <div class="col-sm-8">
               <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
             </div>
           </div>
+
           <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
             <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
             <div class="col-sm-3">
@@ -119,7 +146,6 @@
               return 'application/json'
             },
             buildData: function (data) {
-              console.log(data)
               return { hello: 'Hello world' }
             },
           },
