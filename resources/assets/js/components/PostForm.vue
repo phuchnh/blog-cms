@@ -16,17 +16,22 @@
           <input class="form-control" id="slug" name="slug" v-model="post.slug"/>
         </div>
       </div>
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Event</label>
-        <div class="col-sm-8">
-          <a-date-picker
-                  showTime
-                  format="YYYY-MM-DD HH:mm:ss"
-                  placeholder="Select Time"
-                  v-model="post.date"
-          />
+      <ValidationProvider name="date" rules="required" ref="datepicker" v-slot="{ validate, errors }">
+        <div class="form-group" :class="{ 'has-error': errors[0] }">
+          <label class="col-sm-2 control-label">Date <span class="required">*</span></label>
+          <div class="col-sm-8">
+            <a-date-picker
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="Select Time"
+                v-model="post.date"
+            />
+            <div class="help-block" v-if="errors">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </div>
         </div>
-      </div>
+      </ValidationProvider>
       <div class="form-group" :class="{ 'has-error': errors.first('location') }">
         <label for="location" class="col-sm-2 control-label">Location <span class="required">*</span></label>
         <div class="col-sm-8">
@@ -36,23 +41,28 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="thumbnail" class="col-sm-2 control-label">Thumbnail</label>
-        <div class="col-sm-8">
-                    <span class="btn btn-default btn-sm btn-file">
-                        <i class="fa fa-upload"></i> Upload
-                        <input type="file" class="form-control"
-                               id="thumbnail"
-                               name="thumbnail"
-                               accept="image/*"
-                               @change="onFileChange($event)"/>
-                    </span>
-          <div>
-            <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
-                 v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+      <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
+        <div class="form-group" :class="{ 'has-error': errors[0] }">
+          <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
+          <div class="col-sm-8">
+            <span class="btn btn-default btn-sm btn-file">
+                <i class="fa fa-upload"></i> Upload
+                <input type="file" class="form-control"
+                       id="thumbnail"
+                       name="thumbnail"
+                       accept="image/*"
+                       @change="onFileChange($event) || validate($event)"/>
+            </span>
+            <div>
+              <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
+                   v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+            </div>
+            <div class="help-block" v-if="errors">
+              <span>{{ errors[0] }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </ValidationProvider>
       <div class="form-group" :class="{ 'has-error': errors.first('description') }">
         <label for="description" class="col-sm-2 control-label">Description <span class="required">*</span></label>
         <div class="col-sm-8">
@@ -63,12 +73,17 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Content</label>
-        <div class="col-sm-8">
-          <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
+      <ValidationProvider name="editor" rules="required" ref="editor" v-slot="{ validate, errors }">
+        <div class="form-group" :class="{ 'has-error': errors[0] }">
+          <label class="col-sm-2 control-label">Content</label>
+          <div class="col-sm-8">
+            <jodit-vue @input="validate" name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
+            <div class="help-block" v-if="errors">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </div>
         </div>
-      </div>
+      </ValidationProvider>
       <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
         <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
         <div class="col-sm-3">
@@ -94,14 +109,14 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import moment from 'moment'
   // Jodit
   import JoditVue from 'jodit-vue'
   import 'jodit/build/jodit.min.css'
+  import { ValidationProvider } from 'vee-validate';
 
   export default {
     name: 'PostForm',
-    components: { JoditVue },
+    components: { JoditVue, ValidationProvider },
     data () {
       return {
         postStatus: [
@@ -159,8 +174,13 @@
     methods: {
       submit () {
         this.post.type = this.type
+        this.$refs.editor.validate()
+        this.$refs.datepicker.validate()
+        if (!this.post.thumbnail) {
+          this.$refs.thumbnail.validate()
+        }
         this.$validator.validateAll().then((result) => {
-          if (result) {
+          if (result && this.$refs.datepicker.flags.valid && this.$refs.editor.flags.valid && this.post.thumbnail) {
             if (this.formAction === 'edit') {
               this.$store.dispatch('post/updatePost', this.post).then(() => {
                 this.$store.dispatch('post/savedPost', true)

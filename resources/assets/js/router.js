@@ -15,6 +15,9 @@ import BlogDetail from '@/view/BlogDetail'
 import ClientList from '@/view/ClientList'
 import ClientDetail from '@/view/ClientDetail'
 import ClientNew from '@/view/ClientNew'
+import GuideList from '@/view/GuideList'
+import GuideDetail from '@/view/GuideDetail'
+import GuideNew from '@/view/GuideNew'
 
 Vue.use(Router)
 
@@ -148,6 +151,34 @@ export function createRouter () {
             component: ClientDetail,
             meta: {
               title: 'ClientDetail',
+              description: '',
+            },
+          },
+
+          {
+            path: 'guides/new',
+            name: 'guideNew',
+            component: GuideNew,
+            meta: {
+              title: 'GuideNew',
+              description: '',
+            },
+          },
+          {
+            path: 'guides',
+            name: 'guideList',
+            component: GuideList,
+            meta: {
+              title: 'GuideList',
+              description: '',
+            },
+          },
+          {
+            path: 'guides/:id',
+            name: 'guideDetail',
+            component: GuideDetail,
+            meta: {
+              title: 'GuideDetail',
               description: '',
             },
           },
