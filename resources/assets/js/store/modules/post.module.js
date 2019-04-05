@@ -29,10 +29,8 @@ const actions = {
   getPost ({ commit }, id) {
     return ApiService.get(`/posts/${ id }`).then(res => {
       commit('setPost', res.data.data)
-      commit('setPostMeta', res.data.data.post_meta)
     })
   },
-
   deletePost ({ commit }, id) {
     return ApiService.delete(`posts/${ id }`).then(() => {
       commit('deletePost', id)
@@ -66,16 +64,6 @@ const mutations = {
   },
   setPost (state, post) {
     state.post = post
-  },
-  setPostMeta (state, post_meta) {
-    _.each(post_meta, (item) => {
-      if (item.meta_key === 'event_date') {
-        state.post = { ...state.post, date: moment(item.meta_value) }
-      }
-      if (item.meta_key === 'event_location') {
-        state.post = { ...state.post, location: item.meta_value }
-      }
-    })
   },
   deletePost (state, id) {
     state.posts = _.filter(state.posts, (item) => {

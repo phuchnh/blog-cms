@@ -76,24 +76,6 @@ class PostController extends ApiBaseController
                  ->toMediaCollection('thumbnail');
         }
 
-        if ($request->get('date')) {
-            $data = [];
-            $data['meta_key'] = 'event_date';
-            $data['meta_value'] = $request->get('date');
-            $postMeta = new PostMeta();
-            $postMeta->fill($data);
-            $post->postMeta()->save($postMeta);
-        }
-
-        if ($request->get('location')) {
-            $data = [];
-            $data['meta_key'] = 'event_location';
-            $data['meta_value'] = $request->get('location');
-            $postMeta = new PostMeta();
-            $postMeta->fill($data);
-            $post->postMeta()->save($postMeta);
-        }
-
         // request meta data
         // save
 
@@ -122,12 +104,6 @@ class PostController extends ApiBaseController
                  ->withCustomProperties(['thumbnail'])
                  ->toMediaCollection();
         }
-        $postMetaDate = $post->postMeta()->where('meta_key', 'event_date')->first();
-        $postMetaDate->meta_value = $request->get('date');
-        $postMetaDate->save();
-        $postMetaLocation = $post->postMeta()->where('meta_key', 'event_location')->first();
-        $postMetaLocation->meta_value = $request->get('location');
-        $postMetaLocation->save();
 
         return $this->noContent();
     }

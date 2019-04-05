@@ -6,8 +6,8 @@
         <div class="box-header with-border">
           <h3 class="box-title">General Informaion</h3>
         </div>
-
         <div class="box-body">
+
           <div class="form-group" :class="{ 'has-error': errors.first('title') }">
             <label for="title" class="col-sm-2 control-label">Title <span class="required">*</span></label>
             <div class="col-sm-8">
@@ -24,28 +24,12 @@
               <input class="form-control" id="slug" name="slug" v-model="post.slug"/>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Event</label>
-            <div class="col-sm-8">
-              <a-date-picker
-                  showTime
-                  format="YYYY-MM-DD HH:mm:ss"
-                  placeholder="Select Time"
-                  v-model="post.date"
-              />
-            </div>
-          </div>
 
-          <div class="form-group" :class="{ 'has-error': errors.first('location') }">
-            <label for="location" class="col-sm-2 control-label">Location <span class="required">*</span></label>
-            <div class="col-sm-8">
-              <input v-validate="'required'" class="form-control" id="location" name="location"
-                     v-model="post.location"/>
-              <div class="help-block" v-if="errors.first('location')">
-                <span>{{ errors.first('location') }}</span>
-              </div>
-            </div>
-          </div>
+          <!-- Add Date Picker -->
+          <post-date-form :metaData.sync="post"></post-date-form>
+
+          <!-- Add Location -->
+          <post-location-form :metaData.sync="post"></post-location-form>
 
           <div class="form-group">
             <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
@@ -123,12 +107,14 @@
   import JoditVue from 'jodit-vue'
   import 'jodit/build/jodit.min.css'
 
-  // load Meta Componet
+  // load Meta Component
   import PostMetaForm from './PostMetaForm'
+  import PostDateForm from './PostDateForm'
+  import PostLocationForm from './PostLocationForm'
 
   export default {
     name: 'PostForm',
-    components: { JoditVue, PostMetaForm },
+    components: { PostLocationForm, PostDateForm, JoditVue, PostMetaForm },
     data () {
       return {
         postStatus: [
@@ -204,7 +190,7 @@
               this.$store.dispatch('post/createPost', this.post).then(() => {
                 this.$store.dispatch('post/savedPost', true)
                 this.$message.success('Create successfully')
-                // this.$emit('routeToList')
+                this.$emit('routeToList')
               }).catch((error) => {
                 console.log(error)
                 this.$message.error('Error')
