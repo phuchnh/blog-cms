@@ -34,7 +34,6 @@ const actions = {
   },
 
   deletePost ({ commit }, id) {
-    console.log(id)
     return ApiService.delete(`posts/${ id }`).then(() => {
       commit('deletePost', id)
     })
@@ -47,14 +46,11 @@ const actions = {
     let input = _.omit(payload, ['meta'])
 
     return ApiService.post('/posts', input).then((res) => {
-        if (res.data.status === 201 && res.data.success === true) {
-          commit('setPost', res.data.data)
+      commit('setPost', res.data.data)
 
-          // insert to meta table
-          dispatch('meta/createMeta', { data: payload.meta, post_id: res.data.data.id }, { root: true })
-        }
-      },
-    )
+      // insert to meta table
+      dispatch('meta/createMeta', { data: payload.meta, post_id: res.data.data.id }, { root: true })
+    })
   },
   resetState ({ commit }) {
     commit('resetState')

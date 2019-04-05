@@ -1,3 +1,9 @@
+/**
+ * filter array to insert data in Meta table
+ * @param inputArray
+ * @param postId
+ * @returns {Array}
+ */
 const filterInputMeta = (inputArray, postId) => {
   let ArrayData = []
 

@@ -41,10 +41,10 @@ const actions = {
    * @param payload
    */
   createMeta ({ commit }, payload) {
+    // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
 
     ApiService.post(`/posts/${ payload.post_id }/post_meta`, inputMeta).then((res) => {
-      console.log(res)
       commit('setMeta', res.data.data)
     })
   },
