@@ -1,5 +1,8 @@
 <template>
   <div class="box box-widget">
+    <div class="box-header">
+      <router-link :to="{name: 'faqNew'}" class="btn btn-success"><i class="fa fa-plus"></i> New</router-link>
+    </div>
     <!-- /.box-box-body -->
     <div class="box-body">
       <a-table
@@ -47,9 +50,27 @@
       }),
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchList').then(() => next(vm => {
-        vm.loading = false
-      }))
+      store.dispatch('faq/fetchList', {
+        sort: 'updated_at',
+        direction: 'desc',
+        page: 1,
+        perPage: 10,
+        only: 'id,slug,title,description',
+      }).then(
+        () => next(
+          vm => {
+            vm.loading = false
+          }),
+      )
+    },
+    beforeRouteUpdate (to, from, next) {
+      this.loading = true
+      store.dispatch('faq/fetchItem', to.params.id).then(
+        () => {
+          this.loading = false
+          next()
+        },
+      )
     },
     methods: {
       ...mapActions('faq', [
@@ -61,10 +82,11 @@
       change (pagination, filters, sorter) {
         this.loading = true
         let params = {
-          sort: sorter.field || 'id',
+          sort: sorter.field || 'updated_at',
           direction: this.sort[sorter.order] || 'desc',
           page: pagination.current,
           perPage: pagination.pageSize,
+          only: 'id,slug,title,description',
         }
         this.fetchList(params).then(
           () => this.loading = false,

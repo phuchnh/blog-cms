@@ -4,7 +4,7 @@
       <div class="box box-widget">
         <!-- /.box-box-body -->
         <div class="box-body">
-          <FaqForm formAction="edit"></FaqForm>
+          <FaqForm formAction="new"></FaqForm>
         </div>
       </div>
     </div>
@@ -26,25 +26,21 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapMutations } from 'vuex'
   import FaqForm from '@/components/FaqForm'
-  import store from '@/store'
 
   export default {
-    name: 'FaqDetail',
+    name: 'FaqNew',
     components: {
       FaqForm,
     },
-    computed: {
-      ...mapGetters('faq', {
-        faq: 'getItem',
+    mounted () {
+      this.resetForm()
+    },
+    methods: {
+      ...mapMutations('faq', {
+        resetForm: 'RESET_ITEM',
       }),
-    },
-    beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchItem', to.params.id).then(() => next())
-    },
-    beforeRouteUpdate (to, from, next) {
-      store.dispatch('faq/fetchItem', to.params.id).then(() => next())
     },
   }
 </script>

@@ -15,7 +15,8 @@ import BlogDetail from '@/view/BlogDetail'
 import ClientList from '@/view/ClientList'
 import ClientDetail from '@/view/ClientDetail'
 import ClientNew from '@/view/ClientNew'
-import FaqDetail from './view/FaqDetail'
+import FaqDetail from '@/view/FaqDetail'
+import FaqNew from '@/view/FaqNew'
 
 Vue.use(Router)
 
@@ -40,7 +41,7 @@ export default new Router({
           },
         },
         {
-          path: 'faq',
+          path: 'faqs',
           name: 'faqList',
           component: FaqList,
           meta: {
@@ -49,7 +50,16 @@ export default new Router({
           },
         },
         {
-          path: 'faq/:id',
+          path: 'faqs/new',
+          name: 'faqNew',
+          component: FaqNew,
+          meta: {
+            title: 'FaqNew',
+            description: 'Add new',
+          },
+        },
+        {
+          path: 'faqs/:id',
           name: 'faqDetail',
           component: FaqDetail,
           meta: {

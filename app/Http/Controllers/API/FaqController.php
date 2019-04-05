@@ -23,7 +23,7 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
-        $paginator = $request->get('perPage') ?: 5;
+        $paginator = $request->get('perPage');
         $data = $faq->with('media')
                     ->sortable([$request->get('sort') => $request->get('direction')])
                     ->paginate($paginator);

@@ -28,9 +28,6 @@ axiosInstance.interceptors.request.use(
 )
 
 export const ApiService = {
-  init: () => {
-    axios.defaults.baseURL = '/api'
-  },
 
   get (url, params = {}) {
     return axiosInstance.get(`${ url }`, { params })

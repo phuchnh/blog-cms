@@ -1,5 +1,5 @@
 <template>
-  <form role="form">
+  <form role="form" @submit.prevent="onSubmit">
     <div class="form-group">
       <label for="title">title</label>
       <input type="text" class="form-control" id="title" placeholder="title" v-model="faq.title">
@@ -13,24 +13,52 @@
       <input type="text" class="form-control" id="slug" placeholder="slug" v-model="faq.slug">
     </div>
     <div class="form-group">
-      <label for="content">content</label>
-      <input type="text" class="form-control" id="content" placeholder="content" v-model="faq.content">
+      <label>content</label>
+      <jodit-vue name="content" v-model="faq.content"/>
     </div>
     <div class="form-group">
-      <button class="btn btn-primary">Save</button>
+      <button class="btn btn-primary" type="submit">Save</button>
+      <button class="btn btn-default" type="button" @click.prevent="backToList">Cancel</button>
     </div>
   </form>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
+  import Vue from 'vue'
+  import JoditVue from 'jodit-vue'
+
+  Vue.use(JoditVue)
 
   export default {
     name: 'FaqForm',
+    components: { JoditVue },
+    props: {
+      formAction: {
+        type: String,
+        default: 'new',
+      },
+    },
     computed: {
       ...mapGetters('faq', {
         faq: 'getItem',
       }),
+    },
+    methods: {
+      ...mapActions('faq', [
+        'update',
+        'create',
+      ]),
+      onSubmit () {
+        if (this.formAction === 'new') {
+          this.create(this.faq).then(() => this.backToList())
+        } else {
+          this.update(this.faq).then(() => this.backToList())
+        }
+      },
+      backToList () {
+        this.$router.push({ name: 'faqList' })
+      },
     },
   }
 </script>

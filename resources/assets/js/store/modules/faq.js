@@ -72,10 +72,9 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async update ({ commit }, id, payload) {
-    const resp = await FaqService.update(id, payload)
-    const { data } = resp.data
-    commit('SET_ITEM', data)
+  async update ({ commit }, payload) {
+    const resp = await FaqService.update(payload.id, payload)
+    commit('SET_ITEM', payload)
     return resp
   },
 
@@ -102,6 +101,9 @@ const mutations = {
   },
   SET_ITEM: (state, item) => {
     state.item = { ...item }
+  },
+  RESET_ITEM: (state) => {
+    state.item = {}
   },
 }
 

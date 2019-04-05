@@ -4,13 +4,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Antd from 'ant-design-vue'
-import { ApiService } from './api'
 import VeeValidate from 'vee-validate'
 
 Vue.config.productionTip = false
 Vue.use(Antd)
 Vue.use(VeeValidate, { locale: 'vi' })
-ApiService.init()
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiredAuth)) {
