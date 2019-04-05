@@ -23,9 +23,9 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
-        $paginator = $request->get('perPage') ?: 5;
+        $paginator = $request->get('perPage');
         $data = $faq->with('media')
-                    ->sortable([$request->get('sortField') => $request->get('sortOrder')])
+                    ->sortable([$request->get('sort') => $request->get('direction')])
                     ->paginate($paginator);
         return $this->ok($data);
     }
@@ -47,6 +47,8 @@ class FaqController extends ApiBaseController
      *
      * @param \App\Http\Requests\API\CreateFaqRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
     public function store(CreateFaqRequest $request)
     {

@@ -15,154 +15,171 @@ import BlogDetail from '@/view/BlogDetail'
 import ClientList from '@/view/ClientList'
 import ClientDetail from '@/view/ClientDetail'
 import ClientNew from '@/view/ClientNew'
+import FaqDetail from '@/view/FaqDetail'
+import FaqNew from '@/view/FaqNew'
 
 Vue.use(Router)
 
-export function createRouter () {
-  return new Router({
-    base: __dirname,
-    mode: 'history',
-    routes: [
-      {
-        path: '/admin',
-        name: 'admin',
-        component: Admin,
-        meta: { requiredAuth: true },
-        redirect: { name: 'dashboard' },
-        children: [
-          {
-            path: 'dashboard',
-            name: 'dashboard',
-            component: Dashboard,
-            meta: {
-              title: 'Dashboard',
-              description: '',
-            },
+export default new Router({
+  base: __dirname,
+  mode: 'history',
+  routes: [
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      meta: { requiredAuth: true },
+      redirect: { name: 'dashboard' },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: Dashboard,
+          meta: {
+            title: 'Dashboard',
+            description: '',
           },
-          {
-            path: 'faq',
-            name: 'faqList',
-            component: FaqList,
-            meta: {
-              title: 'FaqList',
-              description: '',
-            },
+        },
+        {
+          path: 'faqs',
+          name: 'faqList',
+          component: FaqList,
+          meta: {
+            title: 'FaqList',
+            description: '',
           },
+        },
+        {
+          path: 'faqs/new',
+          name: 'faqNew',
+          component: FaqNew,
+          meta: {
+            title: 'FaqNew',
+            description: 'Add new',
+          },
+        },
+        {
+          path: 'faqs/:id',
+          name: 'faqDetail',
+          component: FaqDetail,
+          meta: {
+            title: 'FaqDetail',
+            description: '',
+          },
+        },
+        {
+          path: 'users',
+          name: 'userList',
+          component: UserList,
+          meta: {
+            title: 'UserList',
+            description: '',
+          },
+        },
+        {
+          path: 'users/:id',
+          name: 'userDetail',
+          component: UserDetail,
+          meta: {
+            title: 'UserDetail',
+            description: '',
+          },
+        },
 
-          {
-            path: 'users',
-            name: 'userList',
-            component: UserList,
-            meta: {
-              title: 'UserList',
-              description: '',
-            },
+        {
+          path: 'in-the-press/new',
+          name: 'inThePressNew',
+          component: InThePressNew,
+          meta: {
+            title: 'InThePressNew',
+            description: '',
           },
-          {
-            path: 'users/:id',
-            name: 'userDetail',
-            component: UserDetail,
-            meta: {
-              title: 'UserDetail',
-              description: '',
-            },
+        },
+        {
+          path: 'in-the-press',
+          name: 'inThePressList',
+          component: InThePressList,
+          meta: {
+            title: 'InThePressList',
+            description: '',
           },
+        },
+        {
+          path: 'in-the-press/:id',
+          name: 'inThePressDetail',
+          component: InThePressDetail,
+          meta: {
+            title: 'InThePressDetail',
+            description: '',
+          },
+        },
 
-          {
-            path: 'in-the-press/new',
-            name: 'inThePressNew',
-            component: InThePressNew,
-            meta: {
-              title: 'InThePressNew',
-              description: '',
-            },
+        {
+          path: 'blogs',
+          name: 'blogList',
+          component: BlogList,
+          meta: {
+            title: 'BlogList',
+            description: '',
           },
-          {
-            path: 'in-the-press',
-            name: 'inThePressList',
-            component: InThePressList,
-            meta: {
-              title: 'InThePressList',
-              description: '',
-            },
+        },
+        {
+          path: 'blogs/new',
+          name: 'blogNew',
+          component: BlogNew,
+          meta: {
+            title: 'BlogNew',
+            description: '',
           },
-          {
-            path: 'in-the-press/:id',
-            name: 'inThePressDetail',
-            component: InThePressDetail,
-            meta: {
-              title: 'InThePressDetail',
-              description: '',
-            },
+        },
+        {
+          path: 'blogs/:id',
+          name: 'blogDetail',
+          component: BlogDetail,
+          meta: {
+            title: 'BlogDetail',
+            description: '',
           },
+        },
 
-          {
-            path: 'blogs',
-            name: 'blogList',
-            component: BlogList,
-            meta: {
-              title: 'BlogList',
-              description: '',
-            },
+        {
+          path: 'clients',
+          name: 'clientList',
+          component: ClientList,
+          meta: {
+            title: 'ClientList',
+            description: '',
           },
-          {
-            path: 'blogs/new',
-            name: 'blogNew',
-            component: BlogNew,
-            meta: {
-              title: 'BlogNew',
-              description: '',
-            },
+        },
+        {
+          path: 'clients/new',
+          name: 'clientNew',
+          component: ClientNew,
+          meta: {
+            title: 'ClientNew',
+            description: '',
           },
-          {
-            path: 'blogs/:id',
-            name: 'blogDetail',
-            component: BlogDetail,
-            meta: {
-              title: 'BlogDetail',
-              description: '',
-            },
+        },
+        {
+          path: 'clients/:id',
+          name: 'clientDetail',
+          component: ClientDetail,
+          meta: {
+            title: 'ClientDetail',
+            description: '',
           },
+        },
 
-          {
-            path: 'clients',
-            name: 'clientList',
-            component: ClientList,
-            meta: {
-              title: 'ClientList',
-              description: '',
-            },
+        {
+          path: '*',
+          name: 'pageNotFound',
+          component: PageNotFound,
+          meta: {
+            title: 'PageNotFound',
+            description: '',
           },
-          {
-            path: 'clients/new',
-            name: 'clientNew',
-            component: ClientNew,
-            meta: {
-              title: 'ClientNew',
-              description: '',
-            },
-          },
-          {
-            path: 'clients/:id',
-            name: 'clientDetail',
-            component: ClientDetail,
-            meta: {
-              title: 'ClientDetail',
-              description: '',
-            },
-          },
-
-          {
-            path: '*',
-            name: 'pageNotFound',
-            component: PageNotFound,
-            meta: {
-              title: 'PageNotFound',
-              description: '',
-            },
-          },
-        ],
-      },
-    ],
-  })
-}
+        },
+      ],
+    },
+  ],
+})
