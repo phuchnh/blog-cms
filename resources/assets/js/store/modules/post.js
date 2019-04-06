@@ -1,5 +1,4 @@
 import { ApiService } from '../../api'
-import moment from 'moment'
 
 export const namespaced = true
 
@@ -7,6 +6,7 @@ const initialState = {
   posts: [],
   post: {},
   saved: false,
+  paginator: {},
 }
 
 export const state = { ...initialState }
@@ -15,15 +15,20 @@ const getters = {
   post: state => state.post,
   posts: state => state.posts,
   saved: state => state.saved,
+  pagination: state => state.paginator,
 }
 
 const actions = {
-  getPostList ({ commit }, type) {
-    const params = {
-      type: type,
-    }
+  getPostList ({ commit }, params) {
     return ApiService.get('/posts', params).then(res => {
-      commit('setPosts', res.data.data)
+      const pagination = res.data.pagination
+      const posts = res.data.data
+
+      commit('setPosts', posts)
+      commit('setPaginator', {
+        total: pagination.total,
+        pageSize: pagination.perPage,
+      })
     })
   },
   getPost ({ commit }, id) {
@@ -83,6 +88,9 @@ const mutations = {
   },
   savedPost (state, saved) {
     state.saved = saved
+  },
+  setPaginator: (state, paginator) => {
+    state.paginator = { ...paginator }
   },
 }
 

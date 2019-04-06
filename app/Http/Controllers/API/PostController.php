@@ -20,11 +20,18 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        $posts = $posts->when(
-            $request->input('type'), function ($query) use ($request) {
-            /**@var \Illuminate\Database\Eloquent\Builder $query */
-            return $query->where('type', $request->input('type'));
-        })->orderBy('id', 'desc')->get();
+        $paginator = $request->get('perPage');
+
+        $posts = $posts
+            ->when($request->input('type'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                return $query->where('type', $request->input('type'));
+            })->when($request->input('title'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+            })
+            ->sortable([$request->get('sort') => $request->get('direction')])
+            ->orderBy('id', 'desc')->paginate($paginator);
 
         return $this->ok($posts, PostTransformer::class);
     }
