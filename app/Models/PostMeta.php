@@ -20,7 +20,6 @@ class PostMeta extends Model
      */
     public $timestamps = false;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -29,7 +28,7 @@ class PostMeta extends Model
     protected $fillable = [
         'post_id',
         'meta_key',
-        'meta_value'
+        'meta_value',
     ];
 
     /**
@@ -38,7 +37,8 @@ class PostMeta extends Model
      * @var array
      */
     public static $rules = [
-        'meta_key' => 'string',
-        'meta_value' => 'string',
+        '*.post_id'    => 'required|integer',
+        '*.meta_key'   => 'required|string',
+        '*.meta_value' => 'required|string',
     ];
 }

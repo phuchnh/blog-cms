@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="formSection">
         <PostForm ref="postForm" :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
     </div>
 </template>

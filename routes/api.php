@@ -21,4 +21,10 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('faqs', 'FaqController');
     Route::apiResource('users', 'UserController', ['except' => ['store']]);
     Route::apiResource('clients', 'ClientController');
+
+    Route::match(['put', 'patch'], '/meta/{post}/post_meta', 'PostMetaController@updateMany');
+
+    Route::apiResource('posts.post_meta', 'PostMetaController')->parameters([
+        'meta' => 'post_meta'
+    ]);
 });

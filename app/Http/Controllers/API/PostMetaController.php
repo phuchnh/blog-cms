@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreatePostMetaRequest;
 use App\Http\Requests\API\UpdatePostMetaRequest;
+use App\Models\PostMeta;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
@@ -18,8 +19,9 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
-        $data = $post->postMeta;
-        return $this->ok($post->postMeta);
+        $data = $post->meta;
+
+        return $this->ok($post->meta);
     }
 
     /**
@@ -31,7 +33,7 @@ class PostMetaController extends ApiBaseController
      */
     public function store(CreatePostMetaRequest $request, Post $post)
     {
-        $postMeta = $post->postMeta()->create($request->validated());
+        $postMeta = $post->meta()->createMany($request->validated());
 
         return $this->created($postMeta);
     }
@@ -46,7 +48,7 @@ class PostMetaController extends ApiBaseController
      */
     public function show(Request $request, Post $post, $postMeta)
     {
-        $postMeta = $post->postMeta()->findOrFail($postMeta);
+        $postMeta = $post->meta()->findOrFail($postMeta);
 
         return $this->ok($postMeta);
     }
@@ -69,6 +71,24 @@ class PostMetaController extends ApiBaseController
     }
 
     /**
+     * update Many Meta Data
+     *
+     * @param \App\Http\Requests\API\UpdatePostMetaRequest $request
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateMany(UpdatePostMetaRequest $request, Post $post)
+    {
+        $inputArray = $request->validated();
+
+        $post->meta()
+             ->whereIn('meta_key', array_column($inputArray, 'meta_key'))
+             ->saveMany($this->createInstancePostMeta($inputArray));
+
+        return $this->noContent();
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -83,5 +103,20 @@ class PostMetaController extends ApiBaseController
         $postMeta->delete();
 
         return $this->noContent();
+    }
+
+    /**
+     * create Instance PostMeta
+     *
+     * @param $inputArray
+     * @return array
+     */
+    private function createInstancePostMeta($inputArray)
+    {
+        foreach ($inputArray as $input) {
+            $instance[] = new PostMeta($input);
+        }
+
+        return $instance;
     }
 }

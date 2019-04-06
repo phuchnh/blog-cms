@@ -60,6 +60,7 @@ class Post extends Model implements HasMedia
         'content',
         'publish',
         'slug',
+        'type',
     ];
 
     /**
@@ -90,6 +91,7 @@ class Post extends Model implements HasMedia
      */
     public static $rules = [
         'title'       => 'required|string',
+        'type'        => 'required|string',
         'description' => 'nullable|string',
         'content'     => 'nullable|string',
         'slug'        => 'nullable|string',
@@ -101,7 +103,7 @@ class Post extends Model implements HasMedia
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function postMeta()
+    public function meta()
     {
         return $this->hasMany(PostMeta::class, 'post_id');
     }

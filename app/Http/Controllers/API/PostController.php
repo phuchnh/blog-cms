@@ -6,6 +6,7 @@ use App\Http\Requests\API\CreatePostRequest;
 use App\Http\Requests\API\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\PostMeta;
+use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
 class PostController extends ApiBaseController
@@ -19,12 +20,13 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        return $this->ok($posts->with(['media', 'postMeta'])
-                               ->when($request->input('type'), function ($query) use ($request) {
-                                   /**@var \Illuminate\Database\Eloquent\Builder $query */
-                                   return $query->where('type', $request->input('type'));
-                               })
-                               ->orderBy('id', 'desc')->get());
+        $posts = $posts->when(
+            $request->input('type'), function ($query) use ($request) {
+            /**@var \Illuminate\Database\Eloquent\Builder $query */
+            return $query->where('type', $request->input('type'));
+        })->orderBy('id', 'desc')->get();
+
+        return $this->ok($posts, PostTransformer::class);
     }
 
     /**
@@ -36,12 +38,7 @@ class PostController extends ApiBaseController
      */
     public function show(Request $request, Post $post)
     {
-        if ($post->media()->count() > 0) {
-            $post->thumbnail = $post->media()->thumbnailUrl();
-        } else {
-            $post->thumbnail = null;
-        }
-        return $this->ok($post->load('media', 'postMeta'));
+        return $this->ok($post, PostTransformer::class);
     }
 
     /**
@@ -55,34 +52,11 @@ class PostController extends ApiBaseController
     public function store(CreatePostRequest $request)
     {
         $post = Post::create($request->validated());
-        if ($thumbnail = $request->get('thumbnail')) {
-            $fileName = array_get($thumbnail, 'name');
-            $fileContent = array_get($thumbnail, 'body');
-            $post->addMediaFromBase64($fileContent)
-                 ->usingFileName($fileName)
-                 ->withCustomProperties(['thumbnail'])
-                 ->toMediaCollection('thumbnail');
-        }
-        if ($request->get('date')) {
-            $data = [];
-            $data['meta_key'] = 'event_date';
-            $data['meta_value'] = $request->get('date');
-            $postMeta = new PostMeta();
-            $postMeta->fill($data);
-            $post->postMeta()->save($postMeta);
-        }
-        if ($request->get('location')) {
-            $data = [];
-            $data['meta_key'] = 'event_location';
-            $data['meta_value'] = $request->get('location');
-            $postMeta = new PostMeta();
-            $postMeta->fill($data);
-            $post->postMeta()->save($postMeta);
-        }
 
-        // request meta data
+        // update media
+        $post = $this->updateMedia($post, $request);
+
         // save
-
         return $this->created($post);
     }
 
@@ -100,22 +74,10 @@ class PostController extends ApiBaseController
         $post->fill($request->validated());
         $post->save();
 
-        if (is_array($thumbnail = $request->get('thumbnail'))) {
-            $fileName = array_get($thumbnail, 'name');
-            $fileContent = array_get($thumbnail, 'body');
-            $post->addMediaFromBase64($fileContent)
-                 ->usingFileName($fileName)
-                 ->withCustomProperties(['thumbnail'])
-                 ->toMediaCollection();
-        }
-        $postMetaDate = $post->postMeta()->where('meta_key', 'event_date')->first();
-        $postMetaDate->meta_value = $request->get('date');
-        $postMetaDate->save();
-        $postMetaLocation = $post->postMeta()->where('meta_key', 'event_location')->first();
-        $postMetaLocation->meta_value = $request->get('location');
-        $postMetaLocation->save();
+        // update media
+        $post = $this->updateMedia($post, $request);
 
-        return $this->noContent();
+        return $this->ok($post, PostTransformer::class);
     }
 
     /**
@@ -130,5 +92,27 @@ class PostController extends ApiBaseController
         $post->delete();
 
         return $this->noContent();
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @param \Illuminate\Http\Request $request
+     * @return \App\Models\Post
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
+     */
+    private function updateMedia(Post $post, Request $request)
+    {
+        if (is_array($thumbnail = $request->get('thumbnail'))) {
+            $fileName = array_get($thumbnail, 'name');
+            $fileContent = array_get($thumbnail, 'body');
+
+            $post->addMediaFromBase64($fileContent)
+                 ->usingFileName($fileName)
+                 ->withCustomProperties(['thumbnail'])
+                 ->toMediaCollection();
+        }
+
+        return $post;
     }
 }
