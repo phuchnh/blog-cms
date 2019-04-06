@@ -34,14 +34,19 @@
           <div class="form-group">
             <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
             <div class="col-sm-8">
-                <span class="btn btn-default btn-sm btn-file">
-                    <i class="fa fa-upload"></i> Upload
-                    <input type="file" class="form-control"
-                           id="thumbnail"
-                           name="thumbnail"
-                           accept="image/*"
-                           @change="onFileChange($event)"/>
-                </span>
+              <p class="btn btn-default btn-sm btn-file">
+                <i class="fa fa-upload"></i> Upload
+                <input type="file" class="form-control"
+                       id="thumbnail"
+                       name="thumbnail"
+                       accept="image/*"
+                       @change="onFileChange($event)"/>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
               <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
                    v-bind:src="imgUrl ? imgUrl : post.thumbnail">
             </div>

@@ -2,40 +2,66 @@
 
 namespace App\Transformers;
 
-use App\Models\Post;
-use League\Fractal\TransformerAbstract;
+use Flugg\Responder\Transformers\Transformer;
 
-class PostTransformer extends TransformerAbstract
+class PostTransformer extends Transformer
 {
     /**
-     * transform json for meta
+     * List of available relations.
+     *
+     * @var string[]
+     */
+    protected $relations = [];
+
+    /**
+     * List of autoloaded default relations.
+     *
+     * @var array
+     */
+    protected $load = [];
+
+    /**
+     * Transform the model.
      *
      * @param \App\Models\Post $post
      * @return array
      */
-    public function transformWithMeta(Post $post)
+    public function transform(\App\Models\Post $post)
     {
-        // transform meta
-        $postMetaArray = $post->postMeta;
-        if ($postMetaArray) {
-            foreach ($postMetaArray as $postMeta) {
-                $postMetaResult[$postMeta->meta_key] = $postMeta->meta_value;
-            }
+        return array_merge(
+            $post->toArray(),
+            $this->transformMeta($post),
+            $this->transformMedia($post)
+        );
+    }
+
+    /**
+     * Transform meta array to one
+     *
+     * @param \App\Models\Post $post
+     * @return array
+     */
+    private function transformMeta(\App\Models\Post $post)
+    {
+        $postMeta = new PostMetaTransformer();
+
+        return ['meta' => $postMeta->transformArray($post->meta)];
+    }
+
+    /**
+     * transform media thumbnail
+     *
+     * @param \App\Models\Post $post
+     * @return array
+     */
+    private function transformMedia(\App\Models\Post $post)
+    {
+        if ($post->media()->count() > 0) {
+            $post->thumbnail = $post->media()->thumbnailUrl();
+        } else {
+            $post->thumbnail = null;
         }
 
-        return [
-            'id'          => $post->id,
-            'title'       => $post->title,
-            'content'     => $post->content,
-            'description' => $post->description,
-            'publish'     => $post->publish,
-            'slug'        => $post->slug,
-            'media'       => $post->media,
-            'meta'        => isset($postMetaResult) ? $postMetaResult : [],
-            'created_at'  => $post->created_at,
-            'created_by'  => $post->created_by,
-            'updated_at'  => $post->updated_at,
-            'updated_by'  => $post->updated_by,
-        ];
+        return ['thumbnail' => $post->thumbnail];
     }
 }

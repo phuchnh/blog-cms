@@ -36,9 +36,15 @@ const actions = {
       commit('deletePost', id)
     })
   },
-  updatePost ({ commit }, payload) {
-    let input = _.omit(payload, ['meta', 'media', 'thumbnail'])
-    return ApiService.put(`/posts/${ payload.id }`, input)
+  updatePost ({ dispatch, commit }, payload) {
+    let input = _.omit(payload, ['meta'])
+
+    return ApiService.put(`/posts/${ payload.id }`, input).then((res) => {
+      commit('setPost', res.data.data)
+
+      // insert to meta table
+      dispatch('meta/updateMeta', { data: payload.meta, post_id: res.data.data.id }, { root: true })
+    })
   },
   createPost ({ dispatch, commit }, payload) {
     let input = _.omit(payload, ['meta'])

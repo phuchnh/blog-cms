@@ -103,7 +103,7 @@ class Post extends Model implements HasMedia
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function postMeta()
+    public function meta()
     {
         return $this->hasMany(PostMeta::class, 'post_id');
     }

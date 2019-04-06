@@ -33,7 +33,11 @@ const actions = {
    * @returns {*}
    */
   updateMeta ({ commit }, payload) {
-    return ApiService.put(`/meta/${ payload.id }`, payload)
+    let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
+
+    return ApiService.put(`/meta/${ payload.post_id }/post_meta`, inputMeta).then(res => {
+      commit('setMeta', res.data.data)
+    })
   },
   /**
    * create new meta data
@@ -44,7 +48,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
 
-    ApiService.post(`/posts/${ payload.post_id }/post_meta`, inputMeta).then((res) => {
+    ApiService.post(`/posts/${ payload.post_id }/post_meta`, inputMeta).then(res => {
       commit('setMeta', res.data.data)
     })
   },
