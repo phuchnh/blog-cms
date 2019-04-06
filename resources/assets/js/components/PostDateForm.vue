@@ -32,7 +32,7 @@
       item (val) {
         this.metaData.meta = val
 
-        this.metaData.meta.date = moment(this.metaData.meta.date)
+        this.metaData.meta.date = moment(val.date)
 
         this.$emit('item', this.metaData)
       },
