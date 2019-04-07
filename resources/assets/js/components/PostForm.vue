@@ -88,6 +88,9 @@
       <!-- Seo Information -->
       <post-meta-form :metaData.sync="post"></post-meta-form>
 
+      <!-- Tag Information -->
+      <tag-form></tag-form>
+
       <!-- section button -->
       <div class="button-section-fixed">
         <div class="form-group text-center">
@@ -116,10 +119,13 @@
   import PostMetaForm from './PostMetaForm'
   import PostDateForm from './PostDateForm'
   import PostLocationForm from './PostLocationForm'
+  import TagForm from './TagForm.vue'
 
   export default {
     name: 'PostForm',
-    components: { PostLocationForm, PostDateForm, JoditVue, PostMetaForm },
+    components: {
+      TagForm,
+      PostLocationForm, PostDateForm, JoditVue, PostMetaForm },
     data () {
       return {
         postStatus: [
