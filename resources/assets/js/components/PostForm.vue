@@ -90,7 +90,7 @@
         </div>
 
         <div class="col-sm-4">
-          <post-other-from :metaData.sync="post"></post-other-from>
+          <post-other-from :metaData.sync="post" :type="this.type"></post-other-from>
         </div>
       </div>
 
