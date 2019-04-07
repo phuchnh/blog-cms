@@ -18,6 +18,12 @@ import ClientNew from '@/view/ClientNew'
 import GuideList from '@/view/GuideList'
 import GuideDetail from '@/view/GuideDetail'
 import GuideNew from '@/view/GuideNew'
+import EventList from '@/view/EventList'
+import EventDetail from '@/view/EventDetail'
+import EventNew from '@/view/EventNew'
+import PracticeList from '@/view/PracticeList'
+import PracticeDetail from '@/view/PracticeDetail'
+import PracticeNew from '@/view/PracticeNew'
 import FaqDetail from '@/view/FaqDetail'
 import FaqNew from '@/view/FaqNew'
 
@@ -197,6 +203,62 @@ export default new Router({
           component: GuideDetail,
           meta: {
             title: 'GuideDetail',
+            description: '',
+          },
+        },
+
+        {
+          path: 'events/new',
+          name: 'eventNew',
+          component: EventNew,
+          meta: {
+            title: 'EventNew',
+            description: '',
+          },
+        },
+        {
+          path: 'events',
+          name: 'eventList',
+          component: EventList,
+          meta: {
+            title: 'EventList',
+            description: '',
+          },
+        },
+        {
+          path: 'events/:id',
+          name: 'eventDetail',
+          component: EventDetail,
+          meta: {
+            title: 'EventDetail',
+            description: '',
+          },
+        },
+
+        {
+          path: 'practices/new',
+          name: 'practiceNew',
+          component: PracticeNew,
+          meta: {
+            title: 'PracticeNew',
+            description: '',
+          },
+        },
+        {
+          path: 'practices',
+          name: 'practiceList',
+          component: PracticeList,
+          meta: {
+            title: 'PracticeList',
+            description: '',
+          },
+        },
+        {
+          path: 'practices/:id',
+          name: 'practiceDetail',
+          component: PracticeDetail,
+          meta: {
+            title: 'PracticeDetail',
             description: '',
           },
         },

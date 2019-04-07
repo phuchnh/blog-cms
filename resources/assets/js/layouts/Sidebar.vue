@@ -35,8 +35,9 @@
         <li><router-link :to="{name: 'userList'}"><i class="fa fa-link"></i> <span>User</span></router-link></li>
         <li><router-link :to="{name: 'inThePressList'}"><i class="fa fa-link"></i> <span>In The Press</span></router-link></li>
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Blog</span></router-link></li>
+        <li><router-link :to="{name: 'eventList'}"><i class="fa fa-link"></i> <span>Event</span></router-link></li>
         <li><router-link :to="{name: 'guideList'}"><i class="fa fa-link"></i> <span>Guided Meditation</span></router-link></li>
-        <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Daily Practice</span></router-link></li>
+        <li><router-link :to="{name: 'practiceList'}"><i class="fa fa-link"></i> <span>Daily Practice</span></router-link></li>
         <li><router-link :to="{name: 'clientList'}"><i class="fa fa-link"></i> <span>Client</span></router-link></li>
         <li><router-link :to="{name: 'blogList'}"><i class="fa fa-link"></i> <span>Subscriber</span></router-link></li>
         <li><router-link :to="{name: 'faqList'}"><i class="fa fa-link"></i> <span>FAQ</span></router-link></li>
