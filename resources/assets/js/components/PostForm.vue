@@ -12,7 +12,7 @@
 
               <div class="form-group" :class="{ 'has-error': errors.first('title') }">
                 <label for="title" class="col-sm-2 control-label">Title <span class="required">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                   <input v-validate="'required'" class="form-control" id="title" name="title" v-model="post.title"/>
                   <div class="help-block" v-if="errors.first('title')">
                     <span>{{ errors.first('title') }}</span>
@@ -22,7 +22,7 @@
 
               <div class="form-group" v-if="formAction === 'edit'">
                 <label for="slug" class="col-sm-2 control-label">Slug</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                   <input class="form-control" id="slug" name="slug" v-model="post.slug"/>
                 </div>
               </div>
@@ -35,7 +35,7 @@
 
               <div class="form-group">
                 <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                   <p class="btn btn-default btn-sm btn-file">
                     <i class="fa fa-upload"></i> Upload
                     <input type="file" class="form-control"
@@ -57,7 +57,7 @@
               <div class="form-group" :class="{ 'has-error': errors.first('description') }">
                 <label for="description" class="col-sm-2 control-label">Description <span
                     class="required">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
               <textarea v-validate="'required'" class="form-control" name="description" id="description"
                         v-model="post.description" rows="3"></textarea>
                   <div class="help-block" v-if="errors.first('description')">
@@ -68,7 +68,7 @@
 
               <div class="form-group">
                 <label class="col-sm-2 control-label">Content</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                   <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
                 </div>
               </div>
@@ -104,8 +104,12 @@
         </div>
       </div>
 
-      <!-- Seo Information -->
-      <post-meta-form :metaData.sync="post"></post-meta-form>
+      <div class="row">
+        <div class="col-sm-8">
+          <!-- Seo Information -->
+          <post-meta-form :metaData.sync="post"></post-meta-form>
+        </div>
+      </div>
 
       <!-- section button -->
       <div class="button-section-fixed">
@@ -146,7 +150,7 @@
       PostDateForm,
       PostMetaForm,
       PostOtherFrom,
-      PostDisplay
+      PostDisplay,
     },
     data () {
       return {
