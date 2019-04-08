@@ -57,6 +57,13 @@
        * @param val
        */
       item (val) {
+        // convert Array to String
+        if (typeof val.others !== 'undefined') {
+          val.others = val.others.map(val => {
+            return val['key']
+          }).join()
+        }
+
         this.metaData.meta = val
 
         this.$emit('item', this.metaData)
@@ -117,7 +124,7 @@
        */
       handleChange (value) {
         // set Props value
-        this.item.others = value.map(function (val) {
+        this.item.others = value.map(val => {
           return val['key']
         }).join()
 
