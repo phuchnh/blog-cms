@@ -81,9 +81,12 @@ class PostMetaController extends ApiBaseController
     {
         $inputArray = $request->validated();
 
-        $post->meta()
-             ->whereIn('meta_key', array_column($inputArray, 'meta_key'))
-             ->saveMany($this->createInstancePostMeta($inputArray));
+        $metaTemp = $post->meta()
+                         ->whereIn('meta_key', array_column($inputArray, 'meta_key'));
+
+        $metaTemp->delete();
+
+        $metaTemp->saveMany($this->createInstancePostMeta($inputArray));
 
         return $this->noContent();
     }
@@ -114,7 +117,9 @@ class PostMetaController extends ApiBaseController
     private function createInstancePostMeta($inputArray)
     {
         foreach ($inputArray as $input) {
-            $instance[] = new PostMeta($input);
+            if ($input['meta_value']) {
+                $instance[] = new PostMeta($input);
+            }
         }
 
         return $instance;
