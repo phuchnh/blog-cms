@@ -81,8 +81,7 @@ class PostMetaController extends ApiBaseController
     {
         $inputArray = $request->validated();
 
-        $metaTemp = $post->meta()
-                         ->whereIn('meta_key', array_column($inputArray, 'meta_key'));
+        $metaTemp = $post->meta();
 
         $metaTemp->delete();
 

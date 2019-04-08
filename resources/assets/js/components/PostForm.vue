@@ -91,6 +91,16 @@
 
         <div class="col-sm-4">
           <post-other-from :metaData.sync="post" :type="this.type"></post-other-from>
+
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <div class="box-title">Feature on position</div>
+            </div>
+            <div class="box-body">
+              <post-display :metaData.sync="post" :metaType="'home'" :title="'Show On Homepage'"></post-display>
+              <post-display :metaData.sync="post" :metaType="'feature'" :title="'Show On Feature'"></post-display>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -126,6 +136,7 @@
   import PostDateForm from './PostDateForm'
   import PostLocationForm from './PostLocationForm'
   import PostOtherFrom from './PostOtherForm'
+  import PostDisplay from './PostDisplay'
 
   export default {
     name: 'PostForm',
@@ -135,6 +146,7 @@
       PostDateForm,
       PostMetaForm,
       PostOtherFrom,
+      PostDisplay
     },
     data () {
       return {
