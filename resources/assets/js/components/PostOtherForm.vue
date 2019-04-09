@@ -74,7 +74,7 @@
        */
       metaData (val) {
         this.item = val.meta ? val.meta : {}
-        this.value = val.meta.others ? val.meta.others : []
+        this.value = val.meta && val.meta.others ? val.meta.others : []
       },
     },
     methods: {

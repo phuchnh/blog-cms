@@ -44,7 +44,7 @@
     props: ['tagData'],
     data () {
       return {
-        tags: this.tagData.tag ? this.tagData.tag : {},
+        tags: this.tagData.tag ? this.tagData.tag : [],
         inputVisible: false,
         inputValue: '',
       }

@@ -43,13 +43,16 @@
                       class="required">*</span></label>
                   <div class="col-sm-10">
                     <p class="btn btn-default btn-sm btn-file">
-                        <i class="fa fa-upload"></i> Upload
-                        <input type="file" class="form-control"
-                               id="thumbnail"
-                               name="thumbnail"
-                               accept="image/*"
-                               @change="onFileChange($event) || validate($event)"/>
+                      <i class="fa fa-upload"></i> Upload
+                      <input type="file" class="form-control"
+                             id="thumbnail"
+                             name="thumbnail"
+                             accept="image/*"
+                             @change="onFileChange($event) || validate($event)"/>
                     </p>
+                    <div class="help-block" v-if="errors">
+                      <span>{{ errors[0] }}</span>
+                    </div>
                   </div>
                 </div>
 
@@ -57,9 +60,6 @@
                   <div class="col-sm-offset-2 col-sm-9">
                     <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
                          v-bind:src="imgUrl ? imgUrl : post.thumbnail">
-                  </div>
-                  <div class="help-block" v-if="errors">
-                    <span>{{ errors[0] }}</span>
                   </div>
                 </div>
               </ValidationProvider>
@@ -164,7 +164,6 @@
 
   import PostOtherFrom from './PostOtherForm'
   import PostDisplay from './PostDisplay'
-
 
   export default {
     name: 'PostForm',
