@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <PostForm ref="postForm" :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
+        <PostForm :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
     </div>
 </template>
 
@@ -8,7 +8,7 @@
   import PostForm from '../components/PostForm';
   import {mapGetters} from 'vuex';
   export default {
-    name: 'InThePressNew',
+    name: 'GuideDetail',
     components: {PostForm},
     computed: {
       ...mapGetters({
@@ -16,9 +16,6 @@
       })
     },
     beforeRouteLeave(from, to, next) {
-      if (_.isEmpty(_.omit(this.$refs.postForm.post, 'content'))) {
-        this.$store.dispatch('post/savedPost', true);
-      }
       if (!this.saved) {
         this.$confirm({
           title: 'Are you sure you want to leave without saving?',
@@ -37,13 +34,14 @@
     },
     data() {
       return {
-        type: 'in_the_press',
-        formAction: 'create'
+        type: 'guide',
+        formAction: 'edit'
       }
     },
     methods: {
       routeToList() {
-        this.$router.push({name: 'inThePressList'});
+        console.log(this.saved);
+        this.$router.push({name: 'guideList'});
       }
     }
   };
