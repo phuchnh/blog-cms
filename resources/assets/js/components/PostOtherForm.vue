@@ -68,7 +68,7 @@
       metaData (val) {
         this.item = val.meta ? val.meta : {}
 
-        this.value = val.meta.others && typeof val.meta.others === 'string'
+        this.value = _.has(val.meta, 'others') && typeof val.meta.others === 'string'
           ? _.toArray(JSON.parse(val.meta.others))
           : []
       },
