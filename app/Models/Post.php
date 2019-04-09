@@ -19,6 +19,7 @@ class Post extends Model implements HasMedia
      * @var array
      */
     public $sortable = [
+        'id',
         'title',
         'description',
         'content',
