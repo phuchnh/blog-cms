@@ -9,7 +9,7 @@
     <div class="box-body">
       <div class="form-group">
         <label class="col-sm-2 control-label">Tags</label>
-        <div class="col-sm-8">
+        <div class="col-sm-10">
          <div class="form-control" style="overflow: auto; height: 100%">
            <template v-for="(tag, index) in tags">
              <a-tag :key="tag" closable :afterClose="() => handleClose(tag)">

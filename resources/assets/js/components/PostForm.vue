@@ -41,7 +41,7 @@
                 <div class="form-group" :class="{ 'has-error': errors[0] }">
                   <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span
                       class="required">*</span></label>
-                  <div class="col-sm-8">
+                  <div class="col-sm-10">
                     <span class="btn btn-default btn-sm btn-file">
                         <i class="fa fa-upload"></i> Upload
                         <input type="file" class="form-control"
@@ -50,9 +50,12 @@
                                accept="image/*"
                                @change="onFileChange($event) || validate($event)"/>
                     </span>
-                    <div>
-                      <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
-                           v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-9">
+                        <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
+                             v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+                      </div>
                     </div>
                     <div class="help-block" v-if="errors">
                       <span>{{ errors[0] }}</span>
@@ -76,7 +79,7 @@
               <ValidationProvider name="editor" rules="required" ref="editor" v-slot="{ validate, errors }">
                 <div class="form-group" :class="{ 'has-error': errors[0] }">
                   <label class="col-sm-2 control-label">Content <span class="required">*</span></label>
-                  <div class="col-sm-8">
+                  <div class="col-sm-10">
                     <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
                     <div class="help-block" v-if="errors">
                       <span>{{ errors[0] }}</span>
