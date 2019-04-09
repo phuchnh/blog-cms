@@ -111,6 +111,9 @@
         </div>
       </div>
 
+      <!-- Tag Information -->
+      <tag-form :tagData.sync="post"></tag-form>
+
       <!-- section button -->
       <div class="button-section-fixed">
         <div class="form-group text-center">
@@ -139,12 +142,17 @@
   import PostMetaForm from './PostMetaForm'
   import PostDateForm from './PostDateForm'
   import PostLocationForm from './PostLocationForm'
+
+  import TagForm from './TagForm.vue'
+
   import PostOtherFrom from './PostOtherForm'
   import PostDisplay from './PostDisplay'
+
 
   export default {
     name: 'PostForm',
     components: {
+      TagForm,
       JoditVue,
       PostLocationForm,
       PostDateForm,
