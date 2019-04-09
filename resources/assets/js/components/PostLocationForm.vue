@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group" :class="{ 'has-error': errors.first('location') }">
+  <div class="form-group" :class="{ 'has-error': error }">
     <label for="location" class="col-sm-2 control-label">Location <span class="required">*</span></label>
     <div class="col-sm-10">
       <input v-validate="'required'" class="form-control" id="location" name="location"
@@ -14,14 +14,16 @@
 <script>
   export default {
     name: 'PostLocationForm',
-    props: ['metaData'],
+    props: ['metaData', 'error'],
+    $_veeValidate: {
+      // value getter
+      value() {
+        return this.item.location
+      }
+    },
     data () {
       return {
       }
     }
   }
 </script>
-
-<style scoped>
-
-</style>

@@ -27,32 +27,42 @@
                 </div>
               </div>
 
-              <!-- Add Date Picker -->
-              <post-date-form :metaData.sync="post"></post-date-form>
+              <template v-if="type === 'event'">
+                <!-- Add Date Picker -->
+                <post-date-form :metaData.sync="post" v-validate="'required'" name="date"
+                                :error="errors.first('date')"></post-date-form>
 
-              <!-- Add Location -->
-              <post-location-form :metaData.sync="post"></post-location-form>
+                <!-- Add Location -->
+                <post-location-form :metaData.sync="post" v-validate="'required'" name="location"
+                                    :error="errors.first('location')"></post-location-form>
+              </template>
 
-              <div class="form-group">
-                <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
-                <div class="col-sm-10">
-                  <p class="btn btn-default btn-sm btn-file">
-                    <i class="fa fa-upload"></i> Upload
-                    <input type="file" class="form-control"
-                           id="thumbnail"
-                           name="thumbnail"
-                           accept="image/*"
-                           @change="onFileChange($event)"/>
-                  </p>
+              <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
+                <div class="form-group" :class="{ 'has-error': errors[0] }">
+                  <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span
+                      class="required">*</span></label>
+                  <div class="col-sm-10">
+                    <p class="btn btn-default btn-sm btn-file">
+                      <i class="fa fa-upload"></i> Upload
+                      <input type="file" class="form-control"
+                             id="thumbnail"
+                             name="thumbnail"
+                             accept="image/*"
+                             @change="onFileChange($event) || validate($event)"/>
+                    </p>
+                    <div class="help-block" v-if="errors">
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-9">
-                  <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
-                       v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-9">
+                    <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
+                         v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+                  </div>
                 </div>
-              </div>
+              </ValidationProvider>
 
               <div class="form-group" :class="{ 'has-error': errors.first('description') }">
                 <label for="description" class="col-sm-2 control-label">Description <span
@@ -66,12 +76,17 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Content</label>
-                <div class="col-sm-10">
-                  <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
+              <ValidationProvider name="editor" rules="required" ref="editor" v-slot="{ validate, errors }">
+                <div class="form-group" :class="{ 'has-error': errors[0] }">
+                  <label class="col-sm-2 control-label">Content <span class="required">*</span></label>
+                  <div class="col-sm-10">
+                    <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
+                    <div class="help-block" v-if="errors">
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </ValidationProvider>
 
               <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
                 <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
@@ -133,10 +148,12 @@
 
 <script>
   import { mapGetters } from 'vuex'
-
   // Jodit
   import JoditVue from 'jodit-vue'
   import 'jodit/build/jodit.min.css'
+
+  // Custom validate
+  import { ValidationProvider } from 'vee-validate'
 
   // load Meta Component
   import PostMetaForm from './PostMetaForm'
@@ -148,7 +165,6 @@
   import PostOtherFrom from './PostOtherForm'
   import PostDisplay from './PostDisplay'
 
-
   export default {
     name: 'PostForm',
     components: {
@@ -159,6 +175,7 @@
       PostMetaForm,
       PostOtherFrom,
       PostDisplay,
+      ValidationProvider
     },
     data () {
       return {
@@ -201,7 +218,6 @@
       if (this.formAction === 'edit') {
         this.$store.dispatch('post/getPost', this.$route.params.id)
         this.$store.dispatch('post/savedPost', true)
-        console.log(this.saved)
       }
     },
     watch: {
@@ -211,7 +227,7 @@
           if (val.id === oldVal.id && val !== oldVal) {
             this.$store.dispatch('post/savedPost', false)
           }
-        },
+        }
       },
       metaData (val) {
         console.log(val)
@@ -220,8 +236,13 @@
     methods: {
       submit () {
         this.post.type = this.type
+        this.$refs.editor.validate()
+        if (!this.post.thumbnail) {
+          this.$refs.thumbnail.validate()
+        }
+        this.$refs.thumbnail.flags.valid = true
         this.$validator.validateAll().then((result) => {
-          if (result) {
+          if (result && this.$refs.editor.flags.valid && this.$refs.thumbnail.flags.valid) {
             if (this.formAction === 'edit') {
               this.$store.dispatch('post/updatePost', this.post).then(() => {
                 this.$store.dispatch('post/savedPost', true)

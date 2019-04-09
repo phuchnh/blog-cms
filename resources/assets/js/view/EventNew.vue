@@ -8,7 +8,7 @@
   import PostForm from '../components/PostForm';
   import {mapGetters} from 'vuex';
   export default {
-    name: 'InThePressNew',
+    name: 'EventNew',
     components: {PostForm},
     computed: {
       ...mapGetters({
@@ -37,13 +37,13 @@
     },
     data() {
       return {
-        type: 'in_the_press',
+        type: 'event',
         formAction: 'create'
       }
     },
     methods: {
       routeToList() {
-        this.$router.push({name: 'inThePressList'});
+        this.$router.push({name: 'eventList'});
       }
     }
   };
