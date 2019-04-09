@@ -27,4 +27,6 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('posts.post_meta', 'PostMetaController')->parameters([
         'meta' => 'post_meta'
     ]);
+    
+    Route::post('assets','AssetController@upload');
 });
