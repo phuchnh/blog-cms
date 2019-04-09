@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group">
+  <div class="form-group" :class="{ 'has-error': error }">
     <label class="col-sm-2 control-label">Event</label>
     <div class="col-sm-8">
       <a-date-picker
@@ -7,8 +7,11 @@
           format="YYYY-MM-DD HH:mm:ss"
           placeholder="Select Time"
           v-model="item.date"
+          @change="$emit('input', $event)"
       />
-      <!--<p> {{ item.date | convertDateTime('YYYY-MM-DD HH:mm:ss') }}</p>-->
+      <div class="help-block" v-if="error">
+        {{ error }}
+      </div>
     </div>
   </div>
 </template>
@@ -18,7 +21,13 @@
 
   export default {
     name: 'PostDateForm',
-    props: ['metaData'],
+    props: ['metaData', 'error'],
+    $_veeValidate: {
+      // value getter
+      value() {
+        return this.item.date
+      }
+    },
     data () {
       return {
         item: this.metaData.meta ? this.metaData.meta : {},

@@ -54,7 +54,7 @@
             sorter: true,
           },
           {
-            title: 'thumbnail',
+            title: 'Thumbnail',
             dataIndex: 'thumbnail',
             scopedSlots: { customRender: 'thumbnail' },
           },

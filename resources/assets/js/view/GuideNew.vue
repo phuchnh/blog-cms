@@ -8,7 +8,7 @@
   import PostForm from '../components/PostForm';
   import {mapGetters} from 'vuex';
   export default {
-    name: 'InThePressNew',
+    name: 'GuideNew',
     components: {PostForm},
     computed: {
       ...mapGetters({
@@ -16,7 +16,7 @@
       })
     },
     beforeRouteLeave(from, to, next) {
-      if (_.isEmpty(_.omit(this.$refs.postForm.post, 'content'))) {
+      if (_.isEmpty(this.$refs.postForm.post)) {
         this.$store.dispatch('post/savedPost', true);
       }
       if (!this.saved) {
@@ -37,13 +37,13 @@
     },
     data() {
       return {
-        type: 'in_the_press',
+        type: 'guide',
         formAction: 'create'
       }
     },
     methods: {
       routeToList() {
-        this.$router.push({name: 'inThePressList'});
+        this.$router.push({name: 'guideList'});
       }
     }
   };
