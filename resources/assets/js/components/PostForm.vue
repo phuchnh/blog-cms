@@ -185,6 +185,7 @@
     },
     created () {
       this.post.content = this.post.content ? this.post.content : ''
+      this.post.meta = this.post.meta ? this.post.meta : {}
     },
     computed: {
       ...mapGetters({
