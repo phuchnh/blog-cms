@@ -108,11 +108,11 @@
         <div class="col-sm-8">
           <!-- Seo Information -->
           <post-meta-form :metaData.sync="post"></post-meta-form>
+
+          <!-- Tag Information -->
+          <tag-form :tagData.sync="post"></tag-form>
         </div>
       </div>
-
-      <!-- Tag Information -->
-      <tag-form :tagData.sync="post"></tag-form>
 
       <!-- section button -->
       <div class="button-section-fixed">
