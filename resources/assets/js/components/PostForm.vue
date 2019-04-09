@@ -89,7 +89,7 @@
       <post-meta-form :metaData.sync="post"></post-meta-form>
 
       <!-- Tag Information -->
-      <tag-form></tag-form>
+      <tag-form :tagData.sync="post"></tag-form>
 
       <!-- section button -->
       <div class="button-section-fixed">

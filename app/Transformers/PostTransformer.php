@@ -31,7 +31,8 @@ class PostTransformer extends Transformer
         return array_merge(
             $post->toArray(),
             $this->transformMeta($post),
-            $this->transformMedia($post)
+            $this->transformMedia($post),
+            $this->transformTag($post)
         );
     }
 
@@ -63,5 +64,18 @@ class PostTransformer extends Transformer
         }
 
         return ['thumbnail' => $post->thumbnail];
+    }
+
+    /**
+     * Transform tag
+     *
+     * @param \App\Models\Post $post
+     * @return array
+     */
+    private function transformTag(\App\Models\Post $post)
+    {
+        $taxonomy = new TaxonomyTransformer();
+
+        return ['tag' => $taxonomy->transform($post->taxonomies)];
     }
 }

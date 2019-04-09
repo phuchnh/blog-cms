@@ -10,14 +10,9 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Tags</label>
         <div class="col-sm-8">
-         <div class="form-control">
+         <div class="form-control" style="overflow: auto; height: 100%">
            <template v-for="(tag, index) in tags">
-             <!--<a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">-->
-               <!--<a-tag :key="tag" :closable="index !== 0">-->
-                 <!--{{tag.slice(0, 20)}}-->
-               <!--</a-tag>-->
-             <!--</a-tooltip>-->
-             <a-tag :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
+             <a-tag :key="tag" closable :afterClose="() => handleClose(tag)">
                {{tag}}
              </a-tag>
            </template>
@@ -26,7 +21,7 @@
                ref="input"
                type="text"
                size="small"
-               :style="{ width: '78px' }"
+               :style="{ width: '150px' }"
                :value="inputValue"
                @change="handleInputChange"
                @blur="handleInputConfirm"
@@ -46,18 +41,31 @@
 <script>
   export default {
     name: 'TagForm',
+    props: ['tagData'],
     data () {
       return {
-        tags: ['Test', 'Test 2', 'Tag 3Tag 3Tag 3Tag 3Tag 3Tag 3Tag 3'],
+        tags: this.tagData.tag ? this.tagData.tag : {},
         inputVisible: false,
         inputValue: '',
       }
     },
+    watch: {
+      /**
+       * update value to parent
+       * @param val
+       */
+      tags (val) {
+        this.tagData.tag = this.transformData(val)
+        this.$emit('tags', this.tagData)
+
+      },
+      tagData (val) {
+        this.tags = val.tag ? val.tag : {}
+      },
+    },
     methods: {
       handleClose (removedTag) {
-        const tags = this.tags.filter(tag => tag !== removedTag)
-        console.log(tags)
-        this.tags = tags
+        this.tags = this.tags.filter(tag => tag !== removedTag)
       },
 
       showInput () {
@@ -77,13 +85,28 @@
         if (inputValue && tags.indexOf(inputValue) === -1) {
           tags = [...tags, inputValue]
         }
-        console.log(tags)
         Object.assign(this, {
           tags,
           inputVisible: false,
           inputValue: '',
         })
       },
+      transformData(tags) {
+        let ArrayData = []
+
+        if (tags) {
+          ArrayData = _.map(tags, (item) => {
+            return {
+              type: 'tag',
+              position: 0,
+              real_depth: 0,
+              name: item
+            }
+          });
+        }
+
+        return ArrayData
+      }
     },
   }
 </script>

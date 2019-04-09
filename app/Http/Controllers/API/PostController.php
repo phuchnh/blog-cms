@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreatePostRequest;
 use App\Http\Requests\API\UpdatePostRequest;
 use App\Models\Post;
-use App\Models\PostMeta;
+use App\Models\Taxonomy;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
@@ -51,7 +51,13 @@ class PostController extends ApiBaseController
      */
     public function store(CreatePostRequest $request)
     {
+        /**
+         * @param \App\Models\Post $post
+         */
         $post = Post::create($request->validated());
+
+        // Handle tag
+        $this->createTag($post, $request);
 
         // update media
         $post = $this->updateMedia($post, $request);
@@ -74,6 +80,9 @@ class PostController extends ApiBaseController
         $post->fill($request->validated());
         $post->save();
 
+        // Handle tag
+        $this->createTag($post, $request);
+
         // update media
         $post = $this->updateMedia($post, $request);
 
@@ -89,6 +98,7 @@ class PostController extends ApiBaseController
      */
     public function destroy(Post $post)
     {
+        $post->meta()->delete();
         $post->delete();
 
         return $this->noContent();
@@ -114,5 +124,54 @@ class PostController extends ApiBaseController
         }
 
         return $post;
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @param \Illuminate\Http\Request $request
+     */
+    private function createTag(Post $post, Request $request) {
+        // Get current tags and request tags
+        $current = $post->taxonomies()->get()->toArray();
+        $change = $request->tag;
+
+        // Handle tag function
+        $handle = function ($items) use ($post) {
+            foreach ($items as $item) {
+                $input = Taxonomy::query()->where('name', $item['name'])->get();
+
+                // Check tag exists or not
+                if ($input->isEmpty()) {
+                    // Create new tag and attach to pivot table
+                    $model = new Taxonomy();
+                    $model->fill($item);
+                    $post->taxonomies()->save($model);
+                } else {
+                    // Attach to pivot table if it exists
+                    $post->taxonomies()->attach($input);
+                }
+            }
+
+        };
+
+        if (empty($current)) {
+            // If post doesn't have any tags, jump to handle function
+            $attached = $change;
+            $handle($attached);
+        } else {
+            // Compare current variable to change variable
+            $intersect = array_intersect(array_column($current, 'name'), array_column($change, 'name'));
+            $attached = array_diff(array_column($change, 'name'), $intersect);
+            $detached = array_diff(array_column($current, 'name'), $intersect);
+
+            // Get items which need to attach or detach
+            $attachItems = array_filter($change, function ($item) use ($attached) {
+                return in_array($item['name'], $attached);
+            });
+            $detachItems = Taxonomy::query()->whereIn('name', $detached)->get();
+
+            $handle($attachItems);
+            $post->taxonomies()->detach($detachItems);
+        }
     }
 }
