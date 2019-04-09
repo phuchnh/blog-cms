@@ -65,8 +65,9 @@
     },
     methods: {
       fetchPostList() {
+        const params = { type: this.type }
         this.loading = true;
-        this.$store.dispatch('post/getPostList', this.type).then(() => this.loading = false);
+        this.$store.dispatch('post/getPostList', params).then(() => this.loading = false);
       },
       onDelete (key) {
         this.$store.dispatch('post/deletePost', key).then(() => this.fetchPostList());

@@ -14,6 +14,18 @@ class Taxonomy extends Entity implements TaxonomyInterface
      */
     protected $table = 'taxonomies';
 
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'type',
+    ];
+
+
     /**
      * Hierarchy model instance.
      *

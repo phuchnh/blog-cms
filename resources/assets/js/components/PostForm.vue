@@ -1,110 +1,130 @@
 <template>
   <div class="boxSection">
     <form class="form-horizontal">
-      <!-- General Information -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">General Informaion</h3>
-        </div>
-        <div class="box-body">
-
-          <div class="form-group" :class="{ 'has-error': errors.first('title') }">
-            <label for="title" class="col-sm-2 control-label">Title <span class="required">*</span></label>
-            <div class="col-sm-8">
-              <input v-validate="'required'" class="form-control" id="title" name="title" v-model="post.title"/>
-              <div class="help-block" v-if="errors.first('title')">
-                <span>{{ errors.first('title') }}</span>
-              </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <!-- General Information -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">General Informaion</h3>
             </div>
-          </div>
+            <div class="box-body">
 
-          <div class="form-group" v-if="formAction === 'edit'">
-            <label for="slug" class="col-sm-2 control-label">Slug</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="slug" name="slug" v-model="post.slug"/>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Featured Post</label>
-            <div class="col-sm-8">
-              <a-switch defaultChecked v-model="post.meta.featured" />
-            </div>
-          </div>
-
-          <template v-if="type === 'event'">
-            <!-- Add Date Picker -->
-            <post-date-form :metaData.sync="post" v-validate="'required'" name="date"
-                            :error="errors.first('date')"></post-date-form>
-
-            <!-- Add Location -->
-            <post-location-form :metaData.sync="post" v-validate="'required'" name="location"
-                                :error="errors.first('location')"></post-location-form>
-          </template>
-
-          <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
-            <div class="form-group" :class="{ 'has-error': errors[0] }">
-              <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span class="required">*</span></label>
-              <div class="col-sm-8">
-            <span class="btn btn-default btn-sm btn-file">
-                <i class="fa fa-upload"></i> Upload
-                <input type="file" class="form-control"
-                       id="thumbnail"
-                       name="thumbnail"
-                       accept="image/*"
-                       @change="onFileChange($event) || validate($event)"/>
-            </span>
-                <div>
-                  <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
-                       v-bind:src="imgUrl ? imgUrl : post.thumbnail">
-                </div>
-                <div class="help-block" v-if="errors">
-                  <span>{{ errors[0] }}</span>
+              <div class="form-group" :class="{ 'has-error': errors.first('title') }">
+                <label for="title" class="col-sm-2 control-label">Title <span class="required">*</span></label>
+                <div class="col-sm-10">
+                  <input v-validate="'required'" class="form-control" id="title" name="title" v-model="post.title"/>
+                  <div class="help-block" v-if="errors.first('title')">
+                    <span>{{ errors.first('title') }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ValidationProvider>
 
-          <div class="form-group" :class="{ 'has-error': errors.first('description') }">
-            <label for="description" class="col-sm-2 control-label">Description <span
-                class="required">*</span></label>
-            <div class="col-sm-8">
+              <div class="form-group" v-if="formAction === 'edit'">
+                <label for="slug" class="col-sm-2 control-label">Slug</label>
+                <div class="col-sm-10">
+                  <input class="form-control" id="slug" name="slug" v-model="post.slug"/>
+                </div>
+              </div>
+
+              <template v-if="type === 'event'">
+                <!-- Add Date Picker -->
+                <post-date-form :metaData.sync="post" v-validate="'required'" name="date"
+                                :error="errors.first('date')"></post-date-form>
+
+                <!-- Add Location -->
+                <post-location-form :metaData.sync="post" v-validate="'required'" name="location"
+                                    :error="errors.first('location')"></post-location-form>
+              </template>
+
+              <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
+                <div class="form-group" :class="{ 'has-error': errors[0] }">
+                  <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span
+                      class="required">*</span></label>
+                  <div class="col-sm-8">
+                    <span class="btn btn-default btn-sm btn-file">
+                        <i class="fa fa-upload"></i> Upload
+                        <input type="file" class="form-control"
+                               id="thumbnail"
+                               name="thumbnail"
+                               accept="image/*"
+                               @change="onFileChange($event) || validate($event)"/>
+                    </span>
+                    <div>
+                      <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
+                           v-bind:src="imgUrl ? imgUrl : post.thumbnail">
+                    </div>
+                    <div class="help-block" v-if="errors">
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </div>
+                </div>
+              </ValidationProvider>
+
+              <div class="form-group" :class="{ 'has-error': errors.first('description') }">
+                <label for="description" class="col-sm-2 control-label">Description <span
+                    class="required">*</span></label>
+                <div class="col-sm-10">
               <textarea v-validate="'required'" class="form-control" name="description" id="description"
                         v-model="post.description" rows="3"></textarea>
-              <div class="help-block" v-if="errors.first('description')">
-                <span>{{ errors.first('description') }}</span>
+                  <div class="help-block" v-if="errors.first('description')">
+                    <span>{{ errors.first('description') }}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <ValidationProvider name="editor" rules="required" ref="editor" v-slot="{ validate, errors }">
-            <div class="form-group" :class="{ 'has-error': errors[0] }">
-              <label class="col-sm-2 control-label">Content</label>
-              <div class="col-sm-8">
-                <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
-                <div class="help-block" v-if="errors">
-                  <span>{{ errors[0] }}</span>
+              <ValidationProvider name="editor" rules="required" ref="editor" v-slot="{ validate, errors }">
+                <div class="form-group" :class="{ 'has-error': errors[0] }">
+                  <label class="col-sm-2 control-label">Content <span class="required">*</span></label>
+                  <div class="col-sm-8">
+                    <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
+                    <div class="help-block" v-if="errors">
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </div>
+                </div>
+              </ValidationProvider>
+
+              <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
+                <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
+                <div class="col-sm-3">
+                  <select v-validate="'required'" class="form-control" id="publish" name="publish"
+                          v-model="post.publish">
+                    <option v-for="status in postStatus" :value="status.value">{{status.name}}</option>
+                  </select>
+                  <div class="help-block" v-if="errors.first('publish')">
+                    <span>{{ errors.first('publish') }}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </ValidationProvider>
+          </div>
+        </div>
 
-          <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
-            <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
-            <div class="col-sm-3">
-              <select v-validate="'required'" class="form-control" id="publish" name="publish" v-model="post.publish">
-                <option v-for="status in postStatus" :value="status.value">{{status.name}}</option>
-              </select>
-              <div class="help-block" v-if="errors.first('publish')">
-                <span>{{ errors.first('publish') }}</span>
-              </div>
+        <div class="col-sm-4">
+          <post-other-from :metaData.sync="post" :type="this.type"></post-other-from>
+
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <div class="box-title">Feature on position</div>
+            </div>
+            <div class="box-body">
+              <post-display :metaData.sync="post" :metaType="'home'" :title="'Show On Homepage'"></post-display>
+              <post-display :metaData.sync="post" :metaType="'feature'" :title="'Show On Feature'"></post-display>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Seo Information -->
-      <post-meta-form :metaData.sync="post"></post-meta-form>
+      <div class="row">
+        <div class="col-sm-8">
+          <!-- Seo Information -->
+          <post-meta-form :metaData.sync="post"></post-meta-form>
+
+          <!-- Tag Information -->
+          <tag-form :tagData.sync="post"></tag-form>
+        </div>
+      </div>
 
       <!-- section button -->
       <div class="button-section-fixed">
@@ -137,9 +157,24 @@
   import PostDateForm from './PostDateForm'
   import PostLocationForm from './PostLocationForm'
 
+  import TagForm from './TagForm.vue'
+
+  import PostOtherFrom from './PostOtherForm'
+  import PostDisplay from './PostDisplay'
+
+
   export default {
     name: 'PostForm',
-    components: { PostLocationForm, PostDateForm, JoditVue, PostMetaForm, ValidationProvider },
+    components: {
+      TagForm,
+      JoditVue,
+      PostLocationForm,
+      PostDateForm,
+      PostMetaForm,
+      PostOtherFrom,
+      PostDisplay,
+      ValidationProvider
+    },
     data () {
       return {
         postStatus: [
@@ -165,7 +200,6 @@
     },
     created () {
       this.post.content = this.post.content ? this.post.content : ''
-      this.post.meta = this.post.meta ? this.post.meta : {featured: null}
     },
     computed: {
       ...mapGetters({
@@ -184,9 +218,12 @@
       }
     },
     watch: {
-      post (val) {
-        if (this.formAction === 'edit') {
-          val.meta.featured = _.isString(val.meta.featured) ? !!parseInt(val.meta.featured) : val.meta.featured
+      post: {
+        deep: true,
+        handler (val, oldVal) {
+          if (val.id === oldVal.id && val !== oldVal) {
+            this.$store.dispatch('post/savedPost', false)
+          }
         }
       },
       metaData (val) {

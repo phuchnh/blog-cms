@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Models\Post;
 use App\Models\PostMeta;
 use Flugg\Responder\Transformers\Transformer;
 
@@ -42,7 +43,19 @@ class PostMetaTransformer extends Transformer
     {
         $result = [];
         foreach ($postMetas as $meta) {
-            $result[$meta->meta_key] = $meta->meta_value;
+            $result[$meta->meta_key] = $meta->meta_key === 'others' ? $this->transformOthers($meta) : $meta->meta_value;
+        }
+
+        return $result;
+    }
+
+    public function transformOthers(PostMeta $postMeta)
+    {
+        if ($postMeta->meta_key === 'others') {
+            $result = Post::select(['id AS value', \DB::raw('CONVERT(id, CHAR(50)) AS "key"'), 'title AS label'])
+                          ->whereIn('id', explode(',', $postMeta->meta_value))
+                          ->get()
+                          ->toArray();
         }
 
         return $result;
