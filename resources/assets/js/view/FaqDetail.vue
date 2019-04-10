@@ -4,7 +4,7 @@
       <div class="box box-widget">
         <!-- /.box-box-body -->
         <div class="box-body">
-          <FaqForm formAction="edit"></FaqForm>
+          <FaqForm formAction="edit" :formData="faq"></FaqForm>
         </div>
       </div>
     </div>
