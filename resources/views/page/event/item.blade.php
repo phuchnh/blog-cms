@@ -85,7 +85,7 @@
                                 </div>
                                 <hr class="hr__short--grey"/>
                                 <a href="#" class="font_color--orange">
-                                    View more
+                                    @lang('site.view_more')
                                     <i class="fas fa-arrow-right fs--0-9em"></i>
                                 </a>
                             </div>
@@ -106,7 +106,7 @@
                                 </div>
                                 <hr class="hr__short--grey"/>
                                 <a href="#" class="font_color--orange">
-                                    View more
+                                    @lang('site.view_more')
                                     <i class="fas fa-arrow-right fs--0-9em"></i>
                                 </a>
                             </div>
@@ -127,7 +127,7 @@
                                 </div>
                                 <hr class="hr__short--grey"/>
                                 <a href="#" class="font_color--orange">
-                                    View more
+                                    @lang('site.view_more')
                                     <i class="fas fa-arrow-right fs--0-9em"></i>
                                 </a>
                             </div>

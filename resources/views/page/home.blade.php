@@ -40,7 +40,7 @@
                                 based on insights and applications of Mindfulness,Neuroscience, Emotional
                                 Intelligence,Happiness & Wellbeing. Watch this video and learn more.
                             </div>
-                            <div class="btn background--orange border_radius--2em font_color--white">View more</div>
+                            <div class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</div>
                         </div>
                     </div>
                     <div class=" col-xs-12 col-sm-6">
@@ -200,7 +200,7 @@
                                 </div>
 
                                 <a href="#" class="font_color--green pull-right" title="">
-                                    View more <i class="fas fa-arrow-right"></i>
+                                    @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -234,7 +234,7 @@
                                 </div>
 
                                 <a href="#" class="font_color--green pull-right" title="">
-                                    View more <i class="fas fa-arrow-right"></i>
+                                    @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -268,7 +268,7 @@
                                 </div>
 
                                 <a href="#" class="font_color--green pull-right" title="">
-                                    View more <i class="fas fa-arrow-right"></i>
+                                    @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -302,7 +302,7 @@
                                 </div>
 
                                 <a href="#" class="font_color--green pull-right" title="">
-                                    View more <i class="fas fa-arrow-right"></i>
+                                    @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -313,7 +313,7 @@
             <center class="view-more">
                 <a class="btn background--white font_color--orange font-weight-bold border_radius--2em " href="#"
                    title="view-more">
-                    View more events & programs
+                    @lang('site.view_more') events & programs
                 </a>
             </center>
         </section>
