@@ -35,6 +35,7 @@
         config.addNewLine = false
         config.addNewLineOnDBLClick = false
         config.enableDragAndDropFileToEditor = true
+        config.height = 800
         config.uploader = {
           url: '/api/assets',
           format: 'json',
@@ -47,18 +48,8 @@
             const files = _.map(data, 'path')
             return {
               files: files || [],
-              baseurl: window.location.origin + '/storage/',
+              baseurl: [window.location.origin, 'storage', ''].join('/'),
             }
-          },
-          defaultHandlerSuccess: function (data, resp) {
-            let i, field = 'files'
-            if (data[field] && data[field].length) {
-              for (i = 0; i < data[field].length; i += 1) {
-                this.selection.insertImage(data.baseurl + data[field][i])
-              }
-            }
-            console.log(resp)
-            debugger
           },
           error: function (e) {
             this.events.fire('errorPopap', [e.getMessage(), 'error', 4000])
@@ -76,6 +67,7 @@
       this.editor = new Jodit(`#${ this.id }`, this.editorConfig)
       this.editor.value = this.value || ''
       this.editor.events.on('change', newValue => this.$emit('input', newValue))
+      this.editor.events.on('afterImageEditor', newValue => this.$emit('input', newValue))
     },
     beforeDestroy () {
       this.editor.destruct()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Asset;
+use App\Transformers\AssetTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
@@ -12,7 +13,8 @@ class AssetController extends ApiBaseController
 
     public function __construct()
     {
-        $this->path = join('/', ['upload', auth('api')->user()->id ?: 0]);
+        $userId = auth('api')->user()->id ?: 'default';
+        $this->path = join('/', ['upload', $userId, now()->timestamp]);
     }
 
     /**
