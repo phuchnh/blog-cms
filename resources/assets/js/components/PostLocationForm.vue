@@ -2,10 +2,10 @@
   <div class="form-group" :class="{ 'has-error': error }">
     <label for="location" class="col-sm-2 control-label">Location <span class="required">*</span></label>
     <div class="col-sm-10">
-      <input class="form-control" id="location" name="location"
-             v-model="item.location" @input="$emit('input', $event.target.value)" />
-      <div class="help-block">
-        {{ error }}
+      <input v-validate="'required'" class="form-control" id="location" name="location"
+             v-model="metaData.meta.location"/>
+      <div class="help-block" v-if="errors.first('location')">
+        <span>{{ errors.first('location') }}</span>
       </div>
     </div>
   </div>
@@ -23,26 +23,7 @@
     },
     data () {
       return {
-        item: this.metaData.meta ? this.metaData.meta : {},
       }
-    },
-    watch: {
-      /**
-       * update value to parent
-       * @param val
-       */
-      item (val) {
-        this.metaData.meta = val
-
-        this.$emit('item', this.metaData)
-      },
-      metaData (val) {
-        this.item = val.meta ? val.meta : {}
-      },
-    },
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

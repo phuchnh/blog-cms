@@ -10,28 +10,28 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Tags</label>
         <div class="col-sm-10">
-         <div class="form-control" style="overflow: auto; height: 100%">
-           <template v-for="(tag, index) in tags">
-             <a-tag :key="tag" closable :afterClose="() => handleClose(tag)">
-               {{tag}}
-             </a-tag>
-           </template>
-           <a-input
-               v-if="inputVisible"
-               ref="input"
-               type="text"
-               size="small"
-               :style="{ width: '150px' }"
-               :value="inputValue"
-               @change="handleInputChange"
-               @blur="handleInputConfirm"
-               @keyup.enter="handleInputConfirm"
-           />
-           <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
-             <a-icon type="plus"/>
-             New Tag
-           </a-tag>
-         </div>
+          <div class="form-control" style="overflow: auto; height: 100%">
+            <template v-for="(tag, index) in tagData.tag">
+              <a-tag :key="tag.name" closable :afterClose="() => handleClose(tag.name)">
+                {{tag.name}}
+              </a-tag>
+            </template>
+            <a-input
+                v-if="inputVisible"
+                ref="input"
+                type="text"
+                size="small"
+                :style="{ width: '150px' }"
+                :value="inputValue"
+                @change="handleInputChange"
+                @blur="handleInputConfirm"
+                @keyup.enter="handleInputConfirm"
+            />
+            <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
+              <a-icon type="plus"/>
+              New Tag
+            </a-tag>
+          </div>
         </div>
       </div>
     </div>
@@ -44,30 +44,24 @@
     props: ['tagData'],
     data () {
       return {
-        tags: this.tagData.tag ? this.tagData.tag : [],
         inputVisible: false,
         inputValue: '',
       }
     },
-    watch: {
-      /**
-       * update value to parent
-       * @param val
-       */
-      tags (val) {
-        this.tagData.tag = this.transformData(val)
-        this.$emit('tags', this.tagData)
-
-      },
-      tagData (val) {
-        this.tags = val.tag ? val.tag : {}
-      },
-    },
+    watch: {},
     methods: {
+      /**
+       * Submit & filter after delete tag
+       */
       handleClose (removedTag) {
-        this.tags = this.tags.filter(tag => tag !== removedTag)
+        let tags = _.map(this.tagData.tag, 'name')
+
+        this.tagData.tag = this.transformData(tags.filter(tag => tag !== removedTag))
       },
 
+      /**
+       * Show input box
+       */
       showInput () {
         this.inputVisible = true
         this.$nextTick(function () {
@@ -79,19 +73,29 @@
         this.inputValue = e.target.value
       },
 
+      /**
+       * Submit data after input finish
+       */
       handleInputConfirm () {
         const inputValue = this.inputValue
-        let tags = this.tags
-        if (inputValue && tags.indexOf(inputValue) === -1) {
-          tags = [...tags, inputValue]
+        let tags = this.tagData.tag
+
+        // filter tags
+        if (inputValue && _.map(tags, 'name').indexOf(inputValue) === -1) {
+          this.tagData.tag = [...tags, this.transformData(new Array(inputValue))[0]]
         }
+
         Object.assign(this, {
-          tags,
           inputVisible: false,
           inputValue: '',
         })
       },
-      transformData(tags) {
+      /**
+       * transform tag to array
+       * @param tags
+       * @returns {Array}
+       */
+      transformData (tags) {
         let ArrayData = []
 
         if (tags) {
@@ -100,13 +104,13 @@
               type: 'tag',
               position: 0,
               real_depth: 0,
-              name: item
+              name: item,
             }
-          });
+          })
         }
 
         return ArrayData
-      }
+      },
     },
   }
 </script>
