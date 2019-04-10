@@ -29,12 +29,9 @@
 
               <template v-if="type === 'event'">
                 <!-- Add Date Picker -->
-                <post-date-form :metaData.sync="post" v-validate="'required'" name="date"
-                                :error="errors.first('date')"></post-date-form>
-
+                <post-date-form :metaData.sync="post" :formAction.sync="formAction"></post-date-form>
                 <!-- Add Location -->
-                <post-location-form :metaData.sync="post" v-validate="'required'" name="location"
-                                    :error="errors.first('location')"></post-location-form>
+                <post-location-form :metaData.sync="post"></post-location-form>
               </template>
 
               <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
