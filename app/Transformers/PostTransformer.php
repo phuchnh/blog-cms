@@ -76,7 +76,6 @@ class PostTransformer extends Transformer
     {
         $taxonomy = new TaxonomyTransformer();
 
-        //return ['tag' => $taxonomy->transform($post->taxonomies)];
-        return ['tag' => $post->taxonomies];
+        return ['tag' => $taxonomy->transform($post->taxonomies)];
     }
 }

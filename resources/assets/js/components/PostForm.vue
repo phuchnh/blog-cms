@@ -203,7 +203,6 @@
     created () {
       this.post.content = this.post.content ? this.post.content : ''
       this.post.meta = this.post.meta ? this.post.meta : {}
-      this.post.tag = this.post.tag ? this.post.tag : []
     },
     computed: {
       ...mapGetters({
