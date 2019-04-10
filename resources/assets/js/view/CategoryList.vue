@@ -23,7 +23,7 @@
         this.$router.push({name: 'categoryDetail', params: {id: id}});
       },
       routeToNew() {
-        this.$router.push({name: 'categoryDetail'});
+        this.$router.push({ name: 'categoryNew'})
       }
     }
   };

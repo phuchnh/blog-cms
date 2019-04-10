@@ -1,22 +1,25 @@
 <template>
   <div class="formSection">
-    <PostForm :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
+    <CategoryForm ref="postForm" :type="type" :formAction="formAction" @routeToList="routeToList"></CategoryForm>
   </div>
 </template>
 
 <script>
-  import PostForm from '../components/PostForm'
+  import CategoryForm from '../components/CategoryForm'
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'CategoryDetail',
-    components: { PostForm },
+    name: 'CategoryNew',
+    components: { CategoryForm },
     computed: {
       ...mapGetters({
         saved: 'post/saved',
       }),
     },
     beforeRouteLeave (from, to, next) {
+      if (_.isEmpty(this.$refs.postForm.post)) {
+        this.$store.dispatch('post/savedPost', true)
+      }
       if (!this.saved) {
         this.$confirm({
           title: 'Are you sure you want to leave without saving?',
@@ -36,7 +39,7 @@
     data () {
       return {
         type: 'category',
-        formAction: this.$route.params.id ? 'edit' : 'create',
+        formAction: 'create',
       }
     },
     methods: {

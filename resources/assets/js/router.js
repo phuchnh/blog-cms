@@ -28,6 +28,7 @@ import FaqDetail from '@/view/FaqDetail'
 import FaqNew from '@/view/FaqNew'
 import CategoryList from '@/view/CategoryList'
 import CategoryDetail from '@/view/CategoryDetail'
+import CategoryNew from '@/view/CategoryNew'
 
 Vue.use(Router)
 
@@ -264,6 +265,7 @@ export default new Router({
             description: '',
           },
         },
+
         {
           path: 'categories',
           name: 'categoryList',
@@ -274,7 +276,16 @@ export default new Router({
           },
         },
         {
-          path: 'categories/:id?',
+          path: 'categories/new',
+          name: 'categoryNew',
+          component: CategoryNew,
+          meta: {
+            title: 'CategoryNew',
+            description: '',
+          },
+        },
+        {
+          path: 'categories/:id',
           name: 'categoryDetail',
           component: CategoryDetail,
           meta: {
