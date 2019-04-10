@@ -3533,14 +3533,7 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-jodit-vue@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/jodit-vue/-/jodit-vue-1.2.3.tgz#27a4b4f390108c1d0eda7ca88e4f81b7d0eb735a"
-  integrity sha512-2oQUG/otO2tgyBzyu+yWlM1pJZLlyENgp55lpsWChjQFKh3pnldjiA+4jn7xI1YUlyQbbY7HXLI+sUr4yNwPpg==
-  dependencies:
-    jodit "^3.2.21"
-
-jodit@^3.2.21:
+jodit@^3.2.44:
   version "3.2.44"
   resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.2.44.tgz#c717bbb6c51471d40cf61faafaf6834b5b655b8c"
   integrity sha512-2rwOpQ18zqjjh+YRtuWcexGKYeR4hQo0ekxZsYNb8X0CQr2k6fkvjx48nITu4hzodFptfRXDPaJDIus2QeVE0Q==

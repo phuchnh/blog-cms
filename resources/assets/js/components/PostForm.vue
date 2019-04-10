@@ -80,7 +80,7 @@
                 <div class="form-group" :class="{ 'has-error': errors[0] }">
                   <label class="col-sm-2 control-label">Content <span class="required">*</span></label>
                   <div class="col-sm-10">
-                    <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>
+<!--                    <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>-->
                     <div class="help-block" v-if="errors">
                       <span>{{ errors[0] }}</span>
                     </div>
@@ -149,8 +149,8 @@
 <script>
   import { mapGetters } from 'vuex'
   // Jodit
-  import JoditVue from 'jodit-vue'
-  import 'jodit/build/jodit.min.css'
+  // import JoditVue from 'jodit-vue'
+  // import 'jodit/build/jodit.min.css'
 
   // Custom validate
   import { ValidationProvider } from 'vee-validate'
@@ -169,7 +169,7 @@
     name: 'PostForm',
     components: {
       TagForm,
-      JoditVue,
+      // JoditVue,
       PostLocationForm,
       PostDateForm,
       PostMetaForm,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Asset;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 class AssetController extends ApiBaseController
 {
@@ -11,12 +12,7 @@ class AssetController extends ApiBaseController
 
     public function __construct()
     {
-        $this->path = join('/', ['upload', auth('api')->user()->id]);
-    }
-
-    public function show()
-    {
-
+        $this->path = join('/', ['upload', auth('api')->user()->id ?: 0]);
     }
 
     /**
@@ -34,7 +30,7 @@ class AssetController extends ApiBaseController
             }
 
             foreach ($files as $file) {
-                if ($file instanceof \Illuminate\Http\UploadedFile) {
+                if ($file instanceof UploadedFile) {
 
                     $asset = $this->fillAssetModel($file);
 
@@ -50,11 +46,13 @@ class AssetController extends ApiBaseController
         return $this->ok($models);
     }
 
-    private function getPathUpload(\Illuminate\Http\UploadedFile $file)
+    /**
+     * @param \Illuminate\Http\UploadedFile $file
+     * @return bool|false|string
+     */
+    private function getPathUpload(UploadedFile $file)
     {
-        $userId = auth('api')->user()->id ?: 0;
-
-        if ($path = $file->storeAs(join('/', ['uploads', $userId]), $file->getClientOriginalName(), 'public')) {
+        if ($path = $file->storeAs($this->path, $file->getClientOriginalName(), 'public')) {
             return $path;
         }
 
@@ -65,9 +63,9 @@ class AssetController extends ApiBaseController
      * @param \Illuminate\Http\UploadedFile $file
      * @return \App\Models\Asset
      */
-    private function fillAssetModel(\Illuminate\Http\UploadedFile $file)
+    private function fillAssetModel(UploadedFile $file)
     {
-        $asset = new \App\Models\Asset();
+        $asset = new Asset();
         $asset->file_name = $file->getClientOriginalName();
         $asset->mime_type = $file->getClientMimeType();
         $asset->size = $file->getSize();
