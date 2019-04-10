@@ -11,6 +11,7 @@
           :rowKey="record => record.id"
           :loading="loading"
           :pagination="pagination"
+          size="middle"
           @change="change"
           bordered
       >

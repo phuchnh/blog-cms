@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\API;
 
+use Illuminate\Support\Arr;
+
 class CreateFaqRequest extends ApiBaseRequest
 {
     /**
@@ -32,6 +34,8 @@ class CreateFaqRequest extends ApiBaseRequest
      */
     public function rules()
     {
-        return \App\Models\Faq::$rules;
+        $rules = \App\Models\Faq::$rules;
+        Arr::pull($rules, 'type');
+        return $rules;
     }
 }

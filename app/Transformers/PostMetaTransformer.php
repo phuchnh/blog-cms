@@ -43,7 +43,7 @@ class PostMetaTransformer extends Transformer
     {
         $result = [];
         foreach ($postMetas as $meta) {
-            $result[$meta->meta_key] = $meta->meta_key === 'others' ? $this->transformOthers($meta) : $meta->meta_value;
+            $result[$meta->meta_key] = $meta->meta_value;
         }
 
         return $result;

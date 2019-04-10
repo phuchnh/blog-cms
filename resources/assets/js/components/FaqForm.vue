@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
       <label>content</label>
-      <jodit-vue name="content" v-model="faq.content"/>
+      <Editor name="content" v-model="faq.content"/>
     </div>
     <div class="form-group">
       <button class="btn btn-primary" type="submit">Save</button>
@@ -25,14 +25,11 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
-  import Vue from 'vue'
-  import JoditVue from 'jodit-vue'
-
-  Vue.use(JoditVue)
+  import Editor from '@/components/Editor.vue'
 
   export default {
     name: 'FaqForm',
-    components: { JoditVue },
+    components: { Editor },
     props: {
       formAction: {
         type: String,

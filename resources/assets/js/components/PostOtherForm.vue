@@ -57,16 +57,9 @@
        * @param val
        */
       item (val) {
-        // convert Array to String
-        if (typeof val.others !== 'undefined') {
-          val.others = val.others.map(val => {
-            return val['key']
-          }).join()
-        }
-
         this.metaData.meta = val
 
-        this.$emit('item', this.metaData)
+        this.$emit('metaData', this.metaData)
       },
       /**
        * set props data
@@ -74,7 +67,10 @@
        */
       metaData (val) {
         this.item = val.meta ? val.meta : {}
-        this.value = val.meta && val.meta.others ? val.meta.others : []
+
+        this.value = val.meta.others && typeof val.meta.others === 'string'
+          ? _.toArray(JSON.parse(val.meta.others))
+          : []
       },
     },
     methods: {
@@ -123,10 +119,7 @@
        * @param value
        */
       handleChange (value) {
-        // set Props value
-        this.item.others = value.map(val => {
-          return val['key']
-        }).join()
+        this.item.others = JSON.stringify({ ...value })
 
         // map to value
         Object.assign(this, {
@@ -138,7 +131,3 @@
     },
   }
 </script>
-
-<style scoped>
-
-</style>
