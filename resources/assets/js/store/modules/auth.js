@@ -32,4 +32,4 @@ const mutations = {
     }
 };
 
-export const AuthModule = { namespaced: true, state, getters, mutations, actions };
+export default  { namespaced: true, state, getters, mutations, actions };

@@ -18,6 +18,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         Route::get('user', 'AuthController@user');
     });
     Route::apiResource('posts', 'PostController');
+    Route::apiResource('taxonomies', 'TaxonomyController');
     Route::apiResource('faqs', 'FaqController');
     Route::apiResource('users', 'UserController', ['except' => ['store']]);
     Route::apiResource('clients', 'ClientController');

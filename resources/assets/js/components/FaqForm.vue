@@ -29,7 +29,9 @@
 
   export default {
     name: 'FaqForm',
-    components: { Editor },
+    components: {
+      Editor,
+    },
     props: {
       formAction: {
         type: String,
