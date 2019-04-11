@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Transformers\PostTransformer;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 use App\Models\Post;
-use Illuminate\Support\Collection;
 
-class BlogController extends API\ApiBaseController
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -53,23 +54,69 @@ class BlogController extends API\ApiBaseController
      */
     public function show(Request $request, $slug)
     {
-        $post = Post::findBySlugOrFail($slug);
+        $data = $this->getPostDetail($slug);
 
-        $others = Post::where('id', '!=', $post->id)->limit(3)->orderBy('id', 'DESC')->get();
-
-        $data = responder()
-            ->success($post, PostTransformer::class)
-            ->toCollection();
-
-        $dataOther = responder()
-            ->success($others, PostTransformer::class)
-            ->toCollection();
+        $others = $this->getPostOthers(collect($data));
 
         return view('page.blog.item', [
-            'item'     => $data['data'],
-            'others'   => $dataOther['data'],
+            'item'     => $data,
+            'others'   => $others,
             'navigate' => 'results',
             'slug'     => 'blog',
         ]);
+    }
+
+    /**
+     * Get Post Information with Cache Store
+     *
+     * @param slug $slug
+     * @return mixed
+     */
+    private function getPostDetail($slug = null)
+    {
+        if (Cache::has('post_'.$slug)) {
+            return Cache::get('post_'.$slug);
+        } else {
+            $post = Post::findBySlugOrFail($slug);
+
+            $data = responder()
+                ->success($post, PostTransformer::class)
+                ->toCollection();
+
+            Cache::put('post_'.$slug, $data['data'], 60);
+
+            return $data['data'];
+        }
+    }
+
+    /**
+     * get other posts & storage in cache
+     *
+     * @param \Illuminate\Support\Collection $post
+     * @return mixed
+     */
+    private function getPostOthers($post)
+    {
+        if (Cache::has('post_others_'.$post['slug'])) {
+            return Cache::get('post_others_'.$post['slug']);
+        } else {
+            $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
+
+            $others = Post::where('slug', '!=', $post['slug'])
+                          ->when($isOtherBoolean, function ($query) use ($post) {
+                              $relatePosts = json_decode($post['meta']['others']);
+
+                              /**@var \Illuminate\Database\Query\Builder $query */
+                              return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
+                          })->limit(3)->orderBy('id', 'DESC')->get();
+
+            $data = responder()
+                ->success($others, PostTransformer::class)
+                ->toCollection();
+
+            Cache::put('post_others_'.$post['slug'], $data['data'], 60);
+
+            return $data['data'];
+        }
     }
 }
