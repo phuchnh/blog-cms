@@ -5,28 +5,53 @@
     </div>
     <!-- /.box-box-body -->
     <div class="box-body">
-      <a-table
-          :dataSource="faqs"
-          :columns="columns"
-          :rowKey="record => record.id"
-          :loading="loading"
-          :pagination="pagination"
-          size="middle"
-          @change="change"
-          bordered
+      <el-table
+          v-loading="loading"
+          :data="resource"
+          border
+          stripe
+          @sort-change="handleSortChange"
+          empty-text="No data"
       >
-        <router-link slot="slug" slot-scope="slug, record" :to="goToDetail(record.id)">{{ slug }}</router-link>
-      </a-table>
+        <el-table-column
+            prop="slug"
+            label="slug"
+            sortable
+        >
+          <template slot-scope="scope">
+            <router-link :to="goToDetail(scope.row.id)">{{ scope.row.slug }}</router-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="title"
+            label="title"
+            sortable
+        >
+        </el-table-column>
+        <el-table-column
+            prop="description"
+            label="description"
+            sortable
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="box-footer text-center">
+      <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="pagination.perPage"
+          :total="pagination.total"
+          :current-page="pagination.currentPage"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-  import Vue from 'vue'
   import store from '@/store'
-  import { Table } from 'ant-design-vue'
-
-  Vue.use(Table)
 
   import { mapGetters, mapActions } from 'vuex'
 
@@ -34,19 +59,16 @@
     name: 'FaqList',
     data () {
       return {
-        data: null,
         loading: true,
-        sort: { ascend: 'asc', descend: 'desc' },
-        columns: [
-          { title: 'Slug', dataIndex: 'slug', key: 'slug', sorter: true, scopedSlots: { customRender: 'slug' } },
-          { title: 'Title', dataIndex: 'title', key: 'title', sorter: true },
-          { title: 'Description', dataIndex: 'description', key: 'description', sorter: true },
-        ],
+        columns: ['id', 'slug', 'title', 'description'],
+        sortValue: { ascending: 'desc', descending: 'asc' },
+        sort: 'updated_at',
+        direction: 'desc',
       }
     },
     computed: {
       ...mapGetters('faq', {
-        faqs: 'getAll',
+        resource: 'getAll',
         pagination: 'getPaginator',
       }),
     },
@@ -77,21 +99,32 @@
       ...mapActions('faq', [
         'fetchList',
       ]),
+
       goToDetail (id) {
         return { name: 'faqDetail', params: { id: id } }
       },
-      change (pagination, filters, sorter) {
+
+      handleCurrentChange (currentPage) {
+        this.pagination.page = currentPage
+        this.updateList()
+      },
+
+      handleSortChange ({ prop, order }) {
+        this.sort = prop
+        this.direction = this.sortValue[order]
+        this.updateList()
+      },
+
+      updateList () {
         this.loading = true
-        let params = {
-          sort: sorter.field || 'updated_at',
-          direction: this.sort[sorter.order] || 'desc',
-          page: pagination.current,
-          perPage: pagination.pageSize,
-          only: 'id,slug,title,description',
+        let query = {
+          sort: this.sort,
+          direction: this.direction,
+          page: this.pagination.page || 1,
+          perPage: this.pagination.perPage || 10,
+          only: this.columns.join(','),
         }
-        this.fetchList(params).then(
-          () => this.loading = false,
-        )
+        this.fetchList(query).then(() => this.loading = false)
       },
     },
   }

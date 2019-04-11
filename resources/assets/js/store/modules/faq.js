@@ -32,10 +32,7 @@ const actions = {
     const { data } = resp.data
     const { pagination } = resp.data
     commit('SET_LIST', data)
-    commit('SET_PAGINATOR', {
-      total: pagination.total,
-      pageSize: pagination.perPage,
-    })
+    commit('SET_PAGINATOR', pagination)
     return resp
   },
   /**
