@@ -26,14 +26,14 @@ Route::get('/about/{slug?}', function ($slug = null) {
     ]);
 })->name('about');
 
-Route::get('/event/{slug?}', function ($slug = null) {
+Route::get('/event-programe/{slug?}', function ($slug = null) {
     $slug = $slug ? $slug : 'index';
 
     return view('page.event.'.$slug, [
         'navigate' => 'event',
         'slug'     => $slug,
     ]);
-});
+})->name('event-program');
 
 Route::get('/resources/{slug?}', function ($slug = null) {
     $slug = $slug ? $slug : 'index-mix';
@@ -70,6 +70,13 @@ Route::get('/blogs/{slug}', 'BlogController@show')->name('blogitem');
 
 Route::get('/press', 'PressController@index')->name('press');
 Route::get('/press/{slug}', 'PressController@show')->name('pressitem');
+
+Route::get('/event', 'EventController@index')->name('event');
+Route::get('/event/{slug}', 'EventController@show')->name('eventitem');
+
+Route::get('/program', 'ProgramController@index')->name('program');
+Route::get('/program/{slug}', 'ProgramController@show')->name('programitem');
+
 
 
 Route::prefix('/admin')->group(function () {

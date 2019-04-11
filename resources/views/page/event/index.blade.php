@@ -33,7 +33,7 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </div>
 
-                                    <a href="/event/list" class="btn background--orange font_color--white border_radius--2em">
+                                    <a href="{{route('event')}}" class="btn background--orange font_color--white border_radius--2em">
                                         View all Events
                                     </a>
                                 </div>
@@ -49,7 +49,7 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </div>
 
-                                    <a href="/event/list" class="btn background--orange font_color--white border_radius--2em">
+                                    <a href="{{route('program')}}" class="btn background--orange font_color--white border_radius--2em">
                                         View all Programs
                                     </a>
                                 </div>
