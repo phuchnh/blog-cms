@@ -14,7 +14,7 @@ class AssetController extends ApiBaseController
     public function __construct()
     {
         $userId = optional(auth('api')->user())->id ?: 'default';
-        $this->path = join('/', ['upload', $userId, now()->timestamp]);
+        $this->path = join('/', ['uploads', $userId, now()->timestamp]);
     }
 
     /**
@@ -45,7 +45,7 @@ class AssetController extends ApiBaseController
             }
         }
 
-        return $this->ok($models);
+        return $this->ok($models, AssetTransformer::class);
     }
 
     /**

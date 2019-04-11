@@ -1,4 +1,4 @@
-import { FaqService } from '@/api'
+import { TaxonomyService } from '@/api'
 
 const state = () => {
   return {
@@ -28,14 +28,9 @@ const actions = {
    * @returns {Promise<void>}
    */
   async fetchList ({ commit }, payload) {
-    const resp = await FaqService.getAll(payload)
+    const resp = await TaxonomyService.getAll(payload)
     const { data } = resp.data
-    const { pagination } = resp.data
     commit('SET_LIST', data)
-    commit('SET_PAGINATOR', {
-      total: pagination.total,
-      pageSize: pagination.perPage,
-    })
     return resp
   },
   /**
@@ -46,7 +41,7 @@ const actions = {
    * @returns {Promise<void>}
    */
   async fetchItem ({ commit }, id, payload) {
-    const resp = await FaqService.getById(id, payload)
+    const resp = await TaxonomyService.getById(id, payload)
     const { data } = resp.data
     commit('SET_ITEM', data)
     return resp
@@ -59,10 +54,10 @@ const actions = {
    * @returns {Promise<void>}
    */
   async create ({ commit }, payload) {
-    const resp = await FaqService.create(payload)
+    const resp = await TaxonomyService.create(payload)
     const { data } = resp.data
     commit('SET_ITEM', data)
-    return resp
+    return data
   },
 
   /**
@@ -73,7 +68,7 @@ const actions = {
    * @returns {Promise<void>}
    */
   async update ({ commit }, payload) {
-    const resp = await FaqService.update(payload.id, payload)
+    const resp = await TaxonomyService.update(payload.id, payload)
     commit('SET_ITEM', payload)
     return resp
   },
@@ -86,7 +81,7 @@ const actions = {
    * @returns {Promise<void>}
    */
   async delete ({ commit }, id, payload) {
-    const resp = await FaqService.delete(id, payload)
+    const resp = await TaxonomyService.delete(id, payload)
     const { data } = resp.data
     commit('SET_ITEM', data)
     return resp
