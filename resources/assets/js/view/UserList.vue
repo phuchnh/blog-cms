@@ -4,28 +4,57 @@
       <div class="row">
         <div class="col-sm-12" style="margin-top: 20px">
           <div class="col-sm-6" style="padding: 0; float: left">
-            <SearchForm @fetchList="fetchUserList" @search="search"></SearchForm>
+            <SearchForm @fetchList="reset" @search="search"></SearchForm>
           </div>
         </div>
       </div>
 
-      <a-table bordered
-               :dataSource="users"
-               :columns="columns"
-               :rowKey="record => record.id"
-               :loading="loading"
-               :pagination="pagination"
-               @change="change">
-        <template slot="action" slot-scope="text, record">
-          <a-button @click="routeToDetail(record.id)">Edit</a-button>
-          <a-popconfirm
-              v-if="users.length"
-              title="Are you sure to delete?"
-              @confirm="onDelete(record.id)">
-            <a-button type="danger">Delete</a-button>
-          </a-popconfirm>
-        </template>
-      </a-table>
+      <el-table
+          :data="users"
+          border
+          stripe
+          style="width: 100%"
+          v-loading="loading"
+          @sort-change="sortTable"
+          empty-text="No data">
+        <el-table-column
+            prop="id"
+            label="Id"
+            width="100"
+            sortable="custom">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="Name"
+            width="700"
+            sortable="custom">
+        </el-table-column>
+        <el-table-column
+            label="Role"
+            prop="type"
+            sortable="custom">
+          <template slot-scope="scope">
+            {{ scope.row.type | capitalize }}
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="Action">
+          <template slot-scope="scope">
+            <button class="btn btn-default margin-r-5" @click="routeToDetail(scope.row.id)">Edit</button>
+            <button class="btn btn-danger" @click="onDelete(scope.row.id)">Delete</button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pull-right" style="margin-top: 20px">
+        <el-pagination
+            background
+            layout="prev, pager, next"
+            :current-page="params.page"
+            :page-size="pagination.pageSize"
+            :total="pagination.total"
+            @current-change="paginate">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -37,7 +66,6 @@
   export default {
     name: 'UserList',
     components: { SearchForm },
-    title: 'User List',
     computed: {
       ...mapGetters('user', {
         users: 'users',
@@ -47,7 +75,7 @@
     data () {
       return {
         loading: true,
-        sort: { ascend: 'asc', descend: 'desc' },
+        sort: { ascending: 'asc', descending: 'desc' },
         columns: [
           {
             title: 'Id',
@@ -73,6 +101,12 @@
             scopedSlots: { customRender: 'action' },
           },
         ],
+        params: {
+          page: 1,
+          perPage: 10,
+          sort: 'updated_at',
+          direction: 'desc'
+        }
       }
     },
     mounted () {
@@ -81,33 +115,36 @@
     methods: {
       fetchUserList (options) {
         this.loading = true
-
-        let params = {
-          page: 1,
-          perPage: 10,
-        }
-
-        params = _.assign(params, options)
-
-        this.$store.dispatch('user/getUserList', params).then(() => this.loading = false)
+        this.params = _.assign(this.params, options)
+        this.$store.dispatch('user/getUserList', this.params).then(() => this.loading = false)
       },
-      change (pagination, filters, sorter) {
-        this.loading = true
-
-        let params = {
-          sort: sorter.field || 'updated_at',
-          direction: this.sort[sorter.order] || 'desc',
-          page: pagination.current,
-          perPage: pagination.pageSize,
-        }
-
-        this.$store.dispatch('user/getUserList', params).then(() => this.loading = false)
+      sortTable ({prop, order}) {
+        this.params.sort = prop
+        this.params.direction = this.sort[order]
+        this.fetchUserList()
+      },
+      paginate (currentPage) {
+        this.params.page = currentPage
+        this.params.perPage = this.pagination.pageSize
+        this.fetchUserList()
       },
       routeToDetail (id) {
         this.$router.push({ name: 'userDetail', params: { id: id } })
       },
       onDelete (key) {
-        this.$store.dispatch('user/deleteUser', key).then(() => this.fetchUserList())
+        this.$confirm('Are you sure you want to delete this item?', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          this.$store.dispatch('user/deleteUser', key)
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Delete completed',
+          })
+          this.fetchUserList()
+        })
       },
       search (searchKey) {
         const params = {
@@ -115,6 +152,16 @@
         }
         this.fetchUserList(params)
       },
+      reset () {
+        const initialParams = {
+          page: 1,
+          perPage: 10,
+          sort: 'updated_at',
+          direction: 'desc',
+        };
+        this.params = {...initialParams}
+        this.fetchUserList()
+      }
     },
   }
 </script>
