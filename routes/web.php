@@ -24,7 +24,7 @@ Route::get('/about/{slug?}', function ($slug = null) {
         'navigate' => 'about',
         'slug'     => $slug,
     ]);
-});
+})->name('about');
 
 Route::get('/event/{slug?}', function ($slug = null) {
     $slug = $slug ? $slug : 'index';
@@ -67,6 +67,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/blogs', 'BlogController@index')->name('blogs');
 Route::get('/blogs/{slug}', 'BlogController@show')->name('blogitem');
+
+Route::get('/press', 'PressController@index')->name('press');
+Route::get('/press/{slug}', 'PressController@show')->name('pressitem');
+
 
 Route::prefix('/admin')->group(function () {
     Route::get('/{any?}', 'AdminController')->where('any', '.*');
