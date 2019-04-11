@@ -70,7 +70,6 @@
                     </div>
                 </div>
             @endif
-
         </section>
     </article>
 @stop

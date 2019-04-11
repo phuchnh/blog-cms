@@ -12,7 +12,7 @@
         <div class="blog__content">
             <div class="container">
                 <div class="blog__content-03">
-                    @if ($data)
+                    @isset ($data)
                         @foreach ($data as $item)
                             <div class="blog__content03--item">
                                 <div class="row">
@@ -42,12 +42,14 @@
                                 </div>
                             </div>
                         @endforeach
-                    @endif
+                    @endisset
                 </div>
 
+                @isset($links)
                 <div class="about-pagination">
                     {{ $links }}
                 </div>
+                @endisset
 
             </div>
         </div>

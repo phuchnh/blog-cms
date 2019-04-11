@@ -37,11 +37,12 @@ class BlogController extends Controller
             ->success($posts, PostTransformer::class)
             ->toCollection();
 
-        return view('page.blog.index-row', [
-            'data'     => $data['data'],
-            'links'    => $posts->links(),
-            'navigate' => 'results',
-            'slug'     => 'blog',
+        return view('page.blog.index-mix', [
+            'data'        => $data['data'],
+            'links'       => $posts->links(),
+            'navigate'    => 'resources',
+            'subnavigate' => 'blogs',
+            'slug'        => 'blog',
         ]);
     }
 
@@ -61,7 +62,8 @@ class BlogController extends Controller
         return view('page.blog.item', [
             'item'     => $data,
             'others'   => $others,
-            'navigate' => 'results',
+            'navigate'    => 'resources',
+            'subnavigate' => 'blogs',
             'slug'     => 'blog',
         ]);
     }

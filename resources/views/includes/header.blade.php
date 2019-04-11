@@ -3,7 +3,7 @@
             <div class="header-top background--dark-grey">
                 <nav class="navbar navbar-expand-lg">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link font_color--white font-weight-bold" href="#">+84 8 66593431</a>
                         </li>
                         <li class="nav-item">
