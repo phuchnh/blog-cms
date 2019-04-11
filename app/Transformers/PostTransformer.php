@@ -74,7 +74,7 @@ class PostTransformer extends Transformer
      */
     private function transformTag(\App\Models\Post $post)
     {
-        $taxonomy = new TaxonomyTransformer();
+        //$taxonomy = new TaxonomyTransformer();
 
         //return ['tag' => $taxonomy->transform($post->taxonomies)];
         return ['tag' => $post->taxonomies];

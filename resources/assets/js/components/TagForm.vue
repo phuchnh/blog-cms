@@ -48,10 +48,11 @@
         inputValue: '',
       }
     },
-    watch: {},
     methods: {
       /**
        * Submit & filter after delete tag
+       * update value to parent
+       * @param removedTag
        */
       handleClose (removedTag) {
         let tags = _.map(this.tagData.tag, 'name')
@@ -90,6 +91,7 @@
           inputValue: '',
         })
       },
+
       /**
        * transform tag to array
        * @param tags

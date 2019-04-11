@@ -29,12 +29,9 @@
 
               <template v-if="type === 'event'">
                 <!-- Add Date Picker -->
-                <post-date-form :metaData.sync="post" v-validate="'required'" name="date"
-                                :error="errors.first('date')"></post-date-form>
-
+                <post-date-form :metaData.sync="post" :formAction.sync="formAction"></post-date-form>
                 <!-- Add Location -->
-                <post-location-form :metaData.sync="post" v-validate="'required'" name="location"
-                                    :error="errors.first('location')"></post-location-form>
+                <post-location-form :metaData.sync="post"></post-location-form>
               </template>
 
               <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
@@ -56,9 +53,9 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" v-if="imgUrl || post.thumbnail">
                   <div class="col-sm-offset-2 col-sm-9">
-                    <img class="img img-thumbnail" width="200" v-if="imgUrl || post.thumbnail"
+                    <img class="img img-thumbnail" width="200"
                          v-bind:src="imgUrl ? imgUrl : post.thumbnail">
                   </div>
                 </div>
@@ -80,7 +77,7 @@
                 <div class="form-group" :class="{ 'has-error': errors[0] }">
                   <label class="col-sm-2 control-label">Content <span class="required">*</span></label>
                   <div class="col-sm-10">
-<!--                    <jodit-vue name="content" v-model="post.content" :config="editorConfigJS"></jodit-vue>-->
+                    <Editor name="content" v-model="post.content"/>
                     <div class="help-block" v-if="errors">
                       <span>{{ errors[0] }}</span>
                     </div>
@@ -90,7 +87,7 @@
 
               <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
                 <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                   <select v-validate="'required'" class="form-control" id="publish" name="publish"
                           v-model="post.publish">
                     <option v-for="status in postStatus" :value="status.value">{{status.name}}</option>
@@ -148,9 +145,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // Jodit
-  // import JoditVue from 'jodit-vue'
-  // import 'jodit/build/jodit.min.css'
+  import Editor from '@/components/Editor.vue'
 
   // Custom validate
   import { ValidationProvider } from 'vee-validate'
@@ -169,13 +164,13 @@
     name: 'PostForm',
     components: {
       TagForm,
-      // JoditVue,
+      Editor,
       PostLocationForm,
       PostDateForm,
       PostMetaForm,
       PostOtherFrom,
       PostDisplay,
-      ValidationProvider
+      ValidationProvider,
     },
     data () {
       return {
@@ -184,26 +179,13 @@
           { name: 'Draft', value: 0 },
         ],
         imgUrl: null,
-        editorConfigJS: {
-          uploader: {
-            url: 'https://xdsoft.net/jodit/connector/index.php?action=fileUpload',
-            queryBuild: function (data) {
-              return JSON.stringify(data)
-            },
-            contentType: function () {
-              return 'application/json'
-            },
-            buildData: function (data) {
-              return { hello: 'Hello world' }
-            },
-          },
-        },
       }
     },
     created () {
       this.post.content = this.post.content ? this.post.content : ''
       this.post.meta = this.post.meta ? this.post.meta : {}
       this.post.tag = this.post.tag ? this.post.tag : []
+      this.post.publish = this.post.publish || 1
     },
     computed: {
       ...mapGetters({
@@ -228,7 +210,7 @@
           if (val.id === oldVal.id && val !== oldVal) {
             this.$store.dispatch('post/savedPost', false)
           }
-        }
+        },
       },
       metaData (val) {
         console.log(val)
