@@ -13,7 +13,6 @@
           :data="users"
           border
           stripe
-          style="width: 100%"
           v-loading="loading"
           @sort-change="sortTable"
           empty-text="No data">
@@ -26,7 +25,6 @@
         <el-table-column
             prop="name"
             label="Name"
-            width="700"
             sortable="custom">
         </el-table-column>
         <el-table-column
@@ -45,7 +43,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pull-right" style="margin-top: 20px">
+
+      <div class="pagination-container">
         <el-pagination
             background
             layout="prev, pager, next"
@@ -76,37 +75,12 @@
       return {
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
-        columns: [
-          {
-            title: 'Id',
-            key: 'id',
-            dataIndex: 'id',
-            sorter: true,
-          },
-          {
-            title: 'Name',
-            key: 'name',
-            dataIndex: 'name',
-            sorter: true,
-          },
-          {
-            title: 'Role',
-            key: 'type',
-            dataIndex: 'type',
-            sorter: true,
-          },
-          {
-            title: 'Action',
-            dataIndex: 'action',
-            scopedSlots: { customRender: 'action' },
-          },
-        ],
         params: {
           page: 1,
           perPage: 10,
           sort: 'updated_at',
-          direction: 'desc'
-        }
+          direction: 'desc',
+        },
       }
     },
     mounted () {
@@ -118,7 +92,7 @@
         this.params = _.assign(this.params, options)
         this.$store.dispatch('user/getUserList', this.params).then(() => this.loading = false)
       },
-      sortTable ({prop, order}) {
+      sortTable ({ prop, order }) {
         this.params.sort = prop
         this.params.direction = this.sort[order]
         this.fetchUserList()
@@ -137,13 +111,13 @@
           cancelButtonText: 'Cancel',
           type: 'warning',
         }).then(() => {
-          this.$store.dispatch('user/deleteUser', key)
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: 'Delete completed',
+          this.$store.dispatch('user/deleteUser', key).then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Delete completed',
+            })
+            this.fetchUserList()
           })
-          this.fetchUserList()
         })
       },
       search (searchKey) {
@@ -158,10 +132,10 @@
           perPage: 10,
           sort: 'updated_at',
           direction: 'desc',
-        };
-        this.params = {...initialParams}
+        }
+        this.params = { ...initialParams }
         this.fetchUserList()
-      }
+      },
     },
   }
 </script>

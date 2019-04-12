@@ -7,11 +7,12 @@ import Antd from 'ant-design-vue'
 import ElementUI from 'element-ui';
 import VeeValidate from 'vee-validate'
 import * as filters from './util/filters'
+import locale from 'element-ui/lib/locale/lang/en'
 
 
 Vue.config.productionTip = false
 Vue.use(Antd)
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 Vue.use(VeeValidate, { locale: 'vi' })
 
 // register global utility filters.

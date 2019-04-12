@@ -3,7 +3,13 @@
     <div class="form-group" :class="{ 'has-error': errors.first('date') }">
       <label class="col-sm-2 control-label">Date <span class="required">*</span></label>
       <div class="col-sm-8">
-        <a-date-picker v-model="item.date" name="date"  v-validate="'required'" />
+        <el-date-picker
+            v-model="item.date"
+            type="date"
+            name="date"
+            placeholder="Pick a day"
+            v-validate="'required'">
+        </el-date-picker>
         <div class="help-block" v-if="errors.first('date')">
           {{ errors.first('date') }}
         </div>
@@ -12,7 +18,13 @@
     <div class="form-group" :class="{ 'has-error': errors.first('start_time') }">
       <label class="col-sm-2 control-label">Start time <span class="required">*</span></label>
       <div class="col-sm-8">
-        <a-time-picker use12Hours format="h:mm:ss A" name="start_time" v-model="item.start_time" v-validate="'required'" />
+        <el-time-picker
+            format="hh:mm:ss A"
+            v-model="item.start_time"
+            placeholder="Pick start time"
+            name="Start time"
+            v-validate="'required'">
+        </el-time-picker>
         <div class="help-block" v-if="errors.first('start_time')">
           {{ errors.first('start_time') }}
         </div>
@@ -21,7 +33,13 @@
     <div class="form-group" :class="{ 'has-error': errors.first('end_time') }">
       <label class="col-sm-2 control-label">End time <span class="required">*</span></label>
       <div class="col-sm-8">
-        <a-time-picker use12Hours format="h:mm:ss A" name="end_time" v-model="item.end_time" v-validate="'required'" />
+        <el-time-picker
+            format="hh:mm:ss A"
+            v-model="item.end_time"
+            placeholder="Pick end time"
+            name="End time"
+            v-validate="'required'">
+        </el-time-picker>
         <div class="help-block" v-if="errors.first('end_time')">
           {{ errors.first('end_time') }}
         </div>
