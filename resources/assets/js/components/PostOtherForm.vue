@@ -8,6 +8,24 @@
 
     <div class="box-body">
       <div class="col-sm-12">
+        <el-select
+            v-model="value"
+            multiple
+            filterable
+            remote
+            size="large"
+            style="width: 100%"
+            placeholder="Select other posts"
+            :remote-method="fetchPost"
+            @change="handleChange"
+            :loading="fetching">
+          <el-option
+              v-for="item in data"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value">
+          </el-option>
+        </el-select>
         <a-select
             id="other_post"
             mode="multiple"

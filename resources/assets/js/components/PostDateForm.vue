@@ -22,7 +22,7 @@
             format="hh:mm:ss A"
             v-model="item.start_time"
             placeholder="Pick start time"
-            name="Start time"
+            name="start_time"
             v-validate="'required'">
         </el-time-picker>
         <div class="help-block" v-if="errors.first('start_time')">
@@ -37,7 +37,7 @@
             format="hh:mm:ss A"
             v-model="item.end_time"
             placeholder="Pick end time"
-            name="End time"
+            name="end_time"
             v-validate="'required'">
         </el-time-picker>
         <div class="help-block" v-if="errors.first('end_time')">

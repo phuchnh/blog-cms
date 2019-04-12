@@ -52,30 +52,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!--<a-table bordered-->
-    <!--:dataSource="posts"-->
-    <!--:columns="columns"-->
-    <!--:rowKey="record => record.id"-->
-    <!--:loading="loading"-->
-    <!--:pagination="pagination"-->
-    <!--@change="change">-->
-    <!--<template slot="thumbnail" slot-scope="text, record">-->
-    <!--<img :src="record.thumbnail" height="50" width="auto">-->
-    <!--</template>-->
-
-    <!--<template slot="status" slot-scope="text, record">-->
-    <!--{{text ? 'Publish' : 'Draft'}}-->
-    <!--</template>-->
-    <!--<template slot="action" slot-scope="text, record">-->
-    <!--<a-button @click="$emit('edit', record.id)">Edit</a-button>-->
-    <!--<a-popconfirm-->
-    <!--v-if="posts.length"-->
-    <!--title="Are you sure to delete?"-->
-    <!--@confirm="onDelete(record.id)">-->
-    <!--<a-button type="danger">Delete</a-button>-->
-    <!--</a-popconfirm>-->
-    <!--</template>-->
-    <!--</a-table>-->
 
     <div class="pagination-container">
       <el-pagination
