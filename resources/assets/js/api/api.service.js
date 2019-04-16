@@ -7,10 +7,7 @@ const axiosInstance = axios.create({
     'X-Requested-With': 'XMLHttpRequest',
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-  },
-  params: {
-    'XDEBUG_SESSION_START': 'PHPSTORM',
-  },
+  }
 })
 
 let token = document.head.querySelector('meta[name="csrf-token"]')
