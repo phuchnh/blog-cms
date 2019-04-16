@@ -51,6 +51,7 @@
         <router-link :to="{name: 'clientList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>Client</span></a></router-link>
         <!--<router-link :to="{name: 'blogList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>Subscriber</span></a></router-link>-->
         <router-link :to="{name: 'faqList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>FAQ</span></a></router-link>
+        <router-link :to="{name: 'setting'}" tag="li" active-class="active"><a><i class="fa fa-gear"></i> <span>Setting</span></a></router-link>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

@@ -27,6 +27,7 @@ import PracticeDetail from '@/view/PracticeDetail'
 import PracticeNew from '@/view/PracticeNew'
 import FaqDetail from '@/view/FaqDetail'
 import FaqNew from '@/view/FaqNew'
+import Setting from '@/view/Setting'
 
 Vue.use(Router)
 
@@ -269,6 +270,16 @@ export default new Router({
           component: PracticeDetail,
           meta: {
             title: 'PracticeDetail',
+            description: '',
+          },
+        },
+
+        {
+          path: 'settings',
+          name: 'setting',
+          component: Setting,
+          meta: {
+            title: 'Setting',
             description: '',
           },
         },
