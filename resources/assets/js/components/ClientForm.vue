@@ -49,89 +49,87 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ClientForm',
     computed: {
       ...mapGetters({
         client: 'client/client',
-        saved: 'client/saved'
-      })
+        saved: 'client/saved',
+      }),
     },
     props: {
-      formAction: String
+      formAction: String,
     },
-    mounted() {
+    mounted () {
       if (this.formAction === 'edit') {
-        this.$store.dispatch('client/getClient', this.$route.params.id);
-        this.$store.dispatch('client/savedClient', true);
-        console.log(this.saved);
+        this.$store.dispatch('client/getClient', this.$route.params.id)
+        this.$store.dispatch('client/savedClient', true)
+        console.log(this.saved)
       }
     },
     watch: {
       client: {
         deep: true,
-        handler(val, oldVal) {
+        handler (val, oldVal) {
           if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('client/savedClient', false);
+            this.$store.dispatch('client/savedClient', false)
           }
-        }
-      }
+        },
+      },
     },
-    data() {
+    data () {
       return {
-        imgUrl: null
+        imgUrl: null,
       }
     },
     methods: {
-      submit() {
+      submit () {
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
               this.$store.dispatch('client/updateClient', this.client).then(() => {
-                this.$store.dispatch('client/savedClient', true);
-                console.log(this.saved);
-                this.$message.success('Update successfully');
-                this.$emit('routeToList');
+                this.$store.dispatch('client/savedClient', true)
+                console.log(this.saved)
+                this.$message.success('Update successfully')
+                this.$emit('routeToList')
+              }).catch((error) => {
+                console.log(error)
+                this.$message.error('Error')
               })
-                  .catch((error) => {
-                    console.log(error);
-                    this.$message.error('Error');
-                  });
             } else if (this.formAction === 'create') {
               this.$store.dispatch('client/createClient', this.client).then(() => {
-                this.$store.dispatch('client/savedClient', true);
-                console.log(this.saved);
-                this.$message.success('Create successfully');
-                this.$emit('routeToList');
+                this.$store.dispatch('client/savedClient', true)
+                console.log(this.saved)
+                this.$message.success('Create successfully')
+                this.$emit('routeToList')
+              }).catch((error) => {
+                console.log(error)
+                this.$message.error('Error')
               })
-                  .catch((error) => {
-                    console.log(error);
-                    this.$message.error('Error');
-                  });
             }
           } else {
             this.$message.error('Invalid Form !')
           }
-        });
+        })
 
       },
-      onFileChange(event) {
-        const file = event.target.files[0];
+      onFileChange (event) {
+        const file = event.target.files[0]
         const temp = {
           name: file.name,
-        };
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+        }
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
         reader.onloadend = () => {
-          this.imgUrl = reader.result;
-          temp.body = reader.result.split(',')[1];
-        };
-        this.client.thumbnail = temp;
-      }
-    }
-  };
+          this.imgUrl = reader.result
+          temp.body = reader.result.split(',')[1]
+        }
+        this.client.thumbnail = temp
+      },
+    },
+  }
 </script>
 
 <style scoped>

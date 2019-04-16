@@ -1,49 +1,48 @@
 <template>
-    <div class="box">
-        <ClientForm :formAction="formAction" @routeToList="routeToList"></ClientForm>
-    </div>
+  <div class="box">
+    <ClientForm :formAction="formAction" @routeToList="routeToList"></ClientForm>
+  </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
-  import ClientForm from '../components/ClientForm';
+  import { mapGetters } from 'vuex'
+  import ClientForm from '../components/ClientForm'
+
   export default {
     name: 'ClientDetail',
-    components: {ClientForm},
+    components: { ClientForm },
     computed: {
       ...mapGetters({
-        saved: 'client/saved'
-      })
+        saved: 'client/saved',
+      }),
     },
-    beforeRouteLeave(from, to, next) {
+    beforeRouteLeave (from, to, next) {
       if (!this.saved) {
-        this.$confirm({
-          title: 'Are you sure you want to leave without saving?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk: () => {
-            this.$store.dispatch('client/resetState');
-            next();
-          },
-        });
+        this.$confirm('Are you sure you want to leave without saving?', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          type: 'danger',
+        }).then(() => {
+          this.$store.dispatch('client/resetState')
+          next()
+        })
       } else {
-        this.$store.dispatch('client/resetState');
-        next();
+        this.$store.dispatch('client/resetState')
+        next()
       }
     },
-    data() {
+    data () {
       return {
-        formAction: 'edit'
+        formAction: 'edit',
       }
     },
     methods: {
-      routeToList() {
-        console.log(this.saved);
-        this.$router.push({name: 'clientList'});
-      }
-    }
-  };
+      routeToList () {
+        console.log(this.saved)
+        this.$router.push({ name: 'clientList' })
+      },
+    },
+  }
 </script>
 
 <style scoped>
