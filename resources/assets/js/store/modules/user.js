@@ -4,7 +4,8 @@ export const namespaced = true;
 const initialState = {
   users: [],
   user: {},
-  saved: false
+  saved: false,
+  paginator: {},
 };
 
 export const state = { ...initialState };
@@ -12,13 +13,21 @@ export const state = { ...initialState };
 const getters = {
   user: state => state.user,
   users: state => state.users,
-  saved: state => state.saved
+  saved: state => state.saved,
+  pagination: state => state.paginator,
 };
 
 const actions = {
-  getUserList({commit}) {
-    return ApiService.get('/users').then(res => {
-      commit('setUsers', res.data.data);
+  getUserList({commit}, params) {
+    return ApiService.get('/users', params).then(res => {
+      const pagination = res.data.pagination
+      const users = res.data.data
+
+      commit('setUsers', users)
+      commit('setPaginator', {
+        total: pagination.total,
+        pageSize: pagination.perPage,
+      })
     });
   },
   getUser({commit}, id) {
@@ -65,7 +74,10 @@ const mutations = {
   },
   savedUser(state, saved) {
     state.saved = saved;
-  }
+  },
+  setPaginator: (state, paginator) => {
+    state.paginator = { ...paginator }
+  },
 };
 
 export default {

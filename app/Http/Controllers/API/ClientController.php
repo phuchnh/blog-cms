@@ -5,15 +5,34 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateClientRequest;
 use App\Http\Requests\API\UpdateClientRequest;
 use App\Models\Client;
+use Illuminate\Http\Request;
 
 class ClientController extends ApiBaseController
 {
-    public function index(Client $clients)
+    /**
+     * @param \App\Models\Client $clients
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Client $clients, Request $request)
     {
-        return $this->ok($clients->with('media')
-                                 ->orderBy('id', 'desc')->get());
+        $paginator = $request->get('perPage');
+
+        $clients = $clients
+            ->when($request->input('name'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('name', 'LIKE', '%'.$request->input('name').'%');
+            })
+            ->sortable([$request->get('sort') => $request->get('direction')])
+            ->orderBy('id', 'desc')->paginate($paginator);
+
+        return $this->ok($clients);
     }
 
+    /**
+     * @param \App\Models\Client $client
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Client $client)
     {
         if ($client->media()->count() > 0) {
@@ -25,6 +44,10 @@ class ClientController extends ApiBaseController
         return $this->ok($client->load('media'));
     }
 
+    /**
+     * @param \App\Http\Requests\API\CreateClientRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(CreateClientRequest $request)
     {
         $client = Client::create($request->validated());
@@ -66,6 +89,11 @@ class ClientController extends ApiBaseController
         return $this->noContent();
     }
 
+    /**
+     * @param \App\Models\Client $client
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function destroy(Client $client)
     {
         if (! empty($client->media->all())) {

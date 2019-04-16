@@ -1,8 +1,24 @@
 <template>
-  <div class="box">
+  <div class="box" v-if="clients">
     <div class="box-body">
-      <button @click="routeToNew" class="btn btn-primary" style="margin: 20px 0">Add New</button>
-      <a-table bordered :dataSource="clients" :columns="columns" rowKey="id" :loading="loading">
+      <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px">
+          <div class="col-sm-6" style="padding: 0; float: left">
+            <SearchForm @fetchList="fetchClientList" @search="search"></SearchForm>
+          </div>
+          <div class="col-sm-2 col-sm-offset-4 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
+            <button @click="routeToNew" class="btn btn-primary pull-right">Add New</button>
+          </div>
+        </div>
+      </div>
+
+      <a-table bordered
+               :dataSource="clients"
+               :columns="columns"
+               :rowKey="record => record.id"
+               :loading="loading"
+               :pagination="pagination"
+               @change="change">
         <template slot="action" slot-scope="text, record">
           <a-button @click="routeToDetail(record.id)">Edit</a-button>
           <a-popconfirm
@@ -19,26 +35,30 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import SearchForm from '../components/SearchForm'
 
   export default {
     name: 'ClientList',
-    components: {},
+    components: {SearchForm},
     computed: {
-      ...mapGetters({
-        clients: 'client/clients',
+      ...mapGetters('client', {
+        clients: 'clients',
+        pagination: 'pagination',
       }),
     },
     data () {
       return {
         loading: true,
+        sort: { ascend: 'asc', descend: 'desc' },
         columns: [
           {
             title: 'Id',
             key: 'id',
             dataIndex: 'id',
+            sorter: true
           },
           {
-            title: 'thumbnail',
+            title: 'Thumbnail',
             key: 'thumbnail',
             dataIndex: 'thumbnail'
           },
@@ -46,6 +66,7 @@
             title: 'Name',
             key: 'name',
             dataIndex: 'name',
+            sorter: true
           },
           {
             title: 'Action',
@@ -59,9 +80,29 @@
       this.fetchClientList()
     },
     methods: {
-      fetchClientList () {
+      fetchClientList (options) {
         this.loading = true
-        this.$store.dispatch('client/getClientList', this.type).then(() => this.loading = false)
+
+        let params = {
+          page: 1,
+          perPage: 10,
+        }
+
+        params = _.assign(params, options)
+
+        this.$store.dispatch('client/getClientList', params).then(() => this.loading = false)
+      },
+      change (pagination, filters, sorter) {
+        this.loading = true
+
+        let params = {
+          sort: sorter.field || 'updated_at',
+          direction: this.sort[sorter.order] || 'desc',
+          page: pagination.current,
+          perPage: pagination.pageSize,
+        }
+
+        this.$store.dispatch('client/getClientList', params).then(() => this.loading = false)
       },
       onDelete (key) {
         this.$store.dispatch('client/deleteClient', key).then(() => this.fetchClientList())
@@ -71,6 +112,12 @@
       },
       routeToNew () {
         this.$router.push({ name: 'clientNew' })
+      },
+      search (searchKey) {
+        const params = {
+          name: searchKey,
+        }
+        this.fetchClientList(params)
       },
     },
   }

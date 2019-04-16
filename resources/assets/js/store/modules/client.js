@@ -4,7 +4,8 @@ export const namespaced = true;
 const initialState = {
   clients: [],
   client: {},
-  saved: false
+  saved: false,
+  paginator: {},
 };
 
 export const state = { ...initialState };
@@ -12,16 +13,21 @@ export const state = { ...initialState };
 const getters = {
   client: state => state.client,
   clients: state => state.clients,
-  saved: state => state.saved
+  saved: state => state.saved,
+  pagination: state => state.paginator
 };
 
 const actions = {
-  getClientList({commit}, type) {
-    const params = {
-      type: type
-    };
+  getClientList({commit}, params) {
     return ApiService.get('/clients', params).then(res => {
-      commit('setClients', res.data.data);
+      const pagination = res.data.pagination
+      const clients = res.data.data
+
+      commit('setClients', clients)
+      commit('setPaginator', {
+        total: pagination.total,
+        pageSize: pagination.perPage,
+      })
     });
   },
   getClient({commit}, id) {
@@ -67,7 +73,10 @@ const mutations = {
   },
   savedClient(state, saved) {
     state.saved = saved;
-  }
+  },
+  setPaginator: (state, paginator) => {
+    state.paginator = { ...paginator }
+  },
 };
 
 export default {
