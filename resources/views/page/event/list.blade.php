@@ -7,7 +7,7 @@
                  style="background:url('/app/img/event/event-banner.jpg')">
 
             <div class="font_color--white font-weight-bold">
-                EVENTS & PROGRAMS
+                @lang('site.event-and-program')
             </div>
         </section>
 

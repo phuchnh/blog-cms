@@ -65,7 +65,7 @@
                                             <p class="fs--0-9em">{{$other['created_at']}}</p>
                                         </div>
                                         <hr class="hr__short--grey"/>
-                                        <a href="{{route('blogitem', $other['slug'])}}" class="font_color--orange">
+                                        <a href="{{route('pressitem', $other['slug'])}}" class="font_color--orange">
                                             @lang('site.view_more')
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>

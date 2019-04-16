@@ -11,12 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('page.home', [
-        'navigate' => 'home',
-    ]);
-});
-
 Route::get('/about/{slug?}', function ($slug = null) {
     $slug = $slug ? $slug : 'story';
 
@@ -64,7 +58,13 @@ Route::get('/whymindfullness/{slug?}', function ($slug = null) {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/', function () {
+//    return view('page.home', [
+//        'navigate' => 'home',
+//    ]);
+//});
+
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/blogs', 'BlogController@index')->name('blogs');
 Route::get('/blogs/{slug}', 'BlogController@show')->name('blogitem');
 

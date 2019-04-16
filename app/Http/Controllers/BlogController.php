@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Transformers\PostTransformer;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 use App\Models\Post;
@@ -32,13 +33,8 @@ class BlogController extends Controller
             ->sortable([$request->get('sort') => $request->get('direction')])
             ->orderBy('id', 'desc')->paginate($paginator);
 
-        // Transform Post Data
-        $data = responder()
-            ->success($posts, PostTransformer::class)
-            ->toCollection();
-
         return view('page.blog.index-mix', [
-            'data'        => $data['data'],
+            'data'        => $this->loadTransformData($posts),
             'links'       => $posts->links(),
             'navigate'    => 'resources',
             'subnavigate' => 'blogs',
@@ -81,13 +77,11 @@ class BlogController extends Controller
         } else {
             $post = Post::findBySlugOrFail($slug);
 
-            $data = responder()
-                ->success($post, PostTransformer::class)
-                ->toCollection();
+            $data = $this->loadTransformData($post);
 
-            Cache::put('post_'.$slug, $data['data'], 60);
+            Cache::put('post_'.$slug, $data, 60);
 
-            return $data['data'];
+            return $data;
         }
     }
 
@@ -112,13 +106,11 @@ class BlogController extends Controller
                               return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
-            $data = responder()
-                ->success($others, PostTransformer::class)
-                ->toCollection();
+            $data = $this->loadTransformData($others);
 
-            Cache::put('post_others_'.$post['slug'], $data['data'], 60);
+            Cache::put('post_others_'.$post['slug'], $data, 60);
 
-            return $data['data'];
+            return $data;
         }
     }
 }

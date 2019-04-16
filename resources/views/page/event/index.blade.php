@@ -6,14 +6,14 @@
         <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
                  style="background:url('/app/img/event/event-banner.jpg')">
 
-            <div class="font_color--white font-weight-bold">
-                EVENTS & PROGRAMS
+            <div class="font_color--white font-weight-bold text-uppercase">
+                @lang('site.event-and-program')
             </div>
         </section>
 
         <div class="event-headline__top">
             <div class="container">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
             </div>
         </div>
 

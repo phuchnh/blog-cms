@@ -43,7 +43,7 @@
 
         <div class="header-main background--orange font_color--white">
             <nav class="navbar navbar-expand-lg navbar-light padding--none">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{route('home')}}">
                     <img src="/app/img/onelifeconnection-logo.png" width="" height="50" alt="">
                 </a>
 
@@ -55,7 +55,7 @@
                 <div class="collapse navbar-collapse" id="main_navigate">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item @if ($navigate === 'home') active @endif">
-                            <a class="nav-link text-uppercase" href="#">Home <span
+                            <a class="nav-link text-uppercase" href="{{route('home')}}">Home <span
                                         class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item @if ($navigate === 'about') active @endif">

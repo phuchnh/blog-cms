@@ -35,13 +35,8 @@ class ProgramController extends Controller
             ->sortable([$request->get('sort') => $request->get('direction')])
             ->orderBy('id', 'desc')->paginate(5);
 
-        // Transform Post Data
-        $data = responder()
-            ->success($posts, PostTransformer::class)
-            ->toCollection();
-
         return view('page.event.list', [
-            'data'        => $data['data'],
+            'data'        => $this->loadTransformData($posts),
             'links'       => $posts->links(),
             'navigate'    => 'program',
             'subnavigate' => 'program',
@@ -84,13 +79,11 @@ class ProgramController extends Controller
         } else {
             $post = Post::findBySlugOrFail($slug);
 
-            $data = responder()
-                ->success($post, PostTransformer::class)
-                ->toCollection();
+            $data = $this->loadTransformData($post);
 
-            Cache::put('post_'.$slug, $data['data'], 60);
+            Cache::put('post_'.$slug, $data, 60);
 
-            return $data['data'];
+            return $data;
         }
     }
 
@@ -116,13 +109,11 @@ class ProgramController extends Controller
                               return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
-            $data = responder()
-                ->success($others, PostTransformer::class)
-                ->toCollection();
+            $data = $this->loadTransformData($others);
 
-            Cache::put('post_others_'.$post['slug'], $data['data'], 60);
+            Cache::put('post_others_'.$post['slug'], $data, 60);
 
-            return $data['data'];
+            return $data;
         }
     }
 }

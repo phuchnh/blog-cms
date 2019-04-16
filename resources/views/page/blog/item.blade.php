@@ -29,7 +29,7 @@
                             <hr class="hr__short--grey"/>
 
                             <div class="event-content">
-                                {{$item['content']}}
+                                {!! $item['content'] !!}
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@
 
         <div class="a-expert__top">
             <div class="container">
-                <p class="a-expert__top-01">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p class="a-expert__top-01">TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME</p>
                 <p class="a-expert__top-02">We would like to connect with trainers and coaches  who share our approach and want to cooperate for projects worth doing in Vietnam.</p>
             </div>
         </div>

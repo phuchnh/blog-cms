@@ -11,7 +11,7 @@
 
         <div class="about-contact__top">
             <div class="container">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
             </div>
         </div>
 
