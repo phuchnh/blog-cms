@@ -9,6 +9,7 @@ import UserDetail from '@/view/UserDetail'
 import InThePressNew from '@/view/InThePressNew'
 import InThePressList from '@/view/InThePressList'
 import InThePressDetail from '@/view/InThePressDetail'
+import InThePressTrashList from '@/view/InThePressTrashList'
 import BlogList from '@/view/BlogList'
 import BlogNew from '@/view/BlogNew'
 import BlogDetail from '@/view/BlogDetail'
@@ -26,6 +27,7 @@ import PracticeDetail from '@/view/PracticeDetail'
 import PracticeNew from '@/view/PracticeNew'
 import FaqDetail from '@/view/FaqDetail'
 import FaqNew from '@/view/FaqNew'
+import Setting from '@/view/Setting'
 
 Vue.use(Router)
 
@@ -110,6 +112,15 @@ export default new Router({
           component: InThePressList,
           meta: {
             title: 'InThePressList',
+            description: '',
+          },
+        },
+        {
+          path: 'in-the-press/trash',
+          name: 'inThePressTrashList',
+          component: InThePressTrashList,
+          meta: {
+            title: 'InThePressTrashList',
             description: '',
           },
         },
@@ -259,6 +270,16 @@ export default new Router({
           component: PracticeDetail,
           meta: {
             title: 'PracticeDetail',
+            description: '',
+          },
+        },
+
+        {
+          path: 'settings',
+          name: 'setting',
+          component: Setting,
+          meta: {
+            title: 'Setting',
             description: '',
           },
         },
