@@ -91,6 +91,7 @@
           perPage: 10,
           sort: 'updated_at',
           direction: 'desc',
+          type: this.type
         },
         columns: [
           {
@@ -171,6 +172,7 @@
           perPage: 10,
           sort: 'updated_at',
           direction: 'desc',
+          type: this.type
         }
         this.params = { ...initialParams }
         this.fetchPostList()

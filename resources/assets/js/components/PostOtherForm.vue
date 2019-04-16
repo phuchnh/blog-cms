@@ -13,6 +13,7 @@
             multiple
             filterable
             remote
+            automatic-dropdown
             size="large"
             style="width: 100%"
             placeholder="Select other posts"
@@ -26,22 +27,6 @@
               :value="item.value">
           </el-option>
         </el-select>
-        <a-select
-            id="other_post"
-            mode="multiple"
-            labelInValue
-            :value="value"
-            placeholder="Select other posts"
-            style="width: 100%"
-            :filterOption="false"
-            @search="fetchPost"
-            @change="handleChange"
-            :notFoundContent="fetching ? undefined : null"
-        >
-          <a-spin v-if="fetching" slot="notFoundContent" size="small"/>
-
-          <a-select-option v-for="d in data" :key="d.value">{{d.text}}</a-select-option>
-        </a-select>
       </div>
     </div>
   </div>
