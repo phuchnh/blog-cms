@@ -31,7 +31,11 @@ class PostController extends ApiBaseController
                 $query->where('title', 'LIKE', '%'.$request->input('title').'%');
             })
             ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc')->paginate($paginator);
+            ->orderBy('id', 'desc');
+        if ($request->input('trash')) {
+            $posts = $posts->onlyTrashed();
+        }
+        $posts = $posts->paginate($paginator);
 
         return $this->ok($posts, PostTransformer::class);
     }
@@ -105,7 +109,6 @@ class PostController extends ApiBaseController
      */
     public function destroy(Post $post)
     {
-        $post->meta()->delete();
         $post->delete();
 
         return $this->noContent();
@@ -180,5 +183,33 @@ class PostController extends ApiBaseController
             $handle($attachItems);
             $post->taxonomies()->detach($detachItems);
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deletePermanently($id)
+    {
+        $post = Post::withTrashed()->findOrFail($id);
+        $post->meta()->delete();
+        $post->forceDelete();
+
+        return $this->noContent();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore($id)
+    {
+        Post::withTrashed()->findOrFail($id)->restore();
+
+        return $this->noContent();
     }
 }
