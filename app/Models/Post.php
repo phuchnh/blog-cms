@@ -18,16 +18,49 @@ class Post extends Model
     /**
      * @var array
      */
-    public $sortable = [
-        'id',
-        'title',
-        'description',
-        'content',
-        'publish',
-        'slug',
-        'created_at',
-        'updated_at',
-    ];
+    public $sortable = ['id', 'title', 'content', 'publish', 'slug', 'created_at', 'updated_at'];
+
+    /**
+     * Custom sort title
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function titleSortable($query, $direction)
+    {
+        return $query->join('post_translations', 'posts.id', '=', 'post_translations.post_id')
+                     ->orderBy('title', $direction)
+                     ->select('posts.*');
+    }
+
+    /**
+     * Custom sort content
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function contentSortable($query, $direction)
+    {
+        return $query->join('post_translations', 'posts.id', '=', 'post_translations.post_id')
+                     ->orderBy('content', $direction)
+                     ->select('posts.*');
+    }
+
+    /**
+     * Custom sort slug
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function slugSortable($query, $direction)
+    {
+        return $query->join('post_translations', 'posts.id', '=', 'post_translations.post_id')
+                     ->orderBy('slug', $direction)
+                     ->select('posts.*');
+    }
 
     /**
      * The table associated with the model.
