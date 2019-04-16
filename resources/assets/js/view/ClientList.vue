@@ -3,32 +3,59 @@
     <div class="box-body">
       <div class="row">
         <div class="col-sm-12" style="margin-top: 20px">
-          <div class="col-sm-6" style="padding: 0; float: left">
-            <SearchForm @fetchList="fetchClientList" @search="search"></SearchForm>
+          <div class="col-sm-5" style="padding: 0; float: left">
+            <SearchForm @fetchList="reset" @search="search"></SearchForm>
           </div>
-          <div class="col-sm-2 col-sm-offset-4 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
-            <button @click="routeToNew" class="btn btn-primary pull-right">Add New</button>
+          <div class="col-sm-2 col-sm-offset-5 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
+            <button @click="routeToNew" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
           </div>
         </div>
       </div>
 
-      <a-table bordered
-               :dataSource="clients"
-               :columns="columns"
-               :rowKey="record => record.id"
-               :loading="loading"
-               :pagination="pagination"
-               @change="change">
-        <template slot="action" slot-scope="text, record">
-          <a-button @click="routeToDetail(record.id)">Edit</a-button>
-          <a-popconfirm
-              v-if="clients.length"
-              title="Are you sure to delete?"
-              @confirm="onDelete(record.id)">
-            <a-button type="danger">Delete</a-button>
-          </a-popconfirm>
-        </template>
-      </a-table>
+      <el-table
+          :data="clients"
+          border
+          stripe
+          v-loading="loading"
+          @sort-change="sortTable"
+          empty-text="No data">
+        <el-table-column
+            prop="id"
+            label="Id"
+            width="100"
+            sortable="custom">
+        </el-table-column>
+        <el-table-column
+            prop="thumbnail"
+            label="Thumbnail">
+          <template slot-scope="scope">
+            <img :src="scope.row.thumbnail" height="50" width="auto">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="Name"
+            sortable="custom">
+        </el-table-column>
+        <el-table-column
+            label="Action">
+          <template slot-scope="scope">
+            <button class="btn btn-default margin-r-5" @click="routeToDetail(scope.row.id)">Edit</button>
+            <button class="btn btn-danger" @click="onDelete(scope.row.id)">Delete</button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="pagination-container">
+        <el-pagination
+            background
+            layout="prev, pager, next"
+            :current-page="params.page"
+            :page-size="pagination.pageSize"
+            :total="pagination.total"
+            @current-change="paginate">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +66,7 @@
 
   export default {
     name: 'ClientList',
-    components: {SearchForm},
+    components: { SearchForm },
     computed: {
       ...mapGetters('client', {
         clients: 'clients',
@@ -49,24 +76,30 @@
     data () {
       return {
         loading: true,
-        sort: { ascend: 'asc', descend: 'desc' },
+        sort: { ascending: 'asc', descending: 'desc' },
+        params: {
+          page: 1,
+          perPage: 10,
+          sort: 'updated_at',
+          direction: 'desc',
+        },
         columns: [
           {
             title: 'Id',
             key: 'id',
             dataIndex: 'id',
-            sorter: true
+            sorter: true,
           },
           {
             title: 'Thumbnail',
             key: 'thumbnail',
-            dataIndex: 'thumbnail'
+            dataIndex: 'thumbnail',
           },
           {
             title: 'Name',
             key: 'name',
             dataIndex: 'name',
-            sorter: true
+            sorter: true,
           },
           {
             title: 'Action',
@@ -82,30 +115,33 @@
     methods: {
       fetchClientList (options) {
         this.loading = true
-
-        let params = {
-          page: 1,
-          perPage: 10,
-        }
-
-        params = _.assign(params, options)
-
-        this.$store.dispatch('client/getClientList', params).then(() => this.loading = false)
+        this.params = _.assign(this.params, options)
+        this.$store.dispatch('client/getClientList', this.params).then(() => this.loading = false)
       },
-      change (pagination, filters, sorter) {
-        this.loading = true
-
-        let params = {
-          sort: sorter.field || 'updated_at',
-          direction: this.sort[sorter.order] || 'desc',
-          page: pagination.current,
-          perPage: pagination.pageSize,
-        }
-
-        this.$store.dispatch('client/getClientList', params).then(() => this.loading = false)
+      sortTable ({ prop, order }) {
+        this.params.sort = prop
+        this.params.direction = this.sort[order]
+        this.fetchClientList()
+      },
+      paginate (currentPage) {
+        this.params.page = currentPage
+        this.params.perPage = this.pagination.pageSize
+        this.fetchClientList()
       },
       onDelete (key) {
-        this.$store.dispatch('client/deleteClient', key).then(() => this.fetchClientList())
+        this.$confirm('Are you sure you want to delete this item?', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          this.$store.dispatch('client/deleteClient', key).then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Delete completed',
+            })
+            this.fetchClientList()
+          })
+        })
       },
       routeToDetail (id) {
         this.$router.push({ name: 'clientDetail', params: { id: id } })
@@ -118,6 +154,16 @@
           name: searchKey,
         }
         this.fetchClientList(params)
+      },
+      reset () {
+        const initialParams = {
+          page: 1,
+          perPage: 10,
+          sort: 'updated_at',
+          direction: 'desc',
+        }
+        this.params = { ...initialParams }
+        this.fetchClientList()
       },
     },
   }

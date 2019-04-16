@@ -18,7 +18,22 @@
     props: ['metaData'],
     data () {
       return {
+        item: this.metaData.meta ? this.metaData.meta : {},
       }
-    }
+    },
+    watch: {
+      /**
+       * update value to parent
+       * @param val
+       */
+      item (val) {
+        this.metaData.meta = val
+
+        this.$emit('item', this.metaData)
+      },
+      metaData (val) {
+        this.item = val.meta ? val.meta : {}
+      },
+    },
   }
 </script>

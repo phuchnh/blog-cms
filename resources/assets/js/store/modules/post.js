@@ -67,6 +67,14 @@ const actions = {
   savedPost ({ commit }, payload) {
     commit('savedPost', payload)
   },
+  deletePermanentlyPost ({ commit }, id) {
+    return ApiService.delete(`posts/${ id }/permanent`).then(() => {
+      commit('deletePost', id)
+    })
+  },
+  restorePost ({ commit }, id) {
+    return ApiService.put(`posts/${ id }/restore`)
+  },
 }
 
 const mutations = {

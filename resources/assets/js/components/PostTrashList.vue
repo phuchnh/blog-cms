@@ -5,9 +5,6 @@
         <div class="col-sm-6" style="padding: 0; float: left">
           <SearchForm @fetchList="reset" @search="search"></SearchForm>
         </div>
-        <div class="col-sm-2 col-sm-offset-4 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
-          <button @click="$emit('routeToNew')" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
-        </div>
       </div>
     </div>
 
@@ -47,8 +44,8 @@
       <el-table-column
           label="Action">
         <template slot-scope="scope">
-          <button class="btn btn-default margin-r-5" @click="$emit('edit', scope.row.id)">Edit</button>
-          <button class="btn btn-danger" @click="onDelete(scope.row.id)">Delete</button>
+          <button class="btn btn-success margin-r-5" @click="restore(scope.row.id)">Restore</button>
+          <button class="btn btn-danger" @click="onDelete(scope.row.id)">Delete Permanently</button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,7 +68,7 @@
   import SearchForm from './SearchForm'
 
   export default {
-    name: 'PostList',
+    name: 'PostTrashList',
     components: { SearchForm },
     computed: {
       ...mapGetters('post', {
@@ -91,7 +88,8 @@
           perPage: 10,
           sort: 'updated_at',
           direction: 'desc',
-          type: this.type
+          type: this.type,
+          trash: true
         },
         columns: [
           {
@@ -146,15 +144,30 @@
         this.fetchPostList()
       },
       onDelete (key) {
-        this.$confirm('Are you sure you want to delete this item?', {
+        this.$confirm('Are you sure you want to delete permanently this item?', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning',
         }).then(() => {
-          this.$store.dispatch('post/deletePost', key).then(() => {
+          this.$store.dispatch('post/deletePermanentlyPost', key).then(() => {
             this.$message({
               type: 'success',
               message: 'Delete completed',
+            })
+            this.fetchPostList()
+          })
+        })
+      },
+      restore (key) {
+        this.$confirm('Are you sure you want to restore this item?', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          this.$store.dispatch('post/restorePost', key).then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Restore successfully',
             })
             this.fetchPostList()
           })
@@ -172,7 +185,8 @@
           perPage: 10,
           sort: 'updated_at',
           direction: 'desc',
-          type: this.type
+          type: this.type,
+          trash: true
         }
         this.params = { ...initialParams }
         this.fetchPostList()

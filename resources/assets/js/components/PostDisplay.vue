@@ -5,7 +5,7 @@
       </div>
 
       <div class="col-sm-4">
-        <a-switch v-model="status" class="pull-right"/>
+        <el-switch v-model="status" class="pull-right"></el-switch>
       </div>
   </div>
 </template>

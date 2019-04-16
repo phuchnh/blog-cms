@@ -1,51 +1,50 @@
 <template>
-    <div class="box">
-        <ClientForm ref="clientForm" :formAction="formAction" @routeToList="routeToList"></ClientForm>
-    </div>
+  <div class="box">
+    <ClientForm ref="clientForm" :formAction="formAction" @routeToList="routeToList"></ClientForm>
+  </div>
 </template>
 
 <script>
-  import ClientForm from '../components/ClientForm';
-  import {mapGetters} from 'vuex';
+  import ClientForm from '../components/ClientForm'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'ClientNew',
-    components: {ClientForm},
+    components: { ClientForm },
     computed: {
       ...mapGetters({
-        saved: 'client/saved'
-      })
+        saved: 'client/saved',
+      }),
     },
-    beforeRouteLeave(from, to, next) {
+    beforeRouteLeave (from, to, next) {
       if (_.isEmpty(this.$refs.clientForm.client)) {
-        this.$store.dispatch('client/savedClient', true);
+        this.$store.dispatch('client/savedClient', true)
       }
       if (!this.saved) {
-        this.$confirm({
-          title: 'Are you sure you want to leave without saving?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk: () => {
-            this.$store.dispatch('client/resetState');
-            next();
-          },
-        });
+        this.$confirm('Are you sure you want to leave without saving?', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          type: 'danger',
+        }).then(() => {
+          this.$store.dispatch('client/resetState')
+          next()
+        })
       } else {
-        this.$store.dispatch('client/resetState');
-        next();
+        this.$store.dispatch('client/resetState')
+        next()
       }
     },
-    data() {
+    data () {
       return {
-        formAction: 'create'
+        formAction: 'create',
       }
     },
     methods: {
-      routeToList() {
-        this.$router.push({name: 'clientList'});
-      }
-    }
-  };
+      routeToList () {
+        this.$router.push({ name: 'clientList' })
+      },
+    },
+  }
 </script>
 
 <style scoped>
