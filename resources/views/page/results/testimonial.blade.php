@@ -85,7 +85,7 @@
                 </div>
 
                 <p class="text-center">
-                    Read more about our areas of expertise and what we can offer in <a href="#" class="font_color--orange">@lang('site.event-and-program')</a>
+                    Read more about our areas of expertise and what we can offer in <a href="{{route('event-program')}}" class="font_color--orange">@lang('site.event-and-program')</a>
                 </p>
             </div>
         </div>
