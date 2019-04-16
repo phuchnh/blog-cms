@@ -7,7 +7,7 @@
             <SearchForm @fetchList="reset" @search="search"></SearchForm>
           </div>
           <div class="col-sm-2 col-sm-offset-5 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
-            <button @click="routeToNew" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> New</button>
+            <button @click="routeToNew" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
           </div>
         </div>
       </div>
