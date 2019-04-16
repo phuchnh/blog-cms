@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class PostTranslation extends Model
 {
@@ -36,4 +37,15 @@ class PostTranslation extends Model
      * @var array
      */
     protected $fillable = ['title', 'slug', 'content'];
+
+    /**
+     * Set the post translation's slug.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = SlugService::createSlug($this, 'slug', $value, ['unique' => true]);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class TaxonomyTranslation extends Model
 {
@@ -36,4 +37,15 @@ class TaxonomyTranslation extends Model
      * @var array
      */
     protected $fillable = ['title', 'slug', 'description'];
+
+    /**
+     * Set the taxonomy translation's translation slug.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = SlugService::createSlug($this, 'slug', $value, ['unique' => true]);
+    }
 }

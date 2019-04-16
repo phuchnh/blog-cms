@@ -14,6 +14,7 @@
         "fideloper/proxy": "^4.0",
         "flugger/laravel-responder": "^3.0",
         "franzose/closure-table": "5.1.1",
+        "kalnoy/nestedset": "^4.3",
         "kyslik/column-sortable": "^5.8",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
