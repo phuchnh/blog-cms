@@ -33,7 +33,7 @@
 
                                             <p class="margin_bottom--15">{{$item['content']}}</p>
 
-                                            <a href="{{route('blogitem',$item['slug'])}}" class="font_color--orange"
+                                            <a href="{{route($slug.'item', $item['slug'])}}" class="font_color--orange"
                                                title="{{$item['title']}}">
                                                 @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                             </a>
@@ -46,9 +46,9 @@
                 </div>
 
                 @isset($links)
-                <div class="about-pagination">
-                    {{ $links }}
-                </div>
+                    <div class="about-pagination">
+                        {{ $links }}
+                    </div>
                 @endisset
 
             </div>

@@ -65,8 +65,15 @@ Auth::routes();
 //});
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/blogs', 'BlogController@index')->name('blogs');
+
+Route::get('/blogs', 'BlogController@index')->name('blog');
 Route::get('/blogs/{slug}', 'BlogController@show')->name('blogitem');
+
+Route::get('/practice', 'PracticeController@index')->name('practice');
+Route::get('/practice/{slug}', 'PracticeController@show')->name('practiceitem');
+
+Route::get('/guide', 'GuideController@index')->name('guide');
+Route::get('/guide/{slug}', 'GuideController@show')->name('guideitem');
 
 Route::get('/press', 'PressController@index')->name('press');
 Route::get('/press/{slug}', 'PressController@show')->name('pressitem');
@@ -76,8 +83,6 @@ Route::get('/event/{slug}', 'EventController@show')->name('eventitem');
 
 Route::get('/program', 'ProgramController@index')->name('program');
 Route::get('/program/{slug}', 'ProgramController@show')->name('programitem');
-
-
 
 Route::prefix('/admin')->group(function () {
     Route::get('/{any?}', 'AdminController')->where('any', '.*');

@@ -30,7 +30,7 @@ class ClientTransformer extends Transformer
     {
         return array_merge(
             $client->toArray(),
-            $this->transformMedia($client),
+            $this->transformMedia($client)
         );
     }
 

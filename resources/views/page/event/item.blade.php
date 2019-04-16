@@ -15,7 +15,7 @@
                             <div class="event-section__breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">@lang('site.home')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{route('home')}}">@lang('site.home')</a></li>
                                         <li class="breadcrumb-item">
                                             <a href="{{route('event-program')}}">@lang('site.event-and-program')</a>
                                         </li>

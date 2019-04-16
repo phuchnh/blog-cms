@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Cache;
 
 use App\Models\Post;
 
-class BlogController extends Controller
+class PracticeController extends Controller
 {
+    //Set Type
+    const TYPE = 'practice';
+
     /**
      * Display a listing of the resource.
      *
@@ -22,20 +25,20 @@ class BlogController extends Controller
 
         // Load list posts
         $posts = $posts
-            ->where('type', 'blog')
+            ->where('type', self::TYPE)
             ->when($request->input('title'), function ($query) use ($request) {
                 /**@var \Illuminate\Database\Eloquent\Builder $query */
                 $query->where('title', 'LIKE', '%'.$request->input('title').'%');
             })
             ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc')->paginate($paginator);
+            ->orderBy('id', 'desc')->paginate(5);
 
-        return view('page.blog.index-mix', [
+        return view('page.blog.index-row', [
             'data'        => $this->loadTransformData($posts),
             'links'       => $posts->links(),
-            'navigate'    => 'resources',
-            'subnavigate' => 'blogs',
-            'slug'        => 'blog',
+            'navigate'    => 'daily-practices',
+            'subnavigate' => 'daily-practices',
+            'slug'        => 'practice',
         ]);
     }
 
@@ -55,9 +58,9 @@ class BlogController extends Controller
         return view('page.blog.item', [
             'item'        => $data,
             'others'      => $others,
-            'navigate'    => 'resources',
-            'subnavigate' => 'blogs',
-            'slug'        => 'blog',
+            'navigate'    => 'daily-practices',
+            'subnavigate' => 'daily-practices',
+            'slug'        => 'practice',
         ]);
     }
 
@@ -96,6 +99,7 @@ class BlogController extends Controller
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
             $others = Post::where('slug', '!=', $post['slug'])
+                          ->where('type', self::TYPE)
                           ->when($isOtherBoolean, function ($query) use ($post) {
                               $relatePosts = json_decode($post['meta']['others']);
 
