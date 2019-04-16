@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class FaqController extends ApiBaseController
 {
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,11 +18,14 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
-        $paginator = $request->get('perPage');
-        $data = $faq->with('media')
-                    ->sortable([$request->get('sort') => $request->get('direction')])
-                    ->paginate($paginator);
-        return $this->ok($data);
+        $faq = $faq->sortable([$request->get('sort') => $request->get('direction')]);
+        if ($paginator = $request->get('perPage')) {
+            $faq = $faq->paginate($paginator);
+        } else {
+            $faq = $faq->get();
+        }
+
+        return $this->ok($faq);
     }
 
     /**
@@ -39,7 +37,7 @@ class FaqController extends ApiBaseController
      */
     public function show(Request $request, Faq $faq)
     {
-        return $this->ok($faq->load('media'));
+        return $this->ok($faq);
     }
 
     /**
@@ -47,15 +45,10 @@ class FaqController extends ApiBaseController
      *
      * @param \App\Http\Requests\API\CreateFaqRequest $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
     public function store(CreateFaqRequest $request)
     {
         $post = Faq::create($request->validated());
-        if ($thumbnail = $request->get('thumbnail')) {
-            $post->addMediaFromBase64('thumbnail')->toMediaCollection();
-        }
 
         return $this->created($post);
     }
