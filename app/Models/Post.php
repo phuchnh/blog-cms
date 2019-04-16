@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use App\Traits\HasModify;
-use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Post extends Model implements HasMedia
+class Post extends Model
 {
-    use SoftDeletes, Sluggable, SluggableScopeHelpers, HasModify, HasMediaTrait, Sortable;
+    use SoftDeletes,
+        HasModify,
+        Sortable,
+        Translatable;
 
     /**
      * @var array
@@ -37,18 +37,18 @@ class Post extends Model implements HasMedia
     protected $table = 'posts';
 
     /**
-     * Return the sluggable configuration array for this model.
+     * Array with the fields translated in the Translation table.
      *
-     * @return array
+     * @var array
      */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title',
-            ],
-        ];
-    }
+    public $translatedAttributes = ['title', 'slug', 'content'];
+
+    /**
+     * Default foreign key Translation table
+     *
+     * @var string
+     */
+    public $translationForeignKey = 'post_id';
 
     /**
      * The attributes that are mass assignable.
@@ -56,13 +56,16 @@ class Post extends Model implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description',
-        'content',
         'publish',
-        'slug',
         'type',
     ];
+
+    /**
+     * Set default translation model
+     *
+     * @var string
+     */
+    public $translationModel = PostTranslation::class;
 
     /**
      * The model's attributes.
@@ -91,12 +94,8 @@ class Post extends Model implements HasMedia
      * @var array
      */
     public static $rules = [
-        'title'       => 'required|string',
-        'type'        => 'required|string',
-        'description' => 'nullable|string',
-        'content'     => 'nullable|string',
-        'slug'        => 'nullable|string',
-        'publish'     => 'nullable|boolean',
+        'type'    => 'required|string',
+        'publish' => 'nullable|boolean',
     ];
 
     /**
@@ -116,8 +115,6 @@ class Post extends Model implements HasMedia
      */
     public function taxonomies()
     {
-        return $this->belongsToMany(Taxonomy::class)
-                    ->using(PostTaxonomy::class)
-                    ->withPivot(['order']);
+        return $this->belongsToMany(Taxonomy::class)->using(PostTaxonomy::class)->withPivot(['order']);
     }
 }
