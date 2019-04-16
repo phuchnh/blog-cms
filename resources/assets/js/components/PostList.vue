@@ -1,6 +1,16 @@
 <template>
   <div class="box-body" v-if="posts">
-    <button @click="$emit('routeToNew')" class="btn btn-primary" style="margin: 20px 0">Add New</button>
+    <div class="row">
+      <div class="col-sm-12" style="margin-top: 20px">
+        <div class="col-sm-6" style="padding: 0; float: left">
+          <SearchForm @fetchList="fetchPostList" @search="search"></SearchForm>
+        </div>
+        <div class="col-sm-2 col-sm-offset-4 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
+          <button @click="$emit('routeToNew')" class="btn btn-primary pull-right">Add New</button>
+        </div>
+      </div>
+    </div>
+
     <a-table bordered
              :dataSource="posts"
              :columns="columns"
@@ -30,9 +40,11 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import SearchForm from './SearchForm'
 
   export default {
     name: 'PostList',
+    components: { SearchForm },
     computed: {
       ...mapGetters('post', {
         posts: 'posts',
@@ -83,7 +95,7 @@
       this.fetchPostList()
     },
     methods: {
-      fetchPostList () {
+      fetchPostList (options) {
         this.loading = true
 
         let params = {
@@ -91,6 +103,8 @@
           perPage: 10,
           type: this.type,
         }
+
+        params = _.assign(params, options)
 
         this.$store.dispatch('post/getPostList', params).then(() => this.loading = false)
       },
@@ -110,6 +124,12 @@
 
         this.$store.dispatch('post/getPostList', params).then(() => this.loading = false)
       },
+      search (searchKey) {
+        const params = {
+          title: searchKey
+        };
+        this.fetchPostList(params)
+      }
     },
   }
 </script>
