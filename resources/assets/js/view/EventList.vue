@@ -1,32 +1,33 @@
 <template>
-    <div class="box">
-        <PostList :type="type" @edit="routeToDetail" @routeToNew="routeToNew"></PostList>
-    </div>
+  <div class="box">
+    <PostList :type="type" @edit="routeToDetail" @routeToNew="routeToNew"></PostList>
+  </div>
 </template>
 
 <script>
-  import PostList from '../components/PostList';
+  import PostList from '../components/PostList'
+
   export default {
     name: 'EventList',
-    components: {PostList},
-    beforeRouteLeave(from, to, next) {
-      this.$store.dispatch('post/resetState');
-      next();
+    components: { PostList },
+    beforeRouteLeave (from, to, next) {
+      this.$store.dispatch('post/resetState')
+      next()
     },
-    data() {
+    data () {
       return {
-        type: 'event'
+        type: 'event',
       }
     },
     methods: {
-      routeToDetail(id) {
-        this.$router.push({name: 'eventDetail', params: {id: id}});
+      routeToDetail (id) {
+        this.$router.push({ name: 'eventDetail', params: { id: id } })
       },
-      routeToNew() {
-        this.$router.push({name: 'eventNew'});
-      }
-    }
-  };
+      routeToNew () {
+        this.$router.push({ name: 'eventNew' })
+      },
+    },
+  }
 </script>
 
 <style scoped>

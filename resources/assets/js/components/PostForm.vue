@@ -2,7 +2,7 @@
   <div class="boxSection">
     <form class="form-horizontal">
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-xs-12 col-md-8">
           <!-- General Information -->
           <div class="box box-primary">
             <div class="box-header with-border">
@@ -101,7 +101,7 @@
           </div>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-xs-12 col-md-4">
           <post-other-from :metaData.sync="post" :type="this.type"></post-other-from>
 
           <div class="box box-default">
@@ -117,7 +117,7 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-xs-12 col-md-8">
           <!-- Seo Information -->
           <post-meta-form :metaData.sync="post"></post-meta-form>
 

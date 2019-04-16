@@ -18,6 +18,8 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         Route::get('user', 'AuthController@user');
     });
     Route::apiResource('posts', 'PostController');
+    Route::put('posts/{post}/restore', 'PostController@restore');
+    Route::delete('posts/{post}/permanent', 'PostController@deletePermanently');
     Route::apiResource('taxonomies', 'TaxonomyController');
     Route::apiResource('faqs', 'FaqController');
     Route::apiResource('users', 'UserController', ['except' => ['store']]);
