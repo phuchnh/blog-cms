@@ -36,7 +36,7 @@ class PracticeController extends Controller
         return view('page.blog.index-row', [
             'data'        => $this->loadTransformData($posts),
             'links'       => $posts->links(),
-            'navigate'    => 'daily-practices',
+            'navigate'    => 'resources',
             'subnavigate' => 'daily-practices',
             'slug'        => 'practice',
         ]);
@@ -58,7 +58,7 @@ class PracticeController extends Controller
         return view('page.blog.item', [
             'item'        => $data,
             'others'      => $others,
-            'navigate'    => 'daily-practices',
+            'navigate'    => 'resources',
             'subnavigate' => 'daily-practices',
             'slug'        => 'practice',
         ]);

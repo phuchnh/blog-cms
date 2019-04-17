@@ -36,7 +36,7 @@ class GuideController extends Controller
         return view('page.blog.index-row', [
             'data'        => $this->loadTransformData($posts),
             'links'       => $posts->links(),
-            'navigate'    => 'guided-meditation',
+            'navigate'    => 'resources',
             'subnavigate' => 'guided-meditation',
             'slug'        => 'guide',
         ]);
@@ -58,7 +58,7 @@ class GuideController extends Controller
         return view('page.blog.item', [
             'item'        => $data,
             'others'      => $others,
-            'navigate'    => 'guided-meditation',
+            'navigate'    => 'resources',
             'subnavigate' => 'guided-meditation',
             'slug'        => 'guide',
         ]);

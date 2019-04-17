@@ -12,7 +12,9 @@
 */
 
 Route::get('/about/{slug?}', function ($slug = null) {
-    $slug = $slug ? $slug : 'story';
+    if (!$slug){
+        return redirect('/about/story');
+    }
 
     return view('page.about.'.$slug, [
         'navigate' => 'about',
@@ -20,28 +22,33 @@ Route::get('/about/{slug?}', function ($slug = null) {
     ]);
 })->name('about');
 
-Route::get('/event-programe/{slug?}', function ($slug = null) {
-    $slug = $slug ? $slug : 'index';
-
-    return view('page.event.'.$slug, [
-        'navigate' => 'event',
-        'slug'     => $slug,
+Route::get('/event-programe', function () {
+    return view('page.event.index', [
+        'navigate' => 'event'
     ]);
 })->name('event-program');
 
-Route::get('/resources/{slug?}', function ($slug = null) {
-    $slug = $slug ? $slug : 'index-mix';
-
-    return view('page.blog.'.$slug, [
-        'navigate' => 'resources',
-        'slug'     => $slug,
-    ]);
+Route::get('/resources', function () {
+    return redirect()->route('blog');
 });
 
 Route::get('/results/{slug?}', function ($slug = null) {
-    $slug = $slug ? $slug : 'approach';
+    if (!$slug){
+        return redirect('/results/approach');
+    }
+
+    if ($slug === 'testimonial') {
+        $data = \App\Models\Client::get();
+
+        $controller = new \App\Http\Controllers\Controller();
+
+        $clients = $controller->loadTransformData($data,  \App\Transformers\ClientTransformer::class);
+    }
+
+
 
     return view('page.results.'.$slug, [
+        'clients' => isset($clients) && $clients ? $clients : null,
         'navigate' => 'results',
         'slug'     => $slug,
     ]);
@@ -57,12 +64,6 @@ Route::get('/whymindfullness/{slug?}', function ($slug = null) {
 });
 
 Auth::routes();
-
-//Route::get('/', function () {
-//    return view('page.home', [
-//        'navigate' => 'home',
-//    ]);
-//});
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -83,6 +84,11 @@ Route::get('/event/{slug}', 'EventController@show')->name('eventitem');
 
 Route::get('/program', 'ProgramController@index')->name('program');
 Route::get('/program/{slug}', 'ProgramController@show')->name('programitem');
+
+Route::get('/faq', 'FaqController@index')->name('faq');
+Route::get('/faq/{slug}', 'FaqController@show')->name('faqitem');
+
+// load single page
 
 Route::prefix('/admin')->group(function () {
     Route::get('/{any?}', 'AdminController')->where('any', '.*');

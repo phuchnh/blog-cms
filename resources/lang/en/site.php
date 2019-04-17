@@ -13,19 +13,29 @@ return [
     */
     # A
     'about'                    => 'about',
+    'approach'                 => 'Approach',
 
     # B
     'blogs'                    => 'blogs',
+    'benefits'                 => 'benefits',
 
     # C
     'client'                   => 'client',
 
     # D
-    'date-and-time'              => 'date & time',
+    'date-and-time'            => 'date & time',
 
     # E
     'event'                    => 'event',
     'event-and-program'        => 'event & program',
+    'expertise'                => 'Expertise',
+
+    # F
+    'faq'                      => 'FAQ',
+
+    # H
+    'home'                     => 'home',
+    'how_to_practise'          => 'How to practise',
 
     # I
     'in_the_press'             => 'in the press',
@@ -36,9 +46,9 @@ return [
     # O
     'other_posts_you_may_like' => 'Other Posts You May Like',
 
-    # H
-    'home'                     => 'home',
-
-    # B
+    # T
+    'take_an_assessment'       => 'Take an assessment',
+    'testimonial'              => 'Testimonial',
+    # V
     'view_more'                => 'view more',
 ];

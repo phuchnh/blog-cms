@@ -31,7 +31,7 @@
                                                 {{$item['title']}}
                                             </h3>
 
-                                            <p class="margin_bottom--15">{{$item['content']}}</p>
+                                            <p class="margin_bottom--15">{{$item['description']}}</p>
 
                                             <a href="{{route($slug.'item', $item['slug'])}}" class="font_color--orange"
                                                title="{{$item['title']}}">
