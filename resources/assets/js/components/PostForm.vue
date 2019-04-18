@@ -34,33 +34,6 @@
                 <post-location-form :metaData.sync="post"></post-location-form>
               </template>
 
-              <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
-                <div class="form-group" :class="{ 'has-error': errors[0] }">
-                  <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span
-                      class="required">*</span></label>
-                  <div class="col-sm-10">
-                    <p class="btn btn-default btn-sm btn-file">
-                      <i class="fa fa-upload"></i> Upload
-                      <input type="file" class="form-control"
-                             id="thumbnail"
-                             name="thumbnail"
-                             accept="image/*"
-                             @change="onFileChange($event) || validate($event)"/>
-                    </p>
-                    <div class="help-block" v-if="errors">
-                      <span>{{ errors[0] }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group" v-if="imgUrl || post.thumbnail">
-                  <div class="col-sm-offset-2 col-sm-9">
-                    <img class="img img-thumbnail" width="200"
-                         v-bind:src="imgUrl ? imgUrl : post.thumbnail">
-                  </div>
-                </div>
-              </ValidationProvider>
-
               <div class="form-group" :class="{ 'has-error': errors.first('description') }">
                 <label for="description" class="col-sm-2 control-label">Description <span
                     class="required">*</span></label>
@@ -102,6 +75,10 @@
         </div>
 
         <div class="col-xs-12 col-md-4">
+          <post-meta-image :metaData.sync="post" :metaType="'thumbnail'" :title="'thumbnail'"></post-meta-image>
+
+          <post-meta-image :metaData.sync="post" :metaType="'banner'" :title="'banner'"></post-meta-image>
+
           <post-other-from :metaData.sync="post" :type="this.type"></post-other-from>
 
           <div class="box box-default">
@@ -159,6 +136,7 @@
 
   import PostOtherFrom from './PostOtherForm'
   import PostDisplay from './PostDisplay'
+  import PostMetaImage from './PostMetaImageForm'
 
   export default {
     name: 'PostForm',
@@ -170,6 +148,7 @@
       PostMetaForm,
       PostOtherFrom,
       PostDisplay,
+      PostMetaImage,
       ValidationProvider,
     },
     data () {

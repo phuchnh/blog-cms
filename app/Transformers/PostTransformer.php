@@ -31,7 +31,7 @@ class PostTransformer extends Transformer
         return array_merge(
             $post->toArray(),
             $this->transformMeta($post),
-            $this->transformMedia($post),
+            //$this->transformMedia($post),
             $this->transformTag($post)
         );
     }

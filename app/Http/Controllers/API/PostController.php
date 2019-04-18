@@ -71,7 +71,7 @@ class PostController extends ApiBaseController
         $this->createTag($post, $request);
 
         // update media
-        $post = $this->updateMedia($post, $request);
+        //$post = $this->updateMedia($post, $request);
 
         // save
         return $this->created($post);
@@ -95,7 +95,7 @@ class PostController extends ApiBaseController
         $this->createTag($post, $request);
 
         // update media
-        $post = $this->updateMedia($post, $request);
+        //$post = $this->updateMedia($post, $request);
 
         return $this->ok($post, PostTransformer::class);
     }

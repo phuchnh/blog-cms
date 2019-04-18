@@ -63,6 +63,7 @@ class EventController extends Controller
             'navigate'    => 'event',
             'subnavigate' => 'event',
             'slug'        => 'event',
+            'meta'        => $this->getMetaPost($data),
         ]);
     }
 
