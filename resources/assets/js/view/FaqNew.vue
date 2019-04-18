@@ -11,10 +11,10 @@
     <div class="col-xs-12 col-md-4">
       <div class="row">
         <div class="col-xs-12">
-          <TaxonomyBox :title="'Group'" :taxonomy="'group'" :hierarchy="true"></TaxonomyBox>
+          <TaxonomyBox :boxTitle="'Group'" :boxType="'group'" :setHierarchy="true"></TaxonomyBox>
         </div>
         <div class="col-xs-12">
-<!--          <TaxonomyBox :title="'Tag'" :taxonomy="'tag'" :hierarchy="false"></TaxonomyBox>-->
+          <!--          <TaxonomyBox :title="'Tag'" :taxonomy="'tag'" :hierarchy="false"></TaxonomyBox>-->
         </div>
       </div>
     </div>

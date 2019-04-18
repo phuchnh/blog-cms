@@ -1,7 +1,7 @@
 <template>
   <div>
     <form role="form" @submit.prevent="onSubmit">
-      <a-tabs :defaultActiveKey="activeTab" @change="onTabChange">
+      <a-tabs :defaultActiveKey="activeTab" @change="onTabsChange">
         <a-tab-pane v-for="trans of translations" :key="trans.locale" :tab="trans.locale | localeName">
           <div class="form-group">
             <label for="title">title</label>
@@ -72,7 +72,7 @@
       backToList () {
         this.$router.push({ name: 'faqList' })
       },
-      onTabChange (key) {
+      onTabsChange (key) {
         this.activeTab = key
       },
     },

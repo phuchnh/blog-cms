@@ -1,11 +1,9 @@
 import { TaxonomyService } from '@/api'
+import Vue from 'vue'
 
 const state = () => {
   return {
-    list: [],
-    item: {},
-    paginator: {},
-    errors: [],
+    list: null,
   }
 }
 const getters = {
@@ -18,6 +16,10 @@ const getters = {
   getPaginator: state => {
     return state.paginator
   },
+
+  getListByType: state => (type) => {
+    return state[type] || []
+  },
 }
 
 const actions = {
@@ -29,8 +31,9 @@ const actions = {
    */
   async fetchList ({ commit }, payload) {
     const resp = await TaxonomyService.getAll(payload)
+    const { type } = payload
     const { data } = resp.data
-    commit('SET_LIST', data)
+    commit('addStateByName', { key: type, value: data })
     return resp
   },
   /**
@@ -50,13 +53,17 @@ const actions = {
   /**
    *
    * @param commit
+   * @param state
    * @param payload
    * @returns {Promise<void>}
    */
-  async create ({ commit }, payload) {
+  async create ({ commit, state }, payload) {
     const resp = await TaxonomyService.create(payload)
+    const { type } = payload
     const { data } = resp.data
-    commit('SET_ITEM', data)
+    let items = [...state[type]]
+    items.push(data)
+    commit('updateStateByName', { key: type, value: items })
     return data
   },
 
@@ -88,6 +95,14 @@ const actions = {
   },
 }
 const mutations = {
+  addStateByName: (state, { key, value }) => {
+    Vue.set(state, key, value)
+  },
+
+  updateStateByName: (state, { key, value }) => {
+    Vue.set(state, key, value)
+  },
+
   SET_LIST: (state, data) => {
     state.list = [...data]
   },
