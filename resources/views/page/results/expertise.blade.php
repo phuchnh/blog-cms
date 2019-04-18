@@ -11,7 +11,7 @@
 
         <div class="child-page-top-desc">
             <div class="container">
-               TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
+                TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
             </div>
         </div>
 

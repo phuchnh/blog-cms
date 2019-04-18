@@ -24,7 +24,7 @@
         <div class="child-page-top-desc">
             <div class="container">
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
                 </p>
                 <p class="child-page-top-desc-02">
                     If you’re new to mindfulness & meditation, it’s natural to have many questions. These answers may easeyour mind and help you practice with more confidence.

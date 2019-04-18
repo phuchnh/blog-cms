@@ -14,10 +14,16 @@
                         <div class="event-section__breadcrumb">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="{{route('home')}}">@lang('site.home')</a></li>
-                                    <li class="breadcrumb-item"><a href="{{route('blog')}}">@lang('site.blogs')</a>
+                                    <li class="breadcrumb-item">
+                                        <a class="text-capitalize" href="./">@lang('site.home')</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">
+                                    <li class="breadcrumb-item">
+                                        <a class="text-capitalize" href="{{route('about')}}">@lang('site.about')</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a class="text-capitalize" href="{{route('press')}}">@lang('site.in_the_press')</a>
+                                    </li>
+                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">
                                         {{$item['title']}}
                                     </li>
                                 </ol>
@@ -59,7 +65,7 @@
                                             <p class="fs--0-9em">{{$other['created_at']}}</p>
                                         </div>
                                         <hr class="hr__short--grey"/>
-                                        <a href="{{route($slug.'item', $other['slug'])}}" class="font_color--orange">
+                                        <a href="{{route('pressitem', $other['slug'])}}" class="font_color--orange">
                                             @lang('site.view_more')
                                             <i class="fas fa-arrow-right fs--0-9em"></i>
                                         </a>

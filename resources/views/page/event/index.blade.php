@@ -6,14 +6,14 @@
         <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
                  style="background:url('/app/img/event/event-banner.jpg')">
 
-            <div class="font_color--white font-weight-bold">
-                EVENTS & PROGRAMS
+            <div class="font_color--white font-weight-bold text-uppercase">
+                @lang('site.event-and-program')
             </div>
         </section>
 
         <div class="event-headline__top">
             <div class="container">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
             </div>
         </div>
 
@@ -33,7 +33,7 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </div>
 
-                                    <a href="/event/list" class="btn background--orange font_color--white border_radius--2em">
+                                    <a href="{{route('event')}}" class="btn background--orange font_color--white border_radius--2em">
                                         View all Events
                                     </a>
                                 </div>
@@ -49,7 +49,7 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </div>
 
-                                    <a href="/event/list" class="btn background--orange font_color--white border_radius--2em">
+                                    <a href="{{route('program')}}" class="btn background--orange font_color--white border_radius--2em">
                                         View all Programs
                                     </a>
                                 </div>

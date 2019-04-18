@@ -7,6 +7,7 @@ import post from './modules/post'
 import user from './modules/user'
 import client from './modules/client'
 import meta from './modules/meta'
+import setting from './modules/setting'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     user,
     client,
     meta,
+    setting
   },
 })

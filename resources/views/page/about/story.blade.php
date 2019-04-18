@@ -11,7 +11,7 @@
 
         <div class="child-page-top-desc">
             <div class="container">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+               TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
             </div>
         </div>
 
@@ -59,7 +59,7 @@
                         Looking forward, we are committed to bringing long term impacts in people and organization development solutions bycontinuously strengthening our unique approach and extending our professional network in the region. That way we will be able to adopt the latest trends and progressively contribute to our client’s business, brand and people results.
                     </p>
                 </div>
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/F0wIhtnP6MM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/1tMSi1AL1Do" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 

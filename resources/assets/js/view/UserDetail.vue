@@ -63,7 +63,7 @@
         }).then(() => {
           this.$store.dispatch('user/resetState')
           next()
-        })
+        }).catch(() => {})
       } else {
         this.$store.dispatch('user/resetState')
         next()

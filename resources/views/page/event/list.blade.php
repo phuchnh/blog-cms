@@ -7,7 +7,7 @@
                  style="background:url('/app/img/event/event-banner.jpg')">
 
             <div class="font_color--white font-weight-bold">
-                EVENTS & PROGRAMS
+                @lang('site.event-and-program')
             </div>
         </section>
 
@@ -62,167 +62,33 @@
             <div class="event-section__container container">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card-deck">
-                            <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_14.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
-                                    <h5 class="card-title font_color--orange fs--1-3em">Lorem ipsum dolor
-                                        sitamet,consectetur
-                                        adipisicing</h5>
-                                    <div class="card__date font_color--light-grey">
-                                        <p class="fs--0-9em">Tuesday, November 13, 2018</p>
-                                        <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
-                                    </div>
-                                    <hr class="hr__short--grey"/>
-                                    <div class="card-text margin_bottom--20">This card has supporting text below as a
-                                        natural lead-in to additional
-                                        content.
-                                    </div>
+                        @isset ($data)
+                            <div class="card-deck">
+                                @foreach ($data as $item)
+                                    <div class="card border_radius--none border_none">
+                                        <div class="card-img-top background__cover--center"
+                                             style="background: url({{$item['thumbnail']}})">
+                                            <img class="d-none" src="{{$item['thumbnail']}}" alt="Card image cap">
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
+                                            <h5 class="card-title font_color--orange fs--1-3em">{{$item['title']}}</h5>
+                                            <div class="card__date font_color--light-grey">
+                                                <p class="fs--0-9em">{{$item['created_at']}}</p>
+                                                <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
+                                            </div>
+                                            <hr class="hr__short--grey"/>
+                                            <div class="card-text margin_bottom--20">{{$item['description']}}</div>
 
-                                    <a href="/event/item" class="font_color--orange">
-                                        View more
-                                        <i class="fas fa-arrow-right fs--0-9em"></i>
-                                    </a>
-                                </div>
+                                            <a href="{{route('eventitem', $item['slug'])}}" class="font_color--orange">
+                                                @lang('site.view_more')
+                                                <i class="fas fa-arrow-right fs--0-9em"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_15.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_15.jpg" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
-                                    <h5 class="card-title font_color--orange fs--1-3em">Lorem ipsum dolor
-                                        sitamet,consectetur
-                                        adipisicing</h5>
-                                    <div class="card__date font_color--light-grey">
-                                        <p class="fs--0-9em">Tuesday, November 13, 2018</p>
-                                        <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
-                                    </div>
-                                    <hr class="hr__short--grey"/>
-                                    <div class="card-text margin_bottom--20">This card has supporting text below as a
-                                        natural lead-in to additional
-                                        content.
-                                    </div>
-
-                                    <a href="/event/item" class="font_color--orange">
-                                        View more
-                                        <i class="fas fa-arrow-right fs--0-9em"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_17.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_17.jpg" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
-                                    <h5 class="card-title font_color--orange fs--1-3em">Lorem ipsum dolor
-                                        sitamet,consectetur
-                                        adipisicing</h5>
-                                    <div class="card__date font_color--light-grey">
-                                        <p class="fs--0-9em">Tuesday, November 13, 2018</p>
-                                        <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
-                                    </div>
-                                    <hr class="hr__short--grey"/>
-                                    <div class="card-text margin_bottom--20">This card has supporting text below as a
-                                        natural lead-in to additional
-                                        content.
-                                    </div>
-
-                                    <a href="/event/item" class="font_color--orange">
-                                        View more
-                                        <i class="fas fa-arrow-right fs--0-9em"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-deck">
-                            <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_32.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_32.jpg" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
-                                    <h5 class="card-title font_color--orange fs--1-3em">Lorem ipsum dolor
-                                        sitamet,consectetur
-                                        adipisicing</h5>
-                                    <div class="card__date font_color--light-grey">
-                                        <p class="fs--0-9em">Tuesday, November 13, 2018</p>
-                                        <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
-                                    </div>
-                                    <hr class="hr__short--grey"/>
-                                    <div class="card-text margin_bottom--20">This card has supporting text below as a
-                                        natural lead-in to additional
-                                        content.
-                                    </div>
-
-                                    <a href="/event/item" class="font_color--orange">
-                                        View more
-                                        <i class="fas fa-arrow-right fs--0-9em"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_33.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_33.jpg" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
-                                    <h5 class="card-title font_color--orange fs--1-3em">Lorem ipsum dolor
-                                        sitamet,consectetur
-                                        adipisicing</h5>
-                                    <div class="card__date font_color--light-grey">
-                                        <p class="fs--0-9em">Tuesday, November 13, 2018</p>
-                                        <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
-                                    </div>
-                                    <hr class="hr__short--grey"/>
-                                    <div class="card-text margin_bottom--20">This card has supporting text below as a
-                                        natural lead-in to additional
-                                        content.
-                                    </div>
-
-                                    <a href="/event/item" class="font_color--orange">
-                                        View more
-                                        <i class="fas fa-arrow-right fs--0-9em"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_35.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_35.jpg" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
-                                    <h5 class="card-title font_color--orange fs--1-3em">Lorem ipsum dolor
-                                        sitamet,consectetur
-                                        adipisicing</h5>
-                                    <div class="card__date font_color--light-grey">
-                                        <p class="fs--0-9em">Tuesday, November 13, 2018</p>
-                                        <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
-                                    </div>
-                                    <hr class="hr__short--grey"/>
-                                    <div class="card-text margin_bottom--20">This card has supporting text below as a
-                                        natural lead-in to additional
-                                        content.
-                                    </div>
-
-                                    <a href="/event/item" class="font_color--orange">
-                                        View more
-                                        <i class="fas fa-arrow-right fs--0-9em"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        @endisset
                     </div>
                 </div>
             </div>
