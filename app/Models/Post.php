@@ -150,4 +150,30 @@ class Post extends Model
     {
         return $this->belongsToMany(Taxonomy::class)->using(PostTaxonomy::class)->withPivot(['order']);
     }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $locale
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfLocale($query, $locale)
+    {
+        return $query
+            ->join(PostTranslation::getTable(), function ($join) use ($locale) {
+                /**@var $join \Illuminate\Database\Query\JoinClause */
+                $join->on(function ($query) use ($locale) {
+                    $sql = DB::raw("posts.id = post_translations.post_id AND post_translations.deleted_at IS NULL AND post_translations.locale = '$locale'");
+                    /**@var $query \Illuminate\Database\Query\Builder */
+                    $query->whereRaw(DB::raw($sql));
+                });
+            })
+            ->addSelect([
+                'posts.*',
+                'post_translations.locale',
+                'post_translations.title',
+                'post_translations.slug',
+                'post_translations.content',
+                'post_translations.description',
+            ]);
+    }
 }

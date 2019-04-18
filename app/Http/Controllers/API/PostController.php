@@ -20,24 +20,40 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        $paginator = $request->get('perPage');
+        //$paginator = $request->get('perPage');
+        //
+        //$posts = $posts
+        //    ->when($request->input('type'), function ($query) use ($request) {
+        //        /**@var \Illuminate\Database\Eloquent\Builder $query */
+        //        return $query->where('type', $request->input('type'));
+        //    })->when($request->input('title'), function ($query) use ($request) {
+        //        /**@var \Illuminate\Database\Eloquent\Builder $query */
+        //        $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+        //    })
+        //    ->sortable([$request->get('sort') => $request->get('direction')])
+        //    ->orderBy('id', 'desc');
+        //if ($request->input('trash')) {
+        //    $posts = $posts->onlyTrashed();
+        //}
+        //$posts = $posts->paginate($paginator);
 
-        $posts = $posts
-            ->when($request->input('type'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                return $query->where('type', $request->input('type'));
-            })->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-            })
-            ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc');
-        if ($request->input('trash')) {
-            $posts = $posts->onlyTrashed();
+        if ($locale = $request->get('locale', $posts->getDefaultLocale())) {
+            $posts = $posts->ofLocale($locale);
         }
-        $posts = $posts->paginate($paginator);
 
-        return $this->ok($posts, PostTransformer::class);
+        if ($sort = $request->get('sort')) {
+            $posts = $posts->sortable([
+                $sort => $request->get('direction'),
+            ]);
+        }
+
+        $result = $posts->get();
+
+        if ($paginator = $request->get('perPage')) {
+            $result = $posts->paginate($paginator);
+        }
+
+        return $this->ok($result);
     }
 
     /**
@@ -62,16 +78,23 @@ class PostController extends ApiBaseController
      */
     public function store(CreatePostRequest $request)
     {
-        /**
-         * @param \App\Models\Post $post
-         */
-        $post = Post::create($request->validated());
+        $post = new Post();
+
+        $post->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $post->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
+        $post->save();
 
         // Handle tag
         $this->createTag($post, $request);
 
-        // update media
-        //$post = $this->updateMedia($post, $request);
+        return $this->created($post, PostTransformer::class);
+
 
         // save
         return $this->created($post);
@@ -88,14 +111,18 @@ class PostController extends ApiBaseController
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $post->fill($request->validated());
+        $post->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $post->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
         $post->save();
 
         // Handle tag
         $this->createTag($post, $request);
-
-        // update media
-        //$post = $this->updateMedia($post, $request);
 
         return $this->ok($post, PostTransformer::class);
     }

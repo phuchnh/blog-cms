@@ -1,12 +1,15 @@
 <template>
   <div class="formSection">
-    <PostForm :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
+    <PostForm :type="type"
+              :formAction="formAction"
+              @routeToList="routeToList"></PostForm>
   </div>
 </template>
 
 <script>
   import PostForm from '../components/PostForm'
   import { mapGetters } from 'vuex'
+  import store from '@/store'
 
   export default {
     name: 'BlogDetail',
@@ -15,6 +18,12 @@
       ...mapGetters({
         saved: 'post/saved',
       }),
+    },
+    beforeRouteEnter (to, from, next) {
+      store.dispatch('post/fetchItem', { id: to.params.id, params: { with: 'translations' } }).then(() => next())
+    },
+    beforeRouteUpdate (to, from, next) {
+      store.dispatch('post/fetchItem', to.params.id).then(() => next())
     },
     beforeRouteLeave (from, to, next) {
       if (!this.saved) {

@@ -1,5 +1,5 @@
 <template>
-  <div id="PostMetaForm" class="box box-warning">
+  <div id="PostMetaForm" class="box">
     <div class="box-header with-border">
       <h3 class="box-title">Meta Section</h3>
     </div>

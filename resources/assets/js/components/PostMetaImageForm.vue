@@ -1,5 +1,5 @@
 <template>
-  <div id="PostMetaImageForm" class="box box-warning">
+  <div id="PostMetaImageForm" class="box">
     <div class="box-header with-border">
       <h3 class="box-title text-capitalize">{{ title }}</h3>
 
