@@ -23,7 +23,7 @@ class Option extends Model
      */
     protected $fillable = [
         'option_name',
-        'option_value',
+        'option_value'
     ];
 
     /**
@@ -32,4 +32,14 @@ class Option extends Model
      * @var array
      */
     protected $casts = [];
+
+    /**
+     * The attributes to validation
+     *
+     * @var array
+     */
+    public static $rules = [
+        '*.option_name'   => 'required|string',
+        '*.option_value' => 'required|string',
+    ];
 }

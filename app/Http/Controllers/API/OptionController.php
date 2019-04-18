@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreatePostRequest;
-use App\Http\Requests\API\UpdatePostRequest;
+use App\Http\Requests\API\CreateOptionRequest;
 use App\Models\Option;
-use App\Models\Post;
-use App\Models\Taxonomy;
-use App\Transformers\PostTransformer;
+use App\Transformers\OptionTransformer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class OptionController extends ApiBaseController
@@ -23,7 +21,9 @@ class OptionController extends ApiBaseController
     {
         $options = $options->get();
 
-        return $this->ok($options);
+        $optionsTransform  = new OptionTransformer();
+
+        return $this->ok($optionsTransform->transformArray($options));
     }
 
     /**
@@ -41,14 +41,17 @@ class OptionController extends ApiBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\API\CreateOptionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CreateOptionRequest $request)
     {
-        $option = Option::create($request->all());
+        foreach($request->validated() as $item) {
+            Option::updateOrCreate(['option_name' => $item['option_name']], $item);
+        }
+        //Option::insert($request->validated());
 
-        return $this->created($option);
+        return $this->noContent();
     }
 
     /**
