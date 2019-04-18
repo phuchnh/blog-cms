@@ -16,8 +16,6 @@ class Option extends Model
      */
     protected $table = 'options';
 
-    //protected $primaryKey = 'option_name';
-
     /**
      * The attributes that are mass assignable.
      *

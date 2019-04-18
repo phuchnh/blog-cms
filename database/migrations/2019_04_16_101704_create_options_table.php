@@ -17,8 +17,7 @@ class CreateOptionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('option_name');
             $table->longText('option_value');
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamps();
             $table->softDeletes();
         });
     }
