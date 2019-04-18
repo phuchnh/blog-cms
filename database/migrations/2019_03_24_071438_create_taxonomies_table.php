@@ -17,8 +17,8 @@ class CreateTaxonomiesTable extends Migration
             $table->bigIncrements('id');
             $table->string('type')->default('categories');
             $table->bigInteger('parent_id')->unsigned()->nullable();
-            $table->bigInteger('position', false, true);
-            $table->bigInteger('real_depth', false, true);
+            $table->bigInteger('left', false, true)->default(0);
+            $table->bigInteger('right', false, true)->default(0);
             $table->timestamps();
             $table->softDeletes();
 
@@ -36,7 +36,7 @@ class CreateTaxonomiesTable extends Migration
      */
     public function down()
     {
-        Schema::create('taxonomies', function (Blueprint $table) {
+        Schema::table('taxonomies', function (Blueprint $table) {
             $table->dropForeign(['parent_id']);
         });
         Schema::dropIfExists('taxonomies');
