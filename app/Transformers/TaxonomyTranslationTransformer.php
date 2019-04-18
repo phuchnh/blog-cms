@@ -2,19 +2,17 @@
 
 namespace App\Transformers;
 
-use App\Models\Taxonomy;
+use App\Models\TaxonomyTranslation;
 use Flugg\Responder\Transformers\Transformer;
 
-class TaxonomyTransformer extends Transformer
+class TaxonomyTranslationTransformer extends Transformer
 {
     /**
      * List of available relations.
      *
      * @var string[]
      */
-    protected $relations = [
-        'translations' => TaxonomyTranslationTransformer::class,
-    ];
+    protected $relations = [];
 
     /**
      * List of autoloaded default relations.
@@ -26,12 +24,11 @@ class TaxonomyTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param \App\Models\Taxonomy $taxonomy
+     * @param \App\Models\TaxonomyTranslation $taxonomyTranslation
      * @return array
      */
-    public function transform(Taxonomy $taxonomy)
+    public function transform(TaxonomyTranslation $taxonomyTranslation)
     {
-        Taxonomy::disableAutoloadTranslations();
-        return $taxonomy->toArray();
+        return $taxonomyTranslation->toArray();
     }
 }

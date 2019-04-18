@@ -47,22 +47,21 @@ class Faq extends Post
      */
     public function scopeOfLocale($query, $locale)
     {
-        return $query
-            ->join(PostTranslation::getTable(), function ($join) use ($locale) {
-                /**@var $join \Illuminate\Database\Query\JoinClause */
-                $join->on(function ($query) use ($locale) {
-                    $sql = DB::raw("posts.id = post_translations.post_id AND post_translations.deleted_at IS NULL AND post_translations.locale = '$locale'");
-                    /**@var $query \Illuminate\Database\Query\Builder */
-                    $query->whereRaw(DB::raw($sql));
-                });
-            })
-            ->addSelect([
-                'posts.*',
-                'post_translations.locale',
-                'post_translations.title',
-                'post_translations.slug',
-                'post_translations.content',
-                'post_translations.description',
-            ]);
+        $postType = self::POST_TYPE;
+
+        $table = "SELECT post_translations.locale,
+                       post_translations.title,
+                       post_translations.slug,
+                       post_translations.content,
+                       post_translations.description,
+                       posts.*
+                FROM posts,
+                     post_translations
+                WHERE posts.id = post_translations.post_id
+                  AND posts.type = '{$postType}'
+                  AND post_translations.deleted_at IS NULL
+                  AND post_translations.locale = '{$locale}'";
+
+        return $query->from(DB::raw("({$table}) posts"));
     }
 }
