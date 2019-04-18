@@ -1,4 +1,5 @@
 import { FaqService } from '@/api'
+import * as _ from 'lodash'
 
 const state = () => {
   return {
@@ -9,12 +10,39 @@ const state = () => {
   }
 }
 const getters = {
+  /**
+   *
+   * @param state
+   * @returns {*}
+   */
   getAll: state => {
     return state.list
   },
+
   getItem: state => {
     return state.item
   },
+
+  getTranslations: (state, getters) => {
+
+    const defaultTranslations = _.map(['vi', 'en'], (value) => {
+      return { locale: value, title: '', slug: '', description: '', content: '' }
+    })
+
+    if (Object.keys(getters.getItem).length === 0) {
+      return defaultTranslations
+    }
+
+    let translations = [...getters.getItem.translations]
+
+    if (translations.length === 1) {
+      translations = _.assign([], defaultTranslations, translations)
+    }
+
+    // Default locale is vi to top
+    return translations.sort((a, b) => (a.id - b.id));
+  },
+
   getPaginator: state => {
     return state.paginator
   },
@@ -42,8 +70,8 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async fetchItem ({ commit }, id, payload) {
-    const resp = await FaqService.getById(id, payload)
+  async fetchItem ({ commit }, { id, params }) {
+    const resp = await FaqService.getById(id, params)
     const { data } = resp.data
     commit('SET_ITEM', data)
     return resp

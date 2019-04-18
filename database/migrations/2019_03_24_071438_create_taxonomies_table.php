@@ -17,15 +17,15 @@ class CreateTaxonomiesTable extends Migration
             $table->bigIncrements('id');
             $table->string('type')->default('categories');
             $table->bigInteger('parent_id')->unsigned()->nullable();
-            $table->bigInteger('left', false, true)->default(0);
-            $table->bigInteger('right', false, true)->default(0);
+            $table->bigInteger('lft', false, true)->default(0);
+            $table->bigInteger('rgt', false, true)->default(0);
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('parent_id')
-                ->references('id')
-                ->on('taxonomies')
-                ->onDelete('set null');
+                  ->references('id')
+                  ->on('taxonomies')
+                  ->onDelete('set null');
         });
     }
 

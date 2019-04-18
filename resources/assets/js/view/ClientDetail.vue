@@ -25,7 +25,7 @@
         }).then(() => {
           this.$store.dispatch('client/resetState')
           next()
-        })
+        }).catch(() => {})
       } else {
         this.$store.dispatch('client/resetState')
         next()

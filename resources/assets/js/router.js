@@ -28,6 +28,9 @@ import PracticeNew from '@/view/PracticeNew'
 import FaqDetail from '@/view/FaqDetail'
 import FaqNew from '@/view/FaqNew'
 import Setting from '@/view/Setting'
+import CategoryList from '@/view/CategoryList'
+import CategoryNew from './view/CategoryNew'
+import CategoryDetail from './view/CategoryDetail'
 
 Vue.use(Router)
 
@@ -270,6 +273,34 @@ export default new Router({
           component: PracticeDetail,
           meta: {
             title: 'PracticeDetail',
+            description: '',
+          },
+        },
+
+        {
+          path: 'categories',
+          name: 'categoryList',
+          component: CategoryList,
+          meta: {
+            title: 'CategoryList',
+            description: '',
+          },
+        },
+        {
+          path: 'categories/new',
+          name: 'categoryNew',
+          component: CategoryNew,
+          meta: {
+            title: 'CategoryNew',
+            description: '',
+          },
+        },
+        {
+          path: 'categories/:id',
+          name: 'categoryDetail',
+          component: CategoryDetail,
+          meta: {
+            title: 'CategoryDetail',
             description: '',
           },
         },

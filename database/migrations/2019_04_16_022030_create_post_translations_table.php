@@ -20,7 +20,8 @@ class CreatePostTranslationsTable extends Migration
 
             $table->string('title')->index();
             $table->string('slug')->unique();
-            $table->longText('content');
+            $table->text('description')->nullable();
+            $table->longText('content')->nullable();
 
             $table->unique(['post_id', 'locale']);
             $table->timestamps();

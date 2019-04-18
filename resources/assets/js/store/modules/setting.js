@@ -1,4 +1,5 @@
 import { ApiService } from '../../api'
+import { Helper } from '../../util/helper'
 
 export const namespaced = true
 
@@ -20,8 +21,9 @@ const actions = {
       commit('setSetting', res.data.data)
     })
   },
-  updateSetting ({ commit }, payload) {
-    return ApiService.post(`/options`, payload)
+  storeSetting ({ dispatch, commit }, payload) {
+    const input = Helper.filterInputSiteOption(payload)
+    return ApiService.post(`/options`, input)
   },
   resetState ({ commit }) {
     commit('resetState')

@@ -8,7 +8,7 @@
               <label for="category">{{ title }}</label>
               <select name="name" id="category" class="form-control" v-model="category">
                 <option value="0" selected> -- Select One --</option>
-                <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.name }}</option>
+                <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.translations[0].title }}</option>
               </select>
             </div>
           </fieldset>
@@ -23,7 +23,7 @@
             <label for="parent">parent</label>
             <select name="name" id="parent" class="form-control" v-model="parent_id">
               <option value="0" selected> -- Select One --</option>
-              <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.name }}</option>
+              <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.translations[0].title }}</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary">Add</button>
