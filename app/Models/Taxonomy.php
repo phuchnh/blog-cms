@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use App\Interfaces\TaxonomyInterface;
-use Franzose\ClosureTable\Models\Entity;
+use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Model;
+use Kalnoy\Nestedset\NodeTrait;
 
-class Taxonomy extends Entity implements TaxonomyInterface
+class Taxonomy extends Model
 {
+    use NodeTrait,
+        Translatable;
+
     /**
      * The table associated with the model.
      *
@@ -14,6 +18,26 @@ class Taxonomy extends Entity implements TaxonomyInterface
      */
     protected $table = 'taxonomies';
 
+    /**
+     * Array with the fields translated in the Translation table.
+     *
+     * @var array
+     */
+    public $translatedAttributes = ['title', 'slug', 'description'];
+
+    /**
+     * Default foreign key Translation table
+     *
+     * @var string
+     */
+    public $translationForeignKey = 'taxonomy_id';
+
+    /**
+     * Set default translation model
+     *
+     * @var string
+     */
+    public $translationModel = TaxonomyTranslation::class;
 
     /**
      * The attributes that are mass assignable.
@@ -21,21 +45,19 @@ class Taxonomy extends Entity implements TaxonomyInterface
      * @var array
      */
     protected $fillable = [
-        'name',
         'type',
+        'parent_id',
     ];
 
-
-    /**
-     * Hierarchy model instance.
-     *
-     * @var \App\Models\Hierarchy
-     */
-    protected $closure = Hierarchy::class;
-
+    protected $hidden = [
+        'left',
+        'right',
+        'parent_id',
+    ];
 
     /**
      * Get posts belongs to taxonomies
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function posts()
@@ -43,5 +65,29 @@ class Taxonomy extends Entity implements TaxonomyInterface
         return $this->belongsToMany(Post::class)
                     ->using(PostTaxonomy::class)
                     ->withPivot(['order']);
+    }
+
+    public function getLftName()
+    {
+        return 'lft';
+    }
+
+    public function getRgtName()
+    {
+        return 'rgt';
+    }
+
+    public function getParentIdName()
+    {
+        return 'parent_id';
+    }
+
+    /**
+     * @param $value
+     * @throws \Exception
+     */
+    public function setParentAttribute($value)
+    {
+        $this->setParentIdAttribute($value);
     }
 }

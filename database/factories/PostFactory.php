@@ -20,11 +20,11 @@ $factory->define(\App\Models\Post::class, function (Faker $faker) {
     $title = $faker->sentence;
 
     return [
-        'title' => $faker->title,
-        'description' => $faker->sentence,
-        'content' => $faker->paragraph,
-        'slug' => Str::slug($title),
-        'created_by' => 0,
-        'updated_by' => 0,
+        'title'       => $title,
+        'content'     => $faker->text(400),
+        'description' => $faker->text(100),
+        'slug'        => Str::slug($title),
+        'created_by'  => 0,
+        'updated_by'  => 0,
     ];
 });
