@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateFaqRequest;
-use App\Http\Requests\API\UpdateFaqRequest;
 use App\Models\Faq;
+use App\Transformers\FaqTransformer;
 use Illuminate\Http\Request;
 
 class FaqController extends ApiBaseController
@@ -18,14 +17,23 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
-        $faq = $faq->sortable([$request->get('sort') => $request->get('direction')]);
-        if ($paginator = $request->get('perPage')) {
-            $faq = $faq->paginate($paginator);
-        } else {
-            $faq = $faq->get();
+        if ($locale = $request->get('locale', $faq->getDefaultLocale())) {
+            $faq = $faq->ofLocale($locale);
         }
 
-        return $this->ok($faq);
+        if ($sort = $request->get('sort')) {
+            $faq = $faq->sortable([
+                $sort => $request->get('direction'),
+            ]);
+        }
+
+        $result = $faq->get();
+
+        if ($paginator = $request->get('perPage')) {
+            $result = $faq->paginate($paginator);
+        }
+
+        return $this->ok($result);
     }
 
     /**
@@ -37,32 +45,49 @@ class FaqController extends ApiBaseController
      */
     public function show(Request $request, Faq $faq)
     {
-        return $this->ok($faq);
+        return $this->ok($faq, FaqTransformer::class);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\API\CreateFaqRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateFaqRequest $request)
+    public function store(Request $request)
     {
-        $post = Faq::create($request->validated());
+        $faq = new Faq();
 
-        return $this->created($post);
+        $faq->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $faq->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
+        $faq->save();
+
+        return $this->created($faq, FaqTransformer::class);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\API\UpdateFaqRequest $request
+     * @param \Illuminate\Http\Request $request
      * @param \App\Models\Faq $faq
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateFaqRequest $request, Faq $faq)
+    public function update(Request $request, Faq $faq)
     {
-        $faq->fill($request->validated());
+        $faq->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $faq->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
         $faq->save();
 
         return $this->noContent();

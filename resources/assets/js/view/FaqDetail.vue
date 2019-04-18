@@ -41,7 +41,7 @@
       }),
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchItem', to.params.id).then(() => next())
+      store.dispatch('faq/fetchItem', { id: to.params.id, params: { with: 'translations' } }).then(() => next())
     },
     beforeRouteUpdate (to, from, next) {
       store.dispatch('faq/fetchItem', to.params.id).then(() => next())

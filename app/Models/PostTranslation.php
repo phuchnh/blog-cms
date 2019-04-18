@@ -36,7 +36,7 @@ class PostTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'content'];
+    protected $fillable = ['title', 'slug', 'description', 'content'];
 
     /**
      * Set the post translation's slug.

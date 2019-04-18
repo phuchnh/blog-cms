@@ -74,7 +74,7 @@ class Post extends Model
      *
      * @var array
      */
-    public $translatedAttributes = ['title', 'slug', 'content'];
+    public $translatedAttributes = ['title', 'slug', 'description', 'content'];
 
     /**
      * Default foreign key Translation table

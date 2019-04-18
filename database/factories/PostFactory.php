@@ -22,6 +22,7 @@ $factory->define(\App\Models\Post::class, function (Faker $faker) {
     return [
         'title'       => $title,
         'content'     => $faker->text(400),
+        'description' => $faker->text(100),
         'slug'        => Str::slug($title),
         'created_by'  => 0,
         'updated_by'  => 0,

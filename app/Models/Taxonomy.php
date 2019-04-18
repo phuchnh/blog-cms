@@ -69,12 +69,12 @@ class Taxonomy extends Model
 
     public function getLftName()
     {
-        return 'left';
+        return 'lft';
     }
 
     public function getRgtName()
     {
-        return 'right';
+        return 'rgt';
     }
 
     public function getParentIdName()
