@@ -8,7 +8,8 @@
               <label for="category">{{ title }}</label>
               <select name="name" id="category" class="form-control" v-model="category">
                 <option value="0" selected> -- Select One --</option>
-                <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.translations[0].title }}</option>
+                <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.translations[0].title }}
+                </option>
               </select>
             </div>
           </fieldset>
@@ -16,8 +17,8 @@
         <hr>
         <form role="form" @submit.prevent="onSubmit">
           <div class="form-group">
-            <label for="name">name</label>
-            <input type="text" name="name" id="name" class="form-control" v-model="name">
+            <label for="name">title</label>
+            <input type="text" name="name" id="name" class="form-control" v-model="title">
           </div>
           <div class="form-group">
             <label for="parent">parent</label>
@@ -80,9 +81,9 @@
     },
     data () {
       return {
-        parent_id: 0,
+        parent_id: null,
         type: this.taxonomy,
-        name: '',
+        title: '',
         category: '',
         tags: [],
       }
@@ -99,11 +100,7 @@
       }),
     },
     methods: {
-      ...mapActions('taxonomy', [
-        'update',
-        'create',
-      ]),
-
+      ...mapActions('taxonomy', ['update', 'create']),
       ...mapMutations('taxonomy', {
         updateList: 'SET_LIST',
       }),
@@ -129,7 +126,7 @@
 
       tagsChange (value) {
         this.setData({
-          name: value[(value.length - 1)],
+          title: value[(value.length - 1)],
           parent_id: this.parent_id,
           type: this.type,
         })

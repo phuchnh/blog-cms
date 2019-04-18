@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Taxonomy;
+use App\Transformers\TaxonomyTransformer;
 use Illuminate\Http\Request;
 
 class TaxonomyController extends ApiBaseController
@@ -16,17 +17,22 @@ class TaxonomyController extends ApiBaseController
      */
     public function index(Request $request, Taxonomy $taxonomies)
     {
+        Taxonomy::disableAutoloadTranslations();
+
+        if ($locale = $request->get('locale', config('app.locale'))) {
+            $taxonomies = $taxonomies->ofLocale($locale);
+        }
+
         if ($type = $request->get('type')) {
             $taxonomies = $taxonomies->where('type', $type);
         }
 
+        $items = $taxonomies->get();
         if ($paginator = $request->get('perPage')) {
-            $taxonomies = $taxonomies->paginate($paginator);
+            $items = $taxonomies->paginate($paginator);
         }
 
-        $taxonomies = $taxonomies->get();
-
-        return $this->ok($taxonomies);
+        return $this->ok($items);
     }
 
     /**
@@ -38,7 +44,7 @@ class TaxonomyController extends ApiBaseController
      */
     public function show(Request $request, Taxonomy $taxonomy)
     {
-        return $this->ok($taxonomy);
+        return $this->ok($taxonomy, TaxonomyTransformer::class);
     }
 
     /**
@@ -49,7 +55,17 @@ class TaxonomyController extends ApiBaseController
      */
     public function store(Request $request)
     {
-        $taxonomy = Taxonomy::create($request->all());
+        $taxonomy = new Taxonomy();
+
+        $taxonomy->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $taxonomy->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
+        $taxonomy->save();
 
         return $this->created($taxonomy);
     }
@@ -64,6 +80,13 @@ class TaxonomyController extends ApiBaseController
     public function update(Request $request, Taxonomy $taxonomy)
     {
         $taxonomy->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $taxonomy->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
         $taxonomy->save();
 
         return $this->noContent();
