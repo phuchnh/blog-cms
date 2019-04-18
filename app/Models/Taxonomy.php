@@ -54,7 +54,6 @@ class Taxonomy extends Model
     protected $hidden = [
         'left',
         'right',
-        'parent_id',
     ];
 
     /**

@@ -27,6 +27,10 @@ class TaxonomyController extends ApiBaseController
             $taxonomies = $taxonomies->where('type', $type);
         }
 
+        if ($type = $request->get('name')) {
+            $taxonomies = $taxonomies->where('title', 'LIKE', '%'.$request->get('name').'%');
+        }
+
         $items = $taxonomies->get();
         if ($paginator = $request->get('perPage')) {
             $items = $taxonomies->paginate($paginator);

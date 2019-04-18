@@ -6,12 +6,18 @@
 
 <script>
   import CategoryForm from '../components/CategoryForm'
+  import store from '@/store'
 
   export default {
     name: 'CategoryNew',
     components: { CategoryForm },
+    beforeRouteEnter (to, from, next) {
+      store.dispatch('taxonomy/fetchList', {
+        type: 'category',
+      }).then(() => next())
+    },
     beforeRouteLeave (from, to, next) {
-      this.$store.dispatch('taxonomy/reset').then(() => next())
+      store.dispatch('taxonomy/reset').then(() => next())
     },
     data () {
       return {
