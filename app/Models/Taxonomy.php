@@ -23,6 +23,8 @@ class Taxonomy extends Entity implements TaxonomyInterface
     protected $fillable = [
         'name',
         'type',
+        'parent_id',
+        'position'
     ];
 
 

@@ -33,6 +33,7 @@
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <router-link :to="{name: 'userList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>User</span></a></router-link>
+        <router-link :to="{name: 'categoryList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>Category</span></a></router-link>
         <li class="treeview">
           <router-link :to="{name: 'inThePressList'}">
             <i class="fa fa-link"></i> <span>In The Press</span>

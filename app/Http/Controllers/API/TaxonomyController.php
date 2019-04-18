@@ -16,15 +16,18 @@ class TaxonomyController extends ApiBaseController
      */
     public function index(Request $request, Taxonomy $taxonomies)
     {
-        if ($type = $request->get('type')) {
-            $taxonomies = $taxonomies->where('type', $type);
-        }
+        $taxonomies = $taxonomies
+            ->when($request->input('type'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                return $query->where('type', $request->input('type'));
+            })->when($request->input('name'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('name', 'LIKE', '%'.$request->input('name').'%');
+            });
 
         if ($paginator = $request->get('perPage')) {
             $taxonomies = $taxonomies->paginate($paginator);
         }
-
-        $taxonomies = $taxonomies->get();
 
         return $this->ok($taxonomies);
     }

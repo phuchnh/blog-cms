@@ -29,8 +29,15 @@ const actions = {
    */
   async fetchList ({ commit }, payload) {
     const resp = await TaxonomyService.getAll(payload)
+    const pagination = resp.data.pagination
     const { data } = resp.data
     commit('SET_LIST', data)
+    if (pagination) {
+      commit('SET_PAGINATOR', {
+        total: pagination.total,
+        pageSize: pagination.perPage,
+      })
+    }
     return resp
   },
   /**
@@ -85,6 +92,16 @@ const actions = {
     const { data } = resp.data
     commit('SET_ITEM', data)
     return resp
+  },
+
+  /**
+   *
+   * @param commit
+   * @param id
+   * @returns {Promise<void>}
+   */
+  async reset ({ commit }) {
+    commit('RESET_ITEM')
   },
 }
 const mutations = {
