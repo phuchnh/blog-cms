@@ -3,31 +3,64 @@
 namespace App\Models;
 
 use App\Traits\HasModify;
-use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Post extends Model implements HasMedia
+class Post extends Model
 {
-    use SoftDeletes, Sluggable, SluggableScopeHelpers, HasModify, HasMediaTrait, Sortable;
+    use SoftDeletes,
+        HasModify,
+        Sortable,
+        Translatable;
 
     /**
      * @var array
      */
-    public $sortable = [
-        'id',
-        'title',
-        'description',
-        'content',
-        'publish',
-        'slug',
-        'created_at',
-        'updated_at',
-    ];
+    public $sortable = ['id', 'title', 'content', 'publish', 'slug', 'created_at', 'updated_at'];
+
+    /**
+     * Custom sort title
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function titleSortable($query, $direction)
+    {
+        return $query->join('post_translations', 'posts.id', '=', 'post_translations.post_id')
+                     ->orderBy('title', $direction)
+                     ->select('posts.*');
+    }
+
+    /**
+     * Custom sort content
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function contentSortable($query, $direction)
+    {
+        return $query->join('post_translations', 'posts.id', '=', 'post_translations.post_id')
+                     ->orderBy('content', $direction)
+                     ->select('posts.*');
+    }
+
+    /**
+     * Custom sort slug
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function slugSortable($query, $direction)
+    {
+        return $query->join('post_translations', 'posts.id', '=', 'post_translations.post_id')
+                     ->orderBy('slug', $direction)
+                     ->select('posts.*');
+    }
 
     /**
      * The table associated with the model.
@@ -37,18 +70,18 @@ class Post extends Model implements HasMedia
     protected $table = 'posts';
 
     /**
-     * Return the sluggable configuration array for this model.
+     * Array with the fields translated in the Translation table.
      *
-     * @return array
+     * @var array
      */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title',
-            ],
-        ];
-    }
+    public $translatedAttributes = ['title', 'slug', 'description', 'content'];
+
+    /**
+     * Default foreign key Translation table
+     *
+     * @var string
+     */
+    public $translationForeignKey = 'post_id';
 
     /**
      * The attributes that are mass assignable.
@@ -56,13 +89,16 @@ class Post extends Model implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description',
-        'content',
         'publish',
-        'slug',
         'type',
     ];
+
+    /**
+     * Set default translation model
+     *
+     * @var string
+     */
+    public $translationModel = PostTranslation::class;
 
     /**
      * The model's attributes.
@@ -91,12 +127,8 @@ class Post extends Model implements HasMedia
      * @var array
      */
     public static $rules = [
-        'title'       => 'required|string',
-        'type'        => 'required|string',
-        'description' => 'nullable|string',
-        'content'     => 'nullable|string',
-        'slug'        => 'nullable|string',
-        'publish'     => 'nullable|boolean',
+        'type'    => 'required|string',
+        'publish' => 'nullable|boolean',
     ];
 
     /**
@@ -116,8 +148,6 @@ class Post extends Model implements HasMedia
      */
     public function taxonomies()
     {
-        return $this->belongsToMany(Taxonomy::class)
-                    ->using(PostTaxonomy::class)
-                    ->withPivot(['order']);
+        return $this->belongsToMany(Taxonomy::class)->using(PostTaxonomy::class)->withPivot(['order']);
     }
 }
