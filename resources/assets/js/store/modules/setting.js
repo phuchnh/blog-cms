@@ -21,7 +21,7 @@ const actions = {
       commit('setSetting', res.data.data)
     })
   },
-  updateSetting ({ dispatch, commit }, payload) {
+  storeSetting ({ dispatch, commit }, payload) {
     const input = Helper.filterInputSiteOption(payload)
     return ApiService.post(`/options`, input)
   },

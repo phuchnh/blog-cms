@@ -12,7 +12,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('site_name') }">
                 <label for="site-name" class="col-sm-2 control-label">Site name <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="site-name" name="site_name" v-model="settings.site_name"/>
+                  <input v-validate="'required'" class="form-control" id="site-name" name="site_name"
+                         v-model="settings.site_name"/>
                   <div class="help-block" v-if="errors.first('site_name')">
                     <span>{{ errors.first('site_name') }}</span>
                   </div>
@@ -22,7 +23,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('phone') }">
                 <label for="phone" class="col-sm-2 control-label">Phone <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required|numeric'" class="form-control" id="phone" name="phone" v-model="settings.phone"/>
+                  <input v-validate="'required|numeric'" class="form-control" id="phone" name="phone"
+                         v-model="settings.phone"/>
                   <div class="help-block" v-if="errors.first('phone')">
                     <span>{{ errors.first('phone') }}</span>
                   </div>
@@ -32,7 +34,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('address') }">
                 <label for="address" class="col-sm-2 control-label">Address <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="address" name="address" v-model="settings.address"/>
+                  <input v-validate="'required'" class="form-control" id="address" name="address"
+                         v-model="settings.address"/>
                   <div class="help-block" v-if="errors.first('address')">
                     <span>{{ errors.first('address') }}</span>
                   </div>
@@ -42,7 +45,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('facebook') }">
                 <label for="facebook" class="col-sm-2 control-label">Facebook <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="facebook" name="facebook" v-model="settings.facebook"/>
+                  <input v-validate="'required'" class="form-control" id="facebook" name="facebook"
+                         v-model="settings.facebook"/>
                   <div class="help-block" v-if="errors.first('facebook')">
                     <span>{{ errors.first('facebook') }}</span>
                   </div>
@@ -52,7 +56,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('instagram') }">
                 <label for="instagram" class="col-sm-2 control-label">Instagram <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="instagram" name="instagram" v-model="settings.instagram"/>
+                  <input v-validate="'required'" class="form-control" id="instagram" name="instagram"
+                         v-model="settings.instagram"/>
                   <div class="help-block" v-if="errors.first('instagram')">
                     <span>{{ errors.first('instagram') }}</span>
                   </div>
@@ -62,7 +67,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('email') }">
                 <label for="email" class="col-sm-2 control-label">Email <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required|email'" class="form-control" id="email" name="email" v-model="settings.email"/>
+                  <input v-validate="'required|email'" class="form-control" id="email" name="email"
+                         v-model="settings.email"/>
                   <div class="help-block" v-if="errors.first('email')">
                     <span>{{ errors.first('email') }}</span>
                   </div>
@@ -72,7 +78,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('linkedin') }">
                 <label for="linkedin" class="col-sm-2 control-label">Linkedin <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="linkedin" name="linkedin" v-model="settings.linkedin"/>
+                  <input v-validate="'required'" class="form-control" id="linkedin" name="linkedin"
+                         v-model="settings.linkedin"/>
                   <div class="help-block" v-if="errors.first('linkedin')">
                     <span>{{ errors.first('linkedin') }}</span>
                   </div>
@@ -82,7 +89,8 @@
               <div class="form-group" :class="{ 'has-error': errors.first('copyright') }">
                 <label for="copyright" class="col-sm-2 control-label">Copyright <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="copyright" name="copyright" v-model="settings.copyright"/>
+                  <input v-validate="'required'" class="form-control" id="copyright" name="copyright"
+                         v-model="settings.copyright"/>
                   <div class="help-block" v-if="errors.first('copyright')">
                     <span>{{ errors.first('copyright') }}</span>
                   </div>
@@ -109,11 +117,9 @@
 <script>
   import { mapGetters } from 'vuex'
   import store from '@/store'
-  import PostMetaForm from './../components/PostMetaForm'
 
   export default {
     name: 'Setting',
-    components: { PostMetaForm },
     computed: {
       ...mapGetters({
         settings: 'setting/settings',
@@ -129,7 +135,7 @@
         }).then(() => {
           this.$store.dispatch('setting/resetState')
           next()
-        })
+        }).catch(() => {})
       } else {
         this.$store.dispatch('setting/resetState')
         next()
@@ -143,16 +149,11 @@
           }),
       )
     },
-    data () {
-      return {
-        formAction: 'edit',
-      }
-    },
     methods: {
       save () {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.$store.dispatch('setting/updateSetting', this.settings).then(() => {
+            this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
               this.$store.dispatch('setting/savedSetting', true)
               this.$message.success('Save successfully')
               this.$router.push({ name: 'setting' })
@@ -161,8 +162,8 @@
             this.$message.error('Invalid Form !')
           }
         })
-      }
-    }
+      },
+    },
   }
 </script>
 

@@ -16,6 +16,8 @@ class Option extends Model
      */
     protected $table = 'options';
 
+    //protected $primaryKey = 'option_name';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,7 +41,7 @@ class Option extends Model
      * @var array
      */
     public static $rules = [
-        '*.option_name'   => 'nullable|string',
-        '*.option_value' => 'nullable|string',
+        '*.option_name'   => 'required|string',
+        '*.option_value' => 'required|string',
     ];
 }

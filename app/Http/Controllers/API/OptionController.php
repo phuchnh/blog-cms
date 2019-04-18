@@ -47,7 +47,7 @@ class OptionController extends ApiBaseController
     public function store(CreateOptionRequest $request)
     {
         foreach($request->validated() as $item) {
-            Option::updateOrCreate($item);
+            Option::updateOrCreate(['option_name' => $item['option_name']], $item);
         }
         //Option::insert($request->validated());
 
