@@ -79,45 +79,6 @@
         sortValue: { ascending: 'desc', descending: 'asc' },
         sort: 'updated_at',
         direction: 'desc',
-        // params: {
-        //   page: 1,
-        //   perPage: 10,
-        //   sort: 'updated_at',
-        //   direction: 'desc',
-        //   type: this.type,
-        // },
-        // sort: { ascending: 'asc', descending: 'desc' },
-        // columns: [
-        //   {
-        //     title: 'Id',
-        //     key: 'id',
-        //     dataIndex: 'id',
-        //     sorter: true,
-        //   },
-        //   {
-        //     title: 'Thumbnail',
-        //     dataIndex: 'thumbnail',
-        //     scopedSlots: { customRender: 'thumbnail' },
-        //   },
-        //   {
-        //     title: 'Title',
-        //     key: 'title',
-        //     dataIndex: 'title',
-        //     sorter: true,
-        //   },
-        //   {
-        //     title: 'Status',
-        //     key: 'publish',
-        //     dataIndex: 'publish',
-        //     sorter: true,
-        //     scopedSlots: { customRender: 'status' },
-        //   },
-        //   {
-        //     title: 'Action',
-        //     dataIndex: 'action',
-        //     scopedSlots: { customRender: 'action' },
-        //   },
-        // ],
       }
     },
     computed: {
@@ -179,38 +140,6 @@
       // },
     },
     components: { SearchForm },
-    // methods: {
-    //   fetchPostList (options) {
-    //     this.loading = true
-    //     this.params = _.assign(this.params, options)
-    //     this.$store.dispatch('post/getPostList', this.params).then(() => this.loading = false)
-    //   },
-    //   sortTable ({ prop, order }) {
-    //     this.params.sort = prop
-    //     this.params.direction = this.sort[order]
-    //     this.fetchPostList()
-    //   },
-    //   paginate (currentPage) {
-    //     this.params.page = currentPage
-    //     this.params.perPage = this.pagination.pageSize
-    //     this.fetchPostList()
-    //   },
-    //   onDelete (key) {
-    //     this.$confirm('Are you sure you want to delete this item?', {
-    //       confirmButtonText: 'OK',
-    //       cancelButtonText: 'Cancel',
-    //       type: 'warning',
-    //     }).then(() => {
-    //       this.$store.dispatch('post/deletePost', key).then(() => {
-    //         this.$message({
-    //           type: 'success',
-    //           message: 'Delete completed',
-    //         })
-    //         this.fetchPostList()
-    //       })
-    //     })
-    //   },
-    // },
   }
 </script>
 

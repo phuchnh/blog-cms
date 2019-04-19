@@ -32,10 +32,10 @@ const actions = {
    * @param payload
    * @returns {*}
    */
-  updateMeta ({ commit }, payload) {
+  async updateMeta ({ commit }, payload) {
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
 
-    return ApiService.put(`/meta/${ payload.post_id }/post_meta`, inputMeta).then(res => {
+    return await ApiService.put(`/meta/${ payload.post_id }/post_meta`, inputMeta).then(res => {
       commit('setMeta', res.data.data)
     })
   },

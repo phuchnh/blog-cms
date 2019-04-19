@@ -1,10 +1,10 @@
 <template>
   <div class="boxSection">
     <form role="form" class="form-horizontal">
-      <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabChange">
-        <a-tab-pane v-for="trans of translations" :key="trans.locale" :tab="trans.locale | localeName">
-          <div class="row">
-            <div class="col-xs-12 col-md-8">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabChange">
+            <a-tab-pane v-for="trans of translations" :key="trans.locale" :tab="trans.locale | localeName">
               <!-- General Information -->
               <div class="box">
                 <div class="box-header with-border">
@@ -70,47 +70,48 @@
               </div>
 
               <!-- Seo Information -->
-              <post-meta-form :metaData.sync="post"></post-meta-form>
-            </div>
+              <post-meta-form :metaData="post.meta[trans.locale] || {}"
+                              @getValue="post.meta[trans.locale] = $event"
+              ></post-meta-form>
 
-            <div class="col-xs-12 col-md-4">
-              <template>
-                <div class="box box-default">
-                  <div class="box-header with-border">
-                    <div class="box-title">Feature on position</div>
-                  </div>
-                  <div class="box-body">
-                    <!-- Add Date Picker -->
-                    <post-date-form :metaData.sync="post" :formAction.sync="formAction"></post-date-form>
-
-                    <!-- Add Location -->
-                    <post-location-form :metaData.sync="post"></post-location-form>
-                  </div>
-                </div>
-              </template>
-
-              <post-meta-image :metaData.sync="post" :metaType="'thumbnail'" :title="'thumbnail'"></post-meta-image>
-
-              <post-meta-image :metaData.sync="post" :metaType="'banner'" :title="'banner'"></post-meta-image>
-
-              <post-other-from :metaData.sync="post" :type="type"></post-other-from>
-
+              <!-- Event Section -->
               <div class="box box-default">
                 <div class="box-header with-border">
                   <div class="box-title">Feature on position</div>
                 </div>
                 <div class="box-body">
-                  <post-display :metaData.sync="post" :metaType="'home'" :title="'Show On Homepage'"></post-display>
-                  <post-display :metaData.sync="post" :metaType="'feature'" :title="'Show On Feature'"></post-display>
+                  <!-- Add Date Picker -->
+                  <post-date-form :metaData="post" :formAction="formAction"></post-date-form>
+
+                  <!-- Add Location -->
+                  <post-location-form :metaData="post"></post-location-form>
                 </div>
               </div>
+            </a-tab-pane>
+          </a-tabs>
+        </div>
 
-              <!-- Tag Information -->
-              <tag-form :tagData.sync="post"></tag-form>
+        <div class="col-xs-12 col-md-4">
+          <post-meta-image :metaData="post" :metaType="'thumbnail'" :title="'thumbnail'"></post-meta-image>
+
+          <post-meta-image :metaData="post" :metaType="'banner'" :title="'banner'"></post-meta-image>
+
+          <post-other-from :metaData="post" :type="type"></post-other-from>
+
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <div class="box-title">Feature on position</div>
+            </div>
+            <div class="box-body">
+              <post-display :metaData="post" :metaType="'home'" :title="'Show On Homepage'"></post-display>
+              <post-display :metaData="post" :metaType="'feature'" :title="'Show On Feature'"></post-display>
             </div>
           </div>
-        </a-tab-pane>
-      </a-tabs>
+
+          <!-- Tag Information -->
+          <tag-form :tagData.sync="post"></tag-form>
+        </div>
+      </div>
 
       <!-- section button -->
       <div class="button-section-fixed">
@@ -119,7 +120,7 @@
             <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">
               <i class="fa fa-times"></i> Cancel
             </button>
-            <button @click="submit" type="button" class="btn btn-success">
+            <button @click="onSubmit" type="button" class="btn btn-success">
               <i class="fa fa-save"></i> {{ formAction === 'create' ? 'Create' : 'Update'}}
             </button>
           </div>
@@ -130,7 +131,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import Editor from '@/components/Editor.vue'
 
   // Custom validate
@@ -170,13 +171,16 @@
       }
     },
     created () {
-      this.post.content = this.post.content ? this.post.content : ''
-      this.post.meta = this.post.meta ? this.post.meta : {}
-      this.post.tag = this.post.tag ? this.post.tag : []
+      this.post.meta = this.post.meta || {}
+      this.post.tag = this.post.tag || []
       this.post.publish = this.post.publish || 1
     },
     computed: {
-      ...mapGetters('post', ['saved', 'post', 'getTranslations']),
+      ...mapGetters('post', ['getItem', 'getTranslations', 'getTranslationsByName']),
+
+      post () {
+        return this.getItem
+      },
 
       translations () {
         return this.getTranslations
@@ -186,67 +190,34 @@
       type: String,
       formAction: String,
     },
-    mounted () {
-      // if (this.formAction === 'edit') {
-      //   this.$store.dispatch('post/getPost', { id: this.$route.params.id, params: { with: 'translations' } })
-      //   this.$store.dispatch('post/savedPost', true)
-      // }
-    },
-    watch: {
-      post: {
-        deep: true,
-        handler (val, oldVal) {
-          if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('post/savedPost', false)
-          }
-        },
-      },
-      metaData (val) {
-        console.log(val)
-      },
-    },
     methods: {
-      onTabChange (key) {
-        this.activeTab = key
-      },
-      submit () {
+      ...mapActions('post', ['update', 'create']),
+      /**
+       * Submit form to api
+       */
+      onSubmit () {
         this.post.translations = [...this.translations]
 
         this.post.type = this.type
-        // this.$refs.editor.validate()
-        //
-        // if (!this.post.thumbnail) {
-        //   this.$refs.thumbnail.validate()
-        // }
-        //
-        // this.$refs.thumbnail.flags.valid = true
-        //
-        this.$validator.validateAll().then((result) => {
-          // if (result && this.$refs.editor.flags.valid && this.$refs.thumbnail.flags.valid) {
-          if (this.formAction === 'edit') {
-            this.$store.dispatch('post/updatePost', this.post).then(() => {
-              this.$store.dispatch('post/savedPost', true)
-              console.log(this.saved)
-              this.$message.success('Update successfully')
-              this.$emit('routeToList')
-            }).catch((error) => {
-              console.log(error)
-              this.$message.error('Error')
-            })
-          } else if (this.formAction === 'create') {
-            this.$store.dispatch('post/createPost', this.post).then(() => {
-              this.$store.dispatch('post/savedPost', true)
-              this.$message.success('Create successfully')
-              this.$emit('routeToList')
-            }).catch((error) => {
-              console.log(error)
-              this.$message.error('Error')
-            })
-          }
-          // } else {
-          //   this.$message.error('Invalid Form !')
-          // }
-        })
+
+        if (this.formAction === 'new') {
+          this.create(this.post).then(() => {
+            this.$message.success('Add successfully')
+            this.$emit('routeToList')
+          })
+        } else {
+          this.update(this.post).then(() => {
+            this.$message.success('Update successfully')
+            this.$emit('routeToList')
+          })
+        }
+      },
+      /**
+       * change tab
+       * @param key
+       */
+      onTabChange (key) {
+        this.activeTab = key
       },
     },
   }
@@ -255,5 +226,9 @@
 <style scoped>
   .help-block {
     color: red;
+  }
+
+  .ant-tabs-nav-scroll {
+    background: #fff;
   }
 </style>

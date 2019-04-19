@@ -23,7 +23,8 @@
       <div class="form-group">
         <label for="meta_description" class="col-sm-2 control-label">Description</label>
         <div class="col-sm-10">
-          <textarea class="form-control" id="meta_description" name="meta_description" v-model="item.description"/>
+          <textarea class="form-control" id="meta_description" name="meta_description"
+                    v-model="item.description"></textarea>
         </div>
       </div>
     </div>
@@ -33,10 +34,19 @@
 <script>
   export default {
     name: 'PostMetaForm',
-    props: ['metaData'],
+    props: {
+      metaData: {
+        type: String || Object,
+        default: {},
+      },
+      locale: {
+        type: String,
+        default: 'en',
+      },
+    },
     data () {
       return {
-        item: this.metaData.meta ? this.metaData.meta : {},
+        item: this.metaData ? JSON.parse(this.metaData) : {},
       }
     },
     watch: {
@@ -44,13 +54,14 @@
        * update value to parent
        * @param val
        */
-      item (val) {
-        this.metaData.meta = val
-
-        this.$emit('item', this.metaData)
+      item: {
+        deep: true,
+        handler (val) {
+          this.$emit('getValue', JSON.stringify({ ...val }))
+        },
       },
       metaData (val) {
-        this.item = val.meta ? val.meta : {}
+        this.item = JSON.parse(val)
       },
     },
   }

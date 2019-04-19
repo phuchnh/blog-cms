@@ -15,8 +15,8 @@
     name: 'BlogDetail',
     components: { PostForm },
     computed: {
-      ...mapGetters({
-        saved: 'post/saved',
+      ...mapGetters('post', {
+        faq: 'getItem',
       }),
     },
     beforeRouteEnter (to, from, next) {
@@ -25,20 +25,8 @@
     beforeRouteUpdate (to, from, next) {
       store.dispatch('post/fetchItem', to.params.id).then(() => next())
     },
-    beforeRouteLeave (from, to, next) {
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('post/resetState')
-          next()
-        })
-      } else {
-        this.$store.dispatch('post/resetState')
-        next()
-      }
+    beforeRouteLeave () {
+      store.dispatch('post/reset')
     },
     data () {
       return {

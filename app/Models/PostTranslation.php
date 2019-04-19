@@ -46,6 +46,6 @@ class PostTranslation extends Model
      */
     public function setSlugAttribute($value)
     {
-        $this->attributes['slug'] = SlugService::createSlug($this, 'slug', $value, ['unique' => true]);
+        $this->attributes['slug'] = SlugService::createSlug($this, 'slug', (String) $value, ['unique' => true]);
     }
 }

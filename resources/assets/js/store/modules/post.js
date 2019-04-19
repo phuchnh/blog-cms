@@ -108,16 +108,16 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async update ({ commit }, payload) {
+  async update ({ dispatch, commit }, payload) {
     let input = _.omit(payload, ['meta'])
 
     const resp = await ApiService.put(`/posts/${ payload.id }`, input)
-    const { data } = resp.data.data
+    const { data } = resp.data
 
     commit('SET_ITEM', data)
 
     // insert to meta table
-    dispatch('meta/updateMeta', { data: payload.meta, post_id: res.data.data.id }, { root: true })
+    await dispatch('meta/updateMeta', { data: payload.meta, post_id: data.id }, { root: true })
 
     return resp
   },

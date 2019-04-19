@@ -95,21 +95,18 @@ class PostController extends ApiBaseController
 
         return $this->created($post, PostTransformer::class);
 
-
         // save
         return $this->created($post);
     }
 
     /**
-     * Update the specified resource in storage.
+     * update a post
      *
-     * @param \App\Http\Requests\API\UpdatePostRequest $request
+     * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
         $post->fill($request->all());
 
@@ -167,7 +164,8 @@ class PostController extends ApiBaseController
      * @param \App\Models\Post $post
      * @param \Illuminate\Http\Request $request
      */
-    private function createTag(Post $post, Request $request) {
+    private function createTag(Post $post, Request $request)
+    {
         // Get current tags and request tags
         $current = $post->taxonomies()->get()->toArray();
         $change = $request->tag;
@@ -188,7 +186,6 @@ class PostController extends ApiBaseController
                     $post->taxonomies()->attach($input);
                 }
             }
-
         };
 
         if (empty($current)) {
