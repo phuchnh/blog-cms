@@ -1,66 +1,80 @@
 <template>
-  <div class="box-body">
+  <div class="boxSection">
     <form class="form-horizontal">
       <a-tabs :defaultActiveKey="activeTab" @change="onTabChange">
         <a-tab-pane v-for="trans of translations" :key="trans.locale" :tab="trans.locale | localeName">
-          <div class="form-group" :class="{ 'has-error': errors.first('name') }">
-            <label for="name" class="col-sm-2 control-label">Name <span class="required">*</span></label>
-            <div class="col-sm-8">
-              <input v-validate="'required'" class="form-control" id="name" name="name" v-model="trans.title"/>
-              <div class="help-block" v-if="errors.first('name')">
-                <span>{{ errors.first('name') }}</span>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">General Informaion</h3>
+                </div>
+                <div class="box-body">
+                  <div class="form-group" :class="{ 'has-error': errors.first('name') }">
+                    <label for="name" class="col-sm-2 control-label">Name <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <input v-validate="'required'" class="form-control" id="name" name="name" v-model="trans.title"/>
+                      <div class="help-block" v-if="errors.first('name')">
+                        <span>{{ errors.first('name') }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" :class="{ 'has-error': errors.first('slug') }" v-if="formAction === 'edit'">
+                    <label for="slug" class="col-sm-2 control-label">Slug <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <input v-validate="'required'" class="form-control" id="slug" name="slug" v-model="trans.slug"/>
+                      <div class="help-block" v-if="errors.first('slug')">
+                        <span>{{ errors.first('slug') }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Parent <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <select class="form-control" id="parent" name="parent"
+                              v-model="category.parent_id">
+                        <option value="null" selected>None</option>
+                        <option v-for="item in categories" :value="item.id">{{item.title}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="form-group" :class="{ 'has-error': errors.first('slug') }" v-if="formAction === 'edit'">
-            <label for="slug" class="col-sm-2 control-label">Slug <span class="required">*</span></label>
-            <div class="col-sm-8">
-              <input v-validate="'required'" class="form-control" id="slug" name="slug" v-model="trans.slug"/>
-              <div class="help-block" v-if="errors.first('slug')">
-                <span>{{ errors.first('slug') }}</span>
-              </div>
+          <!-- Seo Information -->
+          <div class="row">
+            <div class="col-xs-12">
+              <post-meta-form :metaData.sync="trans"></post-meta-form>
+              <pre>{{ translations }}</pre>
             </div>
           </div>
 
+          <!-- section button -->
           <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">Parent <span class="required">*</span></label>
-            <div class="col-sm-8">
-              <select class="form-control" id="parent" name="parent"
-                      v-model="category.parent_id">
-                <option value="null" selected>None</option>
-                <option v-for="item in categories" :value="item.id">{{item.title}}</option>
-              </select>
+            <div class="col-md-offset-2 col-md-4">
+              <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">Cancel</button>
+              <button @click="submit" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
+                'Update'}}
+              </button>
             </div>
           </div>
         </a-tab-pane>
       </a-tabs>
-      <!--<div class="form-group" :class="{ 'has-error': errors.first('order') }">-->
-        <!--<label for="name" class="col-sm-2 control-label">Order <span class="required">*</span></label>-->
-        <!--<div class="col-sm-8">-->
-          <!--<input v-validate="'required'" class="form-control" id="order" name="order" v-model="category.position"/>-->
-          <!--<div class="help-block" v-if="errors.first('order')">-->
-            <!--<span>{{ errors.first('order') }}</span>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <div class="form-group">
-        <div class="col-md-offset-2 col-md-4">
-          <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">Cancel</button>
-          <button @click="submit" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
-            'Update'}}
-          </button>
-        </div>
-      </div>
     </form>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import PostMetaForm from './PostMetaForm'
 
   export default {
     name: 'CategoryForm',
+    components: { PostMetaForm },
     computed: {
       ...mapGetters({
         translations: 'taxonomy/getTranslations'
