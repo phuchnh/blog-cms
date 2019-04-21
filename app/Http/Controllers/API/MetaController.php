@@ -7,18 +7,21 @@ use App\Http\Requests\API\UpdateMetaRequest;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 
-
 class MetaController extends ApiBaseController
 {
     protected $model;
+
     protected $modelId;
 
-    public function __construct(\Illuminate\Http\Request $request) {
+    public function __construct(\Illuminate\Http\Request $request)
+    {
         parent::__construct($request);
         $this->model = Relation::getMorphedModel(
             request()->route()->parameter('model')
         );
+
         $this->model = new $this->model();
+
         $this->modelId = request()->route()->parameter('modelId');
         $this->model = $this->model->findOrFail($this->modelId);
     }
@@ -86,9 +89,10 @@ class MetaController extends ApiBaseController
     public function updateMany(UpdateMetaRequest $request)
     {
         $inputArray = $request->validated();
-
         foreach ($inputArray as $item) {
-            $this->model->metas()->updateOrCreate(['meta_key' => $item['meta_key']], $item);
+            if ($item['meta_value']) {
+                $this->model->metas()->updateOrCreate(['meta_key' => $item['meta_key']], $item);
+            }
         }
 
         return $this->noContent();

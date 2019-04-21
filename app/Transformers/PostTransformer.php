@@ -49,7 +49,8 @@ class PostTransformer extends Transformer
      */
     private function transformMeta(\App\Models\Post $post)
     {
-        $postMeta = new PostMetaTransformer();
+        //$postMeta = new PostMetaTransformer();
+        $postMeta = new MetaTransformer();
 
         return ['meta' => $postMeta->transformArray($post->meta)];
     }

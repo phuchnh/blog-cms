@@ -35,7 +35,7 @@ const actions = {
   async updateMeta ({ commit }, payload) {
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
 
-    return await ApiService.put(`/meta/${ payload.post_id }/post_meta`, inputMeta).then(res => {
+    return await ApiService.put(`/${payload.model}/${ payload.post_id }/meta`, inputMeta).then(res => {
       commit('setMeta', res.data.data)
     })
   },
@@ -48,7 +48,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
 
-    return ApiService.post(`/posts/${ payload.post_id }/post_meta`, inputMeta).then((res) => {
+    return ApiService.post(`/${payload.model}/${ payload.post_id }/meta`, inputMeta).then((res) => {
       commit('setMeta', res.data.data)
     })
   },

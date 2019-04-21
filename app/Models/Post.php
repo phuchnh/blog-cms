@@ -142,6 +142,13 @@ class Post extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function metas() {
+        return $this->morphMany('\App\Models\Meta', 'metable');
+    }
+
+    /**
      * Get taxonomies belongs to this post
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
