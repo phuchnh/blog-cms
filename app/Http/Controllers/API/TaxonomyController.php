@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Post;
 use App\Models\Taxonomy;
 use App\Transformers\TaxonomyTransformer;
 use Illuminate\Http\Request;
@@ -102,6 +103,31 @@ class TaxonomyController extends ApiBaseController
     public function destroy(Taxonomy $taxonomy)
     {
         $taxonomy->delete();
+
+        return $this->noContent();
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateTaxonomies(Request $request, Post $post)
+    {
+        $taxonomies = $request->get('taxonomies');
+
+        if (! is_array($taxonomies)) {
+            return $this->unprocessable();
+        }
+
+        // Check taxonomies IDs already existed in DB
+        $invalid = Taxonomy::whereIn('id', $taxonomies)->count() !== count($taxonomies);
+
+        if ($invalid) {
+            return $this->unprocessable();
+        }
+
+        $post->taxonomies()->sync($taxonomies);
 
         return $this->noContent();
     }

@@ -93,6 +93,17 @@ const actions = {
     commit('SET_ITEM', data)
     return resp
   },
+
+  /**
+   *
+   * @param commit
+   * @param id
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async updateTaxonomies ({ commit }, { id, payload }) {
+    return await TaxonomyService.updateTaxonomies(id, payload)
+  },
 }
 const mutations = {
   addStateByName: (state, { key, value }) => {

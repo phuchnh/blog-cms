@@ -21,6 +21,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::put('posts/{post}/restore', 'PostController@restore');
     Route::delete('posts/{post}/permanent', 'PostController@deletePermanently');
     Route::apiResource('taxonomies', 'TaxonomyController');
+    Route::match(['put', 'patch'], 'post/taxonomies/{post}', 'TaxonomyController@updateTaxonomies');
     Route::apiResource('faqs', 'FaqController');
     Route::apiResource('users', 'UserController', ['except' => ['store']]);
     Route::apiResource('clients', 'ClientController');
@@ -33,8 +34,8 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::match(['put', 'patch'], '/meta/{post}/post_meta', 'PostMetaController@updateMany');
 
     Route::apiResource('posts.post_meta', 'PostMetaController')->parameters([
-        'meta' => 'post_meta'
+        'meta' => 'post_meta',
     ]);
-    
-    Route::post('assets','AssetController@upload');
+
+    Route::post('assets', 'AssetController@upload');
 });

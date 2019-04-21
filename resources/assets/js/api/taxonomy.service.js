@@ -13,6 +13,9 @@ export const TaxonomyService = {
   update (id, body = {}) {
     return ApiService.put(`/taxonomies/${ id }`, body)
   },
+  updateTaxonomies (id, body = {}) {
+    return ApiService.put(`/post/taxonomies/${ id }`, body)
+  },
   delete (id, params = {}) {
     return ApiService.delete(`/taxonomies/${ id }`, params)
   },

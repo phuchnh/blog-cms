@@ -125,9 +125,9 @@ export default {
       commit('startFetchItem')
       return FaqService
         .update(payload.id, payload)
-        .then((resp) => {
+        .then(() => {
           commit('endFetchItem')
-          return resp
+          return payload
         })
     },
   },
