@@ -1,4 +1,5 @@
 import { TaxonomyService } from '@/api'
+import * as _ from 'lodash'
 
 const state = () => {
   return {
@@ -17,6 +18,25 @@ const getters = {
   },
   getPaginator: state => {
     return state.paginator
+  },
+  getTranslations: (state, getters) => {
+
+    const defaultTranslations = _.map(['vi', 'en'], (value) => {
+      return { locale: value, title: '', slug: '' }
+    })
+
+    if (Object.keys(getters.getItem).length === 0) {
+      return defaultTranslations
+    }
+
+    let translations = [...getters.getItem.translations]
+
+    if (translations.length === 1) {
+      translations = _.assign([], defaultTranslations, translations)
+    }
+
+    // Default locale is vi to top
+    return translations.sort((a, b) => (a.id - b.id));
   },
 }
 
@@ -47,8 +67,8 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async fetchItem ({ commit }, id, payload) {
-    const resp = await TaxonomyService.getById(id, payload)
+  async fetchItem ({ commit }, { id, params }) {
+    const resp = await TaxonomyService.getById(id, params)
     const { data } = resp.data
     commit('SET_ITEM', data)
     return resp
@@ -115,7 +135,10 @@ const mutations = {
     state.item = { ...item }
   },
   RESET_ITEM: (state) => {
+    state.list = []
     state.item = {}
+    state.paginator = {}
+    state.errors = []
   },
 }
 

@@ -26,7 +26,7 @@
             sortable="custom">
         </el-table-column>
         <el-table-column
-            prop="name"
+            prop="title"
             label="Name"
             sortable="custom">
         </el-table-column>

@@ -13,7 +13,7 @@
     <!--</div>-->
 
     <div class="box-header">
-      <router-link :to="{name: 'faqNew'}" class="btn btn-success"><i class="fa fa-plus"></i> New</router-link>
+      <button @click="$emit('routeToNew')" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
     </div>
 
     <div class="box-body">
@@ -93,7 +93,7 @@
       ]),
 
       goToDetail (id) {
-        return { name: this.routeDetailName, params: { id: id } };
+        return { name: this.routeDetailName, params: { id: id } }
       },
 
       handleCurrentChange (currentPage) {

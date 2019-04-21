@@ -1,64 +1,108 @@
 <template>
-  <div class="box-body">
+  <div class="boxSection">
     <form class="form-horizontal">
-      <div class="form-group" :class="{ 'has-error': errors.first('name') }">
-        <label for="name" class="col-sm-2 control-label">Name <span class="required">*</span></label>
-        <div class="col-sm-8">
-          <input v-validate="'required'" class="form-control" id="name" name="name" v-model="category.name"/>
-          <div class="help-block" v-if="errors.first('name')">
-            <span>{{ errors.first('name') }}</span>
+      <a-tabs :defaultActiveKey="activeTab" @change="onTabChange">
+        <a-tab-pane v-for="trans of translations" :key="trans.locale" :tab="trans.locale | localeName">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">General Informaion</h3>
+                </div>
+                <div class="box-body">
+                  <div class="form-group" :class="{ 'has-error': errors.first('name') }">
+                    <label for="name" class="col-sm-2 control-label">Name <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <input v-validate="'required'" class="form-control" id="name" name="name" v-model="trans.title"/>
+                      <div class="help-block" v-if="errors.first('name')">
+                        <span>{{ errors.first('name') }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" :class="{ 'has-error': errors.first('slug') }" v-if="formAction === 'edit'">
+                    <label for="slug" class="col-sm-2 control-label">Slug <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <input v-validate="'required'" class="form-control" id="slug" name="slug" v-model="trans.slug"/>
+                      <div class="help-block" v-if="errors.first('slug')">
+                        <span>{{ errors.first('slug') }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Parent <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <select class="form-control" id="parent" name="parent"
+                              v-model="category.parent_id">
+                        <option value="null" selected>None</option>
+                        <option v-for="item in categories" :value="item.id">{{item.title}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group" :class="{ 'has-error': errors.first('parent') }">
-        <label for="name" class="col-sm-2 control-label">Parent <span class="required">*</span></label>
-        <div class="col-sm-8">
-          <select v-validate="'required'" class="form-control" id="parent" name="parent"
-                  v-model="category.parent_id">
-            <option value="null">None</option>
-            <option v-for="item in categories" :value="item.id">{{item.name}}</option>
-          </select>
-          <div class="help-block" v-if="errors.first('parent')">
-            <span>{{ errors.first('parent') }}</span>
+
+          <!-- Seo Information -->
+          <div class="row">
+            <div class="col-xs-12">
+              <post-meta-form :metaData.sync="trans"></post-meta-form>
+              <pre>{{ translations }}</pre>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group" :class="{ 'has-error': errors.first('order') }">
-        <label for="name" class="col-sm-2 control-label">Order <span class="required">*</span></label>
-        <div class="col-sm-8">
-          <input v-validate="'required'" class="form-control" id="order" name="order" v-model="category.position"/>
-          <div class="help-block" v-if="errors.first('order')">
-            <span>{{ errors.first('order') }}</span>
+
+          <!-- section button -->
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+              <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">Cancel</button>
+              <button @click="submit" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
+                'Update'}}
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-md-offset-2 col-md-4">
-          <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">Cancel</button>
-          <button @click="submit" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
-            'Update'}}
-          </button>
-        </div>
-      </div>
+        </a-tab-pane>
+      </a-tabs>
     </form>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import PostMetaForm from './PostMetaForm'
 
   export default {
     name: 'CategoryForm',
+    components: { PostMetaForm },
     computed: {
       ...mapGetters({
-        category: 'taxonomy/getItem',
-        categories: 'taxonomy/getAll',
+        translations: 'taxonomy/getTranslations'
       }),
-      categories() {
+      category () {
+        let data = this.$store.getters['taxonomy/getItem']
+        if (this.formAction === 'create') {
+          data = {...data, type: 'category'}
+        }
+        return data
+      },
+      categories () {
         let data = this.$store.getters['taxonomy/getAll']
         if (this.formAction === 'edit') {
           data = _.reject(data, (item) => {
             return item.id === this.category.id
+          })
+        }
+        return data
+      },
+      translations () {
+        let data = this.$store.getters['taxonomy/getTranslations']
+        if (this.formAction === 'create') {
+          data = _.map(data, (item) => {
+            if (!item.slug) {
+              item = _.omit(item, ['slug'])
+            }
+            return item
           })
         }
         return data
@@ -70,19 +114,17 @@
     data () {
       return {
         type: 'category',
-      }
-    },
-    mounted () {
-      this.$store.dispatch('taxonomy/fetchList', {
-        type: this.type,
-      })
-      if (this.formAction === 'edit') {
-        this.$store.dispatch('taxonomy/fetchItem', this.$route.params.id)
+        activeTab: 'vi'
       }
     },
     methods: {
       submit () {
         this.category.type = this.type
+        this.category.translations = [...this.translations]
+        this.category.translations = _.filter(this.category.translations, (item) => {
+          return !!item.title
+        })
+        debugger
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
@@ -106,6 +148,9 @@
             this.$message.error('Invalid Form !')
           }
         })
+      },
+      onTabChange (key) {
+        this.activeTab = key
       },
     },
   }

@@ -47,7 +47,12 @@ class PostController extends ApiBaseController
             ]);
         }
 
-        $result = $posts->get();
+        $result = $posts
+            ->when($request->input('type'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                return $query->where('type', $request->input('type'));
+            })
+            ->get();
 
         if ($paginator = $request->get('perPage')) {
             $result = $posts->paginate($paginator);

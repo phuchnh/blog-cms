@@ -57,7 +57,7 @@
     props: ['metaData', 'formAction'],
     data () {
       return {
-        item: this.metaData.meta ? this.metaData.meta : {},
+        item: this.metaData.meta || {},
       }
     },
     watch: {
@@ -66,13 +66,12 @@
        * @param val
        */
       metaData (val) {
-        if (this.formAction === 'edit') {
+        if (this.formAction === 'edit' && this.metaData.meta) {
           this.metaData.meta.date = this.metaData.meta.date ? moment(this.metaData.meta.date) : null
           this.metaData.meta.start_time = this.metaData.meta.start_time ? moment(this.metaData.meta.start_time) : null
           this.metaData.meta.end_time = this.metaData.meta.end_time ? moment(this.metaData.meta.end_time) : null
           this.item = this.metaData.meta
         }
-
       },
     }
   }

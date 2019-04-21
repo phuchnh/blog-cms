@@ -25,8 +25,9 @@
     beforeRouteUpdate (to, from, next) {
       store.dispatch('post/fetchItem', to.params.id).then(() => next())
     },
-    beforeRouteLeave () {
+    beforeRouteLeave (to, from, next) {
       store.dispatch('post/reset')
+      next()
     },
     data () {
       return {

@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <PostList :type="type" :routeDetailName="'blogDetail'" @routeToNew="routeNewName"></PostList>
+    <PostList :type="type" :routeDetailName="'blogDetail'" @routeToNew="routeToNew"></PostList>
   </div>
 </template>
 
@@ -56,6 +56,11 @@
     beforeRouteLeave (from, to, next) {
       store.dispatch('post/reset')
       next()
+    },
+    methods: {
+      routeToNew () {
+        this.$router.push({ name: 'blogNew' })
+      },
     },
   }
 </script>

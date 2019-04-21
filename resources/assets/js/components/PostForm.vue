@@ -70,8 +70,9 @@
               </div>
 
               <!-- Seo Information -->
-              <post-meta-form :metaData="post.meta[trans.locale] || {}"
+              <post-meta-form :metaData="post.meta[trans.locale]"
                               @getValue="post.meta[trans.locale] = $event"
+                              :locale="trans.locale"
               ></post-meta-form>
 
               <!-- Event Section -->
@@ -170,13 +171,8 @@
         activeTab: 'vi',
       }
     },
-    created () {
-      this.post.meta = this.post.meta || {}
-      this.post.tag = this.post.tag || []
-      this.post.publish = this.post.publish || 1
-    },
     computed: {
-      ...mapGetters('post', ['getItem', 'getTranslations', 'getTranslationsByName']),
+      ...mapGetters('post', ['getItem', 'getTranslations']),
 
       post () {
         return this.getItem
@@ -200,7 +196,7 @@
 
         this.post.type = this.type
 
-        if (this.formAction === 'new') {
+        if (this.formAction === 'create') {
           this.create(this.post).then(() => {
             this.$message.success('Add successfully')
             this.$emit('routeToList')

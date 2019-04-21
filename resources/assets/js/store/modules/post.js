@@ -24,11 +24,19 @@ const getters = {
   },
 
   getTranslations: (state, getters) => {
-
     const defaultTranslations = _.map(['vi', 'en'], (value) => {
-      return { locale: value, title: '', slug: '', description: '', content: '' }
+      return {
+        locale: value,
+        title: '',
+        slug: '',
+        description: '',
+        content: '',
+        meta: ['vi', 'en'],
+        tag: [],
+        publish: 1,
+      }
     })
-
+    debugger
     if (Object.keys(getters.getItem).length === 0) {
       return defaultTranslations
     }
