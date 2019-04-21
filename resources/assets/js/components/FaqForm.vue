@@ -1,20 +1,10 @@
 <template>
   <div class="row">
     <div class="col-xs-12 col-md-8">
-      <div class="box box-widget">
-        <div class="box-body">
-          <TranslationBox v-model="translations"></TranslationBox>
-        </div>
-      </div>
+      <TranslationBox v-model="translations"></TranslationBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <div class="row">
-        <div class="col-xs-12">
-          <TaxonomyBox :boxTitle="'Group'" :boxType="'group'" :setHierarchy="true"></TaxonomyBox>
-        </div>
-        <div class="col-xs-12">
-        </div>
-      </div>
+      <TaxonomyBox :boxTitle="'Group'" :boxType="'group'" :setHierarchy="true"></TaxonomyBox>
     </div>
     <div class="button-section-fixed">
       <div class="form-group text-center">
@@ -60,17 +50,21 @@
         translations: this.formValue.translations || [],
       }
     },
-    methods: {
-      ...mapActions('faq', ['createItem', 'updateItem']),
+
+    computed: {
       isCreate () {
         return this.formAction === 'new'
       },
+    },
+    methods: {
+      ...mapActions('faq', ['createItem', 'updateItem']),
+
       onSubmit () {
         this.post.publish = 1
         this.post.type = 'post_faq'
         this.post.translations = [...this.translations]
 
-        if (this.isCreate()) {
+        if (this.isCreate) {
           this.createItem(this.post).then(() => this.backToList())
         } else {
           this.updateItem(this.post).then(() => this.backToList())

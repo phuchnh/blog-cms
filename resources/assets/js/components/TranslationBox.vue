@@ -1,26 +1,30 @@
 <template>
   <div>
-    <a-tabs :defaultActiveKey="activeTab" @change="onTabsChange">
-      <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
-        <div class="form-group">
-          <label for="title">title</label>
-          <input type="text" class="form-control" id="title" placeholder="title" v-model="trans.title">
-        </div>
-        <div class="form-group">
-          <label for="slug">description</label>
-          <input type="text" class="form-control" id="description" placeholder="description"
-                 v-model="trans.description">
-        </div>
-        <div class="form-group">
-          <label for="slug">slug</label>
-          <input type="text" class="form-control" id="slug" placeholder="slug" v-model="trans.slug">
-        </div>
-        <div class="form-group">
-          <label>content</label>
-          <Editor :id="trans.locale" v-model="trans.content"/>
-        </div>
-      </a-tab-pane>
-    </a-tabs>
+    <div class="box box-widget">
+      <div class="box-body">
+        <a-tabs :defaultActiveKey="activeTab" @change="onTabsChange">
+          <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
+            <div class="form-group">
+              <label for="title">title</label>
+              <input type="text" class="form-control" id="title" placeholder="title" v-model="trans.title">
+            </div>
+            <div class="form-group">
+              <label for="slug">description</label>
+              <input type="text" class="form-control" id="description" placeholder="description"
+                     v-model="trans.description">
+            </div>
+            <div class="form-group">
+              <label for="slug">slug</label>
+              <input type="text" class="form-control" id="slug" placeholder="slug" v-model="trans.slug">
+            </div>
+            <div class="form-group">
+              <label>content</label>
+              <Editor :id="trans.locale" v-model="trans.content"/>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+    </div>
   </div>
 </template>
 
