@@ -37,7 +37,11 @@
                         </a>
 
                         <div class="content fs--1rem margin_top--30">
-                            <a href="#">139C Nguyen Dinh Chinh, Ward 8Phu Nhuan Dist. HCMC, Vietnam.</a>
+                            <a href="#">
+                                @isset($options['address'])
+                                    {{$options['address']}}
+                                @endisset
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -107,7 +111,9 @@
     <div class="container-fluid">
         <div class="row footer_copyright padding_top--15 padding_bottom--15 border_top--1">
             <div class="col-12 fs--0-9rem text-center">
-                © 2018 One Life Connection Training & Consultancy Co., Ltd. All Rights Reserved.
+                @isset($options['copyright'])
+                    {{$options['copyright']}}
+                @endisset
             </div>
         </div>
         <!-- footer socialnetwork -->
@@ -118,24 +124,32 @@
 
                     <ul class="list-inline fs--1-1rem">
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fa-facebook-square"></i>
-                            </a>
+                            @isset($options['facebook'])
+                                <a target="_blank" href="{{$options['facebook']}}" class="font_color--white">
+                                    <i class="fab fa-facebook-square"></i>
+                                </a>
+                            @endisset
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fa-youtube-square"></i>
-                            </a>
+                            @isset($options['youtube'])
+                                <a target="_blank" href="{{$options['youtube']}}" class="font_color--white">
+                                    <i class="fab fa-youtube-square"></i>
+                                </a>
+                            @endisset
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
+                            @isset($options['linkedin'])
+                                <a target="_blank" href="{{$options['linkedin']}}" class="font_color--white">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                            @endisset
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fas fa-envelope"></i>
-                            </a>
+                            @isset($options['email'])
+                                <a href="mailto:{{$options['email']}}" class="font_color--white">
+                                    <i class="fab fas fa-envelope"></i>
+                                </a>
+                            @endisset
                         </li>
                     </ul>
                 </div>

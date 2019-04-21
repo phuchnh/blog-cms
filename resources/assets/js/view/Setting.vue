@@ -2,8 +2,7 @@
   <div class="boxSection">
     <form class="form-horizontal">
       <div class="row">
-        <div class="col-xs-12">
-          <!-- General Information -->
+        <div class="col-xs-12 col-sm-8">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">General Informaion</h3>
@@ -23,7 +22,7 @@
               <div class="form-group" :class="{ 'has-error': errors.first('phone') }">
                 <label for="phone" class="col-sm-2 control-label">Phone <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required|numeric'" class="form-control" id="phone" name="phone"
+                  <input v-validate="'required'" class="form-control" id="phone" name="phone"
                          v-model="settings.phone"/>
                   <div class="help-block" v-if="errors.first('phone')">
                     <span>{{ errors.first('phone') }}</span>
@@ -42,10 +41,31 @@
                 </div>
               </div>
 
-              <div class="form-group" :class="{ 'has-error': errors.first('facebook') }">
-                <label for="facebook" class="col-sm-2 control-label">Facebook <span class="required">*</span></label>
+              <div class="form-group" :class="{ 'has-error': errors.first('copyright') }">
+                <label for="copyright" class="col-sm-2 control-label">Copyright <span class="required">*</span></label>
                 <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="facebook" name="facebook"
+                  <input v-validate="'required'" class="form-control" id="copyright" name="copyright"
+                         v-model="settings.copyright"/>
+                  <div class="help-block" v-if="errors.first('copyright')">
+                    <span>{{ errors.first('copyright') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <!-- General Information -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Social Informaion</h3>
+            </div>
+            <div class="box-body">
+
+              <div class="form-group" :class="{ 'has-error': errors.first('facebook') }">
+                <label for="facebook" class="col-sm-12">Facebook</label>
+                <div class="col-sm-12">
+                  <input class="form-control" id="facebook" name="facebook"
                          v-model="settings.facebook"/>
                   <div class="help-block" v-if="errors.first('facebook')">
                     <span>{{ errors.first('facebook') }}</span>
@@ -54,9 +74,9 @@
               </div>
 
               <div class="form-group" :class="{ 'has-error': errors.first('instagram') }">
-                <label for="instagram" class="col-sm-2 control-label">Instagram <span class="required">*</span></label>
-                <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="instagram" name="instagram"
+                <label for="instagram" class="col-sm-12">Instagram</label>
+                <div class="col-sm-12">
+                  <input class="form-control" id="instagram" name="instagram"
                          v-model="settings.instagram"/>
                   <div class="help-block" v-if="errors.first('instagram')">
                     <span>{{ errors.first('instagram') }}</span>
@@ -64,10 +84,21 @@
                 </div>
               </div>
 
+              <div class="form-group" :class="{ 'has-error': errors.first('instagram') }">
+                <label for="youtube" class="col-sm-12">Youtube</label>
+                <div class="col-sm-12">
+                  <input class="form-control" id="youtube" name="youtube"
+                         v-model="settings.youtube"/>
+                  <div class="help-block" v-if="errors.first('youtube')">
+                    <span>{{ errors.first('youtube') }}</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-group" :class="{ 'has-error': errors.first('email') }">
-                <label for="email" class="col-sm-2 control-label">Email <span class="required">*</span></label>
-                <div class="col-sm-10">
-                  <input v-validate="'required|email'" class="form-control" id="email" name="email"
+                <label for="email" class="col-sm-12">Email</label>
+                <div class="col-sm-12">
+                  <input v-validate="'email'" class="form-control" id="email" name="email"
                          v-model="settings.email"/>
                   <div class="help-block" v-if="errors.first('email')">
                     <span>{{ errors.first('email') }}</span>
@@ -76,23 +107,12 @@
               </div>
 
               <div class="form-group" :class="{ 'has-error': errors.first('linkedin') }">
-                <label for="linkedin" class="col-sm-2 control-label">Linkedin <span class="required">*</span></label>
-                <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="linkedin" name="linkedin"
+                <label for="linkedin" class="col-sm-12">Linkedin</label>
+                <div class="col-sm-12">
+                  <input class="form-control" id="linkedin" name="linkedin"
                          v-model="settings.linkedin"/>
                   <div class="help-block" v-if="errors.first('linkedin')">
                     <span>{{ errors.first('linkedin') }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group" :class="{ 'has-error': errors.first('copyright') }">
-                <label for="copyright" class="col-sm-2 control-label">Copyright <span class="required">*</span></label>
-                <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="copyright" name="copyright"
-                         v-model="settings.copyright"/>
-                  <div class="help-block" v-if="errors.first('copyright')">
-                    <span>{{ errors.first('copyright') }}</span>
                   </div>
                 </div>
               </div>

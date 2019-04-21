@@ -4,22 +4,30 @@
             <nav class="navbar navbar-expand-lg">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link font_color--white font-weight-bold" href="#">+84 8 66593431</a>
+                        @isset($options['phone'])
+                            <a class="nav-link font_color--white font-weight-bold" href="#">{{$options['phone']}}</a>
+                        @endisset
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font_color--white" href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
+                        @isset($options['facebook'])
+                            <a target="_blank" href="{{$options['facebook']}}" class="nav-link font_color--white">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                        @endisset
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font_color--white" href="#">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
+                        @isset($options['facebook'])
+                            <a class="nav-link font_color--white" target="_blank" href="{{$options['facebook']}}">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        @endisset
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font_color--white" href="#">
-                            <i class="fas fa-envelope"></i>
-                        </a>
+                        @isset($options['email'])
+                            <a class="nav-link font_color--white" target="_blank" href="mailto:{{$options['email']}}">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        @endisset
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
