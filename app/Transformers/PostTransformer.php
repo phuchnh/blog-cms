@@ -52,7 +52,7 @@ class PostTransformer extends Transformer
         //$postMeta = new PostMetaTransformer();
         $postMeta = new MetaTransformer();
 
-        return ['meta' => $postMeta->transformArray($post->meta)];
+        return ['meta' => $postMeta->transformArray($post->metas)];
     }
 
     /**
