@@ -1,80 +1,79 @@
 <template>
-  <div>
-    <form role="form" @submit.prevent="onSubmit">
-      <a-tabs :defaultActiveKey="activeTab" @change="onTabChange">
-        <a-tab-pane v-for="trans of translations" :key="trans.locale" :tab="trans.locale | localeName">
-          <div class="form-group">
-            <label for="title">title</label>
-            <input type="text" class="form-control" id="title" placeholder="title" v-model="trans.title">
-          </div>
-          <div class="form-group">
-            <label for="slug">description</label>
-            <input type="text" class="form-control" id="description" placeholder="description"
-                   v-model="trans.description">
-          </div>
-          <div class="form-group">
-            <label for="slug">slug</label>
-            <input type="text" class="form-control" id="slug" placeholder="slug" v-model="trans.slug">
-          </div>
-          <div class="form-group">
-            <label>content</label>
-            <Editor :id="trans.locale" v-model="trans.content"/>
-          </div>
-        </a-tab-pane>
-      </a-tabs>
-      <div class="form-group">
-        <button class="btn btn-primary" type="submit">Save</button>
-        <button class="btn btn-default" type="button" @click.prevent="backToList">Cancel</button>
+  <div class="row">
+    <div class="col-xs-12 col-md-8">
+      <TranslationBox v-model="translations"></TranslationBox>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <TaxonomyBox :boxTitle="'Group'" :boxType="'group'" :setHierarchy="true"></TaxonomyBox>
+    </div>
+    <div class="button-section-fixed">
+      <div class="form-group text-center">
+        <div class="col-sm-12">
+          <button @click="backToList" class="btn btn-default margin-r-5" type="button">
+            <i class="fa fa-times"></i> Cancel
+          </button>
+          <button @click="onSubmit" type="button" class="btn btn-success">
+            <i class="fa fa-save"></i> {{ isCreate ? 'Create' : 'Update'}}
+          </button>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex'
-  import Editor from '@/components/Editor.vue'
+  import { mapActions } from 'vuex'
+  import TranslationBox from '@/components/TranslationBox.vue'
+  import TaxonomyBox from '@/components/TaxonomyBox.vue'
 
   export default {
     name: 'FaqForm',
     components: {
-      Editor,
-    },
-    data () {
-      return {
-        activeTab: 'vi',
-      }
+      TranslationBox,
+      TaxonomyBox,
     },
     props: {
       formAction: {
         type: String,
         default: 'new',
       },
-    },
-    computed: {
-      ...mapGetters('faq', ['getItem', 'getTranslations', 'getTranslationsByName']),
-      post () {
-        return this.getItem
+      formValue: {
+        type: Object,
+        default () {
+          return {}
+        },
       },
-      translations () {
-        return this.getTranslations
+    },
+    data () {
+      return {
+        post: this.formValue || {},
+        translations: this.formValue.translations || [],
+      }
+    },
+
+    computed: {
+      isCreate () {
+        return this.formAction === 'new'
       },
     },
     methods: {
-      ...mapActions('faq', ['update', 'create']),
+      ...mapActions('faq', ['createItem', 'updateItem']),
+
       onSubmit () {
+        this.post.publish = 1
+        this.post.type = 'post_faq'
         this.post.translations = [...this.translations]
-        if (this.formAction === 'new') {
-          this.create(this.post).then(() => this.backToList())
+
+        if (this.isCreate) {
+          this.createItem(this.post).then(() => this.backToList())
         } else {
-          this.update(this.post).then(() => this.backToList())
+          this.updateItem(this.post).then(() => this.backToList())
         }
       },
       backToList () {
         this.$router.push({ name: 'faqList' })
       },
-      onTabChange (key) {
-        this.activeTab = key
-      },
+
     },
   }
 </script>

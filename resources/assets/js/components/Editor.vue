@@ -64,7 +64,7 @@
       },
     },
     mounted () {
-      this.editor = new Jodit(`#${ this.id }`, this.editorConfig)
+      this.editor = new Jodit(this.$el, this.editorConfig)
       this.editor.value = this.value || ''
       this.editor.events.on('change', newValue => this.$emit('input', newValue))
       this.editor.events.on('afterImageEditor', newValue => this.$emit('input', newValue))
