@@ -1,8 +1,8 @@
 <template>
-  <div class="box box-success">
+  <div class="box">
     <div class="box-header">
       <div class="box-header with-border">
-        <h3 for="other_post" class="box-title">Other Post</h3>
+        <h3 for="other_post" class="box-title">Related Post</h3>
       </div>
     </div>
 

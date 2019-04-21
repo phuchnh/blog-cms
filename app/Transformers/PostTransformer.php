@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Models\Post;
 use Flugg\Responder\Transformers\Transformer;
 
 class PostTransformer extends Transformer
@@ -11,7 +12,9 @@ class PostTransformer extends Transformer
      *
      * @var string[]
      */
-    protected $relations = [];
+    protected $relations = [
+        'translations' => PostTranslationTransformer::class,
+    ];
 
     /**
      * List of autoloaded default relations.
@@ -28,10 +31,12 @@ class PostTransformer extends Transformer
      */
     public function transform(\App\Models\Post $post)
     {
+        Post::disableAutoloadTranslations();
+        
         return array_merge(
             $post->toArray(),
             $this->transformMeta($post),
-            $this->transformMedia($post),
+            //$this->transformMedia($post),
             $this->transformTag($post)
         );
     }
@@ -44,9 +49,10 @@ class PostTransformer extends Transformer
      */
     private function transformMeta(\App\Models\Post $post)
     {
-        $postMeta = new PostMetaTransformer();
+        //$postMeta = new PostMetaTransformer();
+        $postMeta = new MetaTransformer();
 
-        return ['meta' => $postMeta->transformArray($post->meta)];
+        return ['meta' => $postMeta->transformArray($post->metas)];
     }
 
     /**

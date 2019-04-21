@@ -3,7 +3,10 @@ import Vue from 'vue'
 
 const state = () => {
   return {
-    list: null,
+    list: [],
+    item: {},
+    paginator: {},
+    errors: [],
   }
 }
 const getters = {
@@ -15,6 +18,25 @@ const getters = {
   },
   getPaginator: state => {
     return state.paginator
+  },
+  getTranslations: (state, getters) => {
+
+    const defaultTranslations = _.map(['vi', 'en'], (value) => {
+      return { locale: value, title: '', slug: '' }
+    })
+
+    if (Object.keys(getters.getItem).length === 0) {
+      return defaultTranslations
+    }
+
+    let translations = [...getters.getItem.translations]
+
+    if (translations.length === 1) {
+      translations = _.assign([], defaultTranslations, translations)
+    }
+
+    // Default locale is vi to top
+    return translations.sort((a, b) => (a.id - b.id))
   },
   getListByType: state => (type) => {
     return state[type] || []
@@ -30,8 +52,19 @@ const actions = {
    */
   async fetchList ({ commit }, payload) {
     const resp = await TaxonomyService.getAll(payload)
-    const { type } = payload
+    const pagination = resp.data.pagination
     const { data } = resp.data
+    const { type } = payload
+
+    commit('SET_LIST', data)
+
+    if (pagination) {
+      commit('SET_PAGINATOR', {
+        total: pagination.total,
+        pageSize: pagination.perPage,
+      })
+    }
+
     commit('addStateByName', { key: type, value: data })
     return resp
   },
