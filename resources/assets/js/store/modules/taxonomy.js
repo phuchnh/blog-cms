@@ -90,12 +90,16 @@ const actions = {
    * @returns {Promise<void>}
    */
   async create ({ commit, state }, payload) {
-    const resp = await TaxonomyService.create(payload)
+    let input = _.omit(payload, ['meta'])
+    const resp = await TaxonomyService.create(input)
     const { type } = payload
     const { data } = resp.data
     let items = [...state[type]]
     items.push(data)
     commit('updateStateByName', { key: type, value: items })
+
+    // insert to meta table
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomies', model_id: payload.id }, { root: true })
     return data
   },
 
@@ -106,9 +110,12 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async update ({ commit }, payload) {
-    const resp = await TaxonomyService.update(payload.id, payload)
+  async update ({ commit, dispatch }, payload) {
+    let input = _.omit(payload, ['translations.meta'])
+    const resp = await TaxonomyService.update(payload.id, input)
     commit('SET_ITEM', payload)
+    // insert to meta table
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomies', model_id: payload.id }, { root: true })
     return resp
   },
 

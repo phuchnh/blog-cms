@@ -58,7 +58,8 @@
 
               <!-- Seo Information -->
               <post-meta-form v-model="meta[trans.locale]"></post-meta-form>
-
+              <pre>{{meta}}</pre>
+              <pre>{{post}}</pre>
               <!-- Event Section -->
               <div class="box box-default">
                 <div class="box-header with-border">

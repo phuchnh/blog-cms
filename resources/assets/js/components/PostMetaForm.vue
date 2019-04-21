@@ -37,18 +37,21 @@
   export default {
     name: 'PostMetaForm',
     props: {
-      value: {
-        type: String | Object | Array,
-        default: '',
-      },
-      locale: {
-        type: String,
-        default: 'en',
-      },
+      value: Array | Object
     },
+//    props: {
+//      value: {
+//        type: String | Object | Array,
+//        default: '',
+//      },
+//      locale: {
+//        type: String,
+//        default: 'en',
+//      },
+//    },
     data () {
       return {
-        item: this.value ? JSON.parse(this.value) : {},
+        item: this.value ? this.value : {},
       }
     },
     watch: {
@@ -59,7 +62,7 @@
       item: {
         deep: true,
         handler (val) {
-          this.$emit('input', JSON.stringify({ ...val }))
+          this.$emit('input', val)
         },
       },
     },

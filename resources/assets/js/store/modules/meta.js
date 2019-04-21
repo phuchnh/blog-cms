@@ -48,7 +48,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data, payload.post_id) : []
 
-    return ApiService.post(`/${payload.model}/${ payload.post_id }/meta`, inputMeta).then((res) => {
+    return ApiService.post(`/${payload.model}/${ payload.model_id }/meta`, inputMeta).then((res) => {
       commit('setMeta', res.data.data)
     })
   },

@@ -48,8 +48,7 @@
           <!-- Seo Information -->
           <div class="row">
             <div class="col-xs-12">
-              <post-meta-form :metaData.sync="trans"></post-meta-form>
-              <pre>{{ translations }}</pre>
+              <post-meta-form v-model="trans.meta"></post-meta-form>
             </div>
           </div>
 
@@ -106,7 +105,7 @@
           })
         }
         return data
-      }
+      },
     },
     props: {
       formAction: String,
@@ -124,7 +123,6 @@
         this.category.translations = _.filter(this.category.translations, (item) => {
           return !!item.title
         })
-        debugger
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
