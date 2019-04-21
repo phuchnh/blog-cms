@@ -17,7 +17,7 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
-        if ($locale = $request->get('locale', $faq->getDefaultLocale())) {
+        if ($locale = $request->get('locale', config('app.locale'))) {
             $faq = $faq->ofLocale($locale);
         }
 
@@ -27,13 +27,13 @@ class FaqController extends ApiBaseController
             ]);
         }
 
-        $result = $faq->get();
+        $items = $faq->get();
 
         if ($paginator = $request->get('perPage')) {
-            $result = $faq->paginate($paginator);
+            $items = $faq->paginate($paginator);
         }
 
-        return $this->ok($result);
+        return $this->ok($items);
     }
 
     /**

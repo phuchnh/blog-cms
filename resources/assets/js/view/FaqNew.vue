@@ -11,7 +11,7 @@
     <div class="col-xs-12 col-md-4">
       <div class="row">
         <div class="col-xs-12">
-<!--          <TaxonomyBox :title="'Group'" :taxonomy="'group'" :hierarchy="true"></TaxonomyBox>-->
+          <TaxonomyBox :title="'Group'" :taxonomy="'group'" :hierarchy="true"></TaxonomyBox>
         </div>
         <div class="col-xs-12">
 <!--          <TaxonomyBox :title="'Tag'" :taxonomy="'tag'" :hierarchy="false"></TaxonomyBox>-->

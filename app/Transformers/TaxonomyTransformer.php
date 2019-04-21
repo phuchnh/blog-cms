@@ -12,7 +12,9 @@ class TaxonomyTransformer extends Transformer
      *
      * @var string[]
      */
-    protected $relations = [];
+    protected $relations = [
+        'translations' => TaxonomyTranslationTransformer::class,
+    ];
 
     /**
      * List of autoloaded default relations.
@@ -24,17 +26,12 @@ class TaxonomyTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param $taxonomies
+     * @param \App\Models\Taxonomy $taxonomy
      * @return array
      */
-    public function transform($taxonomies)
+    public function transform(Taxonomy $taxonomy)
     {
-        $result = [];
-        foreach ($taxonomies as $taxonomy) {
-            array_push($result, $taxonomy->name);
-        }
-
-        return $result;
+        Taxonomy::disableAutoloadTranslations();
+        return $taxonomy->toArray();
     }
-
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Kalnoy\Nestedset\NodeTrait;
 
 class Taxonomy extends Model
@@ -90,5 +91,24 @@ class Taxonomy extends Model
     public function setParentAttribute($value)
     {
         $this->setParentIdAttribute($value);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $locale
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfLocale($query, $locale)
+    {
+        $table = "SELECT taxonomy_translations.locale,
+                       taxonomy_translations.title,
+                       taxonomy_translations.slug,
+                       taxonomy_translations.description,
+                       taxonomies.*
+                FROM taxonomies, taxonomy_translations
+                WHERE taxonomies.id = taxonomy_translations.taxonomy_id
+                AND taxonomy_translations.locale = '{$locale}'";
+
+        return $query->from(DB::raw("({$table}) taxonomies"));
     }
 }
