@@ -4,7 +4,10 @@ import Vue from 'vue'
 
 const state = () => {
   return {
-    list: null,
+    list: [],
+    item: {},
+    paginator: {},
+    errors: [],
   }
 }
 const getters = {

@@ -53,27 +53,11 @@
                       </div>
                     </div>
                   </ValidationProvider>
-
-                  <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
-                    <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
-                    <div class="col-sm-5">
-                      <select v-validate="'required'" class="form-control" id="publish" name="publish"
-                              v-model="post.publish">
-                        <option v-for="status in postStatus" :value="status.value">{{status.name}}</option>
-                      </select>
-                      <div class="help-block" v-if="errors.first('publish')">
-                        <span>{{ errors.first('publish') }}</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
 
               <!-- Seo Information -->
-              <post-meta-form :metaData="post.meta[trans.locale]"
-                              @getValue="post.meta[trans.locale] = $event"
-                              :locale="trans.locale"
-              ></post-meta-form>
+              <post-meta-form v-model="meta[trans.locale]"></post-meta-form>
 
               <!-- Event Section -->
               <div class="box box-default">
@@ -93,6 +77,26 @@
         </div>
 
         <div class="col-xs-12 col-md-4">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <div class="box-title">Publisher</div>
+            </div>
+            <div class="box-body">
+              <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
+                <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
+                <div class="col-sm-5">
+                  <select v-validate="'required'" class="form-control" id="publish" name="publish"
+                          v-model="publish">
+                    <option v-for="status in postStatus" :value="status.value">{{status.name}}</option>
+                  </select>
+                  <div class="help-block" v-if="errors.first('publish')">
+                    <span>{{ errors.first('publish') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <post-meta-image :metaData="post" :metaType="'thumbnail'" :title="'thumbnail'"></post-meta-image>
 
           <post-meta-image :metaData="post" :metaType="'banner'" :title="'banner'"></post-meta-image>
@@ -110,7 +114,7 @@
           </div>
 
           <!-- Tag Information -->
-          <tag-form :tagData.sync="post"></tag-form>
+          <tag-form :tagData="post"></tag-form>
         </div>
       </div>
 
@@ -169,6 +173,7 @@
           { name: 'Draft', value: 0 },
         ],
         activeTab: 'vi',
+        publish: 1,
       }
     },
     computed: {
@@ -176,6 +181,10 @@
 
       post () {
         return this.getItem
+      },
+
+      meta () {
+        return this.post.meta || {}
       },
 
       translations () {
@@ -195,6 +204,9 @@
         this.post.translations = [...this.translations]
 
         this.post.type = this.type
+        this.post.publish = this.publish
+
+        this.post.meta = this.meta
 
         if (this.formAction === 'create') {
           this.create(this.post).then(() => {

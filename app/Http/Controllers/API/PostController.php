@@ -96,7 +96,9 @@ class PostController extends ApiBaseController
         $post->save();
 
         // Handle tag
-        $this->createTag($post, $request);
+        if ($request->tag) {
+            $this->createTag($post, $request);
+        }
 
         return $this->created($post, PostTransformer::class);
 
@@ -124,7 +126,9 @@ class PostController extends ApiBaseController
         $post->save();
 
         // Handle tag
-        $this->createTag($post, $request);
+        if ($request->tag) {
+            $this->createTag($post, $request);
+        }
 
         return $this->ok($post, PostTransformer::class);
     }

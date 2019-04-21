@@ -31,12 +31,9 @@ const getters = {
         slug: '',
         description: '',
         content: '',
-        meta: ['vi', 'en'],
-        tag: [],
-        publish: 1,
       }
     })
-    debugger
+
     if (Object.keys(getters.getItem).length === 0) {
       return defaultTranslations
     }
@@ -95,7 +92,7 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async create ({ commit }, payload) {
+  async create ({ dispatch, commit }, payload) {
     let input = _.omit(payload, ['meta'])
 
     const resp = await ApiService.post('/posts', input)
@@ -104,7 +101,7 @@ const actions = {
     commit('SET_ITEM', data)
 
     // insert to meta table
-    dispatch('meta/createMeta', { data: payload.meta, post_id: data.id }, { root: true })
+    await dispatch('meta/createMeta', { data: payload.meta, post_id: data.id }, { root: true })
 
     return resp
   },
