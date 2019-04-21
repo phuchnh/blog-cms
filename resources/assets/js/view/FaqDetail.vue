@@ -1,10 +1,10 @@
 <template>
-  <div class="row">
-    <div class="col-xs-12 col-md-8">
+  <div class="row" :v-loading="loading">
+    <div class="col-xs-12 col-md-8" v-if="formValue">
       <div class="box box-widget">
         <!-- /.box-box-body -->
         <div class="box-body">
-          <FaqForm formAction="edit" :formData="faq"></FaqForm>
+          <FaqForm formAction="edit" :formValue="formValue"></FaqForm>
         </div>
       </div>
     </div>
@@ -36,15 +36,17 @@
       FaqForm,
     },
     computed: {
-      ...mapGetters('faq', {
-        faq: 'getItem',
-      }),
+      ...mapGetters('faq', ['onFetchItem', 'getItem']),
+      loading () {
+        return this.onFetchItem
+      },
+      formValue () {
+        return this.getItem
+      },
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchItem', { id: to.params.id, params: { with: 'translations' } }).then(() => next())
-    },
-    beforeRouteUpdate (to, from, next) {
-      store.dispatch('faq/fetchItem', to.params.id).then(() => next())
+      store.dispatch('faq/fetchItem', to.params.id)
+           .then(() => next())
     },
   }
 </script>

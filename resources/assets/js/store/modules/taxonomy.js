@@ -1,12 +1,10 @@
 import { TaxonomyService } from '@/api'
-import * as _ from 'lodash'
+import _ from 'lodash'
+import Vue from 'vue'
 
 const state = () => {
   return {
-    list: [],
-    item: {},
-    paginator: {},
-    errors: [],
+    list: null,
   }
 }
 const getters = {
@@ -36,7 +34,11 @@ const getters = {
     }
 
     // Default locale is vi to top
-    return translations.sort((a, b) => (a.id - b.id));
+    return translations.sort((a, b) => (a.id - b.id))
+  },
+
+  getListByType: state => (type) => {
+    return state[type] || []
   },
 }
 
@@ -51,13 +53,19 @@ const actions = {
     const resp = await TaxonomyService.getAll(payload)
     const pagination = resp.data.pagination
     const { data } = resp.data
+    const { type } = payload
+
     commit('SET_LIST', data)
+
     if (pagination) {
       commit('SET_PAGINATOR', {
         total: pagination.total,
         pageSize: pagination.perPage,
       })
     }
+
+    commit('addStateByName', { key: type, value: data })
+
     return resp
   },
   /**
@@ -77,13 +85,17 @@ const actions = {
   /**
    *
    * @param commit
+   * @param state
    * @param payload
    * @returns {Promise<void>}
    */
-  async create ({ commit }, payload) {
+  async create ({ commit, state }, payload) {
     const resp = await TaxonomyService.create(payload)
+    const { type } = payload
     const { data } = resp.data
-    commit('SET_ITEM', data)
+    let items = [...state[type]]
+    items.push(data)
+    commit('updateStateByName', { key: type, value: items })
     return data
   },
 
@@ -125,6 +137,14 @@ const actions = {
   },
 }
 const mutations = {
+  addStateByName: (state, { key, value }) => {
+    Vue.set(state, key, value)
+  },
+
+  updateStateByName: (state, { key, value }) => {
+    Vue.set(state, key, value)
+  },
+
   SET_LIST: (state, data) => {
     state.list = [...data]
   },
