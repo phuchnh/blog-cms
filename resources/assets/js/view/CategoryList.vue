@@ -41,15 +41,15 @@
         </el-table-column>
       </el-table>
 
-      <div class="pagination-container">
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :current-page="1"
-            :page-size="2"
-            :total="categories.length">
-        </el-pagination>
-      </div>
+      <!--<div class="pagination-container">-->
+        <!--<el-pagination-->
+            <!--background-->
+            <!--layout="prev, pager, next"-->
+            <!--:current-page="1"-->
+            <!--:page-size="2"-->
+            <!--:total="categories.length">-->
+        <!--</el-pagination>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -72,10 +72,10 @@
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
         params: {
-          page: 1,
-          perPage: 10,
-          sort: 'updated_at',
-          direction: 'desc',
+          // page: 1,
+          // perPage: 10,
+          // sort: 'updated_at',
+          // direction: 'desc',
           type: 'category',
           tree: true
         },
@@ -129,11 +129,12 @@
       },
       reset () {
         const initialParams = {
-          page: 1,
-          perPage: 10,
-          sort: 'updated_at',
-          direction: 'desc',
-          type: 'category'
+          // page: 1,
+          // perPage: 10,
+          // sort: 'updated_at',
+          // direction: 'desc',
+          type: 'category',
+          tree: true
         }
         this.params = { ...initialParams }
         this.fetchList()

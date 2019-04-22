@@ -7,6 +7,7 @@ const state = () => {
     item: {},
     paginator: {},
     errors: [],
+    sidebarItem: []
   }
 }
 const getters = {
@@ -41,6 +42,9 @@ const getters = {
   getListByType: state => (type) => {
     return state[type] || []
   },
+  getSidebarItem: state => {
+    return state.sidebarItem
+  },
 }
 
 const actions = {
@@ -66,6 +70,22 @@ const actions = {
     }
 
     commit('addStateByName', { key: type, value: data })
+    return resp
+  },
+  /**
+   *
+   * @param commit
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async fetchSidebarList ({ commit }, payload) {
+    const resp = await TaxonomyService.getAll(payload)
+    const data = _.filter(resp.data.data, (item) => {
+      return item.description === 'post'
+    })
+
+    commit('SET_SIDEBAR_LIST', data)
+
     return resp
   },
   /**
@@ -161,6 +181,9 @@ const mutations = {
 
   SET_LIST: (state, data) => {
     state.list = [...data]
+  },
+  SET_SIDEBAR_LIST: (state, data) => {
+    state.sidebarItem = [...data]
   },
   SET_PAGINATOR: (state, paginator) => {
     state.paginator = { ...paginator }

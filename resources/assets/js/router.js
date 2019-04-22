@@ -29,8 +29,11 @@ import FaqDetail from '@/view/FaqDetail'
 import FaqNew from '@/view/FaqNew'
 import Setting from '@/view/Setting'
 import CategoryList from '@/view/CategoryList'
-import CategoryNew from './view/CategoryNew'
-import CategoryDetail from './view/CategoryDetail'
+import CategoryNew from '@/view/CategoryNew'
+import CategoryDetail from '@/view/CategoryDetail'
+import PostList from '@/view/PostList'
+import PostNew from '@/view/PostNew'
+import PostDetail from '@/view/PostDetail'
 
 Vue.use(Router)
 
@@ -103,6 +106,34 @@ export default new Router({
           component: UserDetail,
           meta: {
             title: 'UserDetail',
+            description: '',
+          },
+        },
+
+        {
+          path: 'posts',
+          name: 'postList',
+          component: PostList,
+          meta: {
+            title: 'PostList',
+            description: '',
+          },
+        },
+        {
+          path: 'posts/new',
+          name: 'postNew',
+          component: PostNew,
+          meta: {
+            title: 'PostNew',
+            description: '',
+          },
+        },
+        {
+          path: 'posts/:id',
+          name: 'postDetail',
+          component: PostDetail,
+          meta: {
+            title: 'PostDetail',
             description: '',
           },
         },

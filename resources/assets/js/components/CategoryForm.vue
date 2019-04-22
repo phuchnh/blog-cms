@@ -41,22 +41,16 @@
                     </div>
                   </div>
 
-                  <div class="form-group" :class="{ 'has-error': errors.first('type') }">
-                    <label for="type" class="col-sm-2 control-label">Type <span class="required">*</span></label>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">Type <span class="required">*</span></label>
                     <div class="col-sm-8">
-                      <div class="radio-inline" v-for="item in categoryType">
-                        <label>
-                          <input type="radio"
-                                 name="type"
-                                 id="type"
-                                 v-model="trans.meta"
-                                 :value="item.value" /> {{ item.name }}
-                        </label>
-                      </div>
+                      <select class="form-control" id="type" name="type"
+                              v-model="trans.description">
+                        <option v-for="item in categoryType" :value="item.value">{{item.name}}</option>
+                      </select>
                     </div>
                   </div>
                 </div>
-                <pre>{{ translations }}</pre>
               </div>
             </div>
           </div>

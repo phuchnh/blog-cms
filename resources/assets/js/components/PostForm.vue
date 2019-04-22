@@ -61,7 +61,7 @@
               <!-- Event Section -->
               <div class="box box-default">
                 <div class="box-header with-border">
-                  <div class="box-title">Feature on position</div>
+                  <div class="box-title">Event Section</div>
                 </div>
                 <div class="box-body">
                   <!-- Add Date Picker -->
