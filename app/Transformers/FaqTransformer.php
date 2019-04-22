@@ -3,7 +3,9 @@
 namespace App\Transformers;
 
 use App\Models\Faq;
+use App\Models\TaxonomyTranslation;
 use Flugg\Responder\Transformers\Transformer;
+use League\Fractal\Resource\ResourceInterface;
 
 class FaqTransformer extends Transformer
 {
@@ -32,8 +34,6 @@ class FaqTransformer extends Transformer
      */
     public function transform(Faq $faq)
     {
-        Faq::disableAutoloadTranslations();
-
         return $faq->toArray();
     }
 }

@@ -1,5 +1,6 @@
 import { TaxonomyService } from '@/api'
 import Vue from 'vue'
+import * as _ from 'lodash'
 
 const state = () => {
   return {
@@ -7,7 +8,7 @@ const state = () => {
     item: {},
     paginator: {},
     errors: [],
-    sidebarItem: []
+    sidebarItem: [],
   }
 }
 const getters = {
@@ -48,6 +49,10 @@ const getters = {
 }
 
 const actions = {
+
+  reset ({ commit }) {
+    commit('RESET_ITEM')
+  },
   /**
    *
    * @param commit
@@ -117,10 +122,10 @@ const actions = {
     items.push(data)
     commit('updateStateByName', { key: type, value: items })
     // add meta payload to data
-      data.translations =  _.map(data.translations, (dataItem) => {
-        let payloadItem = _.find(payload.translations, {'locale': dataItem.locale})
-        return {...dataItem, meta: payloadItem.meta}
-      })
+    data.translations = _.map(data.translations, (dataItem) => {
+      let payloadItem = _.find(payload.translations, { 'locale': dataItem.locale })
+      return { ...dataItem, meta: payloadItem.meta }
+    })
     // insert to meta table
     _.each(data.translations, (item) => {
       dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
@@ -141,7 +146,7 @@ const actions = {
 
     // insert to meta table
     _.each(payload.translations, (item) => {
-       dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
+      dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
     })
     return resp
   },

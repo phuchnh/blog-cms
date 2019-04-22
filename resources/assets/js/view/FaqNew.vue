@@ -6,7 +6,7 @@
 
 <script>
   import FaqForm from '@/components/FaqForm'
-  import TaxonomyBox from '@/components/TaxonomyBox.vue'
+  import TaxonomyBox from '@/components/CategoryBox.vue'
 
   export default {
     name: 'FaqNew',

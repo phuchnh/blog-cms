@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Post;
 use App\Models\Taxonomy;
+use App\Models\TaxonomyTranslation;
 use App\Transformers\TaxonomyTransformer;
 use Illuminate\Http\Request;
 
@@ -70,6 +71,9 @@ class TaxonomyController extends ApiBaseController
 
         if ($translations = $request->get('translations')) {
             foreach ($translations as $translation) {
+                if (! $translation['title']) {
+                    continue;
+                }
                 $taxonomy->translateOrNew($translation['locale'])->fill($translation);
             }
         }
@@ -92,6 +96,9 @@ class TaxonomyController extends ApiBaseController
 
         if ($translations = $request->get('translations')) {
             foreach ($translations as $translation) {
+                if (! $translation['title']) {
+                    continue;
+                }
                 $taxonomy->translateOrNew($translation['locale'])->fill($translation);
             }
         }

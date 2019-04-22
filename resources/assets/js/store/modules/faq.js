@@ -102,7 +102,7 @@ export default {
     fetchItem ({ commit }, id) {
       commit('startFetchItem')
       return FaqService
-        .getById(id, { with: 'translations' })
+        .getById(id, { with: 'translations,taxonomies' })
         .then(resp => {
           const { data } = resp.data
           commit('setItem', data)
