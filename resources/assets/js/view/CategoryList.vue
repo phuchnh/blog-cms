@@ -18,7 +18,9 @@
           stripe
           v-loading="loading"
           @sort-change="sortTable"
-          empty-text="No data">
+          empty-text="No data"
+          row-key="id"
+          default-expand-all>
         <el-table-column
             prop="id"
             label="Id"
@@ -43,10 +45,9 @@
         <el-pagination
             background
             layout="prev, pager, next"
-            :current-page="params.page"
-            :page-size="pagination.pageSize"
-            :total="pagination.total"
-            @current-change="paginate">
+            :current-page="1"
+            :page-size="2"
+            :total="categories.length">
         </el-pagination>
       </div>
     </div>
@@ -75,7 +76,8 @@
           perPage: 10,
           sort: 'updated_at',
           direction: 'desc',
-          type: 'category'
+          type: 'category',
+          tree: true
         },
       }
     },

@@ -31,16 +31,32 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Parent <span class="required">*</span></label>
+                    <label for="name" class="col-sm-2 control-label">Parent category <span class="required">*</span></label>
                     <div class="col-sm-8">
                       <select class="form-control" id="parent" name="parent"
                               v-model="category.parent_id">
-                        <option value="null" selected>None</option>
+                        <option value="" selected>None</option>
                         <option v-for="item in categories" :value="item.id">{{item.title}}</option>
                       </select>
                     </div>
                   </div>
+
+                  <div class="form-group" :class="{ 'has-error': errors.first('type') }">
+                    <label for="type" class="col-sm-2 control-label">Type <span class="required">*</span></label>
+                    <div class="col-sm-8">
+                      <div class="radio-inline" v-for="item in categoryType">
+                        <label>
+                          <input type="radio"
+                                 name="type"
+                                 id="type"
+                                 v-model="trans.meta"
+                                 :value="item.value" /> {{ item.name }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <pre>{{ translations }}</pre>
               </div>
             </div>
           </div>
@@ -113,7 +129,11 @@
     data () {
       return {
         type: 'category',
-        activeTab: 'vi'
+        activeTab: 'vi',
+        categoryType: [
+          { name: 'Single Page', value: 'single'},
+          { name: 'Post', value: 'post'},
+        ]
       }
     },
     methods: {
