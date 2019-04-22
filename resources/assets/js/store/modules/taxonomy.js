@@ -89,17 +89,22 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async create ({ commit, state }, payload) {
-    let input = _.omit(payload, ['meta'])
-    const resp = await TaxonomyService.create(input)
+  async create ({ commit, state, dispatch }, payload) {
+    const resp = await TaxonomyService.create(payload)
     const { type } = payload
     const { data } = resp.data
     let items = [...state[type]]
     items.push(data)
     commit('updateStateByName', { key: type, value: items })
-
+    // add meta payload to data
+      data.translations =  _.map(data.translations, (dataItem) => {
+        let payloadItem = _.find(payload.translations, {'locale': dataItem.locale})
+        return {...dataItem, meta: payloadItem.meta}
+      })
     // insert to meta table
-    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomies', model_id: payload.id }, { root: true })
+    _.each(data.translations, (item) => {
+      dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
+    })
     return data
   },
 
@@ -111,11 +116,13 @@ const actions = {
    * @returns {Promise<void>}
    */
   async update ({ commit, dispatch }, payload) {
-    let input = _.omit(payload, ['translations.meta'])
-    const resp = await TaxonomyService.update(payload.id, input)
+    const resp = await TaxonomyService.update(payload.id, payload)
     commit('SET_ITEM', payload)
+
     // insert to meta table
-    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomies', model_id: payload.id }, { root: true })
+    _.each(payload.translations, (item) => {
+       dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
+    })
     return resp
   },
 
