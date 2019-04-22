@@ -164,10 +164,11 @@ const actions = {
    *
    * @param commit
    * @param id
+   * @param payload
    * @returns {Promise<void>}
    */
-  async reset ({ commit }) {
-    commit('RESET_ITEM')
+  async updateTaxonomies ({ commit }, { id, payload }) {
+    return await TaxonomyService.updateTaxonomies(id, payload)
   },
 }
 const mutations = {

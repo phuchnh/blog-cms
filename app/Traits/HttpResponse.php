@@ -66,4 +66,14 @@ trait HttpResponse
     {
         return $this->error($errorCode, $message)->respond(JsonResponse::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @param string $errorCode
+     * @param string|null $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unprocessable($errorCode = 'validation_failed', string $message = null)
+    {
+        return $this->error($errorCode, $message)->respond(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+    }
 }

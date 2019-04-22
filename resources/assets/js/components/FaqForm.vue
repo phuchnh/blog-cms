@@ -4,7 +4,7 @@
       <TranslationBox v-model="translations"></TranslationBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <TaxonomyBox :boxTitle="'Group'" :boxType="'group'" :setHierarchy="true"></TaxonomyBox>
+      <TaxonomyBox :boxTitle="'Group'" :boxType="'group'" :setHierarchy="true" v-model="selectedId"></TaxonomyBox>
     </div>
     <div class="button-section-fixed">
       <div class="form-group text-center">
@@ -47,6 +47,7 @@
     data () {
       return {
         post: this.formValue || {},
+        selectedId: this.formValue.selectedId || null,
         translations: this.formValue.translations || [],
       }
     },
@@ -58,6 +59,7 @@
     },
     methods: {
       ...mapActions('faq', ['createItem', 'updateItem']),
+      ...mapActions('taxonomy', ['updateTaxonomies']),
 
       onSubmit () {
         this.post.publish = 1
@@ -67,7 +69,15 @@
         if (this.isCreate) {
           this.createItem(this.post).then(() => this.backToList())
         } else {
-          this.updateItem(this.post).then(() => this.backToList())
+          this.updateItem(this.post).then((resp) => {
+            if (!this.selectedId) {
+              return resp
+            }
+            const payload = {
+              taxonomies: [this.selectedId],
+            }
+            return this.updateTaxonomies({ 'id': resp.id, 'payload': payload })
+          }).then(() => this.backToList())
         }
       },
       backToList () {

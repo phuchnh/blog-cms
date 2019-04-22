@@ -17,11 +17,11 @@
         <hr>
         <form role="form" @submit.prevent="onSubmit">
           <div class="form-group">
-            <label for="title">title</label>
+            <label for="title">Title</label>
             <input type="text" name="title" id="title" class="form-control" v-model="newTaxonomy.title">
           </div>
           <div class="form-group">
-            <label for="parent">parent</label>
+            <label for="parent">Parent</label>
             <select name="name" id="parent" class="form-control" v-model="newTaxonomy.parent_id">
               <option value="0" selected> -- Select One --</option>
               <option v-for="taxonomy of taxonomies" :value="taxonomy.id">{{ taxonomy.title }}</option>
@@ -65,6 +65,10 @@
   export default {
     name: 'TaxonomyBox',
     props: {
+      value: {
+        type: Number,
+        default: 0,
+      },
       boxTitle: {
         type: String,
         default: 'category',
@@ -80,7 +84,7 @@
     },
     data () {
       return {
-        selectedId: null,
+        selectedId: this.value,
         newTaxonomy: {
           title: '',
           parent_id: null,
@@ -97,6 +101,14 @@
       ...mapGetters('taxonomy', ['getAll', 'getListByType']),
       taxonomies () {
         return this.getListByType(this.boxType)
+      },
+    },
+
+    watch: {
+      selectedId (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.$emit('input', newValue)
+        }
       },
     },
 

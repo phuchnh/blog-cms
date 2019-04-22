@@ -14,6 +14,7 @@ class FaqTransformer extends Transformer
      */
     protected $relations = [
         'translations' => PostTranslationTransformer::class,
+        'taxonomies'   => TaxonomyTransformer::class,
     ];
 
     /**
