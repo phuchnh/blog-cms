@@ -69,15 +69,15 @@
         if (this.isCreate) {
           this.createItem(this.post).then(() => this.backToList())
         } else {
-          this.updateItem(this.post)
-              .then((resp) => {
-                debugger;
-                const payload = {
-                  taxonomies: [this.selectedId]
-                }
-                return this.updateTaxonomies({'id': resp.id, 'payload': payload})
-              })
-              .then(() => this.backToList())
+          this.updateItem(this.post).then((resp) => {
+            if (!this.selectedId) {
+              return resp
+            }
+            const payload = {
+              taxonomies: [this.selectedId],
+            }
+            return this.updateTaxonomies({ 'id': resp.id, 'payload': payload })
+          }).then(() => this.backToList())
         }
       },
       backToList () {
