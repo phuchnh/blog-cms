@@ -13,8 +13,10 @@ export const TaxonomyService = {
   update (id, body = {}) {
     return ApiService.put(`/taxonomies/${ id }`, body)
   },
-  updateTaxonomies (id, body = {}) {
-    return ApiService.put(`/post/taxonomies/${ id }`, body)
+  updatePostTaxonomy (postId, taxonomies = []) {
+    return ApiService.put(`/post/taxonomies/${ postId }`, {
+      taxonomies: taxonomies,
+    })
   },
   delete (id, params = {}) {
     return ApiService.delete(`/taxonomies/${ id }`, params)

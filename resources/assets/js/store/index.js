@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import faq from './modules/faq'
 import taxonomy from './modules/taxonomy'
+import taxonomies from './modules/taxonomies'
 import post from './modules/post'
 import user from './modules/user'
 import client from './modules/client'
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     auth,
     faq,
     taxonomy,
+    taxonomies,
     post,
     user,
     client,
