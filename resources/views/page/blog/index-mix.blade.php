@@ -23,9 +23,12 @@
                             @isset($data[0])
                                 <div class="col-xs-12 col-sm-7">
                                     <div class="card border_radius--none">
-                                        <div class="card-img-top background__cover--center"
-                                             style="background: url({{$data[0]['thumbnail']}})">
-                                        </div>
+                                        @isset ($data[0]['thumbnail'])
+                                            <div class="card-img-top background__cover--center"
+                                                 style="background: url({{$data[0]['thumbnail']}})">
+                                            </div>
+                                        @endisset
+
                                         <div class="card-body">
                                             <h5 class="card-title fs--1-3em">{{$data[0]['title']}}</h5>
                                             <hr class="hr__short--grey">
@@ -48,9 +51,12 @@
                             @isset($data[1])
                                 <div class="col-xs-12 col-sm-5">
                                     <div class="card border_radius--none">
-                                        <div class="card-img-top background__cover--center"
-                                             style="background: url({{$data[1]['thumbnail']}})">
-                                        </div>
+                                        @isset ($data[0]['thumbnail'])
+                                            <div class="card-img-top background__cover--center"
+                                                 style="background: url({{$data[1]['thumbnail']}})">
+                                            </div>
+                                        @endisset
+
                                         <div class="card-body">
                                             <h5 class="card-title fs--1-3em">{{$data[1]['title']}}</h5>
                                             <hr class="hr__short--grey">

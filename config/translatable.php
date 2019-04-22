@@ -123,4 +123,10 @@ return [
     |
      */
     'to_array_always_loads_translations' => true,
+
+    /*
+     * Ignore translate with url
+     * will return null
+     */
+    'ignore_url' => ['admin', 'login'],
 ];

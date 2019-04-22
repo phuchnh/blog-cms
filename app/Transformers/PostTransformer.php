@@ -31,7 +31,6 @@ class PostTransformer extends Transformer
         return array_merge(
             $post->toArray(),
             $this->transformMeta($post),
-            $this->transformMedia($post),
             $this->transformTag($post)
         );
     }
@@ -44,9 +43,9 @@ class PostTransformer extends Transformer
      */
     private function transformMeta(\App\Models\Post $post)
     {
-        $postMeta = new PostMetaTransformer();
+        $postMeta = new MetaTransformer();
 
-        return ['meta' => $postMeta->transformArray($post->meta)];
+        return ['meta' => $postMeta->transformArray($post->metas)];
     }
 
     /**
@@ -57,8 +56,8 @@ class PostTransformer extends Transformer
      */
     private function transformMedia(\App\Models\Post $post)
     {
-        if ($post->media()->count() > 0) {
-            $post->thumbnail = $post->media()->thumbnailUrl();
+        if ($post->medias()->count() > 0) {
+            $post->thumbnail = $post->medias()->thumbnailUrl();
         } else {
             $post->thumbnail = null;
         }

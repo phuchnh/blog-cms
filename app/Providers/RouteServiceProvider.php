@@ -24,7 +24,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
         parent::boot();
     }
 
@@ -38,7 +37,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-        //
+
+        $this->mapLocaleRoutes();
     }
 
     /**
@@ -50,14 +50,32 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+        Route::middleware(['web'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * Define the "locale" routes for the application
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return @void
+     */
+    protected function mapLocaleRoutes()
+    {
         $locale = \Request::segment(1);
 
+        if (in_array($locale, config('translatable.ignore_url'))) {
+            $locale = null;
+        }
+
         Route::group([
-            'middleware' => 'web',
+            'middleware' => 'locale',
             'namespace'  => $this->namespace,
             'prefix'     => $locale,
         ], function ($router) {
-            require base_path('routes/web.php');
+            require base_path('routes/locale.php');
         });
     }
 

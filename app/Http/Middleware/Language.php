@@ -3,23 +3,21 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 
 class Language
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
         // Check if the first segment matches a language code
-        if (!array_key_exists($request->segment(1), config('translatable.locales')) ) {
+        if (! array_key_exists($request->segment(1), config('translatable.locales'))) {
 
             // Store segments in array
             $segments = $request->segments();

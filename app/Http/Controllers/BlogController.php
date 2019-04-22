@@ -22,7 +22,7 @@ class BlogController extends Controller
 
         // Load list posts
         $posts = $posts
-            ->where('type', 'blog')
+            //->where('type', 'blog')
             ->when($request->input('title'), function ($query) use ($request) {
                 /**@var \Illuminate\Database\Eloquent\Builder $query */
                 $query->where('title', 'LIKE', '%'.$request->input('title').'%');
@@ -49,6 +49,10 @@ class BlogController extends Controller
     public function show(Request $request, $slug)
     {
         $data = $this->getPostDetail($slug);
+        // New Code
+        //if ($data->translate()->where('slug', $slug)->first()->locale != app()->getLocale()) {
+        //    return redirect()->route('blogitem', $data->translate()->slug);
+        //}
 
         $others = $this->getPostOthers(collect($data));
 
@@ -69,14 +73,14 @@ class BlogController extends Controller
      */
     private function getPostDetail($slug = null)
     {
-        if (Cache::has('post_'.$slug)) {
-            return Cache::get('post_'.$slug);
+        if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
+            return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {
-            $post = Post::findBySlugOrFail($slug);
+            $post = Post::whereTranslation('slug', $slug)->firstOrFail();
 
             $data = $this->loadTransformData($post);
 
-            Cache::put('post_'.$slug, $data, 60);
+            Cache::put('post_'.app()->getLocale().'_'.$slug, $data, 60);
 
             return $data;
         }
