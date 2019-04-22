@@ -11,8 +11,8 @@ return [
     |
     */
     'locales'                            => [
-        'vi',
-        'en',
+        'vi' => 'Vietnamese',
+        'en' => 'English',
     ],
 
     /*

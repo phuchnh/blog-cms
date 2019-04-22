@@ -88,7 +88,8 @@ Route::get('/program/{slug}', 'ProgramController@show')->name('programitem');
 Route::get('/faq', 'FaqController@index')->name('faq');
 Route::get('/faq/{slug}', 'FaqController@show')->name('faqitem');
 
-// load single page
+// change language
+Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
 
 Route::prefix('/admin')->group(function () {
     Route::get('/{any?}', 'AdminController')->where('any', '.*');
