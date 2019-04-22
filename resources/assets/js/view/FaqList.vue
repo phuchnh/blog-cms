@@ -3,6 +3,7 @@
     <div class="box-header">
       <router-link :to="{name: 'faqNew'}" class="btn btn-success"><i class="fa fa-plus"></i> New</router-link>
     </div>
+
     <!-- /.box-box-body -->
     <div class="box-body">
       <el-table

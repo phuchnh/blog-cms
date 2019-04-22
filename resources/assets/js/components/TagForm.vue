@@ -1,5 +1,5 @@
 <template>
-  <div class="box box-success">
+  <div class="box">
     <div class="box-header with-border">
       <h3 class="box-title">Tag Section</h3>
     </div>

@@ -20,24 +20,45 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        $paginator = $request->get('perPage');
+        //$paginator = $request->get('perPage');
+        //
+        //$posts = $posts
+        //    ->when($request->input('type'), function ($query) use ($request) {
+        //        /**@var \Illuminate\Database\Eloquent\Builder $query */
+        //        return $query->where('type', $request->input('type'));
+        //    })->when($request->input('title'), function ($query) use ($request) {
+        //        /**@var \Illuminate\Database\Eloquent\Builder $query */
+        //        $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+        //    })
+        //    ->sortable([$request->get('sort') => $request->get('direction')])
+        //    ->orderBy('id', 'desc');
+        //if ($request->input('trash')) {
+        //    $posts = $posts->onlyTrashed();
+        //}
+        //$posts = $posts->paginate($paginator);
 
-        $posts = $posts
+        if ($locale = $request->get('locale', $posts->getDefaultLocale())) {
+            $posts = $posts->ofLocale($locale);
+        }
+
+        if ($sort = $request->get('sort')) {
+            $posts = $posts->sortable([
+                $sort => $request->get('direction'),
+            ]);
+        }
+
+        $result = $posts
             ->when($request->input('type'), function ($query) use ($request) {
                 /**@var \Illuminate\Database\Eloquent\Builder $query */
                 return $query->where('type', $request->input('type'));
-            })->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
             })
-            ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc');
-        if ($request->input('trash')) {
-            $posts = $posts->onlyTrashed();
-        }
-        $posts = $posts->paginate($paginator);
+            ->get();
 
-        return $this->ok($posts, PostTransformer::class);
+        if ($paginator = $request->get('perPage')) {
+            $result = $posts->paginate($paginator);
+        }
+
+        return $this->ok($result);
     }
 
     /**
@@ -62,40 +83,52 @@ class PostController extends ApiBaseController
      */
     public function store(CreatePostRequest $request)
     {
-        /**
-         * @param \App\Models\Post $post
-         */
-        $post = Post::create($request->validated());
+        $post = new Post();
+
+        $post->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $post->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
+        $post->save();
 
         // Handle tag
-        $this->createTag($post, $request);
+        if ($request->tag) {
+            $this->createTag($post, $request);
+        }
 
-        // update media
-        $post = $this->updateMedia($post, $request);
+        return $this->created($post, PostTransformer::class);
 
         // save
         return $this->created($post);
     }
 
     /**
-     * Update the specified resource in storage.
+     * update a post
      *
-     * @param \App\Http\Requests\API\UpdatePostRequest $request
+     * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
-        $post->fill($request->validated());
+        $post->fill($request->all());
+
+        if ($translations = $request->get('translations')) {
+            foreach ($translations as $translation) {
+                $post->translateOrNew($translation['locale'])->fill($translation);
+            }
+        }
+
         $post->save();
 
         // Handle tag
-        $this->createTag($post, $request);
-
-        // update media
-        $post = $this->updateMedia($post, $request);
+        if ($request->tag) {
+            $this->createTag($post, $request);
+        }
 
         return $this->ok($post, PostTransformer::class);
     }
@@ -140,7 +173,8 @@ class PostController extends ApiBaseController
      * @param \App\Models\Post $post
      * @param \Illuminate\Http\Request $request
      */
-    private function createTag(Post $post, Request $request) {
+    private function createTag(Post $post, Request $request)
+    {
         // Get current tags and request tags
         $current = $post->taxonomies()->get()->toArray();
         $change = $request->tag;
@@ -161,7 +195,6 @@ class PostController extends ApiBaseController
                     $post->taxonomies()->attach($input);
                 }
             }
-
         };
 
         if (empty($current)) {

@@ -1,19 +1,10 @@
 <template>
   <div class="box box-widget" v-if="resource">
-    <!--<div class="row">-->
-    <!--<div class="col-sm-12" style="margin-top: 20px">-->
-    <!--<div class="col-sm-6" style="padding: 0; float: left">-->
-    <!--&lt;!&ndash;<SearchForm @fetchList="resetTable" @search="searchTable"></SearchForm>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="col-sm-2 col-sm-offset-4 margin-bottom" style="padding-right: 0; display: block; overflow: auto">-->
-    <!--<button @click="$emit('routeToNew')" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <div class="box-header">
-      <button @click="$emit('routeToNew')" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
+    <div class="box-header" style="padding: 20px 10px 0 10px">
+      <div class="col-sm-6" style="padding: 0; float: left">
+        <SearchForm @fetchList="resetTable" @search="searchTable"></SearchForm>
+      </div>
+      <button @click="goToNew" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
     </div>
 
     <div class="box-body">
@@ -65,13 +56,14 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import store from '@/store'
 
   // load component
-  import SearchForm from './SearchForm'
+  import SearchForm from './../components/SearchForm'
 
   export default {
     name: 'PostList',
-    props: ['type', 'routeDetailName'],
+    props: ['routeDetailName'],
     data () {
       return {
         loading: false,
@@ -79,7 +71,20 @@
         sortValue: { ascending: 'desc', descending: 'asc' },
         sort: 'updated_at',
         direction: 'desc',
+        type: this.$route.query.type,
+        params: {
+          sort: 'updated_at',
+          direction: 'desc',
+          type: this.$route.query.type,
+          page: 1,
+          perPage: 10,
+        }
       }
+    },
+    beforeRouteUpdate (to, from, next) {
+      this.params = {...this.params, type: to.query.type}
+      this.updateList()
+      next()
     },
     computed: {
       ...mapGetters('post', {
@@ -87,13 +92,16 @@
         pagination: 'getPaginator',
       }),
     },
+    mounted () {
+      this.updateList()
+    },
     methods: {
-      ...mapActions('post', [
-        'fetchList',
-      ]),
-
       goToDetail (id) {
-        return { name: this.routeDetailName, params: { id: id } }
+        return { name: 'postDetail', params: { id: id }, query: { type: this.$route.query.type } }
+      },
+
+      goToNew () {
+        this.$router.push({ name: 'postNew', query: { type: this.$route.query.type } })
       },
 
       handleCurrentChange (currentPage) {
@@ -109,35 +117,27 @@
 
       updateList () {
         this.loading = true
-        let query = {
-          sort: this.sort,
-          direction: this.direction,
-          type: this.type,
-          page: this.pagination.page || 1,
-          perPage: this.pagination.perPage || 10,
-          only: this.columns.join(','),
-        }
-        this.fetchList(query).then(() => this.loading = false)
+        this.$store.dispatch('post/fetchList', this.params).then(() => this.loading = false)
       },
 
-      // searchTable (searchKey) {
-      //   const params = {
-      //     title: searchKey,
-      //   }
-      //   this.fetchList(params)
-      // },
-      //
-      // resetTable () {
-      //   const initialParams = {
-      //     page: 1,
-      //     perPage: 10,
-      //     sort: 'updated_at',
-      //     direction: 'desc',
-      //     type: this.type,
-      //   }
-      //   this.params = { ...initialParams }
-      //   this.fetchList()
-      // },
+      searchTable (searchKey) {
+        const params = {
+          title: searchKey,
+        }
+        this.fetchList(params)
+      },
+
+      resetTable () {
+        const initialParams = {
+          page: 1,
+          perPage: 10,
+          sort: 'updated_at',
+          direction: 'desc',
+          type: this.type,
+        }
+        this.params = { ...initialParams }
+        this.fetchList()
+      },
     },
     components: { SearchForm },
   }

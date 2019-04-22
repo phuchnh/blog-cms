@@ -61,6 +61,7 @@ class PracticeController extends Controller
             'navigate'    => 'resources',
             'subnavigate' => 'daily-practices',
             'slug'        => 'practice',
+            'meta'        => $this->getMetaPost($data),
         ]);
     }
 
