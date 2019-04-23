@@ -19,7 +19,9 @@ class MetaController extends ApiBaseController
         $this->model = Relation::getMorphedModel(
             request()->route()->parameter('model')
         );
+
         $this->model = new $this->model();
+
         $this->modelId = request()->route()->parameter('modelId');
         $this->model = $this->model->findOrFail($this->modelId);
     }
@@ -87,9 +89,10 @@ class MetaController extends ApiBaseController
     public function updateMany(UpdateMetaRequest $request)
     {
         $inputArray = $request->validated();
-
         foreach ($inputArray as $item) {
-            $this->model->metas()->updateOrCreate(['meta_key' => $item['meta_key']], $item);
+            if ($item['meta_value']) {
+                $this->model->metas()->updateOrCreate(['meta_key' => $item['meta_key']], $item);
+            }
         }
 
         return $this->noContent();

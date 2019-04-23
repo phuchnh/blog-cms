@@ -33,7 +33,7 @@ class FaqController extends ApiBaseController
             $items = $faq->paginate($paginator);
         }
 
-        return $this->ok($items);
+        return $this->ok($items, FaqTransformer::class);
     }
 
     /**
@@ -62,6 +62,9 @@ class FaqController extends ApiBaseController
 
         if ($translations = $request->get('translations')) {
             foreach ($translations as $translation) {
+                if (! $translation['title']) {
+                    continue;
+                }
                 $faq->translateOrNew($translation['locale'])->fill($translation);
             }
         }
@@ -84,6 +87,9 @@ class FaqController extends ApiBaseController
 
         if ($translations = $request->get('translations')) {
             foreach ($translations as $translation) {
+                if (! $translation['title']) {
+                    continue;
+                }
                 $faq->translateOrNew($translation['locale'])->fill($translation);
             }
         }

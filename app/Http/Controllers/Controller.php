@@ -27,4 +27,18 @@ class Controller extends BaseController
 
         return $data['data'] ? $data['data'] : null;
     }
+
+    /**
+     * load meta
+     * @param $data
+     * @return array
+     */
+    protected function getMetaPost($data)
+    {
+        return [
+            'title'       => isset($data['meta']['title']) && $data['meta']['title'] ? $data['meta']['title'] : '',
+            'keywords'    => isset($data['meta']['keywords']) && $data['meta']['keywords'] ? $data['meta']['keywords'] : '',
+            'description' => isset($data['meta']['description']) && $data['meta']['description'] ? $data['meta']['description'] : '',
+        ];
+    }
 }

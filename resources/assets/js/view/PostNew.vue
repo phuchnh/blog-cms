@@ -9,18 +9,13 @@
   import { mapGetters, mapMutations } from 'vuex'
 
   export default {
-    name: 'BlogNew',
+    name: 'PostNew',
     components: { PostForm },
     data () {
       return {
-        type: 'blog',
+        type: this.$route.query.type,
         formAction: 'create',
       }
-    },
-    methods: {
-      ...mapMutations('post', {
-        resetForm: 'RESET_ITEM',
-      }),
     },
     methods: {
       routeToList () {

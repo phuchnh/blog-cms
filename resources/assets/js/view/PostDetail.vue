@@ -12,7 +12,7 @@
   import store from '@/store'
 
   export default {
-    name: 'BlogDetail',
+    name: 'PostDetail',
     components: { PostForm },
     computed: {
       ...mapGetters('post', {
@@ -31,7 +31,7 @@
     },
     data () {
       return {
-        type: 'blog',
+        type: this.$route.query.type,
         formAction: 'edit',
       }
     },

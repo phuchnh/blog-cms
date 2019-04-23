@@ -35,7 +35,7 @@
         config.addNewLine = false
         config.addNewLineOnDBLClick = false
         config.enableDragAndDropFileToEditor = true
-        config.height = 800
+        config.height = 400
         config.uploader = {
           url: '/api/assets',
           format: 'json',
@@ -64,7 +64,7 @@
       },
     },
     mounted () {
-      this.editor = new Jodit(`#${ this.id }`, this.editorConfig)
+      this.editor = new Jodit(this.$el, this.editorConfig)
       this.editor.value = this.value || ''
       this.editor.events.on('change', newValue => this.$emit('input', newValue))
       this.editor.events.on('afterImageEditor', newValue => this.$emit('input', newValue))

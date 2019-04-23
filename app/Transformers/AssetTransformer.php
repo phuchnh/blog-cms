@@ -30,15 +30,6 @@ class AssetTransformer extends Transformer
      */
     public function transform(Asset $asset)
     {
-        $link = Storage::url($asset->path);
-
-        return [
-            'id'        => (int) $asset->id,
-            'file_name' => (string) $asset->file_name,
-            'mime_type' => (string) $asset->mime_type,
-            'path'      => (string) $asset->path,
-            'size'      => (int) $asset->size,
-            'url'       => (string) url($link),
-        ];
+        return $asset->toArray();
     }
 }

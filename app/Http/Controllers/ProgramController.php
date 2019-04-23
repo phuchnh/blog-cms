@@ -63,6 +63,7 @@ class ProgramController extends Controller
             'navigate'    => 'program',
             'subnavigate' => 'program',
             'slug'        => 'program',
+            'meta'        => $this->getMetaPost($data),
         ]);
     }
 

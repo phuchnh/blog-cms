@@ -24,6 +24,7 @@ class Taxonomy extends Model
      *
      * @var array
      */
+
     public $translatedAttributes = ['title', 'slug', 'description'];
 
     /**
@@ -53,7 +54,6 @@ class Taxonomy extends Model
     protected $hidden = [
         'left',
         'right',
-        'parent_id',
     ];
 
     /**

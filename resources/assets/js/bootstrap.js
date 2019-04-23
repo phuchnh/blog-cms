@@ -6,4 +6,5 @@
 window._ = require('lodash')
 window.$ = window.jQuery = require('admin-lte/bower_components/jquery/dist/jquery.min')
 require('admin-lte/bower_components/bootstrap/dist/js/bootstrap.min')
+require('admin-lte/bower_components/select2/dist/js/select2.full.min')
 require('admin-lte/dist/js/adminlte.min')

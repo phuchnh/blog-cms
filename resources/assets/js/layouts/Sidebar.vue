@@ -33,6 +33,20 @@
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <router-link :to="{name: 'userList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>User</span></a></router-link>
+        <router-link :to="{name: 'categoryList'}" tag="li" active-class="active"><a><i class="fa fa-link"></i> <span>Category</span></a></router-link>
+        <template v-for="item in listCategory">
+          <li class="treeview">
+            <router-link :to="{name: 'postList', query: {type: item.slug}}">
+              <i class="fa fa-link"></i> <span>{{ item.title }}</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </router-link>
+            <ul class="treeview-menu">
+              <router-link :to="{name: 'inThePressTrashList'}" tag="li" active-class="active"><a><i class="fa fa-trash"></i> <span>Trash</span></a></router-link>
+            </ul>
+          </li>
+        </template>
         <li class="treeview">
           <router-link :to="{name: 'inThePressList'}">
             <i class="fa fa-link"></i> <span>In The Press</span>
@@ -60,13 +74,32 @@
 </template>
 
 <script>
+  import store from '@/store'
   export default {
     name: 'Sidebar',
     computed: {
       currentUser () {
         return this.$store.state.auth.currentUser
       },
+      listCategory () {
+        // return this.$store.getters['taxonomy/getAll'].filter((item) => {
+        //   debugger
+        //   return item.description === 'post'
+        // })
+        return this.$store.getters['taxonomy/getSidebarItem']
+      }
     },
+    mounted () {
+      store.dispatch('taxonomy/fetchSidebarList', {type: this.type})
+    },
+    data () {
+      return {
+        type: 'category'
+      }
+    }
+    // beforeRouteEnter (to, from, next) {
+    //   store.dispatch('taxonomy/fetchList').then(() => next())
+    // },
   }
 </script>
 

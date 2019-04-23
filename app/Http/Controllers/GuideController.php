@@ -61,6 +61,7 @@ class GuideController extends Controller
             'navigate'    => 'resources',
             'subnavigate' => 'guided-meditation',
             'slug'        => 'guide',
+            'meta'        => $this->getMetaPost($data),
         ]);
     }
 
