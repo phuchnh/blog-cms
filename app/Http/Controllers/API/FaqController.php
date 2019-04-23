@@ -17,6 +17,8 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
+        $faq = $faq->search($request);
+
         if ($locale = $request->get('locale', config('app.locale'))) {
             $faq = $faq->ofLocale($locale);
         }

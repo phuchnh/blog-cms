@@ -7,6 +7,17 @@ use Illuminate\Support\Facades\DB;
 class Faq extends Post
 {
     /**
+     * The attributes can search
+     *
+     * @var array
+     */
+    public static $searchable = [
+        'title',
+        'slug',
+        'description',
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -63,5 +74,31 @@ class Faq extends Post
                   AND post_translations.locale = '{$locale}'";
 
         return $query->from(DB::raw("({$table}) posts"));
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $request)
+    {
+        if ($request->hasAny(self::$searchable)) {
+            $keys = array_keys($request->all());
+
+            $values = array_reduce($keys, function ($result, $key) use ($request) {
+                if (in_array($key, self::$searchable)) {
+                    $result[$key] = $request->get($key);
+                }
+
+                return $result;
+            }, []);
+
+            foreach ($values as $key => $value) {
+                $query = $query->where($key, 'LIKE', "{$value}%");
+            }
+        }
+
+        return $query;
     }
 }
