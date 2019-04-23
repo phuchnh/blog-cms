@@ -20,10 +20,14 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
-        $metas = $this->ok($post->post_metas, PostMetaTestTransformer::class)->getData(true);
-        $data = array_collapse_recursive($metas);
+        $metas = $post->post_metas
+            ->map(function ($value) {
+                return [$value->meta_key => $value->meta_value];
+            })
+            ->collapse()
+            ->toArray();
 
-        return $this->ok($data);
+        return $this->ok($metas);
     }
 
     /**
