@@ -50,12 +50,12 @@ class TaxonomyTranslation extends Model
     }
 
     /**
-     * Get post meta belongs to this post
+     * Get taxonomy belongs to taxonomy translation
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function metas()
+    public function taxonomy()
     {
-        return $this->morphMany('App\Models\Meta', 'metable');
+        return $this->belongsTo('App\Models\Taxonomy');
     }
 }

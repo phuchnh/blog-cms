@@ -29,9 +29,22 @@ class TaxonomyTranslationTransformer extends Transformer
      */
     public function transform(TaxonomyTranslation $taxonomyTranslation)
     {
-        return [
-            'id'   => $taxonomyTranslation->id,
-            'type' => $taxonomyTranslation->type,
-        ];
+        return array_merge(
+            $taxonomyTranslation->toArray(),
+            $this->transformMeta($taxonomyTranslation)
+        );
+    }
+
+    /**
+     * Transform meta array to one
+     *
+     * @param \App\Models\TaxonomyTranslation $taxonomyTranslation
+     * @return array
+     */
+    private function transformMeta(TaxonomyTranslation $taxonomyTranslation)
+    {
+        $meta = new MetaTransformer();
+
+        return ['meta' => $meta->transformArray($taxonomyTranslation->metas)];
     }
 }

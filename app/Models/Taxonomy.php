@@ -68,6 +68,26 @@ class Taxonomy extends Model
                     ->withPivot(['order']);
     }
 
+    /**
+     * Get posts belongs to taxonomies
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translations()
+    {
+        return $this->hasMany('App\Models\TaxonomyTranslation');
+    }
+
+    /**
+     * Get post meta belongs to this post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function metas()
+    {
+        return $this->morphMany('App\Models\Meta', 'metable');
+    }
+
     public function getLftName()
     {
         return 'lft';
