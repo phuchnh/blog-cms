@@ -20,14 +20,14 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
-        $metas = $post->post_metas
+        $postMeta = $post->postMetas
             ->map(function ($value) {
                 return [$value->meta_key => $value->meta_value];
             })
             ->collapse()
             ->toArray();
 
-        return $this->ok($metas);
+        return $this->ok(['postMeta' => $postMeta]);
     }
 
     /**
@@ -39,7 +39,8 @@ class PostMetaController extends ApiBaseController
      */
     public function store(CreatePostMetaRequest $request, Post $post)
     {
-        $post_metas = $post->post_metas()->create($request->all());
+        $models = $this->createInstancePostMeta($post, $request->validated());
+        $post_metas = $post->postMetas()->saveMany($models);
 
         return $this->created($post_metas);
     }
@@ -49,12 +50,12 @@ class PostMetaController extends ApiBaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param \App\Models\PostMeta $post_metum
+     * @param \App\Models\PostMeta $metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Post $post, PostMeta $post_metum)
+    public function show(Request $request, Post $post, PostMeta $metum)
     {
-        return $this->ok($post_metum);
+        return $this->ok($metum);
     }
 
     /**
@@ -62,13 +63,13 @@ class PostMetaController extends ApiBaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param \App\Models\PostMeta $post_metum
+     * @param \App\Models\PostMeta $metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Post $post, PostMeta $post_metum)
+    public function update(Request $request, Post $post, PostMeta $metum)
     {
-        $post_metum->fill($request->all());
-        $post_metum->save();
+        $metum->fill($request->all());
+        $metum->save();
 
         return $this->noContent();
     }
@@ -82,15 +83,15 @@ class PostMetaController extends ApiBaseController
      */
     public function updateMany(UpdatePostMetaRequest $request, Post $post)
     {
-        $inputArray = $request->validated();
-
-        $metaTemp = $post->meta();
-
-        $metaTemp->delete();
-
-        $metaTemp->saveMany($this->createInstancePostMeta($inputArray));
-
-        return $this->noContent();
+        //$inputArray = $request->validated();
+        //
+        //$metaTemp = $post->meta();
+        //
+        //$metaTemp->delete();
+        //
+        //$metaTemp->saveMany($this->createInstancePostMeta($inputArray));
+        //
+        //return $this->noContent();
     }
 
     /**
@@ -98,14 +99,13 @@ class PostMetaController extends ApiBaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param string $postMeta
+     * @param \App\Models\PostMeta $metum
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Request $request, Post $post, $postMeta)
+    public function destroy(Request $request, Post $post, PostMeta $metum)
     {
-        $postMeta = $post->postMeta()->findOrFail($postMeta);
-        $postMeta->delete();
+        $metum->delete();
 
         return $this->noContent();
     }
@@ -113,17 +113,27 @@ class PostMetaController extends ApiBaseController
     /**
      * create Instance PostMeta
      *
-     * @param $inputArray
+     * @param \App\Models\Post $post
+     * @param array $data
      * @return array
      */
-    private function createInstancePostMeta($inputArray)
+    private function createInstancePostMeta(Post $post, array $data)
     {
-        foreach ($inputArray as $input) {
-            if ($input['meta_value']) {
-                $instance[] = new PostMeta($input);
+        $models = [];
+        $values = $data['metas'];
+
+        $metaValues = $post->postMetas()->pluck('meta_value')->toArray();
+
+        foreach ($values as $value) {
+            if (in_array($value['meta_value'], $metaValues, true)) {
+                $models[] = $post->postMetas()->where('meta_value', $value['meta_value'])->first();
+            } else {
+                $meta = new PostMeta();
+                $meta->fill($value);
+                $models[] = $meta;
             }
         }
 
-        return $instance;
+        return $models;
     }
 }

@@ -2,7 +2,7 @@
   <div class="row" v-loading="loading">
     <div class="col-xs-12 col-md-8">
       <TranslationBox v-model="translations"></TranslationBox>
-      <SeoBox v-model="meta.seo"></SeoBox>
+      <SeoBox v-model="postMeta.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
@@ -20,7 +20,6 @@
   import PostActionBox from '@/components/PostActionBox.vue'
   import SeoBox from '@/components/SeoBox.vue'
   import * as _ from 'lodash'
-  import { ApiService } from '../api'
 
   export default {
     name: 'FaqForm',
@@ -47,7 +46,7 @@
       return {
         post: null,
         translations: [],
-        meta: {
+        postMeta: {
           seo: [],
         },
         groups: [],
@@ -69,16 +68,18 @@
     created () {
 
       if (this.formValue) {
-        this.post = this.formValue
-        this.translations = this.formValue.translations
-        this.groups = this.getTaxonomyByType('groups')
-        this.tags = this.getTaxonomyByType('tags')
+        this.post = { ...this.formValue }
+        this.postMeta = { ...this.formValue.postMeta }
+        this.translations = [...this.formValue.translations]
+        this.groups = [...this.getTaxonomyByType('groups')]
+        this.tags = [...this.getTaxonomyByType('tags')]
       }
 
     },
 
     methods: {
       ...mapActions('faq', ['createItem', 'updateItem']),
+      ...mapActions('postMeta', ['createPostMeta']),
       ...mapActions('taxonomies', ['updatePostTaxonomy']),
 
       getTaxonomyByType (type) {
@@ -114,19 +115,48 @@
         // Cretae
         if (this.isCreate) {
           this.createItem(this.post)
-              .then((resp) => this.updateCategory(resp))
+              .then((resp) => {
+                return Promise.all([
+                  this.handleSaveToxonomy(resp),
+                  this.handleSavePostMeta(resp),
+                ])
+              })
               .then(() => this.backToList())
         }
 
         // Edit
         if (!this.isCreate) {
           this.updateItem(this.post)
-              .then((resp) => this.updateCategory(resp))
+              .then((resp) => {
+                return Promise.all([
+                  this.handleSaveToxonomy(resp),
+                  this.handleSavePostMeta(resp),
+                ])
+              })
               .then(() => this.backToList())
         }
       },
 
-      updateCategory (resp) {
+      handleSavePostMeta (resp) {
+        let metas = []
+        if (this.postMeta.seo.length > 0) {
+          metas.push({
+            meta_key: 'seo',
+            meta_value: this.postMeta.seo,
+          })
+        }
+
+        if (metas.length === 0) {
+          return resp
+        }
+
+        return this.createPostMeta({
+          postId: resp.id,
+          metas: metas,
+        })
+      },
+
+      handleSaveToxonomy (resp) {
         let taxonomies = []
 
         if (this.groups.length > 0) {
@@ -137,12 +167,6 @@
         if (this.tags.length > 0) {
           // Merge tags to taxonomies
           taxonomies = [...taxonomies, ...this.tags]
-        }
-
-        debugger;
-        console.log(this.meta.seo.length)
-        if (this.meta.seo.length > 0) {
-          return ApiService.post(`/posts/${resp.id}/meta`, this.meta.seo)
         }
 
         if (taxonomies.length === 0) {

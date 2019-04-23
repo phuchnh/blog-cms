@@ -26,14 +26,17 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('users', 'UserController', ['except' => ['store']]);
     Route::apiResource('clients', 'ClientController');
     Route::apiResource('options', 'OptionController');
-    //Route::prefix('{model}/{modelId}')->group(function () {
-    //    Route::apiResource('meta', 'MetaController');
-    //    Route::match(['put', 'patch'], 'meta', 'MetaController@updateMany');
-    //});
 
-    //Route::match(['put', 'patch'], '/clsmeta/{post}/post_meta', 'PostMetaController@updateMany');
+    Route::prefix('{model}/{modelId}')->group(function () {
+        Route::apiResource('meta', 'MetaController');
+        Route::match(['put', 'patch'], 'meta', 'MetaController@updateMany');
+    });
 
-    Route::apiResource('posts.post_meta', 'PostMetaController');
+    Route::match(['put', 'patch'], '/meta/{post}/post_meta', 'PostMetaController@updateMany');
+
+    Route::apiResource('posts.post_metas', 'PostMetaController')->parameters([
+        'post_metas' => 'metum',
+    ]);
 
     Route::match(['put', 'post'], 'assets', 'AssetController@upload');
     Route::get('assets', 'AssetController@index');

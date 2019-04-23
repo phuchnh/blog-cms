@@ -8,6 +8,7 @@
   import { mapGetters } from 'vuex'
   import FaqForm from '@/components/FaqForm'
   import store from '@/store'
+  import * as _ from 'lodash'
 
   export default {
     name: 'FaqDetail',
@@ -16,16 +17,22 @@
     },
     computed: {
       ...mapGetters('faq', ['getLoading', 'getItem']),
+      ...mapGetters('postMeta', ['getPostMeta']),
       loading () {
         return this.getLoading
       },
       formValue () {
-        return this.getItem
+        return {
+          ...this.getItem,
+          postMeta: this.getPostMeta,
+        }
       },
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchItem', to.params.id)
-           .then(() => next())
+      Promise.all([
+        store.dispatch('faq/fetchItem', to.params.id),
+        store.dispatch('postMeta/fetchPostMeta', to.params.id),
+      ]).then(() => next())
     },
   }
 </script>

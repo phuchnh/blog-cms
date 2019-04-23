@@ -5,6 +5,7 @@ import faq from './modules/faq'
 import taxonomy from './modules/taxonomy'
 import taxonomies from './modules/taxonomies'
 import post from './modules/post'
+import postMeta from './modules/postMeta'
 import user from './modules/user'
 import client from './modules/client'
 import meta from './modules/meta'
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     taxonomy,
     taxonomies,
     post,
+    postMeta,
     user,
     client,
     meta,
