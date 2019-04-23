@@ -15,9 +15,9 @@
       FaqForm,
     },
     computed: {
-      ...mapGetters('faq', ['onFetchItem', 'getItem']),
+      ...mapGetters('faq', ['getLoading', 'getItem']),
       loading () {
-        return this.onFetchItem
+        return this.getLoading
       },
       formValue () {
         return this.getItem

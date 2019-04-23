@@ -33,6 +33,15 @@
             </a>
           </template>
         </el-table-column>
+        <el-table-column label="Action" width="100">
+          <template slot-scope="scope">
+            <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">Delete
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="box-footer text-center">
@@ -57,12 +66,15 @@
   export default {
     name: 'FaqList',
     data () {
-      return {}
+      return {
+        visible: false,
+        confirmLoading: false,
+      }
     },
     computed: {
-      ...mapGetters('faq', ['onFetchList', 'getLists', 'getTotal', 'getQueryParams']),
+      ...mapGetters('faq', ['getLoading', 'getLists', 'getTotal', 'getQueryParams']),
       loading () {
-        return this.onFetchList
+        return this.getLoading
       },
       lists () {
         return this.getLists
@@ -78,7 +90,7 @@
       store.dispatch('faq/fetchList').then(() => next())
     },
     methods: {
-      ...mapActions('faq', ['fetchList']),
+      ...mapActions('faq', ['fetchList', 'deleteItem']),
 
       filterTags (taxonomies) {
         return _.reduce(taxonomies, (result, value) => {
@@ -116,6 +128,26 @@
           sort: prop,
           direction: direction[order],
         })
+      },
+
+      handleDelete (index, row) {
+        this.$confirm('This will delete the item. Continue?', 'Warning', {
+              confirmButtonText: 'OK',
+              cancelButtonText: 'Cancel',
+              type: 'warning',
+            })
+            .then(() => {
+              return this.deleteItem(row.id)
+            })
+            .then(() => {
+              this.$message({
+                type: 'success',
+                message: 'Delete completed',
+              })
+            })
+            .catch(() => {
+              console.log('Cancel')
+            })
       },
 
       getData (queryParams) {
