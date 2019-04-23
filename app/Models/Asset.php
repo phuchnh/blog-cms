@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasModify;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asset extends Model
 {
+    use HasModify, SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -20,8 +24,9 @@ class Asset extends Model
      */
     protected $fillable = [
         'path',
-        'file_name',
-        'mime_type',
+        'uri',
+        'name',
+        'mime',
         'size',
     ];
 
@@ -30,5 +35,11 @@ class Asset extends Model
      *
      * @var array
      */
-    protected $casts = [];
+    protected $casts = [
+        'path' => 'string',
+        'uri'  => 'string',
+        'name' => 'string',
+        'mime' => 'string',
+        'size' => 'digits',
+    ];
 }

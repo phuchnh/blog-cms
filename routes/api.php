@@ -37,5 +37,6 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         'meta' => 'post_meta',
     ]);
 
-    Route::post('assets', 'AssetController@upload');
+    Route::match(['put', 'post'], 'assets', 'AssetController@upload');
+    Route::get('assets', 'AssetController@index');
 });
