@@ -27,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
 
         parent::boot();
         Route::model('post', \App\Models\Post::class);
+        Route::model('meta', \App\Models\PostMeta::class);
     }
 
     /**

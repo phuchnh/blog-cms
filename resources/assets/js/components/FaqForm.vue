@@ -2,6 +2,7 @@
   <div class="row" v-loading="loading">
     <div class="col-xs-12 col-md-8">
       <TranslationBox v-model="translations"></TranslationBox>
+      <SeoBox v-model="meta.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
@@ -17,7 +18,9 @@
   import CategoryBox from '@/components/CategoryBox.vue'
   import TagBox from '@/components/TagBox.vue'
   import PostActionBox from '@/components/PostActionBox.vue'
+  import SeoBox from '@/components/SeoBox.vue'
   import * as _ from 'lodash'
+  import { ApiService } from '../api'
 
   export default {
     name: 'FaqForm',
@@ -26,6 +29,7 @@
       CategoryBox,
       TagBox,
       PostActionBox,
+      SeoBox,
     },
     props: {
       formAction: {
@@ -43,6 +47,9 @@
       return {
         post: null,
         translations: [],
+        meta: {
+          seo: [],
+        },
         groups: [],
         tags: [],
       }
@@ -130,6 +137,12 @@
         if (this.tags.length > 0) {
           // Merge tags to taxonomies
           taxonomies = [...taxonomies, ...this.tags]
+        }
+
+        debugger;
+        console.log(this.meta.seo.length)
+        if (this.meta.seo.length > 0) {
+          return ApiService.post(`/posts/${resp.id}/meta`, this.meta.seo)
         }
 
         if (taxonomies.length === 0) {

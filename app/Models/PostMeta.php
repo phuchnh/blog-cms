@@ -31,14 +31,19 @@ class PostMeta extends Model
         'meta_value',
     ];
 
+    protected $casts = [
+        'meta_key' => 'array',
+        'meta_value' => 'array',
+    ];
+
     /**
      * The attributes to validation
      *
      * @var array
      */
     public static $rules = [
-        '*.post_id'    => 'required|integer',
-        '*.meta_key'   => 'required|string',
-        '*.meta_value' => 'string|nullable',
+        //'*.post_id'    => 'required|integer',
+        //'*.meta_key'   => 'required|string',
+        //'*.meta_value' => 'string|nullable',
     ];
 }

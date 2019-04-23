@@ -152,6 +152,11 @@ class Post extends Model
         return $this->morphMany('App\Models\Meta', 'metable');
     }
 
+    public function post_metas()
+    {
+        return $this->hasMany(PostMeta::class, 'post_id');
+    }
+
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $locale
