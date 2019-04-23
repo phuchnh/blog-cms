@@ -61,6 +61,9 @@
         fetching: false,
       }
     },
+    created () {
+      this.fetchPost()
+    },
     watch: {
       /**
        * update value to parent
@@ -119,7 +122,7 @@
        * @param value
        */
       handleChange (value) {
-        this.item = {...this.item, others: JSON.stringify({ ...value })}
+        this.item.others = JSON.stringify({ ...value })
 
         // map to value
         Object.assign(this, {

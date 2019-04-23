@@ -221,6 +221,15 @@
     methods: {
       ...mapActions('post', ['update', 'create']),
       ...mapActions('taxonomies', ['updatePostTaxonomy']),
+      getTaxonomyByType (type) {
+        const { taxonomies } = this.post
+        return _.reduce(taxonomies, (result, value) => {
+          if (value.type === type) {
+            result.push(value.id)
+          }
+          return result
+        }, [])
+      },
       /**
        * Submit form to api
        */
@@ -260,15 +269,6 @@
         }
 
         return this.updatePostTaxonomy({ 'postId': resp.id, 'taxonomies': taxonomies })
-      },
-      getTaxonomyByType (type) {
-        const { taxonomies } = this.post
-        return _.reduce(taxonomies, (result, value) => {
-          if (value.type === type) {
-            result.push(value.id)
-          }
-          return result
-        }, [])
       },
       /**
        * change tab
