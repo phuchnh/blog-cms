@@ -1,4 +1,5 @@
 import { FaqService } from '@/api'
+import * as _ from 'lodash'
 
 export default {
   namespaced: true,
@@ -13,8 +14,7 @@ export default {
         perPage: 10,
         only: ['id', 'slug', 'title', 'description'].join(','),
       },
-      loadingList: true,
-      loadingItem: true,
+      loading: false,
       item: {
         translations: [],
       },
@@ -38,30 +38,18 @@ export default {
       return state.queryParams
     },
 
-    onFetchList: (state) => {
-      return state.loadingList
-    },
-
-    onFetchItem: (state) => {
-      return state.loadingItem
+    getLoading: (state) => {
+      return state.loading
     },
   },
 
   mutations: {
-    startFetchList (state) {
-      state.loadingList = true
+    startLoading (state) {
+      state.loading = true
     },
 
-    endFetchList (state) {
-      state.loadingList = false
-    },
-
-    startFetchItem (state) {
-      state.loadingItem = true
-    },
-
-    endFetchItem (state) {
-      state.loadingItem = false
+    endLoading (state) {
+      state.loading = false
     },
 
     setItem (state, item) {
@@ -73,11 +61,16 @@ export default {
       state.total = total
       state.queryParams = { ...queryParams }
     },
+
+    deleteItemInList (state, { lists, total }) {
+      state.lists = [...lists]
+      state.total = total
+    },
   },
 
   actions: {
     fetchList ({ state, commit }, params = {}) {
-      commit('startFetchList')
+      commit('startLoading')
       if (_.keys(params).length === 0) {
         params = { ...state.queryParams }
       }
@@ -97,41 +90,74 @@ export default {
             queryParams: params,
           })
 
-          commit('endFetchList')
+          commit('endLoading')
         })
         .catch(err => {
           console.log(err)
         })
     },
     fetchItem ({ commit }, id) {
-      commit('startFetchItem')
+      commit('startLoading')
       return FaqService
         .getById(id, { with: 'translations,taxonomies' })
         .then(resp => {
           const { data } = resp.data
           commit('setItem', data)
-          commit('endFetchItem')
+          commit('endLoading')
         })
     },
 
     createItem ({ commit }, payload) {
-      commit('startFetchItem')
+      commit('startLoading')
       return FaqService
         .create(payload)
         .then(resp => {
-          commit('endFetchItem')
+          commit('endLoading')
           const { data } = resp.data
           return data
         })
     },
 
     updateItem ({ commit }, payload) {
-      commit('startFetchItem')
+      commit('startLoading')
       return FaqService
         .update(payload.id, payload)
         .then(() => {
-          commit('endFetchItem')
+          commit('endLoading')
           return payload
+        })
+    },
+
+    deleteItem ({ state, commit, dispatch }, id) {
+      commit('startLoading')
+      return FaqService
+        .delete(id)
+        .then((resp) => {
+          let lists = [...state.lists]
+          let total = state.total
+          const index = lists.findIndex(value => value.id === id)
+
+          if (index > -1) {
+            lists.splice(index, 1)
+            total = total - 1
+
+            if (lists.length > 0 && total > 0) {
+              commit('deleteItemInList', {
+                lists: lists,
+                total: total - 1,
+              })
+              commit('endLoading')
+              return resp
+            }
+
+            const currentPage = state.queryParams.page
+            const queryParams = {
+              ...state.queryParams,
+              page: currentPage - 1 || 1,
+            }
+
+            return dispatch('fetchList', queryParams)
+          }
         })
     },
   },

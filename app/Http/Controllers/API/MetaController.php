@@ -13,9 +13,9 @@ class MetaController extends ApiBaseController
 
     protected $modelId;
 
-    public function __construct(\Illuminate\Http\Request $request)
+
+    public function __construct()
     {
-        parent::__construct($request);
         $this->model = Relation::getMorphedModel(
             request()->route()->parameter('model')
         );

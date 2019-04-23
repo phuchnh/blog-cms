@@ -48,7 +48,7 @@
     },
     data () {
       return {
-        item: this.value ? JSON.parse(this.value) : {},
+        item: !_.isEmpty(this.value) ? JSON.parse(this.value) : {},
       }
     },
     watch: {

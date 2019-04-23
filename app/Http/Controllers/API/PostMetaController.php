@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreatePostMetaRequest;
 use App\Http\Requests\API\UpdatePostMetaRequest;
 use App\Models\PostMeta;
+use App\Transformers\PostMetaTestTransformer;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
@@ -19,9 +20,14 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
-        $data = $post->meta;
+        $metas = $post->post_metas
+            ->map(function ($value) {
+                return [$value->meta_key => $value->meta_value];
+            })
+            ->collapse()
+            ->toArray();
 
-        return $this->ok($post->meta);
+        return $this->ok($metas);
     }
 
     /**
@@ -33,9 +39,9 @@ class PostMetaController extends ApiBaseController
      */
     public function store(CreatePostMetaRequest $request, Post $post)
     {
-        $postMeta = $post->meta()->createMany($request->validated());
+        $post_metas = $post->post_metas()->create($request->all());
 
-        return $this->created($postMeta);
+        return $this->created($post_metas);
     }
 
     /**

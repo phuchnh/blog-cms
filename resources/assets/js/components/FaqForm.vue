@@ -1,33 +1,26 @@
 <template>
-  <div class="row">
+  <div class="row" v-loading="loading">
     <div class="col-xs-12 col-md-8">
       <TranslationBox v-model="translations"></TranslationBox>
+      <SeoBox v-model="meta.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
     </div>
-    <div class="button-section-fixed">
-      <div class="form-group text-center">
-        <div class="col-sm-12">
-          <button @click="backToList" class="btn btn-default margin-r-5" type="button">
-            <i class="fa fa-times"></i> Cancel
-          </button>
-          <button @click="onSubmit" type="button" class="btn btn-success">
-            <i class="fa fa-save"></i> {{ isCreate ? 'Create' : 'Update'}}
-          </button>
-        </div>
-      </div>
-    </div>
+    <PostActionBox @click="handleAction"></PostActionBox>
   </div>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   import TranslationBox from '@/components/TranslationBox.vue'
   import CategoryBox from '@/components/CategoryBox.vue'
   import TagBox from '@/components/TagBox.vue'
+  import PostActionBox from '@/components/PostActionBox.vue'
+  import SeoBox from '@/components/SeoBox.vue'
   import * as _ from 'lodash'
+  import { ApiService } from '../api'
 
   export default {
     name: 'FaqForm',
@@ -35,6 +28,8 @@
       TranslationBox,
       CategoryBox,
       TagBox,
+      PostActionBox,
+      SeoBox,
     },
     props: {
       formAction: {
@@ -52,11 +47,20 @@
       return {
         post: null,
         translations: [],
+        meta: {
+          seo: [],
+        },
         groups: [],
         tags: [],
       }
     },
     computed: {
+      ...mapGetters('faq', ['getLoading']),
+
+      loading () {
+        return this.getLoading
+      },
+
       isCreate () {
         return this.formAction === 'new'
       },
@@ -87,9 +91,23 @@
         }, [])
       },
 
-      onSubmit () {
+      handleAction (action) {
+        if (action === 'cancel') {
+          this.backToList()
+        }
 
-        this.post.publish = 1
+        if (action === 'save') {
+          this.submit()
+        }
+
+        if (action === 'publish') {
+          this.post.publish = 1
+          this.submit()
+        }
+      },
+
+      submit () {
+
         this.post.type = 'post_faq'
         this.post.translations = [...this.translations]
 
@@ -119,6 +137,12 @@
         if (this.tags.length > 0) {
           // Merge tags to taxonomies
           taxonomies = [...taxonomies, ...this.tags]
+        }
+
+        debugger;
+        console.log(this.meta.seo.length)
+        if (this.meta.seo.length > 0) {
+          return ApiService.post(`/posts/${resp.id}/meta`, this.meta.seo)
         }
 
         if (taxonomies.length === 0) {

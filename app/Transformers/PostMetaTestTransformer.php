@@ -2,10 +2,11 @@
 
 namespace App\Transformers;
 
-use App\Models\TaxonomyTranslation;
+use App\Models\Post;
+use App\Models\PostMeta;
 use Flugg\Responder\Transformers\Transformer;
 
-class TaxonomyTranslationTransformer extends Transformer
+class PostMetaTestTransformer extends Transformer
 {
     /**
      * List of available relations.
@@ -24,11 +25,13 @@ class TaxonomyTranslationTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param \App\Models\TaxonomyTranslation $taxonomyTranslation
+     * @param \App\Models\PostMeta $postMeta
      * @return array
      */
-    public function transform(TaxonomyTranslation $taxonomyTranslation)
+    public function transform(PostMeta $postMeta)
     {
-        return $taxonomyTranslation->toArray();
+        return [
+            $postMeta->meta_key => $postMeta->meta_value,
+        ];
     }
 }

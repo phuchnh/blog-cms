@@ -36,13 +36,32 @@ class TaxonomyTransformer extends Transformer
          */
         $translation = $taxonomy->translations->where('locale', config('app.locale'))->first();
 
-        return [
+        $data = [
             'id'          => $taxonomy->id,
             'type'        => $taxonomy->type,
+            'parent_id'   => $taxonomy->parent_id,
             'locale'      => $translation->locale,
             'title'       => $translation->title,
             'slug'        => $translation->slug,
             'description' => $translation->description,
         ];
+
+        return array_merge(
+            $data,
+            $this->transformMeta($taxonomy)
+        );
+    }
+
+    /**
+     * Transform meta array to one
+     *
+     * @param \App\Models\Post $post
+     * @return array
+     */
+    private function transformMeta(\App\Models\Taxonomy $taxonomy)
+    {
+        $meta = new MetaTransformer();
+
+        return ['meta' => $meta->transformArray($taxonomy->metas)];
     }
 }

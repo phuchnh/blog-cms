@@ -21,23 +21,6 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
-        //$paginator = $request->get('perPage');
-        //
-        //$posts = $posts
-        //    ->when($request->input('type'), function ($query) use ($request) {
-        //        /**@var \Illuminate\Database\Eloquent\Builder $query */
-        //        return $query->where('type', $request->input('type'));
-        //    })->when($request->input('title'), function ($query) use ($request) {
-        //        /**@var \Illuminate\Database\Eloquent\Builder $query */
-        //        $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-        //    })
-        //    ->sortable([$request->get('sort') => $request->get('direction')])
-        //    ->orderBy('id', 'desc');
-        //if ($request->input('trash')) {
-        //    $posts = $posts->onlyTrashed();
-        //}
-        //$posts = $posts->paginate($paginator);
-
         if ($locale = $request->get('locale', config('app.locale'))) {
             $posts = $posts->ofLocale($locale);
         }
@@ -83,8 +66,6 @@ class PostController extends ApiBaseController
      *
      * @param \App\Http\Requests\API\CreatePostRequest $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
      */
     public function store(CreatePostRequest $request)
     {

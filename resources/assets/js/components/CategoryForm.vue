@@ -31,11 +31,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Parent category <span class="required">*</span></label>
+                    <label for="name" class="col-sm-2 control-label">Parent category <span
+                        class="required">*</span></label>
                     <div class="col-sm-8">
                       <select class="form-control" id="parent" name="parent"
                               v-model="category.parent_id">
-                        <option value="" selected>None</option>
+                        <option :value=null selected>None</option>
                         <option v-for="item in categories" :value="item.id">{{item.title}}</option>
                       </select>
                     </div>
@@ -58,7 +59,7 @@
           <!-- Seo Information -->
           <div class="row">
             <div class="col-xs-12">
-              <post-meta-form v-model="trans.meta"></post-meta-form>
+              <post-meta-form v-model="meta[trans.locale]"></post-meta-form>
             </div>
           </div>
 
@@ -86,12 +87,12 @@
     components: { PostMetaForm },
     computed: {
       ...mapGetters({
-        translations: 'taxonomy/getTranslations'
+        translations: 'taxonomy/getTranslations',
       }),
       category () {
         let data = this.$store.getters['taxonomy/getItem']
         if (this.formAction === 'create') {
-          data = {...data, type: 'category'}
+          data = { ...data, type: 'category' }
         }
         return data
       },
@@ -116,6 +117,9 @@
         }
         return data
       },
+      meta () {
+        return this.category.meta || {}
+      }
     },
     props: {
       formAction: String,
@@ -125,9 +129,9 @@
         type: 'category',
         activeTab: 'vi',
         categoryType: [
-          { name: 'Single Page', value: 'single'},
-          { name: 'Post', value: 'post'},
-        ]
+          { name: 'Single Page', value: 'single' },
+          { name: 'Post', value: 'post' },
+        ],
       }
     },
     methods: {
@@ -137,6 +141,7 @@
         this.category.translations = _.filter(this.category.translations, (item) => {
           return !!item.title
         })
+        this.category.meta = {...this.meta}
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
