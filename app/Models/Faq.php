@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Faq extends Post
 {
@@ -11,7 +12,7 @@ class Faq extends Post
      *
      * @var array
      */
-    public static $searchable = [
+    protected $searchable = [
         'title',
         'slug',
         'description',
@@ -83,19 +84,37 @@ class Faq extends Post
      */
     public function scopeSearch($query, $request)
     {
-        if ($request->hasAny(self::$searchable)) {
+        if ($request->hasAny($this->searchable)) {
             $keys = array_keys($request->all());
 
             $values = array_reduce($keys, function ($result, $key) use ($request) {
-                if (in_array($key, self::$searchable)) {
+                if (in_array($key, $this->searchable)) {
                     $result[$key] = $request->get($key);
                 }
 
                 return $result;
             }, []);
 
+            $mode = $request->get('mode') ?: 'contain';
+
             foreach ($values as $key => $value) {
-                $query = $query->where($key, 'LIKE', "{$value}%");
+                $search = '%'.$value.'%';
+                $operator = 'LIKE';
+
+                if (Str::snake($mode) === 'starts_with') {
+                    $search = $value.'%';
+                }
+
+                if (Str::snake($mode) === 'ends_with') {
+                    $search = '%'.$value;
+                }
+
+                if (Str::snake($mode) === 'exactly') {
+                    $operator = '=';
+                    $search = $value;
+                }
+
+                $query = $query->where($key, $operator, "{$search}");
             }
         }
 
