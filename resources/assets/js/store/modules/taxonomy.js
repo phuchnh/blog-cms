@@ -9,7 +9,7 @@ const state = () => {
     paginator: {},
     errors: [],
     sidebarItem: [],
-    itemBySlug: {}
+    itemBySlug: {},
   }
 }
 const getters = {
@@ -49,7 +49,7 @@ const getters = {
   },
   getItemBySlug: state => {
     return state.itemBySlug
-  }
+  },
 }
 
 const actions = {
@@ -134,21 +134,17 @@ const actions = {
    * @returns {Promise<void>}
    */
   async create ({ commit, state, dispatch }, payload) {
-    const resp = await TaxonomyService.create(payload)
+    let input = _.omit(payload, ['meta'])
+
+    const resp = await TaxonomyService.create(input)
     const { type } = payload
     const { data } = resp.data
     let items = [...state[type]]
     items.push(data)
     commit('updateStateByName', { key: type, value: items })
-    // add meta payload to data
-    data.translations = _.map(data.translations, (dataItem) => {
-      let payloadItem = _.find(payload.translations, { 'locale': dataItem.locale })
-      return { ...dataItem, meta: payloadItem.meta }
-    })
+
     // insert to meta table
-    _.each(data.translations, (item) => {
-      dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
-    })
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomy', model_id: data.id }, { root: true })
     return data
   },
 
@@ -160,13 +156,14 @@ const actions = {
    * @returns {Promise<void>}
    */
   async update ({ commit, dispatch }, payload) {
-    const resp = await TaxonomyService.update(payload.id, payload)
-    commit('SET_ITEM', payload)
+    let input = _.omit(payload, ['meta'])
+
+    const resp = await TaxonomyService.update(payload.id, input)
+    const { data } = resp.data
+    commit('SET_ITEM', data)
 
     // insert to meta table
-    _.each(payload.translations, (item) => {
-      dispatch('meta/updateMeta', { data: item.meta, model: 'taxonomies', model_id: item.id }, { root: true })
-    })
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomy', model_id: payload.id }, { root: true })
     return resp
   },
 

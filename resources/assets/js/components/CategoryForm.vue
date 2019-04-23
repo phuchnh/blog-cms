@@ -31,7 +31,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Parent category <span class="required">*</span></label>
+                    <label for="name" class="col-sm-2 control-label">Parent category <span
+                        class="required">*</span></label>
                     <div class="col-sm-8">
                       <select class="form-control" id="parent" name="parent"
                               v-model="category.parent_id">
@@ -86,12 +87,12 @@
     components: { PostMetaForm },
     computed: {
       ...mapGetters({
-        translations: 'taxonomy/getTranslations'
+        translations: 'taxonomy/getTranslations',
       }),
       category () {
         let data = this.$store.getters['taxonomy/getItem']
         if (this.formAction === 'create') {
-          data = {...data, type: 'category'}
+          data = { ...data, type: 'category' }
         }
         return data
       },
@@ -125,9 +126,9 @@
         type: 'category',
         activeTab: 'vi',
         categoryType: [
-          { name: 'Single Page', value: 'single'},
-          { name: 'Post', value: 'post'},
-        ]
+          { name: 'Single Page', value: 'single' },
+          { name: 'Post', value: 'post' },
+        ],
       }
     },
     methods: {
