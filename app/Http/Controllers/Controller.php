@@ -6,12 +6,20 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Collection;
 use App\Transformers\PostTransformer;
+use Illuminate\Routing\UrlGenerator;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Controller constructor.
+     */
+    public function __construct()
+    {
+        \SEOMeta::setCanonical(url()->current());
+    }
 
     /**
      * transform data for post
@@ -30,6 +38,7 @@ class Controller extends BaseController
 
     /**
      * load meta
+     *
      * @param $data
      * @return array
      */
