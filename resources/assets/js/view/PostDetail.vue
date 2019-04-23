@@ -20,7 +20,7 @@
       }),
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('post/fetchItem', { id: to.params.id, params: { with: 'translations' } }).then(() => next())
+      store.dispatch('post/fetchItem', { id: to.params.id, params: { with: 'translations,taxonomies' } }).then(() => next())
     },
     beforeRouteUpdate (to, from, next) {
       store.dispatch('post/fetchItem', to.params.id).then(() => next())
@@ -37,7 +37,7 @@
     },
     methods: {
       routeToList () {
-        this.$router.push({ name: 'blogList' })
+        this.$router.push({ name: 'postList', query: { type: this.$route.query.type } })
       },
     },
   }

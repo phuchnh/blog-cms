@@ -33,6 +33,12 @@ class TaxonomyController extends ApiBaseController
             $taxonomies = $taxonomies->where('title', 'LIKE', '%'.$name.'%');
         }
 
+        if ($slug = $request->input('slug')) {
+            $taxonomies->whereHas('translations', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            });
+        }
+
         if ($request->get('tree')) {
             $items = $taxonomies->get()->toTree();
         } else {

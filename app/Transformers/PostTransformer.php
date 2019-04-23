@@ -14,6 +14,7 @@ class PostTransformer extends Transformer
      */
     protected $relations = [
         'translations' => PostTranslationTransformer::class,
+        'taxonomies'   => TaxonomyTransformer::class
     ];
 
     /**
@@ -35,9 +36,7 @@ class PostTransformer extends Transformer
         
         return array_merge(
             $post->toArray(),
-            $this->transformMeta($post),
-            //$this->transformMedia($post),
-            $this->transformTag($post)
+            $this->transformMeta($post)
         );
     }
 
@@ -49,10 +48,9 @@ class PostTransformer extends Transformer
      */
     private function transformMeta(\App\Models\Post $post)
     {
-        //$postMeta = new PostMetaTransformer();
-        $postMeta = new MetaTransformer();
+        $meta = new MetaTransformer();
 
-        return ['meta' => $postMeta->transformArray($post->metas)];
+        return ['meta' => $meta->transformArray($post->metas)];
     }
 
     /**
@@ -70,19 +68,5 @@ class PostTransformer extends Transformer
         }
 
         return ['thumbnail' => $post->thumbnail];
-    }
-
-    /**
-     * Transform tag
-     *
-     * @param \App\Models\Post $post
-     * @return array
-     */
-    private function transformTag(\App\Models\Post $post)
-    {
-        //$taxonomy = new TaxonomyTransformer();
-
-        //return ['tag' => $taxonomy->transform($post->taxonomies)];
-        return ['tag' => $post->taxonomies];
     }
 }

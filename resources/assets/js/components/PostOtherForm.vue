@@ -2,14 +2,14 @@
   <div class="box">
     <div class="box-header">
       <div class="box-header with-border">
-        <h3 for="other_post" class="box-title">Related Post</h3>
+        <h3 class="box-title">Custom Related Post</h3>
       </div>
     </div>
 
     <div class="box-body">
       <div class="col-sm-12">
         <el-select
-            v-model="value"
+            v-model="post"
             multiple
             filterable
             remote
@@ -38,42 +38,42 @@
 
   export default {
     name: 'PostOtherForm',
-    props: ['metaData', 'type'],
+    props: {
+      value: {
+        type: String | Object | Array,
+      },
+      type: {
+        type: String,
+      },
+    },
     data () {
       this.lastFetchId = 0
       this.fetchPost = _.debounce(this.fetchPost, 500)
 
       return {
-        item: this.metaData.meta ? this.metaData.meta : {},
+        item: this.value ? this.value : {},
 
         /**
          *  set default value for select mutiple
          */
         data: [],
-        value: [],
+        post: this.value.others ? _.toArray(JSON.parse(this.value.others)) : [],
         fetching: false,
       }
+    },
+    created () {
+      this.fetchPost()
     },
     watch: {
       /**
        * update value to parent
        * @param val
        */
-      item (val) {
-        this.metaData.meta = val
-
-        this.$emit('metaData', this.metaData)
-      },
-      /**
-       * set props data
-       * @param val
-       */
-      metaData (val) {
-        this.item = val.meta ? val.meta : {}
-
-        this.value = val.meta.others && typeof val.meta.others === 'string'
-          ? _.toArray(JSON.parse(val.meta.others))
-          : []
+      item: {
+        deep: true,
+        handler (val) {
+          this.$emit('input', val)
+        },
       },
     },
     methods: {
@@ -126,7 +126,7 @@
 
         // map to value
         Object.assign(this, {
-          value,
+          post: [...value],
           data: [],
           fetching: false,
         })

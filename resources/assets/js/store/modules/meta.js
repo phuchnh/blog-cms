@@ -36,9 +36,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data) : []
 
-    return await ApiService.put(`/${payload.model}/${ payload.model_id }/meta`, inputMeta).then(res => {
-      commit('setMeta', res.data.data)
-    })
+    await ApiService.put(`/${ payload.model }/${ payload.model_id }/meta`, inputMeta)
   },
   /**
    * create new meta data
@@ -49,7 +47,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data) : []
 
-    return ApiService.post(`/${payload.model}/${ payload.model_id }/meta`, inputMeta).then((res) => {
+    return ApiService.post(`/${ payload.model }/${ payload.model_id }/meta`, inputMeta).then((res) => {
       commit('setMeta', res.data.data)
     })
   },
@@ -62,16 +60,16 @@ const actions = {
 }
 
 const mutations = {
-  setMeta (state, client) {
-    state.client = client
+  setMeta (state, meta) {
+    state.meta = meta
   },
   deleteMeta (state, id) {
-    state.client = _.filter(state.client, (item) => {
+    state.meta = _.filter(state.meta, (item) => {
       return item.id !== id
     })
   },
   resetState (state) {
-    state.client = {}
+    state.meta = {}
     state.saved = false
   },
   savedMeta (state, saved) {

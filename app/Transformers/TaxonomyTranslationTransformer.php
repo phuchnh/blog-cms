@@ -29,9 +29,6 @@ class TaxonomyTranslationTransformer extends Transformer
      */
     public function transform(TaxonomyTranslation $taxonomyTranslation)
     {
-        return [
-            'id'   => $taxonomyTranslation->id,
-            'type' => $taxonomyTranslation->type,
-        ];
+        return $taxonomyTranslation->toArray();
     }
 }

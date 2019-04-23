@@ -49,15 +49,15 @@
 </template>
 
 <script>
-  import moment from 'moment'
-
   export default {
     inject: ['$validator'],
     name: 'PostDateForm',
-    props: ['metaData', 'formAction'],
+    props: {
+      value: String | Object | Array
+    },
     data () {
       return {
-        item: this.metaData.meta || {},
+        item: this.value ? this.value : {},
       }
     },
     watch: {
@@ -65,15 +65,13 @@
        * update value to parent
        * @param val
        */
-      metaData (val) {
-        if (this.formAction === 'edit' && this.metaData.meta) {
-          this.metaData.meta.date = this.metaData.meta.date ? moment(this.metaData.meta.date) : null
-          this.metaData.meta.start_time = this.metaData.meta.start_time ? moment(this.metaData.meta.start_time) : null
-          this.metaData.meta.end_time = this.metaData.meta.end_time ? moment(this.metaData.meta.end_time) : null
-          this.item = this.metaData.meta
-        }
+      item: {
+        deep: true,
+        handler (val) {
+          this.$emit('input', val)
+        },
       },
-    }
+    },
   }
 </script>
 

@@ -48,14 +48,4 @@ class PostTranslation extends Model
     {
         $this->attributes['slug'] = SlugService::createSlug($this, 'slug', (String) $value, ['unique' => true]);
     }
-
-    /**
-     * Get post meta belongs to this post
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function metas()
-    {
-        return $this->morphMany('App\Models\Meta', 'metable');
-    }
 }
