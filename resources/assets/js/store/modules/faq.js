@@ -81,6 +81,10 @@ export default {
       if (_.keys(params).length === 0) {
         params = { ...state.queryParams }
       }
+      params = {
+        ...params,
+        with: 'taxonomies',
+      }
       return FaqService
         .getAll(params)
         .then(resp => {

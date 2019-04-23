@@ -10,22 +10,33 @@
           v-loading="loading"
           :data="lists"
           border
-          stripe
           @sort-change="handleSortChange"
           empty-text="No data"
       >
         <el-table-column prop="slug" label="slug" sortable>
-          <template slot-scope="scope">
+          <template slot-scope="scope" class="text-nowrap">
             <router-link :to="goToDetail(scope.row.id)">{{ scope.row.slug }}</router-link>
           </template>
         </el-table-column>
         <el-table-column prop="title" label="title" sortable/>
-        <el-table-column prop="description" label="description" sortable/>
+        <el-table-column prop="tags" label="tags" width="200">
+          <template slot-scope="scope">
+            <a href="javascript:void(0)" v-for="(tag, index) in filterTags(scope.row.taxonomies)" :key="index">
+              {{ tag }},
+            </a>
+          </template>
+        </el-table-column>
+        <el-table-column prop="groups" label="groups" width="200">
+          <template slot-scope="scope">
+            <a href="javascript:void(0)" v-for="(group, index) in filterGroups(scope.row.taxonomies)" :key="index">
+              {{ group }},
+            </a>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="box-footer text-center">
       <el-pagination
-          background
           layout="prev, pager, next"
           :page-size="queryParams.perPage"
           :total="total"
@@ -41,6 +52,7 @@
   import store from '@/store'
 
   import { mapGetters, mapActions } from 'vuex'
+  import * as _ from 'lodash'
 
   export default {
     name: 'FaqList',
@@ -68,6 +80,24 @@
     methods: {
       ...mapActions('faq', ['fetchList']),
 
+      filterTags (taxonomies) {
+        return _.reduce(taxonomies, (result, value) => {
+          if (value.type === 'tags') {
+            result.push(value.title)
+          }
+          return result
+        }, [])
+      },
+
+      filterGroups (taxonomies) {
+        return _.reduce(taxonomies, (result, value) => {
+          if (value.type === 'groups') {
+            result.push(value.title)
+          }
+          return result
+        }, [])
+      },
+
       goToDetail (id) {
         return { name: 'faqDetail', params: { id: id } }
       },
@@ -89,6 +119,10 @@
       },
 
       getData (queryParams) {
+        queryParams = {
+          ...queryParams,
+          with: 'taxonomies',
+        }
         return this.fetchList(queryParams)
       },
     },
