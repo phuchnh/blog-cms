@@ -36,7 +36,7 @@
                     <div class="col-sm-8">
                       <select class="form-control" id="parent" name="parent"
                               v-model="category.parent_id">
-                        <option value="" selected>None</option>
+                        <option :value=null selected>None</option>
                         <option v-for="item in categories" :value="item.id">{{item.title}}</option>
                       </select>
                     </div>
@@ -59,7 +59,7 @@
           <!-- Seo Information -->
           <div class="row">
             <div class="col-xs-12">
-              <post-meta-form v-model="trans.meta"></post-meta-form>
+              <post-meta-form v-model="meta[trans.locale]"></post-meta-form>
             </div>
           </div>
 
@@ -117,6 +117,9 @@
         }
         return data
       },
+      meta () {
+        return this.category.meta || {}
+      }
     },
     props: {
       formAction: String,
@@ -138,6 +141,7 @@
         this.category.translations = _.filter(this.category.translations, (item) => {
           return !!item.title
         })
+        this.category.meta = {...this.meta}
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {

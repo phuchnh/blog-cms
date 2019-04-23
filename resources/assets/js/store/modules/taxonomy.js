@@ -159,8 +159,7 @@ const actions = {
     let input = _.omit(payload, ['meta'])
 
     const resp = await TaxonomyService.update(payload.id, input)
-    const { data } = resp.data
-    commit('SET_ITEM', data)
+    commit('SET_ITEM', payload)
 
     // insert to meta table
     await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomy', model_id: payload.id }, { root: true })
