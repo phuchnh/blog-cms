@@ -49,29 +49,26 @@ class PostMetaController extends ApiBaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param string $postMeta
+     * @param \App\Models\PostMeta $post_metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Post $post, $postMeta)
+    public function show(Request $request, Post $post, PostMeta $post_metum)
     {
-        $postMeta = $post->meta()->findOrFail($postMeta);
-
-        return $this->ok($postMeta);
+        return $this->ok($post_metum);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\API\UpdatePostMetaRequest $request
+     * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param string $postMeta
+     * @param \App\Models\PostMeta $post_metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatePostMetaRequest $request, Post $post, $postMeta)
+    public function update(Request $request, Post $post, PostMeta $post_metum)
     {
-        $postMeta = $post->postMeta()->findOrFail($postMeta);
-        $postMeta->fill($request->validated());
-        $postMeta->save();
+        $post_metum->fill($request->all());
+        $post_metum->save();
 
         return $this->noContent();
     }

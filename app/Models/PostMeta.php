@@ -26,13 +26,12 @@ class PostMeta extends Model
      * @var array
      */
     protected $fillable = [
-        'post_id',
         'meta_key',
         'meta_value',
     ];
 
     protected $casts = [
-        'meta_key' => 'array',
+        'meta_key'   => 'array',
         'meta_value' => 'array',
     ];
 
