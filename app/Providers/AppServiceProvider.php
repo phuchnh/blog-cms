@@ -34,8 +34,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Relation::morphMap([
             'post' => 'App\Models\Post',
-            'posts' => 'App\Models\PostTranslation',
-            'taxonomies' => 'App\Models\TaxonomyTranslation',
+            'taxonomy' => 'App\Models\Taxonomy',
         ]);
     }
 }

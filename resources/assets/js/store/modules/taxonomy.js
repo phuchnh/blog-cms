@@ -9,6 +9,7 @@ const state = () => {
     paginator: {},
     errors: [],
     sidebarItem: [],
+    itemBySlug: {}
   }
 }
 const getters = {
@@ -46,6 +47,9 @@ const getters = {
   getSidebarItem: state => {
     return state.sidebarItem
   },
+  getItemBySlug: state => {
+    return state.itemBySlug
+  }
 }
 
 const actions = {
@@ -104,6 +108,21 @@ const actions = {
     const resp = await TaxonomyService.getById(id, params)
     const { data } = resp.data
     commit('SET_ITEM', data)
+    return resp
+  },
+
+  /**
+   *
+   * @param commit
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  async getItemBySlug ({ commit }, payload) {
+    const resp = await TaxonomyService.getAll(payload)
+    const { data } = resp.data
+
+    commit('SET_ITEM_BY_SLUG', data)
+
     return resp
   },
 
@@ -172,8 +191,8 @@ const actions = {
    * @param payload
    * @returns {Promise<void>}
    */
-  async updateTaxonomies ({ commit }, { id, payload }) {
-    return await TaxonomyService.updateTaxonomies(id, payload)
+  async updatePostTaxonomy ({ commit }, { postId, taxonomies }) {
+    return TaxonomyService.updatePostTaxonomy(postId, taxonomies)
   },
 }
 const mutations = {
@@ -196,6 +215,9 @@ const mutations = {
   },
   SET_ITEM: (state, item) => {
     state.item = { ...item }
+  },
+  SET_ITEM_BY_SLUG: (state, item) => {
+    state.itemBySlug = { ...item }
   },
   RESET_ITEM: (state) => {
     state.list = []

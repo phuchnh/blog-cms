@@ -9,33 +9,37 @@
 
     <div class="box-body">
       <el-table
-          v-loading="loading"
           :data="resource"
           border
           stripe
+          v-loading="loading"
           @sort-change="handleSortChange"
-          empty-text="No data"
-      >
+          empty-text="No data">
         <el-table-column
-            prop="slug"
-            label="slug"
-            sortable
-        >
-          <template slot-scope="scope">
-            <router-link :to="goToDetail(scope.row.id)">{{ scope.row.slug }}</router-link>
-          </template>
+            prop="id"
+            label="Id"
+            width="100"
+            sortable="custom">
         </el-table-column>
         <el-table-column
             prop="title"
-            label="title"
-            sortable
-        >
+            label="Title"
+            sortable="custom">
         </el-table-column>
         <el-table-column
-            prop="description"
-            label="description"
-            sortable
-        >
+            label="Status"
+            prop="publish"
+            sortable="custom">
+          <template slot-scope="scope">
+            {{scope.row.publish ? 'Publish' : 'Draft'}}
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="Action">
+          <template slot-scope="scope">
+            <button class="btn btn-default margin-r-5" @click="goToDetail(scope.row.id)">Edit</button>
+            <button class="btn btn-danger" @click="onDelete(scope.row.id)">Delete</button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -97,11 +101,27 @@
     },
     methods: {
       goToDetail (id) {
-        return { name: 'postDetail', params: { id: id }, query: { type: this.$route.query.type } }
+        this.$router.push({ name: 'postDetail', params: { id: id }, query: { type: this.$route.query.type } })
       },
 
       goToNew () {
         this.$router.push({ name: 'postNew', query: { type: this.$route.query.type } })
+      },
+
+      onDelete (key) {
+        this.$confirm('Are you sure you want to delete this item?', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          this.$store.dispatch('post/delete', key).then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Delete completed',
+            })
+            this.updateList()
+          })
+        })
       },
 
       handleCurrentChange (currentPage) {
@@ -115,8 +135,9 @@
         this.updateList()
       },
 
-      updateList () {
+      updateList (options) {
         this.loading = true
+        this.params = _.assign(this.params, options)
         this.$store.dispatch('post/fetchList', this.params).then(() => this.loading = false)
       },
 
@@ -124,7 +145,7 @@
         const params = {
           title: searchKey,
         }
-        this.fetchList(params)
+        this.updateList(params)
       },
 
       resetTable () {
@@ -136,7 +157,7 @@
           type: this.type,
         }
         this.params = { ...initialParams }
-        this.fetchList()
+        this.updateList()
       },
     },
     components: { SearchForm },

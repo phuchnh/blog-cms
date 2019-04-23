@@ -14,6 +14,7 @@ class PostTransformer extends Transformer
      */
     protected $relations = [
         'translations' => PostTranslationTransformer::class,
+        'taxonomies'   => TaxonomyTransformer::class,
     ];
 
     /**
@@ -35,8 +36,7 @@ class PostTransformer extends Transformer
 
         return array_merge(
             $post->toArray(),
-            $this->transformMeta($post),
-            $this->transformTag($post)
+            $this->transformMeta($post)
         );
     }
 
@@ -48,9 +48,9 @@ class PostTransformer extends Transformer
      */
     private function transformMeta(\App\Models\Post $post)
     {
-        $postMeta = new MetaTransformer();
+        $meta = new MetaTransformer();
 
-        return ['meta' => $postMeta->transformArray($post->metas)];
+        return ['meta' => $meta->transformArray($post->metas)];
     }
 
     /**

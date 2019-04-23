@@ -82,10 +82,6 @@
         return this.$store.state.auth.currentUser
       },
       listCategory () {
-        // return this.$store.getters['taxonomy/getAll'].filter((item) => {
-        //   debugger
-        //   return item.description === 'post'
-        // })
         return this.$store.getters['taxonomy/getSidebarItem']
       }
     },

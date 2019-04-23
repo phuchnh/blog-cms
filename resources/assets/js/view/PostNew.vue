@@ -19,7 +19,7 @@
     },
     methods: {
       routeToList () {
-        this.$router.push({ name: 'blogList' })
+        this.$router.push({ name: 'postList', query: { type: this.$route.query.type } })
       },
     },
   }

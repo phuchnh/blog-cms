@@ -6,6 +6,7 @@ use App\Traits\HasModify;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 
 class Post extends Model
@@ -132,31 +133,23 @@ class Post extends Model
     ];
 
     /**
-     * Get post meta belongs to this post
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function meta()
-    {
-        return $this->hasMany(PostMeta::class, 'post_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function metas()
-    {
-        return $this->morphMany('\App\Models\Meta', 'metable');
-    }
-
-    /**
      * Get taxonomies belongs to this post
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxonomies()
     {
-        return $this->belongsToMany(Taxonomy::class, 'post_taxonomy', 'post_id');
+        return $this->hasMany(PostMeta::class, 'post_id');
+    }
+
+    /**
+     * Get post meta belongs to this post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function metas()
+    {
+        return $this->morphMany('App\Models\Meta', 'metable');
     }
 
     /**
@@ -166,22 +159,15 @@ class Post extends Model
      */
     public function scopeOfLocale($query, $locale)
     {
-        return $query
-            ->join(PostTranslation::getTable(), function ($join) use ($locale) {
-                /**@var $join \Illuminate\Database\Query\JoinClause */
-                $join->on(function ($query) use ($locale) {
-                    $sql = DB::raw("posts.id = post_translations.post_id AND post_translations.deleted_at IS NULL AND post_translations.locale = '$locale'");
-                    /**@var $query \Illuminate\Database\Query\Builder */
-                    $query->whereRaw(DB::raw($sql));
-                });
-            })
-            ->addSelect([
-                'posts.*',
-                'post_translations.locale',
-                'post_translations.title',
-                'post_translations.slug',
-                'post_translations.content',
-                'post_translations.description',
-            ]);
+        $table = "SELECT post_translations.locale,
+                       post_translations.title,
+                       post_translations.slug,
+                       post_translations.description,
+                       posts.*
+                FROM posts, post_translations
+                WHERE posts.id = post_translations.post_id
+                AND post_translations.locale = '{$locale}'";
+
+        return $query->from(DB::raw("({$table}) posts"));
     }
 }

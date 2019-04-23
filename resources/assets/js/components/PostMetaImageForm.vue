@@ -11,7 +11,7 @@
         <i class="fa fa-search"></i> Find image
 
         <input type="file" class="form-control"
-               :id="metaType"
+               :id="title"
                name="image"
                accept="image/*"
                @change="onFileChangeImage($event)"/>
@@ -34,11 +34,18 @@
 
   export default {
     name: 'PostMetaImageForm',
-    props: ['metaData', 'metaType', 'title'],
+    props: {
+      value: {
+        type: String | Object | Array,
+      },
+      title: {
+        type: String,
+      },
+    },
     data () {
       return {
         image: null,
-        imgUrl: null,
+        imgUrl: this.value ? this.value : '',
         fileInput: null,
         message: '',
         showMessage: false,
@@ -49,15 +56,11 @@
        * update value to parent
        * @param val
        */
-      image (val) {
-        this.metaData.meta[this.metaType] = val.toString()
-      },
-      metaData (val) {
-        let item = val.meta ? val.meta : {}
-
-        if (_.has(item, this.metaType)) {
-          this.imgUrl = item[this.metaType]
-        }
+      imgUrl: {
+        deep: true,
+        handler (val) {
+          this.$emit('input', val)
+        },
       },
     },
     methods: {
@@ -70,7 +73,7 @@
 
         reader.readAsDataURL(file)
         reader.onloadend = () => {
-          this.imgUrl = reader.result
+          this.image = reader.result
         }
 
         this.fileInput = file
@@ -92,7 +95,6 @@
           }).then(res => {
             if (res.status === 200) {
               this.imgUrl = res.data.data[0].url
-              this.metaData.meta[this.metaType] = res.data.data[0].url
 
               this.resetData()
 

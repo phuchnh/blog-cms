@@ -65,10 +65,10 @@
                 </div>
                 <div class="box-body">
                   <!-- Add Date Picker -->
-                  <post-date-form :metaData="post" :formAction="formAction"></post-date-form>
+                  <post-date-form v-model="meta"></post-date-form>
 
                   <!-- Add Location -->
-                  <post-location-form :metaData="post"></post-location-form>
+                  <post-location-form v-model="meta"></post-location-form>
                 </div>
               </div>
             </a-tab-pane>
@@ -96,24 +96,33 @@
             </div>
           </div>
 
-          <post-meta-image :metaData="post" :metaType="'thumbnail'" :title="'thumbnail'"></post-meta-image>
+          <post-meta-image v-model="meta['thumbnail']" :title="'thumbnail'"></post-meta-image>
 
-          <post-meta-image :metaData="post" :metaType="'banner'" :title="'banner'"></post-meta-image>
+          <post-meta-image v-model="meta['banner']" :title="'banner'"></post-meta-image>
 
-          <post-other-from :metaData="post" :type="type"></post-other-from>
+          <post-other-from v-model="meta" :type="type"></post-other-from>
 
           <div class="box box-default">
             <div class="box-header with-border">
               <div class="box-title">Feature on position</div>
             </div>
             <div class="box-body">
-              <post-display :metaData="post" :metaType="'home'" :title="'Show On Homepage'"></post-display>
-              <post-display :metaData="post" :metaType="'feature'" :title="'Show On Feature'"></post-display>
+              <post-display v-model="meta['home']" :title="'Show On Homepage'"></post-display>
+              <post-display v-model="meta['feature']" :title="'Show On Feature'"></post-display>
+
             </div>
           </div>
 
           <!-- Tag Information -->
-          <tag-form :tagData="post"></tag-form>
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <div class="box-title">Tag Section</div>
+            </div>
+            <div class="box-body">
+              <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -151,11 +160,13 @@
   import PostOtherFrom from './PostOtherForm'
   import PostDisplay from './PostDisplay'
   import PostMetaImage from './PostMetaImageForm'
+  import TagBox from './TagBox'
 
   export default {
     name: 'PostForm',
     components: {
       TagForm,
+      TagBox,
       Editor,
       PostLocationForm,
       PostDateForm,
@@ -173,6 +184,7 @@
         ],
         activeTab: 'vi',
         publish: 1,
+        tags: []
       }
     },
     computed: {
@@ -182,42 +194,81 @@
         return this.getItem
       },
 
-      meta () {
-        return this.post.meta || {}
+      meta: {
+        get () {
+          return this.post.meta || {}
+        },
+        set (value) {
+          this.post.meta = {...value}
+        }
       },
 
       translations () {
         return this.getTranslations
+      },
+
+      category () {
+        return this.getItemBySlug
       },
     },
     props: {
       type: String,
       formAction: String,
     },
+    created () {
+      this.tags = this.getTaxonomyByType('tags')
+    },
     methods: {
       ...mapActions('post', ['update', 'create']),
+      ...mapActions('taxonomies', ['updatePostTaxonomy']),
+      getTaxonomyByType (type) {
+        const { taxonomies } = this.post
+        return _.reduce(taxonomies, (result, value) => {
+          if (value.type === type) {
+            result.push(value.id)
+          }
+          return result
+        }, [])
+      },
       /**
        * Submit form to api
        */
       onSubmit () {
         this.post.translations = [...this.translations]
+        this.post.translations = _.filter(this.post.translations, (item) => {
+          return !!item.title
+        })
 
         this.post.type = this.type
         this.post.publish = this.publish
 
-        this.post.meta = this.meta
-
         if (this.formAction === 'create') {
-          this.create(this.post).then(() => {
-            this.$message.success('Add successfully')
-            this.$emit('routeToList')
-          })
+          this.create(this.post)
+               .then((resp) => this.updateTaxonomy(resp.data.data))
+               .then(() => {
+                  this.$message.success('Add successfully')
+                  this.$emit('routeToList')
+               })
         } else {
-          this.update(this.post).then(() => {
-            this.$message.success('Update successfully')
-            this.$emit('routeToList')
-          })
+          this.update(this.post)
+               .then((resp) => this.updateTaxonomy(resp.data.data))
+               .then(() => {
+                 this.$message.success('Update successfully')
+                 this.$emit('routeToList')
+               })
         }
+      },
+      updateTaxonomy (resp) {
+        let taxonomies = []
+        if (this.tags.length > 0) {
+          // Merge tags to taxonomies
+          taxonomies = [...taxonomies, ...this.tags]
+        }
+        if (taxonomies.length === 0) {
+          return resp
+        }
+
+        return this.updatePostTaxonomy({ 'postId': resp.id, 'taxonomies': taxonomies })
       },
       /**
        * change tab

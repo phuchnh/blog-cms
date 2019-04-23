@@ -15,10 +15,12 @@
   export default {
     inject: ['$validator'],
     name: 'PostLocationForm',
-    props: ['metaData'],
+    props: {
+      value: String | Object | Array
+    },
     data () {
       return {
-        item: this.metaData.meta ? this.metaData.meta : {},
+        item: this.value ? this.value : {},
       }
     },
     watch: {
@@ -26,13 +28,11 @@
        * update value to parent
        * @param val
        */
-      item (val) {
-        this.metaData.meta = val
-
-        this.$emit('item', this.metaData)
-      },
-      metaData (val) {
-        this.item = val.meta ? val.meta : {}
+      item: {
+        deep: true,
+        handler (val) {
+          this.$emit('input', val)
+        },
       },
     },
   }

@@ -101,7 +101,7 @@ const actions = {
     commit('SET_ITEM', data)
 
     // insert to meta table
-    await dispatch('meta/updateMeta', { data: payload.meta, model: 'posts', model_id: data.id }, { root: true })
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'post', model_id: data.id }, { root: true })
 
     return resp
   },
@@ -122,7 +122,7 @@ const actions = {
     commit('SET_ITEM', data)
 
     // insert to meta table
-    await dispatch('meta/updateMeta', { data: payload.meta, model: 'post', post_id: data.id }, { root: true })
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'post', model_id: data.id }, { root: true })
 
     return resp
   },

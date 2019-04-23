@@ -6,6 +6,7 @@ use App\Http\Requests\API\CreatePostRequest;
 use App\Http\Requests\API\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\Taxonomy;
+use App\Models\TaxonomyTranslation;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,7 @@ class PostController extends ApiBaseController
         //}
         //$posts = $posts->paginate($paginator);
 
-        if ($locale = $request->get('locale', $posts->getDefaultLocale())) {
+        if ($locale = $request->get('locale', config('app.locale'))) {
             $posts = $posts->ofLocale($locale);
         }
 
@@ -51,6 +52,10 @@ class PostController extends ApiBaseController
             ->when($request->input('type'), function ($query) use ($request) {
                 /**@var \Illuminate\Database\Eloquent\Builder $query */
                 return $query->where('type', $request->input('type'));
+            })
+            ->when($request->input('title'), function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
             })
             ->get();
 
