@@ -2,7 +2,7 @@
   <div class="row" v-loading="loading">
     <div class="col-xs-12 col-md-8">
       <TranslationBox v-model="translations"></TranslationBox>
-      <SeoBox v-model="postMeta.seo"></SeoBox>
+      <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
@@ -44,9 +44,11 @@
     },
     data () {
       return {
-        post: null,
+        post: {
+          publish: 0,
+        },
         translations: [],
-        postMeta: {
+        metas: {
           seo: [],
         },
         groups: [],
@@ -67,9 +69,9 @@
 
     created () {
 
-      if (this.formValue) {
-        this.post = { ...this.formValue }
-        this.postMeta = { ...this.formValue.postMeta }
+      if (Object.keys(this.formValue).length > 0) {
+        this.post = { ...this.formValue || {} }
+        this.metas = { ...this.formValue.metas || {} }
         this.translations = [...this.formValue.translations]
         this.groups = [...this.getTaxonomyByType('groups')]
         this.tags = [...this.getTaxonomyByType('tags')]
@@ -79,7 +81,7 @@
 
     methods: {
       ...mapActions('faq', ['createItem', 'updateItem']),
-      ...mapActions('postMeta', ['createPostMeta']),
+      ...mapActions('postMeta', ['updateOrCreateMeta']),
       ...mapActions('taxonomies', ['updatePostTaxonomy']),
 
       getTaxonomyByType (type) {
@@ -118,7 +120,7 @@
               .then((resp) => {
                 return Promise.all([
                   this.handleSaveToxonomy(resp),
-                  this.handleSavePostMeta(resp),
+                  this.handleSaveMeta(resp),
                 ])
               })
               .then(() => this.backToList())
@@ -130,19 +132,19 @@
               .then((resp) => {
                 return Promise.all([
                   this.handleSaveToxonomy(resp),
-                  this.handleSavePostMeta(resp),
+                  this.handleSaveMeta(resp),
                 ])
               })
               .then(() => this.backToList())
         }
       },
 
-      handleSavePostMeta (resp) {
+      handleSaveMeta (resp) {
         let metas = []
-        if (this.postMeta.seo.length > 0) {
+        if (this.metas.seo.length > 0) {
           metas.push({
             meta_key: 'seo',
-            meta_value: this.postMeta.seo,
+            meta_value: this.metas.seo,
           })
         }
 
@@ -150,7 +152,7 @@
           return resp
         }
 
-        return this.createPostMeta({
+        return this.updateOrCreateMeta({
           postId: resp.id,
           metas: metas,
         })

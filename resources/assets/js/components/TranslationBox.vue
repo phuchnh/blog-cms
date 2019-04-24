@@ -78,7 +78,6 @@
 
       onTabsChange (key) {
         this.activeTab = key
-        Vue.$emit('localeActiveTab', this.activeTab)
       },
     },
   }

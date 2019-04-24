@@ -6,13 +6,13 @@ export default {
   state: () => {
     return {
       postId: null,
-      postMeta: null,
+      metas: null,
     }
   },
 
   getters: {
     getPostMeta: state => {
-      return state.postMeta
+      return state.metas
     },
   },
 
@@ -21,8 +21,8 @@ export default {
       state.postId = postId
     },
 
-    setPostMeta (state, postMeta) {
-      state.postMeta = { ...postMeta }
+    setPostMeta (state, metas) {
+      state.metas = { ...metas }
     },
   },
 
@@ -33,13 +33,13 @@ export default {
         .get(`/posts/${ postId }/metas`)
         .then(resp => {
           const { data } = resp.data
-          const { postMeta } = data
-          commit('setPostMeta', postMeta)
+          const { metas } = data
+          commit('setPostMeta', metas)
           return resp
         })
     },
 
-    createPostMeta ({ commit }, { postId, metas }) {
+    updateOrCreateMeta ({ commit }, { postId, metas }) {
       return ApiService
         .post(`/posts/${ postId }/metas`, {
           metas: metas,
