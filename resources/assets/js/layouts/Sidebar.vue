@@ -7,7 +7,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img v-bind:src="meta.avatar" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p v-if="currentUser">{{ currentUser.name }}</p>
@@ -63,6 +63,9 @@
     computed: {
       currentUser () {
         return this.$store.state.auth.currentUser
+      },
+      meta () {
+        return this.currentUser.meta || {}
       },
     },
   }
