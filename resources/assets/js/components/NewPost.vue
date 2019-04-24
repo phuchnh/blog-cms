@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PostForm formAction="new" @back-to-list="back"></PostForm>
+    <PostForm formAction="new"></PostForm>
   </div>
 </template>
 
@@ -12,11 +12,6 @@
     components: {
       PostForm,
     },
-    methods: {
-      back () {
-        debugger
-      }
-    }
   }
 </script>
 

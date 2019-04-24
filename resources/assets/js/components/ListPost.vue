@@ -1,7 +1,7 @@
 <template>
   <div class="box box-widget">
     <div class="box-header">
-      <router-link :to="{name: newRouteName}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New
+      <router-link :to="{name: redirectToNew}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New
       </router-link>
     </div>
     <div class="box-body">
@@ -75,16 +75,6 @@
     components: {
       SearchBox,
     },
-    props: {
-      newRouteName: {
-        type: String,
-        required: true,
-      },
-      detailRouteName: {
-        type: String,
-        required: true,
-      },
-    },
     data () {
       return {
         visible: false,
@@ -93,6 +83,10 @@
     },
     computed: {
       ...mapGetters('faq', ['getLoading', 'getLists', 'getTotal', 'getQueryParams']),
+      ...mapGetters('route', {
+        redirectToNew: 'redirectToNew',
+        redirectToDetail: 'redirectToDetail',
+      }),
       loading () {
         return this.getLoading
       },
@@ -107,9 +101,7 @@
       },
     },
     beforeRouteEnter (to, from, next) {
-      return store.dispatch('faq/setPostType', to.meta.postType)
-                  .then(() => store.dispatch('faq/fetchList'))
-                  .then(() => next())
+      return store.dispatch('faq/fetchList').then(() => next())
     },
     methods: {
       ...mapActions('faq', ['fetchList', 'deleteItem']),
@@ -133,7 +125,7 @@
       },
 
       goToDetail (id) {
-        return { name: this.detailRouteName, params: { id: id } }
+        return { name: this.redirectToDetail, params: { id: id } }
       },
 
       handleCurrentChange (currentPage) {

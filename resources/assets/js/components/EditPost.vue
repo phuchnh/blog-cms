@@ -28,7 +28,7 @@
       },
     },
     beforeRouteEnter (to, from, next) {
-      Promise.all([
+      return Promise.all([
         store.dispatch('faq/fetchItem', to.params.id),
         store.dispatch('postMeta/fetchPostMeta', to.params.id),
       ]).then(() => next())

@@ -9,6 +9,7 @@ import postMeta from './modules/postMeta'
 import user from './modules/user'
 import client from './modules/client'
 import meta from './modules/meta'
+import route from './modules/route'
 import setting from './modules/setting'
 
 Vue.use(Vuex)
@@ -19,6 +20,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     faq,
+    route,
     taxonomy,
     taxonomies,
     post,

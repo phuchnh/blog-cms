@@ -61,6 +61,9 @@
     },
     computed: {
       ...mapGetters('faq', ['getLoading']),
+      ...mapGetters('route', {
+        redirectToList: 'redirectToList',
+      }),
 
       loading () {
         return this.getLoading
@@ -190,8 +193,7 @@
       },
 
       backToList () {
-        const listRouteName = this.$route.meta.listRouteName
-        this.$router.push({ name: listRouteName })
+        this.$router.push({ name: this.redirectToList })
       },
 
     },

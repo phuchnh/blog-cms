@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Admin from '@/view/Admin'
 import Dashboard from '@/view/Dashboard'
 import PageNotFound from '@/view/PageNotFound'
-import FaqList from '@/view/FaqList'
+import PostContainer from '@/view/PostContainer'
 import UserList from '@/view/UserList'
 import UserDetail from '@/view/UserDetail'
 import InThePressNew from '@/view/InThePressNew'
@@ -67,38 +67,53 @@ export default new Router({
             description: '',
           },
         },
+        //==================================================================
         {
           path: 'faqs',
-          name: 'faqList',
-          component: ListPost,
+          component: PostContainer,
           props: {
-            newRouteName: 'faqNew',
-            detailRouteName: 'faqDetail',
+            postType: 'post_faq',
+            redirectToNew: 'FaqNew',
+            redirectToDetail: 'FaqDetail',
+            redirectToList: 'FaqList',
           },
           meta: {
-            title: 'FaqList',
-            description: '',
             postType: 'post_faq',
           },
+          children: [
+            {
+              path: '',
+              name: 'FaqList',
+              component: ListPost,
+              meta: {
+                title: 'FaqList',
+                description: '',
+                postType: 'post_faq',
+              },
+            },
+            {
+              path: 'new',
+              name: 'FaqNew',
+              component: NewPost,
+              meta: {
+                title: 'FaqNew',
+                description: 'Add new',
+                postType: 'post_faq',
+              },
+            },
+            {
+              path: ':id',
+              name: 'FaqDetail',
+              component: EditPost,
+              meta: {
+                title: 'FaqDetail',
+                description: '',
+                postType: 'post_faq',
+              },
+            },
+          ],
         },
-        {
-          path: 'faqs/new',
-          name: 'faqNew',
-          component: NewPost,
-          meta: {
-            title: 'FaqNew',
-            description: 'Add new',
-          },
-        },
-        {
-          path: 'faqs/:id',
-          name: 'faqDetail',
-          component: EditPost,
-          meta: {
-            title: 'FaqDetail',
-            description: '',
-          },
-        },
+        //==================================================================
         {
           path: 'users',
           name: 'userList',
@@ -146,70 +161,101 @@ export default new Router({
           },
         },
 
+        //=================================== InThePress ==============================//
         {
-          path: 'in-the-press/new',
-          name: 'inThePressNew',
-          component: InThePressNew,
-          meta: {
-            title: 'InThePressNew',
-            description: '',
+          path: 'presses',
+          component: PostContainer,
+          props: {
+            postType: 'post_presses',
+            redirectToNew: 'InThePressNew',
+            redirectToDetail: 'InThePressDetail',
+            redirectToList: 'InThePressList',
           },
-        },
-        {
-          path: 'in-the-press',
-          name: 'inThePressList',
-          component: InThePressList,
           meta: {
-            title: 'InThePressList',
-            description: '',
+            postType: 'post_presses',
           },
+          children: [
+            {
+              path: '',
+              name: 'InThePressList',
+              component: ListPost,
+              meta: {
+                title: 'InThePressList',
+                description: 'InThePressList',
+                postType: 'post_presses',
+              },
+            },
+            {
+              path: 'new',
+              name: 'InThePressNew',
+              component: NewPost,
+              meta: {
+                title: 'InThePressNew',
+                description: 'InThePressNew',
+                postType: 'post_presses',
+              },
+            },
+            {
+              path: ':id',
+              name: 'InThePressDetail',
+              component: EditPost,
+              meta: {
+                title: 'InThePressDetail',
+                description: 'InThePressDetail',
+                postType: 'post_presses',
+              },
+            },
+          ],
         },
-        {
-          path: 'in-the-press/trash',
-          name: 'inThePressTrashList',
-          component: InThePressTrashList,
-          meta: {
-            title: 'InThePressTrashList',
-            description: '',
-          },
-        },
-        {
-          path: 'in-the-press/:id',
-          name: 'inThePressDetail',
-          component: InThePressDetail,
-          meta: {
-            title: 'InThePressDetail',
-            description: '',
-          },
-        },
+        //=================================== InThePress ==============================//
 
+        //=================================== Blogs ==============================//
         {
           path: 'blogs',
-          name: 'blogList',
-          component: BlogList,
-          meta: {
-            title: 'BlogList',
-            description: '',
+          component: PostContainer,
+          props: {
+            postType: 'post_blogs',
+            redirectToNew: 'BlogNew',
+            redirectToDetail: 'BlogDetail',
+            redirectToList: 'BlogList',
           },
-        },
-        {
-          path: 'blogs/new',
-          name: 'blogNew',
-          component: BlogNew,
           meta: {
-            title: 'BlogNew',
-            description: '',
+            postType: 'post_blogs',
           },
+          children: [
+            {
+              path: '',
+              name: 'BlogList',
+              component: ListPost,
+              meta: {
+                title: 'BlogList',
+                description: 'BlogList',
+                postType: 'post_blogs',
+              },
+            },
+            {
+              path: 'new',
+              name: 'BlogNew',
+              component: NewPost,
+              meta: {
+                title: 'BlogNew',
+                description: 'BlogNew',
+                postType: 'post_blogs',
+              },
+            },
+            {
+              path: ':id',
+              name: 'BlogDetail',
+              component: EditPost,
+              meta: {
+                title: 'BlogDetail',
+                description: 'BlogDetail',
+                postType: 'post_blogs',
+              },
+            },
+          ],
         },
-        {
-          path: 'blogs/:id',
-          name: 'blogDetail',
-          component: BlogDetail,
-          meta: {
-            title: 'BlogDetail',
-            description: '',
-          },
-        },
+        //=================================== Blogs ==============================//
 
         {
           path: 'clients',
@@ -239,96 +285,149 @@ export default new Router({
           },
         },
 
-        {
-          path: 'guides/new',
-          name: 'guideNew',
-          component: GuideNew,
-          meta: {
-            title: 'GuideNew',
-            description: '',
-          },
-        },
+        //=================================== Guides ==============================//
         {
           path: 'guides',
-          name: 'guideList',
-          component: GuideList,
-          meta: {
-            title: 'GuideList',
-            description: '',
+          component: PostContainer,
+          props: {
+            postType: 'post_guides',
+            redirectToNew: 'GuideNew',
+            redirectToDetail: 'GuideDetail',
+            redirectToList: 'GuideList',
           },
-        },
-        {
-          path: 'guides/:id',
-          name: 'guideDetail',
-          component: GuideDetail,
           meta: {
-            title: 'GuideDetail',
-            description: '',
+            postType: 'post_guides',
           },
+          children: [
+            {
+              path: '',
+              name: 'GuideList',
+              component: ListPost,
+              meta: {
+                title: 'GuideList',
+                description: 'GuideList',
+                postType: 'post_guides',
+              },
+            },
+            {
+              path: 'new',
+              name: 'GuideNew',
+              component: NewPost,
+              meta: {
+                title: 'GuideNew',
+                description: 'GuideNew',
+                postType: 'post_guides',
+              },
+            },
+            {
+              path: ':id',
+              name: 'GuideDetail',
+              component: EditPost,
+              meta: {
+                title: 'GuideDetail',
+                description: 'GuideDetail',
+                postType: 'post_guides',
+              },
+            },
+          ],
         },
+        //=================================== Guides ==============================//
 
-        {
-          path: 'events/new',
-          name: 'eventNew',
-          component: EventNew,
-          meta: {
-            title: 'EventNew',
-            description: '',
-          },
-        },
+        //=================================== Events ==============================//
         {
           path: 'events',
-          name: 'eventList',
-          component: EventList,
-          meta: {
-            title: 'EventList',
-            description: '',
-          },
-        },
-        {
-          path: 'events/:id',
-          name: 'eventDetail',
-          component: EventDetail,
-          meta: {
-            title: 'EventDetail',
-            description: '',
-          },
-        },
-
-        {
-          path: 'practices/new',
-          name: 'practiceNew',
-          component: NewPost,
-          meta: {
-            title: 'PracticeNew',
-            description: '',
-            listRouteName: 'practiceList',
-          },
-        },
-        {
-          path: 'practices',
-          name: 'practiceList',
-          component: ListPost,
+          component: PostContainer,
           props: {
-            newRouteName: 'practiceNew',
-            detailRouteName: 'practiceDetail',
+            postType: 'post_events',
+            redirectToNew: 'EventNew',
+            redirectToDetail: 'EventDetail',
+            redirectToList: 'EventList',
           },
           meta: {
-            postType: 'post_practice',
-            title: 'PracticeList',
-            description: '',
+            postType: 'post_events',
           },
+          children: [
+            {
+              path: '',
+              name: 'EventList',
+              component: ListPost,
+              meta: {
+                title: 'EventList',
+                description: 'EventList',
+                postType: 'post_events',
+              },
+            },
+            {
+              path: 'new',
+              name: 'EventNew',
+              component: NewPost,
+              meta: {
+                title: 'EventNew',
+                description: 'EventNew',
+                postType: 'post_events',
+              },
+            },
+            {
+              path: ':id',
+              name: 'EventDetail',
+              component: EditPost,
+              meta: {
+                title: 'EventDetail',
+                description: 'EventDetail',
+                postType: 'post_events',
+              },
+            },
+          ],
         },
+        //=================================== Events ==============================//
+
+        //=================================== Pratices ==============================//
         {
-          path: 'practices/:id',
-          name: 'practiceDetail',
-          component: EditPost,
-          meta: {
-            title: 'PracticeDetail',
-            description: '',
-            listRouteName: 'practiceList',
+          path: 'pratices',
+          component: PostContainer,
+          props: {
+            postType: 'post_pratices',
+            redirectToNew: 'PraticeNew',
+            redirectToDetail: 'PraticeDetail',
+            redirectToList: 'PraticeList',
           },
+          meta: {
+            postType: 'post_pratices',
+          },
+          children: [
+            {
+              path: '',
+              name: 'PraticeList',
+              component: ListPost,
+              meta: {
+                title: 'PraticeList',
+                description: 'PraticeList',
+                postType: 'post_pratices',
+              },
+            },
+            {
+              path: 'new',
+              name: 'PraticeNew',
+              component: NewPost,
+              meta: {
+                title: 'PraticeNew',
+                description: 'PraticeNew',
+                postType: 'post_pratices',
+              },
+            },
+            {
+              path: ':id',
+              name: 'PraticeDetail',
+              component: EditPost,
+              meta: {
+                title: 'PraticeDetail',
+                description: 'PraticeDetail',
+                postType: 'post_pratices',
+              },
+            },
+          ],
         },
+        //=================================== Pratices ==============================//
 
         {
           path: 'categories',
