@@ -4,8 +4,9 @@
       <div class="row">
         <div class="col-xs-12">
           <a-tabs defaultActiveKey="1" tabPosition="left" :animated="false">
+
+            <!-- General Information -->
             <a-tab-pane tab="General Information" key="1">
-              <!-- General Information -->
               <div class="box box-primary">
                 <div class="box-header with-border">
                   <h3 class="box-title">General Informaion</h3>
@@ -111,23 +112,30 @@
             <!-- Introduction -->
             <a-tab-pane tab="Introduction" key="2">
               <div class="tab-form">
-                <introduction-box v-model="meta.introduction['content']"></introduction-box>
+                <introduction-box v-model="meta.introduction.content"></introduction-box>
 
-                <image-box v-model="meta.introduction['image']"
+                <image-box v-model="meta.introduction.image"
                            :title="'Introduction Image'"></image-box>
               </div>
             </a-tab-pane>
 
-            <a-tab-pane tab="SEO" key="3">
+            <!-- Banner -->
+            <a-tab-pane tab="Banner" key="3">
+              <div class="tab-form">
+                <banner-box v-model="meta.banner.content"></banner-box>
+
+                <image-box v-model="meta.banner.image"
+                           :title="'Banner Image'"></image-box>
+              </div>
+            </a-tab-pane>
+
+            <!-- SEO -->
+            <a-tab-pane tab="SEO" key="4">
               <div class="tab-form">
                 <SeoBox v-model="meta.seo"></SeoBox>
               </div>
             </a-tab-pane>
           </a-tabs>
-
-
-          <!-- Seo Section -->
-
         </div>
       </div>
 
@@ -153,18 +161,17 @@
   import SeoBox from '../components/SeoBox'
   import IntroductionBox from '../components/IntroductionBoxForm'
   import ImageBox from '../components/PostMetaImageForm'
+  import BannerBox from '../components/BannerBox'
 
   export default {
     name: 'Setting',
-    components: { IntroductionBox, SeoBox, ImageBox },
+    components: { IntroductionBox, SeoBox, ImageBox, BannerBox },
     data () {
       return {
         meta: {
           seo: [],
-          introduction: [
-            'content',
-            'image',
-          ],
+          introduction: { content: [], image: '' },
+          banner: { content: [], image: '' },
         },
       }
     },
@@ -203,8 +210,11 @@
       }
 
       if (this.settings.introduction) {
-        this.meta.introduction['content'] = JSON.parse(this.settings.introduction['content'])
-        this.meta.introduction['image'] = this.settings.introduction['image']
+        this.meta.introduction = JSON.parse(this.settings.introduction)
+      }
+
+      if (this.settings.banner) {
+        this.meta.banner = JSON.parse(this.settings.banner)
       }
     },
     methods: {
@@ -212,8 +222,10 @@
         this.settings.seo = JSON.stringify(this.meta.seo)
 
         // update introduction information
-        this.settings.introduction['content'] = JSON.stringify(this.meta.introduction['content'])
-        this.settings.introduction['image'] = this.meta.introduction['image']
+        this.settings.introduction = JSON.stringify(this.meta.introduction)
+
+        // update banner information
+        this.settings.banner = JSON.stringify(this.meta.banner)
 
         this.$validator.validateAll().then((result) => {
           if (result) {

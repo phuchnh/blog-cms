@@ -178,6 +178,9 @@ return [
 
         // SEO tool package
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+
+        // View Composer
+        App\Providers\ViewServiceProvider::class
     ],
 
     /*
