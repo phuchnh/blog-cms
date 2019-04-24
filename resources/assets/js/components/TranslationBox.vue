@@ -29,6 +29,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import Editor from '@/components/Editor.vue'
   import * as _ from 'lodash'
 
@@ -77,6 +78,7 @@
 
       onTabsChange (key) {
         this.activeTab = key
+        Vue.$emit('localeActiveTab', this.activeTab)
       },
     },
   }

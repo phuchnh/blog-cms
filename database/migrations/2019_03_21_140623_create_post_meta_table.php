@@ -19,6 +19,7 @@ class CreatePostMetaTable extends Migration
             $table->string('meta_key');
             $table->longText('meta_value');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->unique(['post_id', 'meta_key']);
         });
     }
 
@@ -31,6 +32,7 @@ class CreatePostMetaTable extends Migration
     {
         Schema::table('post_meta', function (Blueprint $table) {
             $table->dropForeign(['post_id']);
+            $table->dropUnique(['post_id', 'meta_key']);
         });
         Schema::dropIfExists('post_metas');
     }
