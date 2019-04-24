@@ -1,17 +1,14 @@
 <template>
-  <div class="box" v-if="clients">
+  <div class="box box-widget" v-if="clients">
+    <div class="box-header">
+      <router-link :to="{name: 'clientNew'}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New
+      </router-link>
+    </div>
     <div class="box-body">
-      <div class="row">
-        <div class="col-sm-12" style="margin-top: 20px">
-          <div class="col-sm-5" style="padding: 0; float: left">
-            <SearchForm @fetchList="reset" @search="search"></SearchForm>
-          </div>
-          <div class="col-sm-2 col-sm-offset-5 margin-bottom" style="padding-right: 0; display: block; overflow: auto">
-            <button @click="routeToNew" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New</button>
-          </div>
-        </div>
-      </div>
+      <SearchBox :columns="columns" @change="handleSearch"/>
+    </div>
 
+    <div class="box-body">
       <el-table
           :data="clients"
           border
@@ -26,10 +23,9 @@
             sortable="custom">
         </el-table-column>
         <el-table-column
-            prop="thumbnail"
             label="Thumbnail">
           <template slot-scope="scope">
-            <img :src="scope.row.thumbnail" height="50" width="auto">
+            <img :src="scope.row.meta.thumbnail" height="50" width="auto">
           </template>
         </el-table-column>
         <el-table-column
@@ -45,68 +41,40 @@
           </template>
         </el-table-column>
       </el-table>
+    </div>
 
-      <div class="pagination-container">
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :current-page="params.page"
-            :page-size="pagination.pageSize"
-            :total="pagination.total"
-            @current-change="paginate">
-        </el-pagination>
-      </div>
+    <div class="box-footer text-center">
+      <el-pagination
+          background
+          layout="prev, pager, next"
+          :current-page="queryParams.page"
+          :page-size="pagination.pageSize"
+          :total="pagination.total"
+          @current-change="paginate">
+      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import SearchForm from '../components/SearchForm'
+  import SearchBox from '../components/SearchBox'
 
   export default {
     name: 'ClientList',
-    components: { SearchForm },
+    components: { SearchBox },
     computed: {
       ...mapGetters('client', {
         clients: 'clients',
         pagination: 'pagination',
+        queryParams: 'getQueryParams',
       }),
     },
     data () {
       return {
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
-        params: {
-          page: 1,
-          perPage: 10,
-          sort: 'updated_at',
-          direction: 'desc',
-        },
-        columns: [
-          {
-            title: 'Id',
-            key: 'id',
-            dataIndex: 'id',
-            sorter: true,
-          },
-          {
-            title: 'Thumbnail',
-            key: 'thumbnail',
-            dataIndex: 'thumbnail',
-          },
-          {
-            title: 'Name',
-            key: 'name',
-            dataIndex: 'name',
-            sorter: true,
-          },
-          {
-            title: 'Action',
-            dataIndex: 'action',
-            scopedSlots: { customRender: 'action' },
-          },
-        ],
+        columns: ['Name']
       }
     },
     mounted () {
@@ -115,18 +83,20 @@
     methods: {
       fetchClientList (options) {
         this.loading = true
-        this.params = _.assign(this.params, options)
-        this.$store.dispatch('client/getClientList', this.params).then(() => this.loading = false)
+        this.$store.dispatch('client/getList', options).then(() => this.loading = false)
       },
       sortTable ({ prop, order }) {
-        this.params.sort = prop
-        this.params.direction = this.sort[order]
-        this.fetchClientList()
+        this.fetchClientList({
+          ...this.queryParams,
+          sort: prop,
+          direction: this.sort[order],
+        })
       },
       paginate (currentPage) {
-        this.params.page = currentPage
-        this.params.perPage = this.pagination.pageSize
-        this.fetchClientList()
+        this.fetchClientList({
+          ...this.queryParams,
+          page: currentPage,
+        })
       },
       onDelete (key) {
         this.$confirm('Are you sure you want to delete this item?', {
@@ -134,12 +104,15 @@
           cancelButtonText: 'Cancel',
           type: 'warning',
         }).then(() => {
-          this.$store.dispatch('client/deleteClient', key).then(() => {
+          this.$store.dispatch('client/delete', key).then(() => {
             this.$message({
               type: 'success',
               message: 'Delete completed',
             })
-            this.fetchClientList()
+            this.fetchClientList({
+              ...this.queryParams,
+              page: 1,
+            })
           })
         })
       },
@@ -149,21 +122,9 @@
       routeToNew () {
         this.$router.push({ name: 'clientNew' })
       },
-      search (searchKey) {
-        const params = {
-          name: searchKey,
-        }
-        this.fetchClientList(params)
-      },
-      reset () {
-        const initialParams = {
-          page: 1,
-          perPage: 10,
-          sort: 'updated_at',
-          direction: 'desc',
-        }
-        this.params = { ...initialParams }
-        this.fetchClientList()
+      handleSearch (value) {
+        const queryParams = _.merge(this.queryParams, value)
+        this.fetchClientList(queryParams)
       },
     },
   }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Meta extends Model
 {
     use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -26,17 +27,30 @@ class Meta extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'meta_key'   => 'string',
+        'meta_value' => 'array',
+    ];
+
+    /**
      * The attributes to validation
      *
      * @var array
      */
     public static $rules = [
-        '*.meta_key'   => 'required|string',
-        '*.meta_value' => 'string|nullable',
+        'metas'              => 'required|array',
+        'metas.*.meta_key'   => 'required|string',
+        'metas.*.meta_value' => 'present',
     ];
 
     /**
      * Get all of the owning meta models.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function metable()
     {

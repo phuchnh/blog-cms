@@ -18,7 +18,7 @@
     },
     beforeRouteLeave (from, to, next) {
       if (_.isEmpty(this.$refs.clientForm.client)) {
-        this.$store.dispatch('client/savedClient', true)
+        this.$store.dispatch('client/saved', true)
       }
       if (!this.saved) {
         this.$confirm('Are you sure you want to leave without saving?', {

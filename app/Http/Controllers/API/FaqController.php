@@ -17,6 +17,8 @@ class FaqController extends ApiBaseController
      */
     public function index(Request $request, Faq $faq)
     {
+        $faq = $faq->search($request);
+
         if ($locale = $request->get('locale', config('app.locale'))) {
             $faq = $faq->ofLocale($locale);
         }
@@ -33,7 +35,7 @@ class FaqController extends ApiBaseController
             $items = $faq->paginate($paginator);
         }
 
-        return $this->ok($items);
+        return $this->ok($items, FaqTransformer::class);
     }
 
     /**
@@ -62,6 +64,9 @@ class FaqController extends ApiBaseController
 
         if ($translations = $request->get('translations')) {
             foreach ($translations as $translation) {
+                if (! $translation['title']) {
+                    continue;
+                }
                 $faq->translateOrNew($translation['locale'])->fill($translation);
             }
         }
@@ -84,6 +89,9 @@ class FaqController extends ApiBaseController
 
         if ($translations = $request->get('translations')) {
             foreach ($translations as $translation) {
+                if (! $translation['title']) {
+                    continue;
+                }
                 $faq->translateOrNew($translation['locale'])->fill($translation);
             }
         }

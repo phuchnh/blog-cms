@@ -1,15 +1,15 @@
 <template>
-  <div class="box box-success">
+  <div class="box">
     <div class="box-header">
       <div class="box-header with-border">
-        <h3 for="other_post" class="box-title">Other Post</h3>
+        <h3 class="box-title">Custom Related Post</h3>
       </div>
     </div>
 
     <div class="box-body">
       <div class="col-sm-12">
         <el-select
-            v-model="value"
+            v-model="post"
             multiple
             filterable
             remote
@@ -22,9 +22,9 @@
             :loading="fetching">
           <el-option
               v-for="item in data"
-              :key="item.value"
-              :label="item.text"
-              :value="item.value">
+              :key="item.value.id"
+              :label="item.value.title"
+              :value="item.value | stringify">
           </el-option>
         </el-select>
       </div>
@@ -38,42 +38,48 @@
 
   export default {
     name: 'PostOtherForm',
-    props: ['metaData', 'type'],
+    props: {
+      value: {
+        type: String | Object | Array,
+      },
+      type: {
+        type: String,
+      },
+    },
     data () {
       this.lastFetchId = 0
       this.fetchPost = _.debounce(this.fetchPost, 500)
 
       return {
-        item: this.metaData.meta ? this.metaData.meta : {},
-
         /**
          *  set default value for select mutiple
          */
         data: [],
-        value: [],
+        post: this.value ? _.map(this.value, (item) => {
+          return JSON.stringify(item)
+        }) : [],
         fetching: false,
+        relatedPost: []
       }
+    },
+    created () {
+      this.fetchPost()
     },
     watch: {
       /**
        * update value to parent
        * @param val
        */
-      item (val) {
-        this.metaData.meta = val
-
-        this.$emit('metaData', this.metaData)
+      relatedPost: {
+        deep: true,
+        handler (val) {
+          this.$emit('input', val)
+        },
       },
-      /**
-       * set props data
-       * @param val
-       */
-      metaData (val) {
-        this.item = val.meta ? val.meta : {}
-
-        this.value = val.meta.others && typeof val.meta.others === 'string'
-          ? _.toArray(JSON.parse(val.meta.others))
-          : []
+    },
+    filters: {
+      stringify: function (value) {
+        return JSON.stringify(value)
       },
     },
     methods: {
@@ -91,8 +97,6 @@
         // set default params for api
         const params = {
           title: value,
-          page: 1,
-          perPage: 10,
           type: this.type,
         }
 
@@ -108,9 +112,12 @@
 
           // set data for select list
           const data = getData.map(val => ({
-            text: `${ val.title }`,
-            value: val.id.toString(),
-            key: val.id,
+            value: {
+              id: val.id,
+              title: val.title,
+              url: `${window.location.origin}/${val.slug}`,
+              thumbnail: val.meta.thumbnail || null
+            },
           }))
 
           this.data = data
@@ -122,11 +129,13 @@
        * @param value
        */
       handleChange (value) {
-        this.item.others = JSON.stringify({ ...value })
+        this.relatedPost = _.map(value, (item) => {
+          return JSON.parse(item)
+        })
 
         // map to value
         Object.assign(this, {
-          value,
+          post: [...value],
           data: [],
           fetching: false,
         })

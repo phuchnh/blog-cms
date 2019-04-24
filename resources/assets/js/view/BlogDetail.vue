@@ -1,35 +1,33 @@
 <template>
   <div class="formSection">
-    <PostForm :type="type" :formAction="formAction" @routeToList="routeToList"></PostForm>
+    <PostForm :type="type"
+              :formAction="formAction"
+              @routeToList="routeToList"></PostForm>
   </div>
 </template>
 
 <script>
   import PostForm from '../components/PostForm'
   import { mapGetters } from 'vuex'
+  import store from '@/store'
 
   export default {
     name: 'BlogDetail',
     components: { PostForm },
     computed: {
-      ...mapGetters({
-        saved: 'post/saved',
+      ...mapGetters('post', {
+        faq: 'getItem',
       }),
     },
-    beforeRouteLeave (from, to, next) {
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('post/resetState')
-          next()
-        })
-      } else {
-        this.$store.dispatch('post/resetState')
-        next()
-      }
+    beforeRouteEnter (to, from, next) {
+      store.dispatch('post/fetchItem', { id: to.params.id, params: { with: 'translations' } }).then(() => next())
+    },
+    beforeRouteUpdate (to, from, next) {
+      store.dispatch('post/fetchItem', to.params.id).then(() => next())
+    },
+    beforeRouteLeave (to, from, next) {
+      store.dispatch('post/reset')
+      next()
     },
     data () {
       return {

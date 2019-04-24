@@ -63,6 +63,7 @@ class PressController extends Controller
             'navigate'    => 'press',
             'subnavigate' => 'press',
             'slug'        => 'press',
+            'meta'        => $this->getMetaPost($data),
         ]);
     }
 

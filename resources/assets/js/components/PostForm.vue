@@ -1,275 +1,223 @@
 <template>
-  <div class="boxSection">
-    <form class="form-horizontal">
-      <div class="row">
-        <div class="col-xs-12 col-md-8">
-          <!-- General Information -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">General Informaion</h3>
-            </div>
-            <div class="box-body">
-
-              <div class="form-group" :class="{ 'has-error': errors.first('title') }">
-                <label for="title" class="col-sm-2 control-label">Title <span class="required">*</span></label>
-                <div class="col-sm-10">
-                  <input v-validate="'required'" class="form-control" id="title" name="title" v-model="post.title"/>
-                  <div class="help-block" v-if="errors.first('title')">
-                    <span>{{ errors.first('title') }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group" v-if="formAction === 'edit'">
-                <label for="slug" class="col-sm-2 control-label">Slug</label>
-                <div class="col-sm-10">
-                  <input class="form-control" id="slug" name="slug" v-model="post.slug"/>
-                </div>
-              </div>
-
-              <template v-if="type === 'event'">
-                <!-- Add Date Picker -->
-                <post-date-form :metaData.sync="post" :formAction.sync="formAction"></post-date-form>
-                <!-- Add Location -->
-                <post-location-form :metaData.sync="post"></post-location-form>
-              </template>
-
-              <ValidationProvider ref="thumbnail" name="thumbnail" rules="required" v-slot="{ validate, errors }">
-                <div class="form-group" :class="{ 'has-error': errors[0] }">
-                  <label for="thumbnail" class="col-sm-2 control-label">Thumbnail <span
-                      class="required">*</span></label>
-                  <div class="col-sm-10">
-                    <p class="btn btn-default btn-sm btn-file">
-                      <i class="fa fa-upload"></i> Upload
-                      <input type="file" class="form-control"
-                             id="thumbnail"
-                             name="thumbnail"
-                             accept="image/*"
-                             @change="onFileChange($event) || validate($event)"/>
-                    </p>
-                    <div class="help-block" v-if="errors">
-                      <span>{{ errors[0] }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group" v-if="imgUrl || post.thumbnail">
-                  <div class="col-sm-offset-2 col-sm-9">
-                    <img class="img img-thumbnail" width="200"
-                         v-bind:src="imgUrl ? imgUrl : post.thumbnail">
-                  </div>
-                </div>
-              </ValidationProvider>
-
-              <div class="form-group" :class="{ 'has-error': errors.first('description') }">
-                <label for="description" class="col-sm-2 control-label">Description <span
-                    class="required">*</span></label>
-                <div class="col-sm-10">
-              <textarea v-validate="'required'" class="form-control" name="description" id="description"
-                        v-model="post.description" rows="3"></textarea>
-                  <div class="help-block" v-if="errors.first('description')">
-                    <span>{{ errors.first('description') }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <ValidationProvider name="editor" rules="required" ref="editor" v-slot="{ validate, errors }">
-                <div class="form-group" :class="{ 'has-error': errors[0] }">
-                  <label class="col-sm-2 control-label">Content <span class="required">*</span></label>
-                  <div class="col-sm-10">
-                    <Editor name="content" v-model="post.content"/>
-                    <div class="help-block" v-if="errors">
-                      <span>{{ errors[0] }}</span>
-                    </div>
-                  </div>
-                </div>
-              </ValidationProvider>
-
-              <div class="form-group" :class="{ 'has-error': errors.first('publish') }">
-                <label for="publish" class="col-sm-2 control-label">Publish <span class="required">*</span></label>
-                <div class="col-sm-5">
-                  <select v-validate="'required'" class="form-control" id="publish" name="publish"
-                          v-model="post.publish">
-                    <option v-for="status in postStatus" :value="status.value">{{status.name}}</option>
-                  </select>
-                  <div class="help-block" v-if="errors.first('publish')">
-                    <span>{{ errors.first('publish') }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xs-12 col-md-4">
-          <post-other-from :metaData.sync="post" :type="this.type"></post-other-from>
-
-          <div class="box box-default">
-            <div class="box-header with-border">
-              <div class="box-title">Feature on position</div>
-            </div>
-            <div class="box-body">
-              <post-display :metaData.sync="post" :metaType="'home'" :title="'Show On Homepage'"></post-display>
-              <post-display :metaData.sync="post" :metaType="'feature'" :title="'Show On Feature'"></post-display>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12 col-md-8">
-          <!-- Seo Information -->
-          <post-meta-form :metaData.sync="post"></post-meta-form>
-
-          <!-- Tag Information -->
-          <tag-form :tagData.sync="post"></tag-form>
-        </div>
-      </div>
-
-      <!-- section button -->
-      <div class="button-section-fixed">
-        <div class="form-group text-center">
-          <div class="col-sm-12">
-            <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">
-              <i class="fa fa-times"></i> Cancel
-            </button>
-            <button @click="submit" type="button" class="btn btn-success">
-              <i class="fa fa-save"></i> {{ formAction === 'create' ? 'Create' : 'Update'}}
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
+  <div class="row" v-loading="loading">
+    <div class="col-xs-12 col-md-8">
+      <TranslationBox v-model="translations"></TranslationBox>
+      <SeoBox v-model="metas.seo"></SeoBox>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'" ></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.banner" :title="'banner'" ></PostMetaImageForm>
+      <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
+      <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
+      <PostEventForm v-if="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
+    </div>
+    <PostActionBox @click="handleAction"></PostActionBox>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import Editor from '@/components/Editor.vue'
-
-  // Custom validate
-  import { ValidationProvider } from 'vee-validate'
-
-  // load Meta Component
-  import PostMetaForm from './PostMetaForm'
-  import PostDateForm from './PostDateForm'
-  import PostLocationForm from './PostLocationForm'
-
-  import TagForm from './TagForm.vue'
-
-  import PostOtherFrom from './PostOtherForm'
-  import PostDisplay from './PostDisplay'
+  import { mapActions, mapGetters } from 'vuex'
+  import TranslationBox from '@/components/TranslationBox.vue'
+  import CategoryBox from '@/components/CategoryBox.vue'
+  import TagBox from '@/components/TagBox.vue'
+  import PostActionBox from '@/components/PostActionBox.vue'
+  import SeoBox from '@/components/SeoBox.vue'
+  import PostEventForm from '@/components/PostEventForm.vue'
+  import * as _ from 'lodash'
+  import PostMetaImageForm from './PostMetaImageForm'
 
   export default {
     name: 'PostForm',
     components: {
-      TagForm,
-      Editor,
-      PostLocationForm,
-      PostDateForm,
-      PostMetaForm,
-      PostOtherFrom,
-      PostDisplay,
-      ValidationProvider,
+      PostMetaImageForm,
+      TranslationBox,
+      CategoryBox,
+      TagBox,
+      PostActionBox,
+      SeoBox,
+      PostEventForm,
+    },
+    props: {
+      formAction: {
+        type: String,
+        default: 'new',
+      },
+      formValue: {
+        type: Object,
+        default () {
+          return {}
+        },
+      },
     },
     data () {
       return {
-        postStatus: [
-          { name: 'Publish', value: 1 },
-          { name: 'Draft', value: 0 },
-        ],
-        imgUrl: null,
+        post: {
+          publish: 0,
+        },
+        translations: [],
+        metas: {
+          seo: [],
+          event: {},
+        },
+        groups: [],
+        tags: [],
       }
-    },
-    created () {
-      this.post.content = this.post.content ? this.post.content : ''
-      this.post.meta = this.post.meta ? this.post.meta : {}
-      this.post.tag = this.post.tag ? this.post.tag : []
-      this.post.publish = this.post.publish || 1
     },
     computed: {
-      ...mapGetters({
-        post: 'post/post',
-        saved: 'post/saved',
+      ...mapGetters('faq', ['getLoading', 'getPostType']),
+      ...mapGetters('route', {
+        redirectToList: 'redirectToList',
       }),
+
+      loading () {
+        return this.getLoading
+      },
+
+      isCreate () {
+        return this.formAction === 'new'
+      },
     },
-    props: {
-      type: String,
-      formAction: String,
-    },
-    mounted () {
-      if (this.formAction === 'edit') {
-        this.$store.dispatch('post/getPost', this.$route.params.id)
-        this.$store.dispatch('post/savedPost', true)
+
+    created () {
+
+      if (Object.keys(this.formValue).length > 0) {
+        this.post = { ...this.formValue || {} }
+        this.metas = { ...this.formValue.metas || {} }
+        this.translations = [...this.formValue.translations]
+        this.groups = [...this.getTaxonomyByType('groups')]
+        this.tags = [...this.getTaxonomyByType('tags')]
       }
+
     },
-    watch: {
-      post: {
-        deep: true,
-        handler (val, oldVal) {
-          if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('post/savedPost', false)
-          }
-        },
-      },
-      metaData (val) {
-        console.log(val)
-      },
-    },
+
     methods: {
-      submit () {
-        this.post.type = this.type
-        this.$refs.editor.validate()
-        if (!this.post.thumbnail) {
-          this.$refs.thumbnail.validate()
-        }
-        this.$refs.thumbnail.flags.valid = true
-        this.$validator.validateAll().then((result) => {
-          if (result && this.$refs.editor.flags.valid && this.$refs.thumbnail.flags.valid) {
-            if (this.formAction === 'edit') {
-              this.$store.dispatch('post/updatePost', this.post).then(() => {
-                this.$store.dispatch('post/savedPost', true)
-                console.log(this.saved)
-                this.$message.success('Update successfully')
-                this.$emit('routeToList')
-              }).catch((error) => {
-                console.log(error)
-                this.$message.error('Error')
-              })
-            } else if (this.formAction === 'create') {
-              this.$store.dispatch('post/createPost', this.post).then(() => {
-                this.$store.dispatch('post/savedPost', true)
-                this.$message.success('Create successfully')
-                this.$emit('routeToList')
-              }).catch((error) => {
-                console.log(error)
-                this.$message.error('Error')
-              })
-            }
-          } else {
-            this.$message.error('Invalid Form !')
+      ...mapActions('faq', ['createItem', 'updateItem']),
+      ...mapActions('postMeta', ['updateOrCreateMeta']),
+      ...mapActions('taxonomies', ['updatePostTaxonomy']),
+
+      getTaxonomyByType (type) {
+        const { taxonomies } = this.formValue
+        return _.reduce(taxonomies, (result, value) => {
+          if (value.type === type) {
+            result.push(value.id)
           }
+          return result
+        }, [])
+      },
+
+      handleAction (action) {
+        if (action === 'cancel') {
+          this.backToList()
+        }
+
+        if (action === 'save') {
+          this.submit()
+        }
+
+        if (action === 'publish') {
+          this.post.publish = 1
+          this.submit()
+        }
+      },
+
+      submit () {
+
+        this.post.type = 'post_faq'
+        this.post.translations = [...this.translations]
+
+        // Cretae
+        if (this.isCreate) {
+          this.createItem(this.post)
+              .then((resp) => {
+                return Promise.all([
+                  this.handleSaveToxonomy(resp),
+                  this.handleSaveMeta(resp),
+                ])
+              })
+              .then(() => this.backToList())
+        }
+
+        // Edit
+        if (!this.isCreate) {
+          this.updateItem(this.post)
+              .then((resp) => {
+                return Promise.all([
+                  this.handleSaveToxonomy(resp),
+                  this.handleSaveMeta(resp),
+                ])
+              })
+              .then(() => this.backToList())
+        }
+      },
+
+      handleSaveMeta (resp) {
+        let metas = []
+        if (this.metas.seo.length > 0) {
+          metas.push({
+            meta_key: 'seo',
+            meta_value: this.metas.seo,
+          })
+        }
+
+        if (Object.keys(this.metas.event).length > 0) {
+          metas.push({
+            meta_key: 'event',
+            meta_value: this.metas.event,
+          })
+        }
+
+        if (Object.keys(this.metas.thumbnail).length > 0) {
+          metas.push({
+            meta_key: 'thumbnail',
+            meta_value: this.metas.thumbnail,
+          })
+        }
+
+        if (Object.keys(this.metas.banner).length > 0) {
+          metas.push({
+            meta_key: 'banner',
+            meta_value: this.metas.banner,
+          })
+        }
+
+        if (metas.length === 0) {
+          return resp
+        }
+
+        return this.updateOrCreateMeta({
+          postId: resp.id,
+          metas: metas,
         })
       },
-      onFileChange (event) {
-        const file = event.target.files[0]
-        const temp = {
-          name: file.name,
+
+      handleSaveToxonomy (resp) {
+        let taxonomies = []
+
+        if (this.groups.length > 0) {
+          // Merge groups to taxonomies
+          taxonomies = [...taxonomies, ...this.groups]
         }
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onloadend = () => {
-          this.imgUrl = reader.result
-          temp.body = reader.result.split(',')[1]
+
+        if (this.tags.length > 0) {
+          // Merge tags to taxonomies
+          taxonomies = [...taxonomies, ...this.tags]
         }
-        this.post.thumbnail = temp
+
+        if (taxonomies.length === 0) {
+          return resp
+        }
+
+        return this.updatePostTaxonomy({ 'postId': resp.id, 'taxonomies': taxonomies })
       },
+
+      backToList () {
+        this.$router.push({ name: this.redirectToList })
+      },
+
     },
   }
 </script>
 
 <style scoped>
-  .help-block {
-    color: red;
-  }
+
 </style>

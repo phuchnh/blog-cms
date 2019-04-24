@@ -24,6 +24,7 @@ class Taxonomy extends Model
      *
      * @var array
      */
+
     public $translatedAttributes = ['title', 'slug', 'description'];
 
     /**
@@ -53,7 +54,6 @@ class Taxonomy extends Model
     protected $hidden = [
         'left',
         'right',
-        'parent_id',
     ];
 
     /**
@@ -66,6 +66,26 @@ class Taxonomy extends Model
         return $this->belongsToMany(Post::class)
                     ->using(PostTaxonomy::class)
                     ->withPivot(['order']);
+    }
+
+    /**
+     * Get posts belongs to taxonomies
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translations()
+    {
+        return $this->hasMany('App\Models\TaxonomyTranslation');
+    }
+
+    /**
+     * Get post meta belongs to this post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function metas()
+    {
+        return $this->morphMany(Meta::class, 'metable');
     }
 
     public function getLftName()

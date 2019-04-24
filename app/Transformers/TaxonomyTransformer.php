@@ -31,7 +31,16 @@ class TaxonomyTransformer extends Transformer
      */
     public function transform(Taxonomy $taxonomy)
     {
-        Taxonomy::disableAutoloadTranslations();
-        return $taxonomy->toArray();
+        $translation = $taxonomy->translations()->where('locale', config('app.locale'))->first();
+
+        return [
+            'id'          => $taxonomy->id,
+            'parent_id'   => $taxonomy->parent_id,
+            'type'        => $taxonomy->type,
+            'locale'      => $translation->locale,
+            'title'       => $translation->title,
+            'slug'        => $translation->slug,
+            'description' => $translation->description,
+        ];
     }
 }

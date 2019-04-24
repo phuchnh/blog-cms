@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreatePostMetaRequest;
-use App\Http\Requests\API\UpdatePostMetaRequest;
+use App\Http\Requests\API\CreateMetaRequest;
+use App\Http\Requests\API\UpdateMetaRequest;
+use App\Models\Meta;
 use App\Models\PostMeta;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Arr;
 
 class PostMetaController extends ApiBaseController
 {
@@ -19,23 +21,28 @@ class PostMetaController extends ApiBaseController
      */
     public function index(Request $request, Post $post)
     {
-        $data = $post->meta;
+        $metas = $post->metas
+            ->map(function ($value) {
+                return [$value->meta_key => $value->meta_value];
+            })
+            ->collapse()
+            ->toArray();
 
-        return $this->ok($post->meta);
+        return $this->ok(['metas' => $metas]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\API\CreatePostMetaRequest $request
+     * @param \App\Http\Requests\API\CreateMetaRequest $request
      * @param \App\Models\Post $post
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreatePostMetaRequest $request, Post $post)
+    public function store(CreateMetaRequest $request, Post $post)
     {
-        $postMeta = $post->meta()->createMany($request->validated());
+        $metas = $this->updateOrCreateMeta($post, $request->validated());
 
-        return $this->created($postMeta);
+        return $this->created($metas);
     }
 
     /**
@@ -43,49 +50,26 @@ class PostMetaController extends ApiBaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param string $postMeta
+     * @param \App\Models\Meta $metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Post $post, $postMeta)
+    public function show(Request $request, Post $post, Meta $metum)
     {
-        $postMeta = $post->meta()->findOrFail($postMeta);
-
-        return $this->ok($postMeta);
+        return $this->ok($metum);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\API\UpdatePostMetaRequest $request
+     * @param \App\Http\Requests\API\UpdateMetaRequest $request
      * @param \App\Models\Post $post
-     * @param string $postMeta
+     * @param \App\Models\Meta $metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatePostMetaRequest $request, Post $post, $postMeta)
+    public function update(UpdateMetaRequest $request, Post $post, Meta $metum)
     {
-        $postMeta = $post->postMeta()->findOrFail($postMeta);
-        $postMeta->fill($request->validated());
-        $postMeta->save();
-
-        return $this->noContent();
-    }
-
-    /**
-     * update Many Meta Data
-     *
-     * @param \App\Http\Requests\API\UpdatePostMetaRequest $request
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateMany(UpdatePostMetaRequest $request, Post $post)
-    {
-        $inputArray = $request->validated();
-
-        $metaTemp = $post->meta();
-
-        $metaTemp->delete();
-
-        $metaTemp->saveMany($this->createInstancePostMeta($inputArray));
+        $metum->fill($request->all());
+        $post->metas()->save($metum);
 
         return $this->noContent();
     }
@@ -95,32 +79,32 @@ class PostMetaController extends ApiBaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
-     * @param string $postMeta
+     * @param \App\Models\Meta $metum
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Request $request, Post $post, $postMeta)
+    public function destroy(Request $request, Post $post, Meta $metum)
     {
-        $postMeta = $post->postMeta()->findOrFail($postMeta);
-        $postMeta->delete();
+        $metum->delete();
 
         return $this->noContent();
     }
 
     /**
-     * create Instance PostMeta
+     * Update or create meta values
      *
-     * @param $inputArray
+     * @param \App\Models\Post $post
+     * @param array $metas
      * @return array
      */
-    private function createInstancePostMeta($inputArray)
+    private function updateOrCreateMeta(Post $post, array $metas)
     {
-        foreach ($inputArray as $input) {
-            if ($input['meta_value']) {
-                $instance[] = new PostMeta($input);
-            }
+        $models = [];
+        $metas = Arr::get($metas, 'metas');
+        foreach ($metas as $meta) {
+            $models[] = $post->metas()->updateOrCreate(['meta_key' => $meta['meta_key']], $meta);
         }
 
-        return $instance;
+        return $models;
     }
 }

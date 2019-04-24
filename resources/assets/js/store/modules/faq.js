@@ -1,135 +1,168 @@
-import { FaqService } from '@/api'
+import { PostService } from '@/api'
 import * as _ from 'lodash'
 
-const state = () => {
-  return {
-    list: [],
-    item: {},
-    paginator: {},
-    errors: [],
-  }
-}
-const getters = {
-  /**
-   *
-   * @param state
-   * @returns {*}
-   */
-  getAll: state => {
-    return state.list
-  },
-
-  getItem: state => {
-    return state.item
-  },
-
-  getTranslations: (state, getters) => {
-
-    const defaultTranslations = _.map(['vi', 'en'], (value) => {
-      return { locale: value, title: '', slug: '', description: '', content: '' }
-    })
-
-    if (Object.keys(getters.getItem).length === 0) {
-      return defaultTranslations
+export default {
+  namespaced: true,
+  state: () => {
+    return {
+      postType: 'post',
+      lists: [],
+      total: 0,
+      queryParams: {
+        sort: 'updated_at',
+        direction: 'desc',
+        page: 1,
+        perPage: 10,
+        only: ['id', 'slug', 'title', 'description'].join(','),
+      },
+      loading: false,
+      item: {
+        translations: [],
+        taxonomies: [],
+        metas: {
+          seo: [],
+        },
+      },
     }
-
-    let translations = [...getters.getItem.translations]
-
-    if (translations.length === 1) {
-      translations = _.assign([], defaultTranslations, translations)
-    }
-
-    // Default locale is vi to top
-    return translations.sort((a, b) => (a.id - b.id));
   },
 
-  getPaginator: state => {
-    return state.paginator
+  getters: {
+    getItem: (state) => {
+      return state.item
+    },
+
+    getLists: (state) => {
+      return state.lists
+    },
+
+    getTotal: (state) => {
+      return state.total
+    },
+
+    getQueryParams: (state) => {
+      return state.queryParams
+    },
+
+    getLoading: (state) => {
+      return state.loading
+    },
+
+    getPostType: (state) => {
+      return state.postType
+    },
+  },
+
+  mutations: {
+    startLoading (state) {
+      state.loading = true
+    },
+
+    endLoading (state) {
+      state.loading = false
+    },
+
+    setItem (state, item) {
+      state.item = { ...item }
+    },
+
+    setList (state, { lists, total, queryParams = {} }) {
+      state.lists = [...lists]
+      state.total = total
+      state.queryParams = { ...queryParams }
+    },
+
+    deleteItemInList (state, { lists, total }) {
+      state.lists = [...lists]
+      state.total = total
+    },
+
+    setPostType: (state, postType) => {
+      state.postType = postType
+    },
+  },
+
+  actions: {
+
+    setPostType: ({ state, commit }, postType) => {
+      commit('setPostType', postType)
+    },
+
+    fetchList ({ state, commit }, params = {}) {
+      commit('startLoading')
+
+      if (_.keys(params).length === 0) {
+        params = { ...state.queryParams }
+      }
+
+      params = {
+        ...params,
+        with: 'taxonomies',
+      }
+
+      return PostService
+        .getPosts(state.postType, params)
+        .then(resp => {
+          const { params } = resp.config
+          const { data, pagination } = resp.data
+
+          commit('setList', {
+            lists: data,
+            total: pagination.total,
+            queryParams: params,
+          })
+
+          commit('endLoading')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    fetchItem ({ commit }, id) {
+      commit('startLoading')
+      return PostService
+        .getPost(id, { with: 'translations,taxonomies' })
+        .then(resp => {
+          const { data } = resp.data
+          commit('setItem', data)
+          commit('endLoading')
+        })
+    },
+
+    createItem ({ state, commit }, payload) {
+      commit('startLoading')
+      return PostService
+        .createPost({
+          ...payload,
+          type: state.postType,
+        })
+        .then(resp => {
+          commit('endLoading')
+          const { data } = resp.data
+          return data
+        })
+    },
+
+    updateItem ({ state, commit }, payload) {
+      commit('startLoading')
+      return PostService
+        .updatePost(payload.id, {
+          ...payload,
+          type: state.postType,
+        })
+        .then(() => {
+          commit('endLoading')
+          return payload
+        })
+    },
+
+    deleteItem ({ state, commit, dispatch }, id) {
+      commit('startLoading')
+      return PostService
+        .deletePost(id)
+        .then(resp => {
+          commit('endLoading')
+          return resp
+        })
+    },
   },
 }
-
-const actions = {
-  /**
-   *
-   * @param commit
-   * @param payload
-   * @returns {Promise<void>}
-   */
-  async fetchList ({ commit }, payload) {
-    const resp = await FaqService.getAll(payload)
-    const { data } = resp.data
-    const { pagination } = resp.data
-    commit('SET_LIST', data)
-    commit('SET_PAGINATOR', pagination)
-    return resp
-  },
-  /**
-   *
-   * @param commit
-   * @param id
-   * @param payload
-   * @returns {Promise<void>}
-   */
-  async fetchItem ({ commit }, { id, params }) {
-    const resp = await FaqService.getById(id, params)
-    const { data } = resp.data
-    commit('SET_ITEM', data)
-    return resp
-  },
-
-  /**
-   *
-   * @param commit
-   * @param payload
-   * @returns {Promise<void>}
-   */
-  async create ({ commit }, payload) {
-    const resp = await FaqService.create(payload)
-    const { data } = resp.data
-    commit('SET_ITEM', data)
-    return resp
-  },
-
-  /**
-   *
-   * @param commit
-   * @param id
-   * @param payload
-   * @returns {Promise<void>}
-   */
-  async update ({ commit }, payload) {
-    const resp = await FaqService.update(payload.id, payload)
-    commit('SET_ITEM', payload)
-    return resp
-  },
-
-  /**
-   *
-   * @param commit
-   * @param id
-   * @param payload
-   * @returns {Promise<void>}
-   */
-  async delete ({ commit }, id, payload) {
-    const resp = await FaqService.delete(id, payload)
-    const { data } = resp.data
-    commit('SET_ITEM', data)
-    return resp
-  },
-}
-const mutations = {
-  SET_LIST: (state, data) => {
-    state.list = [...data]
-  },
-  SET_PAGINATOR: (state, paginator) => {
-    state.paginator = { ...paginator }
-  },
-  SET_ITEM: (state, item) => {
-    state.item = { ...item }
-  },
-  RESET_ITEM: (state) => {
-    state.item = {}
-  },
-}
-
-export default { namespaced: true, state, getters, mutations, actions }

@@ -7,6 +7,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import ClientForm from '../components/ClientForm'
+  import store from '@/store'
 
   export default {
     name: 'ClientDetail',
@@ -15,6 +16,12 @@
       ...mapGetters({
         saved: 'client/saved',
       }),
+    },
+    beforeRouteEnter (to, from, next) {
+      Promise.all([
+        store.dispatch('client/getItem', to.params.id),
+        store.dispatch('client/saved', true)
+      ]).then(() => next())
     },
     beforeRouteLeave (from, to, next) {
       if (!this.saved) {
@@ -38,7 +45,6 @@
     },
     methods: {
       routeToList () {
-        console.log(this.saved)
         this.$router.push({ name: 'clientList' })
       },
     },

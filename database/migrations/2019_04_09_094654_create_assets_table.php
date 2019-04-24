@@ -15,10 +15,13 @@ class CreateAssetsTable extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('path');
-            $table->string('file_name');
-            $table->string('mime_type')->nullable();
+            $table->string('path')->index();
+            $table->string('uri')->index();
+            $table->string('name')->index();
+            $table->string('mime')->index()->nullable();
             $table->unsignedInteger('size');
+            $table->string('created_by');
+            $table->string('updated_by');
             $table->timestamps();
             $table->softDeletes();
         });

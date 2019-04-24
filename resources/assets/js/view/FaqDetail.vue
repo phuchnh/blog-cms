@@ -1,27 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-xs-12 col-md-8">
-      <div class="box box-widget">
-        <!-- /.box-box-body -->
-        <div class="box-body">
-          <FaqForm formAction="edit" :formData="faq"></FaqForm>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-md-4">
-      <div class="box box-widget">
-        <!-- /.box-box-body -->
-        <div class="box-body">
-          <!--<FaqForm></FaqForm>-->
-        </div>
-      </div>
-      <div class="box box-widget">
-        <!-- /.box-box-body -->
-        <div class="box-body">
-          <!--<FaqForm></FaqForm>-->
-        </div>
-      </div>
-    </div>
+  <div :v-loading="loading">
+    <FaqForm formAction="edit" :formValue="formValue"></FaqForm>
   </div>
 </template>
 
@@ -36,15 +15,23 @@
       FaqForm,
     },
     computed: {
-      ...mapGetters('faq', {
-        faq: 'getItem',
-      }),
+      ...mapGetters('faq', ['getLoading', 'getItem']),
+      ...mapGetters('postMeta', ['getPostMeta']),
+      loading () {
+        return this.getLoading
+      },
+      formValue () {
+        return {
+          ...this.getItem,
+          metas: this.getPostMeta,
+        }
+      },
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchItem', { id: to.params.id, params: { with: 'translations' } }).then(() => next())
-    },
-    beforeRouteUpdate (to, from, next) {
-      store.dispatch('faq/fetchItem', to.params.id).then(() => next())
+      Promise.all([
+        store.dispatch('faq/fetchItem', to.params.id),
+        store.dispatch('postMeta/fetchPostMeta', to.params.id),
+      ]).then(() => next())
     },
   }
 </script>

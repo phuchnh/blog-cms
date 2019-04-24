@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Transformers\AssetTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class AssetController extends ApiBaseController
 {
@@ -15,6 +16,17 @@ class AssetController extends ApiBaseController
     {
         $userId = optional(auth('api')->user())->id ?: 'default';
         $this->path = join('/', ['uploads', $userId, now()->timestamp]);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        $assets = Asset::whereCreatedBy((auth('api')->user())->id)->get();
+
+        return $this->ok($assets, AssetTransformer::class);
     }
 
     /**
@@ -34,10 +46,16 @@ class AssetController extends ApiBaseController
             foreach ($files as $file) {
                 if ($file instanceof UploadedFile) {
 
+                    /**
+                     * @var $asset \App\Models\Asset
+                     */
                     $asset = $this->fillAssetModel($file);
 
                     if ($path = $this->getPathUpload($file)) {
+
                         $asset->path = $path;
+                        $asset->uri = url(Storage::url($asset->path));
+
                         $asset->save();
                         $models->push($asset);
                     }
@@ -68,8 +86,8 @@ class AssetController extends ApiBaseController
     private function fillAssetModel(UploadedFile $file)
     {
         $asset = new Asset();
-        $asset->file_name = $file->getClientOriginalName();
-        $asset->mime_type = $file->getClientMimeType();
+        $asset->name = $file->getClientOriginalName();
+        $asset->mime = $file->getClientMimeType();
         $asset->size = $file->getSize();
 
         return $asset;

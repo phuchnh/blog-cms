@@ -21,20 +21,25 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::put('posts/{post}/restore', 'PostController@restore');
     Route::delete('posts/{post}/permanent', 'PostController@deletePermanently');
     Route::apiResource('taxonomies', 'TaxonomyController');
+    Route::match(['put', 'patch'], 'post/taxonomies/{post}', 'TaxonomyController@updateTaxonomies');
     Route::apiResource('faqs', 'FaqController');
-    Route::apiResource('users', 'UserController', ['except' => ['store']]);
+    Route::apiResource('users', 'UserController');
     Route::apiResource('clients', 'ClientController');
     Route::apiResource('options', 'OptionController');
-    Route::prefix('{model}/{modelId}')->group(function () {
-        Route::apiResource('meta', 'MetaController');
-        Route::match(['put', 'patch'], 'meta', 'MetaController@updateMany');
-    });
 
-    Route::match(['put', 'patch'], '/meta/{post}/post_meta', 'PostMetaController@updateMany');
-
-    Route::apiResource('posts.post_meta', 'PostMetaController')->parameters([
-        'meta' => 'post_meta'
+    Route::apiResource('posts.metas', 'PostMetaController')->parameters([
+        'metas' => 'metum',
     ]);
-    
-    Route::post('assets','AssetController@upload');
+    Route::apiResource('taxonomies.metas', 'TaxonomyMetaController')->parameters([
+        'metas' => 'metum',
+    ]);
+    Route::apiResource('clients.metas', 'ClientMetaController')->parameters([
+        'metas' => 'metum',
+    ]);
+    Route::apiResource('users.metas', 'UserMetaController')->parameters([
+        'metas' => 'metum',
+    ]);
+
+    Route::match(['put', 'post'], 'assets', 'AssetController@upload');
+    Route::get('assets', 'AssetController@index');
 });

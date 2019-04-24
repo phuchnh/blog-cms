@@ -58,6 +58,7 @@ class BlogController extends Controller
             'navigate'    => 'resources',
             'subnavigate' => 'blogs',
             'slug'        => 'blog',
+            'meta'        => $this->getMetaPost($data),
         ]);
     }
 
