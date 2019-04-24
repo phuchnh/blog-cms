@@ -97,7 +97,9 @@
       },
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('faq/fetchList').then(() => next())
+      return store.dispatch('faq/setPostType', 'post_faq')
+                  .then(() => store.dispatch('faq/fetchList'))
+                  .then(() => next())
     },
     methods: {
       ...mapActions('faq', ['fetchList', 'deleteItem']),

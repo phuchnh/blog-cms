@@ -7,6 +7,7 @@ use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Kyslik\ColumnSortable\Sortable;
 
 class Post extends Model
@@ -128,8 +129,18 @@ class Post extends Model
      * @var array
      */
     public static $rules = [
-        'type'    => 'required|string',
-        'publish' => 'nullable|boolean',
+        'type' => 'required|string',
+    ];
+
+    /**
+     * The attributes can search
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'title',
+        'slug',
+        'description',
     ];
 
     /**
@@ -150,6 +161,50 @@ class Post extends Model
     public function metas()
     {
         return $this->morphMany(Meta::class, 'metable');
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $request)
+    {
+        if ($request->hasAny($this->searchable)) {
+            $keys = array_keys($request->all());
+
+            $values = array_reduce($keys, function ($result, $key) use ($request) {
+                if (in_array($key, $this->searchable)) {
+                    $result[$key] = $request->get($key);
+                }
+
+                return $result;
+            }, []);
+
+            $mode = $request->get('mode') ?: 'contain';
+
+            foreach ($values as $key => $value) {
+                $search = '%'.$value.'%';
+                $operator = 'LIKE';
+
+                if (Str::snake($mode) === 'starts_with') {
+                    $search = $value.'%';
+                }
+
+                if (Str::snake($mode) === 'ends_with') {
+                    $search = '%'.$value;
+                }
+
+                if (Str::snake($mode) === 'exactly') {
+                    $operator = '=';
+                    $search = $value;
+                }
+
+                $query = $query->where($key, $operator, "{$search}");
+            }
+        }
+
+        return $query;
     }
 
     /**
