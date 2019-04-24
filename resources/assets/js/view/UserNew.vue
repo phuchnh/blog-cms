@@ -1,51 +1,47 @@
 <template>
   <div class="box">
-    <ClientForm :formAction="formAction" @routeToList="routeToList"></ClientForm>
+    <UserForm ref="userForm" :formAction="formAction" @routeToList="routeToList"></UserForm>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import ClientForm from '../components/ClientForm'
-  import store from '@/store'
+  import UserForm from '../components/UserForm'
 
   export default {
-    name: 'ClientDetail',
-    components: { ClientForm },
+    name: 'UserNew',
+    components: { UserForm },
     computed: {
       ...mapGetters({
-        saved: 'client/saved',
+        saved: 'user/saved',
       }),
     },
-    beforeRouteEnter (to, from, next) {
-      Promise.all([
-        store.dispatch('client/getItem', to.params.id),
-        store.dispatch('client/saved', true)
-      ]).then(() => next())
-    },
     beforeRouteLeave (from, to, next) {
+      if (_.isEmpty(this.$refs.userForm.user)) {
+        this.$store.dispatch('user/saved', true)
+      }
       if (!this.saved) {
         this.$confirm('Are you sure you want to leave without saving?', {
           confirmButtonText: 'Yes',
           cancelButtonText: 'No',
           type: 'danger',
         }).then(() => {
-          this.$store.dispatch('client/resetState')
+          this.$store.dispatch('user/resetState')
           next()
         }).catch(() => {})
       } else {
-        this.$store.dispatch('client/resetState')
+        this.$store.dispatch('user/resetState')
         next()
       }
     },
     data () {
       return {
-        formAction: 'edit',
+        formAction: 'create',
       }
     },
     methods: {
       routeToList () {
-        this.$router.push({ name: 'clientList' })
+        this.$router.push({ name: 'userList' })
       },
     },
   }

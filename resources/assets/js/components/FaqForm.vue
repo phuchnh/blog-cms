@@ -7,6 +7,7 @@
     <div class="col-xs-12 col-md-4">
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
+      <PostEventForm v-model="metas.event"></PostEventForm>
     </div>
     <PostActionBox @click="handleAction"></PostActionBox>
   </div>
@@ -19,6 +20,7 @@
   import TagBox from '@/components/TagBox.vue'
   import PostActionBox from '@/components/PostActionBox.vue'
   import SeoBox from '@/components/SeoBox.vue'
+  import PostEventForm from '@/components/PostEventForm.vue'
   import * as _ from 'lodash'
 
   export default {
@@ -29,6 +31,7 @@
       TagBox,
       PostActionBox,
       SeoBox,
+      PostEventForm,
     },
     props: {
       formAction: {
@@ -50,6 +53,7 @@
         translations: [],
         metas: {
           seo: [],
+          event: {},
         },
         groups: [],
         tags: [],
@@ -145,6 +149,13 @@
           metas.push({
             meta_key: 'seo',
             meta_value: this.metas.seo,
+          })
+        }
+
+        if (Object.keys(this.metas.event).length > 0) {
+          metas.push({
+            meta_key: 'event',
+            meta_value: this.metas.event,
           })
         }
 

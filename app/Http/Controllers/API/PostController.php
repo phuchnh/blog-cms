@@ -21,6 +21,8 @@ class PostController extends ApiBaseController
      */
     public function index(Request $request, Post $posts)
     {
+        $posts = $posts->search($request);
+
         if ($locale = $request->get('locale', config('app.locale'))) {
             $posts = $posts->ofLocale($locale);
         }
@@ -32,13 +34,9 @@ class PostController extends ApiBaseController
         }
 
         $result = $posts
-            ->when($request->input('type'), function ($query) use ($request) {
+            ->when($request->get('type'), function ($query) use ($request) {
                 /**@var \Illuminate\Database\Eloquent\Builder $query */
-                return $query->where('type', $request->input('type'));
-            })
-            ->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                return $query->where('type', $request->get('type'));
             })
             ->get();
 
@@ -46,7 +44,7 @@ class PostController extends ApiBaseController
             $result = $posts->paginate($paginator);
         }
 
-        return $this->ok($result);
+        return $this->ok($result, PostTransformer::class);
     }
 
     /**
@@ -64,19 +62,17 @@ class PostController extends ApiBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\API\CreatePostRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreatePostRequest $request)
+    public function store(Request $request)
     {
         $post = new Post();
-
-        $post->fill($request->all());
+        $post->type = $request->get('type') ?? 'post';
+        $post->publish = $request->get('publish') ?? 0;
 
         if ($translations = $request->get('translations')) {
-            foreach ($translations as $translation) {
-                $post->translateOrNew($translation['locale'])->fill($translation);
-            }
+            $post = $this->updateOrCreateTranslation($post, $translations);
         }
 
         $post->save();
@@ -104,9 +100,7 @@ class PostController extends ApiBaseController
         $post->fill($request->all());
 
         if ($translations = $request->get('translations')) {
-            foreach ($translations as $translation) {
-                $post->translateOrNew($translation['locale'])->fill($translation);
-            }
+            $post = $this->updateOrCreateTranslation($post, $translations);
         }
 
         $post->save();
@@ -230,5 +224,22 @@ class PostController extends ApiBaseController
         Post::withTrashed()->findOrFail($id)->restore();
 
         return $this->noContent();
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @param array $translations
+     * @return \App\Models\Post
+     */
+    public function updateOrCreateTranslation(Post $post, array $translations)
+    {
+        foreach ($translations as $translation) {
+            if (! $translation['title']) {
+                continue;
+            }
+            $post->translateOrNew($translation['locale'])->fill($translation);
+        }
+
+        return $post;
     }
 }

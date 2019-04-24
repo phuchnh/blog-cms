@@ -1,14 +1,13 @@
 <template>
-  <div class="box" v-if="users">
+  <div class="box box-widget" v-if="users">
+    <div class="box-header">
+      <router-link :to="{name: 'userNew'}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New
+      </router-link>
+    </div>
     <div class="box-body">
-      <div class="row">
-        <div class="col-sm-12" style="margin-top: 20px">
-          <div class="col-sm-6" style="padding: 0; float: left">
-            <SearchForm @fetchList="reset" @search="search"></SearchForm>
-          </div>
-        </div>
-      </div>
-
+      <SearchBox :columns="columns" @change="handleSearch"/>
+    </div>
+    <div class="box-body">
       <el-table
           :data="users"
           border
@@ -28,7 +27,7 @@
             sortable="custom">
         </el-table-column>
         <el-table-column
-            label="Role"
+            label="Type"
             prop="type"
             sortable="custom">
           <template slot-scope="scope">
@@ -44,11 +43,11 @@
         </el-table-column>
       </el-table>
 
-      <div class="pagination-container">
+      <div class="box-footer text-center">
         <el-pagination
             background
             layout="prev, pager, next"
-            :current-page="params.page"
+            :current-page="queryParams.page"
             :page-size="pagination.pageSize"
             :total="pagination.total"
             @current-change="paginate">
@@ -60,27 +59,23 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import SearchForm from '../components/SearchForm'
+  import SearchBox from '../components/SearchBox'
 
   export default {
     name: 'UserList',
-    components: { SearchForm },
+    components: { SearchBox },
     computed: {
       ...mapGetters('user', {
         users: 'users',
         pagination: 'pagination',
+        queryParams: 'getQueryParams',
       }),
     },
     data () {
       return {
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
-        params: {
-          page: 1,
-          perPage: 10,
-          sort: 'updated_at',
-          direction: 'desc',
-        },
+        columns: ['Name', 'Type']
       }
     },
     mounted () {
@@ -89,18 +84,20 @@
     methods: {
       fetchUserList (options) {
         this.loading = true
-        this.params = _.assign(this.params, options)
-        this.$store.dispatch('user/getUserList', this.params).then(() => this.loading = false)
+        this.$store.dispatch('user/getList', options).then(() => this.loading = false)
       },
       sortTable ({ prop, order }) {
-        this.params.sort = prop
-        this.params.direction = this.sort[order]
-        this.fetchUserList()
+        this.fetchUserList({
+          ...this.queryParams,
+          sort: prop,
+          direction: this.sort[order],
+        })
       },
       paginate (currentPage) {
-        this.params.page = currentPage
-        this.params.perPage = this.pagination.pageSize
-        this.fetchUserList()
+        this.fetchUserList({
+          ...this.queryParams,
+          page: currentPage,
+        })
       },
       routeToDetail (id) {
         this.$router.push({ name: 'userDetail', params: { id: id } })
@@ -111,30 +108,21 @@
           cancelButtonText: 'Cancel',
           type: 'warning',
         }).then(() => {
-          this.$store.dispatch('user/deleteUser', key).then(() => {
+          this.$store.dispatch('user/delete', key).then(() => {
             this.$message({
               type: 'success',
               message: 'Delete completed',
             })
-            this.fetchUserList()
+            this.fetchUserList({
+              ...this.queryParams,
+              page: 1,
+            })
           })
         })
       },
-      search (searchKey) {
-        const params = {
-          name: searchKey,
-        }
-        this.fetchUserList(params)
-      },
-      reset () {
-        const initialParams = {
-          page: 1,
-          perPage: 10,
-          sort: 'updated_at',
-          direction: 'desc',
-        }
-        this.params = { ...initialParams }
-        this.fetchUserList()
+      handleSearch (value) {
+        const queryParams = _.merge(this.queryParams, value)
+        this.fetchUserList(queryParams)
       },
     },
   }

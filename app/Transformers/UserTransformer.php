@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Models\Client;
+use App\Models\User;
 use Flugg\Responder\Transformers\Transformer;
 
-class ClientTransformer extends Transformer
+class UserTransformer extends Transformer
 {
     /**
      * List of available relations.
@@ -24,27 +24,27 @@ class ClientTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param \App\Models\Client $client
+     * @param \App\Models\User $user
      * @return array
      */
-    public function transform(Client $client)
+    public function transform(User $user)
     {
         return array_merge(
-            $client->toArray(),
-            $this->transformMeta($client)
+            $user->toArray(),
+            $this->transformMeta($user)
         );
     }
 
     /**
      * Transform meta array to one
      *
-     * @param \App\Models\Client $client
+     * @param \App\Models\User $user
      * @return array
      */
-    private function transformMeta(Client $client)
+    private function transformMeta(User $user)
     {
         $meta = new MetaTransformer();
 
-        return ['meta' => $meta->transformArray($client->metas)];
+        return ['meta' => $meta->transformArray($user->metas)];
     }
 }

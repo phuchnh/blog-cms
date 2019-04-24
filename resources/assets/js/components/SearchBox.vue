@@ -2,7 +2,7 @@
   <div>
     <form role="search" @submit.prevent="handleSubmit">
       <div class="row">
-        <div class="form-inline col-xs-12 col-md-3">
+        <div class="form-inline col-xs-12 col-lg-3">
           <label for="column">Column</label>
           <select class="form-control" style="width: 100%" id="column" v-model="search.column">
             <option v-for="(column, index) in columns"
@@ -12,7 +12,7 @@
             </option>
           </select>
         </div>
-        <div class="form-inline col-xs-12 col-md-3">
+        <div class="form-inline col-xs-12 col-lg-3">
           <label for="search_mode">Mode</label>
           <select class="form-control" style="width: 100%" id="search_mode" v-model="search.mode">
             <option v-for="(mode, index) in modes"
@@ -22,11 +22,11 @@
             </option>
           </select>
         </div>
-        <div class="form-group col-xs-12 col-md-4">
+        <div class="form-group col-xs-12 col-lg-4">
           <label for="keyword">Keyword</label>
           <input type="text" class="form-control" name="keyword" id="keyword" v-model="search.keyword">
         </div>
-        <div class="col-xs-12 col-md-2" style="margin-top: 2.5rem">
+        <div class="col-xs-12 col-lg-2" style="margin-top: 2.5rem">
           <button type="submit" class="btn btn-primary">Search</button>
           <button type="reset" @click="handleReset" class="btn btn-default">Reset</button>
         </div>

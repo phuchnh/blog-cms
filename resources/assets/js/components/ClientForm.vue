@@ -30,10 +30,12 @@
                                accept="image/*"
                                @change="onFileChange($event)"/>
                     </span>
-          <div>
-            <img class="img img-thumbnail" width="200" v-if="imgUrl || client.thumbnail"
-                 v-bind:src="imgUrl ? imgUrl : client.thumbnail">
-          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-2">
+          <img class="img img-thumbnail" width="200" v-if="imgUrl || meta.thumbnail"
+               v-bind:src="imgUrl ? imgUrl : meta.thumbnail">
         </div>
       </div>
       <div class="form-group">
@@ -62,19 +64,15 @@
     props: {
       formAction: String,
     },
-    mounted () {
-      if (this.formAction === 'edit') {
-        this.$store.dispatch('client/getClient', this.$route.params.id)
-        this.$store.dispatch('client/savedClient', true)
-        console.log(this.saved)
-      }
+    created () {
+      this.meta = {...this.client.meta}
     },
     watch: {
       client: {
         deep: true,
         handler (val, oldVal) {
           if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('client/savedClient', false)
+            this.$store.dispatch('client/saved', false)
           }
         },
       },
@@ -82,16 +80,17 @@
     data () {
       return {
         imgUrl: null,
+        meta: {}
       }
     },
     methods: {
       submit () {
+        this.client.meta = {...this.meta}
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
-              this.$store.dispatch('client/updateClient', this.client).then(() => {
-                this.$store.dispatch('client/savedClient', true)
-                console.log(this.saved)
+              this.$store.dispatch('client/update', this.client).then(() => {
+                this.$store.dispatch('client/saved', true)
                 this.$message.success('Update successfully')
                 this.$emit('routeToList')
               }).catch((error) => {
@@ -99,9 +98,8 @@
                 this.$message.error('Error')
               })
             } else if (this.formAction === 'create') {
-              this.$store.dispatch('client/createClient', this.client).then(() => {
-                this.$store.dispatch('client/savedClient', true)
-                console.log(this.saved)
+              this.$store.dispatch('client/create', this.client).then(() => {
+                this.$store.dispatch('client/saved', true)
                 this.$message.success('Create successfully')
                 this.$emit('routeToList')
               }).catch((error) => {
@@ -126,7 +124,9 @@
           this.imgUrl = reader.result
           temp.body = reader.result.split(',')[1]
         }
-        this.client.thumbnail = temp
+        const fileInput = file
+        this.meta.thumbnail = new FormData()
+        this.meta.thumbnail.append('files[0]', fileInput)
       },
     },
   }

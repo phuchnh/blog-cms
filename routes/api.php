@@ -25,7 +25,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('taxonomies', 'TaxonomyController');
     Route::match(['put', 'patch'], 'post/taxonomies/{post}', 'TaxonomyController@updateTaxonomies');
     Route::apiResource('faqs', 'FaqController');
-    Route::apiResource('users', 'UserController', ['except' => ['store']]);
+    Route::apiResource('users', 'UserController');
     Route::apiResource('clients', 'ClientController');
     Route::apiResource('options', 'OptionController');
 
@@ -33,6 +33,12 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         'metas' => 'metum',
     ]);
     Route::apiResource('taxonomies.metas', 'TaxonomyMetaController')->parameters([
+        'metas' => 'metum',
+    ]);
+    Route::apiResource('clients.metas', 'ClientMetaController')->parameters([
+        'metas' => 'metum',
+    ]);
+    Route::apiResource('users.metas', 'UserMetaController')->parameters([
         'metas' => 'metum',
     ]);
 

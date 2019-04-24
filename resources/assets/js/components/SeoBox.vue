@@ -1,5 +1,8 @@
 <template>
   <div class="box box-widget">
+    <div class="box-header">
+      <h3 class="box-title">Search Engine Optimization</h3>
+    </div>
     <div class="box-body">
       <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabsChange">
         <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
@@ -18,6 +21,7 @@
           </div>
         </a-tab-pane>
       </a-tabs>
+    </div>
     </div>
   </div>
 </template>

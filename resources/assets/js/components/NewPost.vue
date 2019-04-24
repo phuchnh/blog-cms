@@ -1,16 +1,16 @@
 <template>
   <div>
-    <FaqForm formAction="new"></FaqForm>
+    <PostForm formAction="new"></PostForm>
   </div>
 </template>
 
 <script>
-  import FaqForm from '@/components/FaqForm'
+  import PostForm from '@/components/PostForm'
 
   export default {
-    name: 'FaqNew',
+    name: 'NewPost',
     components: {
-      FaqForm,
+      PostForm,
     },
   }
 </script>

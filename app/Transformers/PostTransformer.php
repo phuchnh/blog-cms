@@ -15,6 +15,7 @@ class PostTransformer extends Transformer
     protected $relations = [
         'translations' => PostTranslationTransformer::class,
         'taxonomies'   => TaxonomyTransformer::class,
+        'metas'        => MetaTransformer::class,
     ];
 
     /**
@@ -67,7 +68,7 @@ class PostTransformer extends Transformer
             $post->thumbnail = null;
         }
 
-        return ['thumbnail' => $post->thumbnail];
+        return $post->toArray();
     }
 
     /**

@@ -1,10 +1,11 @@
-import { FaqService } from '@/api'
+import { PostService } from '@/api'
 import * as _ from 'lodash'
 
 export default {
   namespaced: true,
   state: () => {
     return {
+      postType: 'post',
       lists: [],
       total: 0,
       queryParams: {
@@ -17,6 +18,10 @@ export default {
       loading: false,
       item: {
         translations: [],
+        taxonomies: [],
+        metas: {
+          seo: [],
+        },
       },
     }
   },
@@ -40,6 +45,10 @@ export default {
 
     getLoading: (state) => {
       return state.loading
+    },
+
+    getPostType: (state) => {
+      return state.postType
     },
   },
 
@@ -66,20 +75,32 @@ export default {
       state.lists = [...lists]
       state.total = total
     },
+
+    setPostType: (state, postType) => {
+      state.postType = postType
+    },
   },
 
   actions: {
+
+    setPostType: ({ state, commit }, postType) => {
+      commit('setPostType', postType)
+    },
+
     fetchList ({ state, commit }, params = {}) {
       commit('startLoading')
+
       if (_.keys(params).length === 0) {
         params = { ...state.queryParams }
       }
+
       params = {
         ...params,
         with: 'taxonomies',
       }
-      return FaqService
-        .getAll(params)
+
+      return PostService
+        .getPosts(state.postType, params)
         .then(resp => {
           const { params } = resp.config
           const { data, pagination } = resp.data
@@ -98,8 +119,8 @@ export default {
     },
     fetchItem ({ commit }, id) {
       commit('startLoading')
-      return FaqService
-        .getById(id, { with: 'translations,taxonomies' })
+      return PostService
+        .getPost(id, { with: 'translations,taxonomies' })
         .then(resp => {
           const { data } = resp.data
           commit('setItem', data)
@@ -107,10 +128,13 @@ export default {
         })
     },
 
-    createItem ({ commit }, payload) {
+    createItem ({ state, commit }, payload) {
       commit('startLoading')
-      return FaqService
-        .create(payload)
+      return PostService
+        .createPost({
+          ...payload,
+          type: state.postType,
+        })
         .then(resp => {
           commit('endLoading')
           const { data } = resp.data
@@ -118,10 +142,13 @@ export default {
         })
     },
 
-    updateItem ({ commit }, payload) {
+    updateItem ({ state, commit }, payload) {
       commit('startLoading')
-      return FaqService
-        .update(payload.id, payload)
+      return PostService
+        .updatePost(payload.id, {
+          ...payload,
+          type: state.postType,
+        })
         .then(() => {
           commit('endLoading')
           return payload
@@ -130,10 +157,12 @@ export default {
 
     deleteItem ({ state, commit, dispatch }, id) {
       commit('startLoading')
-      return FaqService.delete(id).then(resp => {
-        commit('endLoading')
-        return resp
-      })
+      return PostService
+        .deletePost(id)
+        .then(resp => {
+          commit('endLoading')
+          return resp
+        })
     },
   },
 }

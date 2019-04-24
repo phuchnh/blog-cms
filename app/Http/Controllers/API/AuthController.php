@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\User;
+use App\Transformers\UserTransformer;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends ApiBaseController
@@ -45,7 +47,8 @@ class AuthController extends ApiBaseController
      */
     public function user()
     {
-        return $this->ok($this->auth()->user());
+        $user = User::findOrFail($this->auth()->user()->id);
+        return $this->ok($user, UserTransformer::class);
     }
 
     /**

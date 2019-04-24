@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\API\CreateUserRequest;
 use App\Http\Requests\API\UpdateUserRequest;
 use App\Models\User;
+use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends ApiBaseController
 {
@@ -15,13 +18,11 @@ class UserController extends ApiBaseController
      */
     public function index(User $users, Request $request)
     {
+        $users = $users->search($request);
+
         $paginator = $request->get('perPage');
 
         $users = $users
-            ->when($request->input('name'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('name', 'LIKE', '%'.$request->input('name').'%');
-            })
             ->sortable([$request->get('sort') => $request->get('direction')])
             ->orderBy('id', 'desc')->paginate($paginator);
 
@@ -34,7 +35,21 @@ class UserController extends ApiBaseController
      */
     public function show(User $user)
     {
-        return $this->ok($user);
+        return $this->ok($user, UserTransformer::class);
+    }
+
+    /**
+     * @param \App\Http\Requests\API\CreateUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(CreateUserRequest $request)
+    {
+        $user = new User();
+        $user->fill($request->validated());
+        $user->password = Hash::make('onelifeconnection');
+        $user->save();
+
+        return $this->created($user);
     }
 
     /**
