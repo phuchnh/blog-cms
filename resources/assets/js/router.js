@@ -3,37 +3,16 @@ import Router from 'vue-router'
 import Admin from '@/view/Admin'
 import Dashboard from '@/view/Dashboard'
 import PageNotFound from '@/view/PageNotFound'
-import PostContainer from '@/view/PostContainer'
 import UserList from '@/view/UserList'
 import UserDetail from '@/view/UserDetail'
-import InThePressNew from '@/view/InThePressNew'
-import InThePressList from '@/view/InThePressList'
-import InThePressDetail from '@/view/InThePressDetail'
-import InThePressTrashList from '@/view/InThePressTrashList'
-import BlogList from '@/view/BlogList'
-import BlogNew from '@/view/BlogNew'
-import BlogDetail from '@/view/BlogDetail'
 import ClientList from '@/view/ClientList'
 import ClientDetail from '@/view/ClientDetail'
 import ClientNew from '@/view/ClientNew'
-import GuideList from '@/view/GuideList'
-import GuideDetail from '@/view/GuideDetail'
-import GuideNew from '@/view/GuideNew'
-import EventList from '@/view/EventList'
-import EventDetail from '@/view/EventDetail'
-import EventNew from '@/view/EventNew'
-import PracticeList from '@/view/PracticeList'
-import PracticeDetail from '@/view/PracticeDetail'
-import PracticeNew from '@/view/PracticeNew'
-import FaqDetail from '@/view/FaqDetail'
-import FaqNew from '@/view/FaqNew'
 import Setting from '@/view/Setting'
 import CategoryList from '@/view/CategoryList'
 import CategoryNew from '@/view/CategoryNew'
 import CategoryDetail from '@/view/CategoryDetail'
-import PostList from '@/view/PostList'
-import PostNew from '@/view/PostNew'
-import PostDetail from '@/view/PostDetail'
+import PostContainer from '@/view/PostContainer'
 import ListPost from './components/ListPost'
 import EditPost from './components/EditPost'
 import NewPost from './components/NewPost'
@@ -129,34 +108,6 @@ export default new Router({
           component: UserDetail,
           meta: {
             title: 'UserDetail',
-            description: '',
-          },
-        },
-
-        {
-          path: 'posts',
-          name: 'postList',
-          component: PostList,
-          meta: {
-            title: 'PostList',
-            description: '',
-          },
-        },
-        {
-          path: 'posts/new',
-          name: 'postNew',
-          component: PostNew,
-          meta: {
-            title: 'PostNew',
-            description: '',
-          },
-        },
-        {
-          path: 'posts/:id',
-          name: 'postDetail',
-          component: PostDetail,
-          meta: {
-            title: 'PostDetail',
             description: '',
           },
         },
