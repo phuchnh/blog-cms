@@ -34,13 +34,9 @@ class PostController extends ApiBaseController
         }
 
         $result = $posts
-            ->when($request->input('type'), function ($query) use ($request) {
+            ->when($request->get('type'), function ($query) use ($request) {
                 /**@var \Illuminate\Database\Eloquent\Builder $query */
-                return $query->where('type', $request->input('type'));
-            })
-            ->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                return $query->where('type', $request->get('type'));
             })
             ->get();
 

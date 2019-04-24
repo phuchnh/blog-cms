@@ -128,10 +128,13 @@ export default {
         })
     },
 
-    createItem ({ commit }, payload) {
+    createItem ({ state, commit }, payload) {
       commit('startLoading')
       return PostService
-        .createPost(payload)
+        .createPost({
+          ...payload,
+          type: state.postType,
+        })
         .then(resp => {
           commit('endLoading')
           const { data } = resp.data
@@ -139,10 +142,13 @@ export default {
         })
     },
 
-    updateItem ({ commit }, payload) {
+    updateItem ({ state, commit }, payload) {
       commit('startLoading')
       return PostService
-        .updatePost(payload.id, payload)
+        .updatePost(payload.id, {
+          ...payload,
+          type: state.postType,
+        })
         .then(() => {
           commit('endLoading')
           return payload

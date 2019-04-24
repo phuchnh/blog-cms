@@ -34,6 +34,9 @@ import CategoryDetail from '@/view/CategoryDetail'
 import PostList from '@/view/PostList'
 import PostNew from '@/view/PostNew'
 import PostDetail from '@/view/PostDetail'
+import ListPost from './components/ListPost'
+import EditPost from './components/EditPost'
+import NewPost from './components/NewPost'
 
 Vue.use(Router)
 
@@ -67,16 +70,21 @@ export default new Router({
         {
           path: 'faqs',
           name: 'faqList',
-          component: FaqList,
+          component: ListPost,
+          props: {
+            newRouteName: 'faqNew',
+            detailRouteName: 'faqDetail',
+          },
           meta: {
             title: 'FaqList',
             description: '',
+            postType: 'post_faq',
           },
         },
         {
           path: 'faqs/new',
           name: 'faqNew',
-          component: FaqNew,
+          component: NewPost,
           meta: {
             title: 'FaqNew',
             description: 'Add new',
@@ -85,7 +93,7 @@ export default new Router({
         {
           path: 'faqs/:id',
           name: 'faqDetail',
-          component: FaqDetail,
+          component: EditPost,
           meta: {
             title: 'FaqDetail',
             description: '',
@@ -290,17 +298,23 @@ export default new Router({
         {
           path: 'practices/new',
           name: 'practiceNew',
-          component: PracticeNew,
+          component: NewPost,
           meta: {
             title: 'PracticeNew',
             description: '',
+            listRouteName: 'practiceList',
           },
         },
         {
           path: 'practices',
           name: 'practiceList',
-          component: PracticeList,
+          component: ListPost,
+          props: {
+            newRouteName: 'practiceNew',
+            detailRouteName: 'practiceDetail',
+          },
           meta: {
+            postType: 'post_practice',
             title: 'PracticeList',
             description: '',
           },
@@ -308,10 +322,11 @@ export default new Router({
         {
           path: 'practices/:id',
           name: 'practiceDetail',
-          component: PracticeDetail,
+          component: EditPost,
           meta: {
             title: 'PracticeDetail',
             description: '',
+            listRouteName: 'practiceList',
           },
         },
 
