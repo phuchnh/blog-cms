@@ -21,14 +21,14 @@ class BlogController extends Controller
         $paginator = $request->get('perPage');
 
         // Load list posts
-        $posts = $posts
-            //->where('type', 'blog')
-            ->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-            })
-            ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc')->paginate($paginator);
+        $posts = $posts->ofLocale(app()->getLocale())
+                       ->where('type', 'post_blogs')
+                       ->when($request->input('title'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                       })
+                       ->sortable([$request->get('sort') => $request->get('direction')])
+                       ->orderBy('id', 'desc')->paginate($paginator);
 
         return view('page.blog.index-mix', [
             'data'        => $this->loadTransformData($posts),
@@ -49,6 +49,7 @@ class BlogController extends Controller
     public function show(Request $request, $slug)
     {
         $data = $this->getPostDetail($slug);
+
         // New Code
         //if ($data->translate()->where('slug', $slug)->first()->locale != app()->getLocale()) {
         //    return redirect()->route('blogitem', $data->translate()->slug);
@@ -77,7 +78,8 @@ class BlogController extends Controller
         if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
             return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {
-            $post = Post::whereTranslation('slug', $slug)->firstOrFail();
+            $post = Post::ofLocale(app()->getLocale())
+                        ->where('slug', $slug)->firstOrFail();
 
             $data = $this->loadTransformData($post);
 
@@ -100,7 +102,8 @@ class BlogController extends Controller
         } else {
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
-            $others = Post::where('slug', '!=', $post['slug'])
+            $others = Post::ofLocale(app()->getLocale())
+                          ->where('slug', '!=', $post['slug'])
                           ->when($isOtherBoolean, function ($query) use ($post) {
                               $relatePosts = json_decode($post['meta']['others']);
 

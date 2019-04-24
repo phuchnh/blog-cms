@@ -43,8 +43,8 @@
                                 </header>
 
                                 <div class="content">
-                                    @isset($setting['introduction']['content'][app()->getLocale()]->title)
-                                        {{$setting['introduction']['content'][app()->getLocale()]->title}}
+                                    @isset($setting['introduction']['content'][app()->getLocale()]->description)
+                                        {{$setting['introduction']['content'][app()->getLocale()]->description}}
                                     @endif
                                 </div>
                                 <a href="@isset($setting['introduction']['content'][app()->getLocale()]->link) $setting['introduction']['content'][app()->getLocale()]->link} @endisset" class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</a>

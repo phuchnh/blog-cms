@@ -219,6 +219,7 @@ class Post extends Model
                        post_translations.title,
                        post_translations.slug,
                        post_translations.description,
+                       post_translations.content,
                        posts.*
                 FROM posts, post_translations
                 WHERE posts.id = post_translations.post_id
