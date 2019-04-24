@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
     'X-Requested-With': 'XMLHttpRequest',
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-  }
+  },
 })
 
 let token = document.head.querySelector('meta[name="csrf-token"]')
@@ -24,6 +24,17 @@ axiosInstance.interceptors.request.use(
     // Do something before request is sent
     config.headers['Authorization'] = `Bearer ${ Cookie.findByName('token') }`
     return config
+  },
+)
+
+axiosInstance.interceptors.response.use(
+  resp => resp,
+  error => {
+    const { config, response: { status } } = error
+
+    if (status === 401) {
+      window.location.href = window.location.origin + '/login'
+    }
   },
 )
 

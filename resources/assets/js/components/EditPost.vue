@@ -1,18 +1,18 @@
 <template>
   <div :v-loading="loading">
-    <FaqForm formAction="edit" :formValue="formValue"></FaqForm>
+    <PostForm formAction="edit" :formValue="formValue"></PostForm>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import FaqForm from '@/components/FaqForm'
+  import PostForm from '@/components/PostForm'
   import store from '@/store'
 
   export default {
-    name: 'FaqDetail',
+    name: 'EditPost',
     components: {
-      FaqForm,
+      PostForm,
     },
     computed: {
       ...mapGetters('faq', ['getLoading', 'getItem']),
@@ -28,7 +28,7 @@
       },
     },
     beforeRouteEnter (to, from, next) {
-      Promise.all([
+      return Promise.all([
         store.dispatch('faq/fetchItem', to.params.id),
         store.dispatch('postMeta/fetchPostMeta', to.params.id),
       ]).then(() => next())
