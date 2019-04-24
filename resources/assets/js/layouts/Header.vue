@@ -46,10 +46,17 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <router-link :to="{name: 'userDetail', params: {id: currentUser.id}}" class="btn btn-default btn-flat">Profile</router-link>
+                  <router-link :to="{name: 'userDetail', params: {id: currentUser.id}}"
+                               class="btn btn-default btn-flat">Profile
+                  </router-link>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat"
+                     onclick="event.preventDefault(); document.getElementById('logout').submit();">Sign out</a>
+                  <form id="logout" action="/logout" method="POST" style="display: none;">
+                    <input type="hidden" :value="csrf" name="_token">
+                    <input type="_method" value="post">
+                  </form>
                 </div>
               </li>
             </ul>
@@ -69,6 +76,9 @@
       },
       meta () {
         return this.currentUser.meta || {}
+      },
+      csrf () {
+        return document.head.querySelector('meta[name="csrf-token"]').content
       },
     },
   }
