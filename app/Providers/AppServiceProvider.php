@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'post' => 'App\Models\Post',
             'taxonomy' => 'App\Models\Taxonomy',
+            'client' => 'App\Models\Client',
         ]);
     }
 }

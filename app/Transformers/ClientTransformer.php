@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Models\Client;
 use Flugg\Responder\Transformers\Transformer;
 
 class ClientTransformer extends Transformer
@@ -23,31 +24,27 @@ class ClientTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param \App\Models\Post $post
+     * @param \App\Models\Client $client
      * @return array
      */
-    public function transform(\App\Models\Client $client)
+    public function transform(Client $client)
     {
         return array_merge(
             $client->toArray(),
-            $this->transformMedia($client)
+            $this->transformMeta($client)
         );
     }
 
     /**
-     * transform media thumbnail
+     * Transform meta array to one
      *
      * @param \App\Models\Client $client
      * @return array
      */
-    private function transformMedia(\App\Models\Client $client)
+    private function transformMeta(Client $client)
     {
-        if ($client->media()->count() > 0) {
-            $client->thumbnail = $client->media()->thumbnailUrl();
-        } else {
-            $client->thumbnail = null;
-        }
+        $meta = new MetaTransformer();
 
-        return ['thumbnail' => $client->thumbnail];
+        return ['meta' => $meta->transformArray($client->metas)];
     }
 }

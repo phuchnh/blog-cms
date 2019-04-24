@@ -15,13 +15,11 @@ class UserController extends ApiBaseController
      */
     public function index(User $users, Request $request)
     {
+        $users = $users->search($request);
+
         $paginator = $request->get('perPage');
 
         $users = $users
-            ->when($request->input('name'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('name', 'LIKE', '%'.$request->input('name').'%');
-            })
             ->sortable([$request->get('sort') => $request->get('direction')])
             ->orderBy('id', 'desc')->paginate($paginator);
 

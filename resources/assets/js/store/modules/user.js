@@ -1,84 +1,102 @@
-import {ApiService} from '../../api';
+import { ApiService } from '../../api'
+import * as _ from 'lodash'
 
-export const namespaced = true;
+export const namespaced = true
 const initialState = {
   users: [],
   user: {},
   saved: false,
   paginator: {},
-};
+  queryParams: {
+    sort: 'updated_at',
+    direction: 'desc',
+    page: 1,
+    perPage: 10,
+    only: ['id', 'name', 'type'].join(','),
+  },
+}
 
-export const state = { ...initialState };
+export const state = { ...initialState }
 
 const getters = {
   user: state => state.user,
   users: state => state.users,
   saved: state => state.saved,
   pagination: state => state.paginator,
-};
+  getQueryParams: state => state.queryParams,
+}
 
 const actions = {
-  getUserList({commit}, params) {
+  getList ({ commit }, params) {
+    if (_.keys(params).length === 0) {
+      params = { ...state.queryParams }
+    }
+    params = {
+      ...params,
+    }
     return ApiService.get('/users', params).then(res => {
       const pagination = res.data.pagination
       const users = res.data.data
 
-      commit('setUsers', users)
+      commit('setList', {
+        users: users,
+        queryParams: params,
+      })
       commit('setPaginator', {
         total: pagination.total,
         pageSize: pagination.perPage,
       })
-    });
+    })
   },
-  getUser({commit}, id) {
-    console.log(id);
-    return ApiService.get(`/users/${id}`).then(res => {
-      commit('setUser', res.data.data);
-    });
+  getItem ({ commit }, id) {
+    return ApiService.get(`/users/${ id }`).then(res => {
+      commit('setItem', res.data.data)
+    })
   },
-  deleteUser({commit}, id) {
-    return ApiService.delete(`users/${id}`).then(() => {
-      commit('deleteUser', id);
-    });
+  delete ({ commit }, id) {
+    return ApiService.delete(`users/${ id }`).then(() => {
+      commit('delete', id)
+    })
   },
-  updateUser({commit}, payload) {
-    return ApiService.put(`/users/${payload.id}`, payload);
+  update ({ commit }, payload) {
+    return ApiService.put(`/users/${ payload.id }`, payload)
   },
   // createUser({commit}, payload) {
   //   ApiService.post('/users', payload);
   // },
-  resetState({commit}) {
-    commit('resetState');
+  resetState ({ commit }) {
+    commit('resetState')
   },
-  savedUser({commit}, payload) {
-    commit('savedUser', payload);
-  }
-};
+  saved ({ commit }, payload) {
+    commit('saved', payload)
+  },
+}
 
 const mutations = {
-  setUsers(state, users) {
-    state.users = users;
+  setList (state, { users, queryParams = {} }) {
+    state.users = users
+    state.queryParams = { ...queryParams }
   },
-  setUser(state, user) {
-    state.user = user;
+  setItem (state, user) {
+    state.user = user
   },
-  deleteUser(state, id) {
+  delete (state, id) {
     state.users = _.filter(state.users, (item) => {
-      return item.id !== id;
-    });
+      return item.id !== id
+    })
   },
-  resetState(state) {
-    state.user = {};
-    state.users = [];
-    state.saved = false;
+  resetState (state) {
+    state.user = {}
+    state.users = []
+    state.saved = false
   },
-  savedUser(state, saved) {
-    state.saved = saved;
+  saved (state, saved) {
+    state.saved = saved
   },
   setPaginator: (state, paginator) => {
     state.paginator = { ...paginator }
   },
-};
+}
 
 export default {
   namespaced,
@@ -86,4 +104,4 @@ export default {
   getters,
   actions,
   mutations,
-};
+}

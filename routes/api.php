@@ -33,6 +33,9 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('taxonomies.metas', 'TaxonomyMetaController')->parameters([
         'metas' => 'metum',
     ]);
+    Route::apiResource('clients.metas', 'ClientMetaController')->parameters([
+        'metas' => 'metum',
+    ]);
 
     Route::match(['put', 'post'], 'assets', 'AssetController@upload');
     Route::get('assets', 'AssetController@index');
