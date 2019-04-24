@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="box box-widget no-border">
+      <div class="box-header">
+        <h3 class="box-title">{{ boxTitle }}</h3>
+      </div>
       <div class="box-body">
         <form role="form">
           <fieldset>
             <div class="form-group">
-              <label for="tags">{{ boxTitle }}</label>
               <a-select
                   id="tags"
                   mode="multiple"
