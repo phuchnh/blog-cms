@@ -46,7 +46,7 @@ class PostController extends ApiBaseController
             $result = $posts->paginate($paginator);
         }
 
-        return $this->ok($result);
+        return $this->ok($result, PostTransformer::class);
     }
 
     /**

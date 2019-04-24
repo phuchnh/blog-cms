@@ -97,7 +97,7 @@
 
           <post-meta-image v-model="meta.banner" :title="'banner'"></post-meta-image>
 
-          <post-other-from v-model="meta" :type="type"></post-other-from>
+          <post-other-from v-model="meta.others" :type="type"></post-other-from>
 
           <div class="box box-default">
             <div class="box-header with-border">
@@ -233,7 +233,7 @@
         this.post.translations = _.filter(this.post.translations, (item) => {
           return !!item.title
         })
-
+        this.post.meta = {...this.meta}
         this.post.type = this.type
         this.post.publish = this.publish
 

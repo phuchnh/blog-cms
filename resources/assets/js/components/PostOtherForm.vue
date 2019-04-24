@@ -22,9 +22,9 @@
             :loading="fetching">
           <el-option
               v-for="item in data"
-              :key="item.value"
-              :label="item.text"
-              :value="item.value">
+              :key="item.value.id"
+              :label="item.value.title"
+              :value="item.value | stringify">
           </el-option>
         </el-select>
       </div>
@@ -51,14 +51,15 @@
       this.fetchPost = _.debounce(this.fetchPost, 500)
 
       return {
-        item: this.value ? this.value : {},
-
         /**
          *  set default value for select mutiple
          */
         data: [],
-        post: this.value.others ? _.toArray(JSON.parse(this.value.others)) : [],
+        post: this.value ? _.map(this.value, (item) => {
+          return JSON.stringify(item)
+        }) : [],
         fetching: false,
+        relatedPost: []
       }
     },
     created () {
@@ -69,11 +70,16 @@
        * update value to parent
        * @param val
        */
-      item: {
+      relatedPost: {
         deep: true,
         handler (val) {
           this.$emit('input', val)
         },
+      },
+    },
+    filters: {
+      stringify: function (value) {
+        return JSON.stringify(value)
       },
     },
     methods: {
@@ -91,8 +97,6 @@
         // set default params for api
         const params = {
           title: value,
-          page: 1,
-          perPage: 10,
           type: this.type,
         }
 
@@ -108,9 +112,12 @@
 
           // set data for select list
           const data = getData.map(val => ({
-            text: `${ val.title }`,
-            value: val.id.toString(),
-            key: val.id,
+            value: {
+              id: val.id,
+              title: val.title,
+              url: `${window.location.origin}/${val.slug}`,
+              thumbnail: val.meta.thumbnail || null
+            },
           }))
 
           this.data = data
@@ -122,7 +129,9 @@
        * @param value
        */
       handleChange (value) {
-        this.item.others = JSON.stringify({ ...value })
+        this.relatedPost = _.map(value, (item) => {
+          return JSON.parse(item)
+        })
 
         // map to value
         Object.assign(this, {
