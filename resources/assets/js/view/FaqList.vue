@@ -156,7 +156,10 @@
                 type: 'success',
                 message: 'Delete completed',
               })
-              this.getData(this.queryParams)
+              this.getData({
+                ...this.queryParams,
+                page: 1,
+              })
             })
             .catch(() => {
               console.log('Cancel')
