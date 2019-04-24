@@ -85,7 +85,7 @@ class Taxonomy extends Model
      */
     public function metas()
     {
-        return $this->morphMany('App\Models\Meta', 'metable');
+        return $this->morphMany(Meta::class, 'metable');
     }
 
     public function getLftName()

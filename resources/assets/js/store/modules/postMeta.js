@@ -30,7 +30,7 @@ export default {
     fetchPostMeta ({ commit }, postId) {
       commit('setPostId', postId)
       return ApiService
-        .get(`/posts/${ postId }/post_metas`)
+        .get(`/posts/${ postId }/metas`)
         .then(resp => {
           const { data } = resp.data
           const { postMeta } = data
@@ -41,7 +41,7 @@ export default {
 
     createPostMeta ({ commit }, { postId, metas }) {
       return ApiService
-        .post(`/posts/${ postId }/post_metas`, {
+        .post(`/posts/${ postId }/metas`, {
           metas: metas,
         })
     },
