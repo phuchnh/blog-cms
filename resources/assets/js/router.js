@@ -6,6 +6,7 @@ import PageNotFound from '@/view/PageNotFound'
 import FaqList from '@/view/FaqList'
 import UserList from '@/view/UserList'
 import UserDetail from '@/view/UserDetail'
+import UserNew from '@/view/UserNew'
 import InThePressNew from '@/view/InThePressNew'
 import InThePressList from '@/view/InThePressList'
 import InThePressDetail from '@/view/InThePressDetail'
@@ -97,6 +98,15 @@ export default new Router({
           component: UserList,
           meta: {
             title: 'UserList',
+            description: '',
+          },
+        },
+        {
+          path: 'users/new',
+          name: 'userNew',
+          component: UserNew,
+          meta: {
+            title: 'UserNew',
             description: '',
           },
         },

@@ -1,7 +1,7 @@
 <template>
   <div class="box box-widget" v-if="users">
     <div class="box-header">
-      <router-link :to="{name: 'clientNew'}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New
+      <router-link :to="{name: 'userNew'}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> New
       </router-link>
     </div>
     <div class="box-body">

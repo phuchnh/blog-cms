@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box box-widget">
     <div class="box-body">
       <form class="form-horizontal">
         <div class="form-group" :class="{ 'has-error': errors.first('name') }">
@@ -33,9 +33,30 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="avatar" class="col-sm-2 control-label">Avatar</label>
+          <div class="col-sm-8">
+                    <span class="btn btn-default btn-sm btn-file">
+                        <i class="fa fa-upload"></i> Upload
+                        <input type="file" class="form-control"
+                               id="avatar"
+                               name="avatar"
+                               accept="image/*"
+                               @change="onFileChange($event)"/>
+                    </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-8 col-sm-offset-2">
+            <img class="img img-thumbnail" width="200" v-if="imgUrl || meta.avatar"
+                 v-bind:src="imgUrl ? imgUrl : meta.avatar">
+          </div>
+        </div>
+        <div class="form-group">
           <div class="col-md-offset-2 col-md-4">
             <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">Cancel</button>
-            <button @click="submit" type="button" class="btn btn-success">Update</button>
+            <button @click="submit" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
+              'Update'}}
+            </button>
           </div>
         </div>
       </form>
@@ -57,6 +78,9 @@
     props: {
       formAction: String,
     },
+    created () {
+      this.meta = { ...this.user.meta }
+    },
     watch: {
       user: {
         deep: true,
@@ -69,11 +93,14 @@
     },
     data () {
       return {
+        imgUrl: null,
+        meta: {},
         userType: ['admin', 'editor'],
       }
     },
     methods: {
       submit () {
+        this.user.meta = { ...this.meta }
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
@@ -99,7 +126,21 @@
             this.$message.error('Invalid Form !')
           }
         })
-
+      },
+      onFileChange (event) {
+        const file = event.target.files[0]
+        const temp = {
+          name: file.name,
+        }
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = () => {
+          this.imgUrl = reader.result
+          temp.body = reader.result.split(',')[1]
+        }
+        const fileInput = file
+        this.meta.avatar = new FormData()
+        this.meta.avatar.append('files[0]', fileInput)
       },
     },
   }

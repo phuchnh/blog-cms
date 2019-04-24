@@ -50,6 +50,16 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
     /**
+     * Get post meta belongs to this client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function metas()
+    {
+        return $this->morphMany(Meta::class, 'metable');
+    }
+
+    /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Database\Eloquent\Builder

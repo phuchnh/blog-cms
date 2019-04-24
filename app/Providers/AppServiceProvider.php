@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
             'post' => 'App\Models\Post',
             'taxonomy' => 'App\Models\Taxonomy',
             'client' => 'App\Models\Client',
+            'user' => 'App\Models\User',
         ]);
     }
 }

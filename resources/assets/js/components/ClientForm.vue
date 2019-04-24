@@ -30,10 +30,12 @@
                                accept="image/*"
                                @change="onFileChange($event)"/>
                     </span>
-          <div>
-            <img class="img img-thumbnail" width="200" v-if="imgUrl || meta.thumbnail"
-                 v-bind:src="imgUrl ? imgUrl : meta.thumbnail">
-          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-2">
+          <img class="img img-thumbnail" width="200" v-if="imgUrl || meta.thumbnail"
+               v-bind:src="imgUrl ? imgUrl : meta.thumbnail">
         </div>
       </div>
       <div class="form-group">
