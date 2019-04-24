@@ -36,7 +36,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data) : []
 
-    await ApiService.put(`/${ payload.model }/${ payload.model_id }/meta`, inputMeta)
+    await ApiService.put(`/${ payload.model }/${ payload.model_id }/metas`, {metas: inputMeta})
   },
   /**
    * create new meta data
@@ -47,7 +47,7 @@ const actions = {
     // filter input meta
     let inputMeta = payload.data ? Helper.filterInputMeta(payload.data) : []
 
-    return ApiService.post(`/${ payload.model }/${ payload.model_id }/meta`, inputMeta).then((res) => {
+    return ApiService.post(`/${ payload.model }/${ payload.model_id }/metas`, {metas: inputMeta}).then((res) => {
       commit('setMeta', res.data.data)
     })
   },

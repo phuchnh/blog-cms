@@ -65,10 +65,7 @@
                 </div>
                 <div class="box-body">
                   <!-- Add Date Picker -->
-                  <post-date-form v-model="meta"></post-date-form>
-
-                  <!-- Add Location -->
-                  <post-location-form v-model="meta"></post-location-form>
+                  <post-event-form v-model="meta.event"></post-event-form>
                 </div>
               </div>
             </a-tab-pane>
@@ -96,9 +93,9 @@
             </div>
           </div>
 
-          <post-meta-image v-model="meta['thumbnail']" :title="'thumbnail'"></post-meta-image>
+          <post-meta-image v-model="meta.thumbnail" :title="'thumbnail'"></post-meta-image>
 
-          <post-meta-image v-model="meta['banner']" :title="'banner'"></post-meta-image>
+          <post-meta-image v-model="meta.banner" :title="'banner'"></post-meta-image>
 
           <post-other-from v-model="meta" :type="type"></post-other-from>
 
@@ -107,8 +104,8 @@
               <div class="box-title">Feature on position</div>
             </div>
             <div class="box-body">
-              <post-display v-model="meta['home']" :title="'Show On Homepage'"></post-display>
-              <post-display v-model="meta['feature']" :title="'Show On Feature'"></post-display>
+              <post-display v-model="meta.home" :title="'Show On Homepage'"></post-display>
+              <post-display v-model="meta.feature" :title="'Show On Feature'"></post-display>
 
             </div>
           </div>
@@ -152,8 +149,7 @@
 
   // load Meta Component
   import PostMetaForm from './PostMetaForm'
-  import PostDateForm from './PostDateForm'
-  import PostLocationForm from './PostLocationForm'
+  import PostEventForm from './PostEventForm'
 
   import TagForm from './TagForm.vue'
 
@@ -168,8 +164,7 @@
       TagForm,
       TagBox,
       Editor,
-      PostLocationForm,
-      PostDateForm,
+      PostEventForm,
       PostMetaForm,
       PostOtherFrom,
       PostDisplay,
