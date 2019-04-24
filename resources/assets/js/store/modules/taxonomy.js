@@ -144,7 +144,7 @@ const actions = {
     commit('updateStateByName', { key: type, value: items })
 
     // insert to meta table
-    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomy', model_id: data.id }, { root: true })
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomies', model_id: data.id }, { root: true })
     return data
   },
 
@@ -162,7 +162,7 @@ const actions = {
     commit('SET_ITEM', payload)
 
     // insert to meta table
-    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomy', model_id: payload.id }, { root: true })
+    await dispatch('meta/updateMeta', { data: payload.meta, model: 'taxonomies', model_id: payload.id }, { root: true })
     return resp
   },
 

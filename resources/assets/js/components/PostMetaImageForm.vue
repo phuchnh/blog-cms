@@ -94,7 +94,7 @@
             },
           }).then(res => {
             if (res.status === 200) {
-              this.imgUrl = res.data.data[0].url
+              this.imgUrl = res.data.data[0].uri
 
               this.resetData()
 

@@ -16,14 +16,14 @@ class MetaController extends ApiBaseController
 
     public function __construct()
     {
-        $this->model = Relation::getMorphedModel(
-            request()->route()->parameter('model')
-        );
-
-        $this->model = new $this->model();
-
-        $this->modelId = request()->route()->parameter('modelId');
-        $this->model = $this->model->findOrFail($this->modelId);
+        //$this->model = Relation::getMorphedModel(
+        //    request()->route()->parameter('model')
+        //);
+        //
+        //$this->model = new $this->model();
+        //
+        //$this->modelId = request()->route()->parameter('modelId');
+        //$this->model = $this->model->findOrFail($this->modelId);
     }
 
     /**

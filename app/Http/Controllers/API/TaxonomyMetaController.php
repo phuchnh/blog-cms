@@ -5,23 +5,22 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateMetaRequest;
 use App\Http\Requests\API\UpdateMetaRequest;
 use App\Models\Meta;
-use App\Models\PostMeta;
 use Illuminate\Http\Request;
-use App\Models\Post;
+use App\Models\Taxonomy;
 use Illuminate\Support\Arr;
 
-class PostMetaController extends ApiBaseController
+class TaxonomyMetaController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
+     * @param \App\Models\Taxonomy $taxomomy
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, Post $post)
+    public function index(Request $request, Taxonomy $taxomomy)
     {
-        $metas = $post->metas
+        $metas = $taxomomy->metas
             ->map(function ($value) {
                 return [$value->meta_key => $value->meta_value];
             })
@@ -35,12 +34,12 @@ class PostMetaController extends ApiBaseController
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\API\CreateMetaRequest $request
-     * @param \App\Models\Post $post
+     * @param \App\Models\Taxonomy $taxomomy
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateMetaRequest $request, Post $post)
+    public function store(CreateMetaRequest $request, Taxonomy $taxomomy)
     {
-        $metas = $this->updateOrCreateMeta($post, $request->validated());
+        $metas = $this->updateOrCreateMeta($taxomomy, $request->validated());
 
         return $this->created($metas);
     }
@@ -49,11 +48,11 @@ class PostMetaController extends ApiBaseController
      * Display the specified resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
+     * @param \App\Models\Taxonomy $post
      * @param \App\Models\Meta $metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Post $post, Meta $metum)
+    public function show(Request $request, Taxonomy $post, Meta $metum)
     {
         return $this->ok($metum);
     }
@@ -62,14 +61,14 @@ class PostMetaController extends ApiBaseController
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\API\UpdateMetaRequest $request
-     * @param \App\Models\Post $post
+     * @param \App\Models\Taxonomy $taxonomy
      * @param \App\Models\Meta $metum
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateMetaRequest $request, Post $post, Meta $metum)
+    public function update(UpdateMetaRequest $request, Taxonomy $taxonomy, Meta $metum)
     {
         $metum->fill($request->all());
-        $post->metas()->save($metum);
+        $taxonomy->metas()->save($metum);
 
         return $this->noContent();
     }
@@ -78,12 +77,12 @@ class PostMetaController extends ApiBaseController
      * Remove the specified resource from storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
+     * @param \App\Models\Taxonomy $taxomomy
      * @param \App\Models\Meta $metum
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Request $request, Post $post, Meta $metum)
+    public function destroy(Request $request, Taxonomy $taxomomy, Meta $metum)
     {
         $metum->delete();
 
@@ -93,16 +92,16 @@ class PostMetaController extends ApiBaseController
     /**
      * Update or create meta values
      *
-     * @param \App\Models\Post $post
+     * @param \App\Models\Taxonomy $taxomomy
      * @param array $metas
      * @return array
      */
-    private function updateOrCreateMeta(Post $post, array $metas)
+    private function updateOrCreateMeta(Taxonomy $taxomomy, array $metas)
     {
         $models = [];
         $metas = Arr::get($metas, 'metas');
         foreach ($metas as $meta) {
-            $models[] = $post->metas()->updateOrCreate(['meta_key' => $meta['meta_key']], $meta);
+            $models[] = $taxomomy->metas()->updateOrCreate(['meta_key' => $meta['meta_key']], $meta);
         }
 
         return $models;

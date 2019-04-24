@@ -130,35 +130,10 @@ export default {
 
     deleteItem ({ state, commit, dispatch }, id) {
       commit('startLoading')
-      return FaqService
-        .delete(id)
-        .then((resp) => {
-          let lists = [...state.lists]
-          let total = state.total
-          const index = lists.findIndex(value => value.id === id)
-
-          if (index > -1) {
-            lists.splice(index, 1)
-            total = total - 1
-
-            if (lists.length > 0 && total > 0) {
-              commit('deleteItemInList', {
-                lists: lists,
-                total: total - 1,
-              })
-              commit('endLoading')
-              return resp
-            }
-
-            const currentPage = state.queryParams.page
-            const queryParams = {
-              ...state.queryParams,
-              page: currentPage - 1 || 1,
-            }
-
-            return dispatch('fetchList', queryParams)
-          }
-        })
+      return FaqService.delete(id).then(resp => {
+        commit('endLoading')
+        return resp
+      })
     },
   },
 }

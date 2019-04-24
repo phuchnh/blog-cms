@@ -149,15 +149,7 @@ class Post extends Model
      */
     public function metas()
     {
-        return $this->morphMany('App\Models\Meta', 'metable');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function postMetas()
-    {
-        return $this->hasMany(PostMeta::class, 'post_id');
+        return $this->morphMany(Meta::class, 'metable');
     }
 
     /**

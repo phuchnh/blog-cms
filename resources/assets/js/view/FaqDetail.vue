@@ -8,7 +8,6 @@
   import { mapGetters } from 'vuex'
   import FaqForm from '@/components/FaqForm'
   import store from '@/store'
-  import * as _ from 'lodash'
 
   export default {
     name: 'FaqDetail',
@@ -24,7 +23,7 @@
       formValue () {
         return {
           ...this.getItem,
-          postMeta: this.getPostMeta,
+          metas: this.getPostMeta,
         }
       },
     },
