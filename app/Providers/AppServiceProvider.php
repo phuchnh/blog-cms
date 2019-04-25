@@ -28,15 +28,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(\Illuminate\Http\Request $request)
     {
-        // Set the app locale according to the URL
-        app()->setLocale($request->segment(1));
+        // Set the app locale according to the UR
+        if ($request->segment(1) !== 'api') {
+            app()->setLocale($request->segment(1));
+        }
 
         Schema::defaultStringLength(191);
         Relation::morphMap([
-            'post' => 'App\Models\Post',
+            'post'     => 'App\Models\Post',
             'taxonomy' => 'App\Models\Taxonomy',
-            'client' => 'App\Models\Client',
-            'user' => 'App\Models\User',
+            'client'   => 'App\Models\Client',
+            'user'     => 'App\Models\User',
         ]);
     }
 }
