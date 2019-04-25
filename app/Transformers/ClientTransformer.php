@@ -29,22 +29,18 @@ class ClientTransformer extends Transformer
      */
     public function transform(Client $client)
     {
-        return array_merge(
-            $client->toArray(),
-            $this->transformMeta($client)
-        );
-    }
+        $metas = $client->metas
+            ->map(function ($value) {
+                return [$value->meta_key => $value->meta_value];
+            })
+            ->collapse()
+            ->toArray();
 
-    /**
-     * Transform meta array to one
-     *
-     * @param \App\Models\Client $client
-     * @return array
-     */
-    private function transformMeta(Client $client)
-    {
-        $meta = new MetaTransformer();
+        $client->makeHidden('metas');
+        $result = $client->toArray();
 
-        return ['meta' => $meta->transformArray($client->metas)];
+        $result['meta'] = $metas;
+
+        return $result;
     }
 }

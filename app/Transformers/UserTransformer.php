@@ -29,22 +29,18 @@ class UserTransformer extends Transformer
      */
     public function transform(User $user)
     {
-        return array_merge(
-            $user->toArray(),
-            $this->transformMeta($user)
-        );
-    }
+        $metas = $user->metas
+            ->map(function ($value) {
+                return [$value->meta_key => $value->meta_value];
+            })
+            ->collapse()
+            ->toArray();
 
-    /**
-     * Transform meta array to one
-     *
-     * @param \App\Models\User $user
-     * @return array
-     */
-    private function transformMeta(User $user)
-    {
-        $meta = new MetaTransformer();
+        $user->makeHidden('metas');
+        $result = $user->toArray();
 
-        return ['meta' => $meta->transformArray($user->metas)];
+        $result['meta'] = $metas;
+
+        return $result;
     }
 }

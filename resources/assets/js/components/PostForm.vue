@@ -5,9 +5,11 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
+      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'" ></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.banner" :title="'banner'" ></PostMetaImageForm>
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
-      <PostEventForm v-model="metas.event"></PostEventForm>
+      <PostEventForm v-if="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
     </div>
     <PostActionBox @click="handleAction"></PostActionBox>
   </div>
@@ -22,10 +24,12 @@
   import SeoBox from '@/components/SeoBox.vue'
   import PostEventForm from '@/components/PostEventForm.vue'
   import * as _ from 'lodash'
+  import PostMetaImageForm from './PostMetaImageForm'
 
   export default {
     name: 'PostForm',
     components: {
+      PostMetaImageForm,
       TranslationBox,
       CategoryBox,
       TagBox,
@@ -60,7 +64,7 @@
       }
     },
     computed: {
-      ...mapGetters('faq', ['getLoading']),
+      ...mapGetters('faq', ['getLoading', 'getPostType']),
       ...mapGetters('route', {
         redirectToList: 'redirectToList',
       }),
@@ -159,6 +163,20 @@
           metas.push({
             meta_key: 'event',
             meta_value: this.metas.event,
+          })
+        }
+
+        if (Object.keys(this.metas.thumbnail).length > 0) {
+          metas.push({
+            meta_key: 'thumbnail',
+            meta_value: this.metas.thumbnail,
+          })
+        }
+
+        if (Object.keys(this.metas.banner).length > 0) {
+          metas.push({
+            meta_key: 'banner',
+            meta_value: this.metas.banner,
           })
         }
 
