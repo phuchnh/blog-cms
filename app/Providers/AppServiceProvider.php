@@ -23,13 +23,14 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * @param \App\Providers\Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      */
     public function boot(\Illuminate\Http\Request $request)
     {
         // Set the app locale according to the UR
-        if ($request->segment(1) !== 'api') {
+        if ($request->segment(1) !== 'api' ||
+            $request->segment(1) !== 'admin') {
             app()->setLocale($request->segment(1));
         }
 
