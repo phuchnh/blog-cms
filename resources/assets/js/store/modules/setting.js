@@ -5,14 +5,12 @@ export const namespaced = true
 
 const initialState = {
   settings: {},
-  saved: false,
 }
 
 export const state = { ...initialState }
 
 const getters = {
   settings: state => state.settings,
-  saved: state => state.saved,
 }
 
 const actions = {
@@ -28,9 +26,6 @@ const actions = {
   resetState ({ commit }) {
     commit('resetState')
   },
-  savedSetting ({ commit }, payload) {
-    commit('savedSetting', payload)
-  },
 }
 
 const mutations = {
@@ -39,11 +34,7 @@ const mutations = {
   },
   resetState (state) {
     state.settings = {}
-    state.saved = false
   },
-  savedSetting (state, saved) {
-    state.saved = saved
-  }
 }
 
 export default {

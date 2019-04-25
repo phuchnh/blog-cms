@@ -5,7 +5,6 @@ export const namespaced = true
 const initialState = {
   users: [],
   user: {},
-  saved: false,
   paginator: {},
   queryParams: {
     sort: 'updated_at',
@@ -21,7 +20,6 @@ export const state = { ...initialState }
 const getters = {
   user: state => state.user,
   users: state => state.users,
-  saved: state => state.saved,
   pagination: state => state.paginator,
   getQueryParams: state => state.queryParams,
 }
@@ -89,9 +87,6 @@ const actions = {
   resetState ({ commit }) {
     commit('resetState')
   },
-  saved ({ commit }, payload) {
-    commit('saved', payload)
-  },
 }
 
 const mutations = {
@@ -110,10 +105,6 @@ const mutations = {
   resetState (state) {
     state.user = {}
     state.users = []
-    state.saved = false
-  },
-  saved (state, saved) {
-    state.saved = saved
   },
   setPaginator: (state, paginator) => {
     state.paginator = { ...paginator }

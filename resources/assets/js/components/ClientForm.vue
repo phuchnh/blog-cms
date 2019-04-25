@@ -58,7 +58,6 @@
     computed: {
       ...mapGetters({
         client: 'client/client',
-        saved: 'client/saved',
       }),
     },
     props: {
@@ -66,16 +65,6 @@
     },
     created () {
       this.meta = {...this.client.meta}
-    },
-    watch: {
-      client: {
-        deep: true,
-        handler (val, oldVal) {
-          if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('client/saved', false)
-          }
-        },
-      },
     },
     data () {
       return {
@@ -90,7 +79,6 @@
           if (result) {
             if (this.formAction === 'edit') {
               this.$store.dispatch('client/update', this.client).then(() => {
-                this.$store.dispatch('client/saved', true)
                 this.$message.success('Update successfully')
                 this.$emit('routeToList')
               }).catch((error) => {
@@ -99,7 +87,6 @@
               })
             } else if (this.formAction === 'create') {
               this.$store.dispatch('client/create', this.client).then(() => {
-                this.$store.dispatch('client/saved', true)
                 this.$message.success('Create successfully')
                 this.$emit('routeToList')
               }).catch((error) => {

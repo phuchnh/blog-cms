@@ -178,23 +178,10 @@
     computed: {
       ...mapGetters({
         settings: 'setting/settings',
-        saved: 'setting/saved',
       }),
     },
     beforeRouteLeave (from, to, next) {
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('setting/resetState')
-          next()
-        }).catch(() => {})
-      } else {
-        this.$store.dispatch('setting/resetState')
-        next()
-      }
+      this.$store.dispatch('setting/resetState').then(() => next())
     },
     beforeRouteEnter (to, from, next) {
       store.dispatch('setting/fetchList').then(
@@ -230,7 +217,6 @@
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
-              this.$store.dispatch('setting/savedSetting', true)
               this.$message.success('Save successfully')
               this.$router.push({ name: 'setting' })
             })

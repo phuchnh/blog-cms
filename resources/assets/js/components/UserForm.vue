@@ -72,7 +72,6 @@
     computed: {
       ...mapGetters({
         user: 'user/user',
-        saved: 'user/saved',
       }),
     },
     props: {
@@ -80,16 +79,6 @@
     },
     created () {
       this.meta = { ...this.user.meta }
-    },
-    watch: {
-      user: {
-        deep: true,
-        handler (val, oldVal) {
-          if (val.id === oldVal.id && val !== oldVal) {
-            this.$store.dispatch('user/saved', false)
-          }
-        },
-      },
     },
     data () {
       return {
@@ -105,7 +94,6 @@
           if (result) {
             if (this.formAction === 'edit') {
               this.$store.dispatch('user/update', this.user).then(() => {
-                this.$store.dispatch('user/saved', true)
                 this.$message.success('Update successfully')
                 this.$emit('routeToList')
               }).catch((error) => {
@@ -114,7 +102,6 @@
               })
             } else if (this.formAction === 'create') {
               this.$store.dispatch('user/create', this.user).then(() => {
-                this.$store.dispatch('user/saved', true)
                 this.$message.success('Create successfully')
                 this.$emit('routeToList')
               }).catch((error) => {

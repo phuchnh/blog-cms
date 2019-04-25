@@ -12,31 +12,13 @@
   export default {
     name: 'ClientDetail',
     components: { ClientForm },
-    computed: {
-      ...mapGetters({
-        saved: 'client/saved',
-      }),
-    },
     beforeRouteEnter (to, from, next) {
       Promise.all([
         store.dispatch('client/getItem', to.params.id),
-        store.dispatch('client/saved', true)
       ]).then(() => next())
     },
     beforeRouteLeave (from, to, next) {
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('client/resetState')
-          next()
-        }).catch(() => {})
-      } else {
-        this.$store.dispatch('client/resetState')
-        next()
-      }
+      this.$store.dispatch('client/resetState').then(() => next())
     },
     data () {
       return {

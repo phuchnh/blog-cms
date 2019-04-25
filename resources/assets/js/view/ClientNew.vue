@@ -6,33 +6,12 @@
 
 <script>
   import ClientForm from '../components/ClientForm'
-  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ClientNew',
     components: { ClientForm },
-    computed: {
-      ...mapGetters({
-        saved: 'client/saved',
-      }),
-    },
     beforeRouteLeave (from, to, next) {
-      if (_.isEmpty(this.$refs.clientForm.client)) {
-        this.$store.dispatch('client/saved', true)
-      }
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('client/resetState')
-          next()
-        }).catch(() => {})
-      } else {
-        this.$store.dispatch('client/resetState')
-        next()
-      }
+      this.$store.dispatch('client/resetState').then(() => next())
     },
     data () {
       return {
