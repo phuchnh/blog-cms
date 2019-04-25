@@ -5,8 +5,8 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'" ></PostMetaImageForm>
-      <PostMetaImageForm v-model="metas.banner" :title="'banner'" ></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'"></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.banner" :title="'banner'"></PostMetaImageForm>
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
       <PostEventForm v-if="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
@@ -58,6 +58,8 @@
         metas: {
           seo: [],
           event: {},
+          thumbnail: null,
+          banner: null,
         },
         groups: [],
         tags: [],
@@ -127,26 +129,22 @@
 
         // Cretae
         if (this.isCreate) {
-          this.createItem(this.post)
-              .then((resp) => {
-                return Promise.all([
-                  this.handleSaveToxonomy(resp),
-                  this.handleSaveMeta(resp),
-                ])
-              })
-              .then(() => this.backToList())
+          this.createItem(this.post).then((resp) => {
+            return Promise.all([
+              this.handleSaveToxonomy(resp),
+              this.handleSaveMeta(resp),
+            ])
+          }).then(() => this.backToList())
         }
 
         // Edit
         if (!this.isCreate) {
-          this.updateItem(this.post)
-              .then((resp) => {
-                return Promise.all([
-                  this.handleSaveToxonomy(resp),
-                  this.handleSaveMeta(resp),
-                ])
-              })
-              .then(() => this.backToList())
+          this.updateItem(this.post).then((resp) => {
+            return Promise.all([
+              this.handleSaveToxonomy(resp),
+              this.handleSaveMeta(resp),
+            ])
+          }).then(() => this.backToList())
         }
       },
 
@@ -166,14 +164,14 @@
           })
         }
 
-        if (Object.keys(this.metas.thumbnail).length > 0) {
+        if (this.metas.thumbnail) {
           metas.push({
             meta_key: 'thumbnail',
             meta_value: this.metas.thumbnail,
           })
         }
 
-        if (Object.keys(this.metas.banner).length > 0) {
+        if (this.metas.banner) {
           metas.push({
             meta_key: 'banner',
             meta_value: this.metas.banner,
