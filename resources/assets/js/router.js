@@ -342,6 +342,54 @@ export default new Router({
         },
         //=================================== Events ==============================//
 
+        //=================================== Programs ==============================//
+        {
+          path: 'programs',
+          component: PostContainer,
+          props: {
+            postType: 'post_programs',
+            redirectToNew: 'ProgramNew',
+            redirectToDetail: 'ProgramDetail',
+            redirectToList: 'ProgramList',
+          },
+          meta: {
+            postType: 'post_programs',
+          },
+          children: [
+            {
+              path: '',
+              name: 'ProgramList',
+              component: ListPost,
+              meta: {
+                title: 'Program',
+                description: 'ProgramList',
+                postType: 'post_programs',
+              },
+            },
+            {
+              path: 'new',
+              name: 'ProgramNew',
+              component: NewPost,
+              meta: {
+                title: 'Create New Program',
+                description: 'ProgramNew',
+                postType: 'post_programs',
+              },
+            },
+            {
+              path: ':id',
+              name: 'ProgramDetail',
+              component: EditPost,
+              meta: {
+                title: 'Edit Program',
+                description: 'ProgramDetail',
+                postType: 'post_programs',
+              },
+            },
+          ],
+        },
+        //=================================== Events ==============================//
+
         //=================================== Pratices ==============================//
         {
           path: 'pratices',
