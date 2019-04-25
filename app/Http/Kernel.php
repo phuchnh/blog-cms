@@ -37,6 +37,10 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
+        'locale' => [
+            \App\Http\Middleware\Language::class,
+        ],
+
         'api' => [
             'throttle:60,1',
             'bindings',
@@ -62,6 +66,7 @@ class Kernel extends HttpKernel
         'verified'      => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.admin'    => \App\Http\Middleware\Admin::class,
         'auth.token'    => \App\Http\Middleware\Token::class,
+        'locale'        => \App\Http\Middleware\Language::class,
     ];
 
     /**

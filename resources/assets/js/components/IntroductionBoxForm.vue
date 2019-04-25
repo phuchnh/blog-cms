@@ -1,8 +1,5 @@
 <template>
   <div class="box box-widget">
-    <div class="box-header">
-      <h3 class="box-title">Search Engine Optimization</h3>
-    </div>
     <div class="box-body">
       <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabsChange">
         <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
@@ -11,8 +8,8 @@
             <input type="text" class="form-control" id="title" placeholder="title" v-model="trans.title">
           </div>
           <div class="form-group">
-            <label for="keywords">keywords</label>
-            <input type="text" class="form-control" id="keywords" placeholder="keywords" v-model="trans.keywords">
+            <label for="link">link</label>
+            <input type="text" class="form-control" id="link" placeholder="title" v-model="trans.link">
           </div>
           <div class="form-group">
             <label for="description">description</label>
@@ -22,7 +19,6 @@
         </a-tab-pane>
       </a-tabs>
     </div>
-    </div>
   </div>
 </template>
 
@@ -30,7 +26,7 @@
   import * as _ from 'lodash'
 
   export default {
-    name: 'SeoBox',
+    name: 'IntroductionBox',
     props: {
       value: {
         type: Array,
@@ -61,7 +57,6 @@
           let obj = {}
           obj.locale = value
           obj.title = ''
-          obj.keywords = ''
           obj.description = ''
           return _.assign({}, obj, _.find(this.translations, (trans) => trans.locale === value) || {})
         })

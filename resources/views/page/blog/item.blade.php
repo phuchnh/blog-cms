@@ -3,9 +3,12 @@
 @section('content')
     <article class="event-section">
         <!-- Banner -->
-        <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
-                 style="background:url('/app/img/event/event-banner-detail.jpg')">
-        </section>
+        @isset($item['meta']['banner'])
+            <section
+                    class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
+                    style="background:url('{{$item['meta']['banner']}}')">
+            </section>
+        @endisset
 
         <section class="event-main padding--none">
             <div class="event-section__container container">
@@ -46,10 +49,13 @@
                         <div class="card-deck">
                             @foreach( $others as $other)
                                 <div class="card border_radius--none border_none">
-                                    <div class="card-img-top background__cover--center"
-                                         style="background: url('{{$other['thumbnail']}}')">
-                                        <img class="d-none" src="{{$other['thumbnail']}}" alt="Card image cap">
-                                    </div>
+                                    @isset($other['banner'])
+                                        <div class="card-img-top background__cover--center"
+                                             style="background: url('{{$other['thumbnail']}}')">
+                                            <img class="d-none" src="{{$other['thumbnail']}}" alt="Card image cap">
+                                        </div>
+                                    @endisset
+
                                     <div class="card-body">
                                         <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
                                         <h5 class="card-title font_color--orange fs--1-3em">

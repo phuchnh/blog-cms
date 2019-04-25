@@ -23,16 +23,22 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @param \Illuminate\Http\Request $request
      * @return void
      */
-    public function boot()
+    public function boot(\Illuminate\Http\Request $request)
     {
+        // Set the app locale according to the UR
+        if ($request->segment(1) !== 'api') {
+            app()->setLocale($request->segment(1));
+        }
+
         Schema::defaultStringLength(191);
         Relation::morphMap([
-            'post' => 'App\Models\Post',
+            'post'     => 'App\Models\Post',
             'taxonomy' => 'App\Models\Taxonomy',
-            'client' => 'App\Models\Client',
-            'user' => 'App\Models\User',
+            'client'   => 'App\Models\Client',
+            'user'     => 'App\Models\User',
         ]);
     }
 }

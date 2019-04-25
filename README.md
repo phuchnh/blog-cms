@@ -5,3 +5,6 @@
 
 # install storage link
 > php artisan storage:link
+
+# install seo package
+> php artisan vendor:publish --provider="Artesaos\SEOTools\Providers\SEOToolsServiceProvider"

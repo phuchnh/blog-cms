@@ -17,9 +17,11 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         Route::get('refresh', 'AuthController@refresh');
         Route::get('user', 'AuthController@user');
     });
+
     Route::apiResource('posts', 'PostController');
     Route::put('posts/{post}/restore', 'PostController@restore');
     Route::delete('posts/{post}/permanent', 'PostController@deletePermanently');
+
     Route::apiResource('taxonomies', 'TaxonomyController');
     Route::match(['put', 'patch'], 'post/taxonomies/{post}', 'TaxonomyController@updateTaxonomies');
     Route::apiResource('faqs', 'FaqController');

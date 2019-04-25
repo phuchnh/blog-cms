@@ -83,9 +83,13 @@
                     </form>
 
                     <ul class="navbar-nav ml-auto navbar-language">
-                        <li class="nav-item text-uppercase"><a class="nav-link">ENG</a></li>
-                        <li class="nav-item"><a class="nav-link">|</a></li>
-                        <li class="nav-item text-uppercase active"><a class="nav-link">VN</a></li>
+                        @foreach (config('translatable.locales') as $lang => $language)
+                            <li class="nav-item text-uppercase @if ($lang === app()->getLocale()) active @endif">
+                                <a class="nav-link" href="{{ route('lang.switch', $lang) }}">
+                                    {{ $lang }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </nav>

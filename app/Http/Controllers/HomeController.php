@@ -54,7 +54,7 @@ class HomeController extends Controller
     {
         /** @var \App\Models\Post $post */
         $post = Post::whereType($type)
-                    ->whereHas('meta', function ($query) {
+                    ->whereHas('metas', function ($query) {
                         /**@var \Illuminate\Database\Eloquent\Builder $query */
                         $query->where([
                             'meta_key'   => 'home',

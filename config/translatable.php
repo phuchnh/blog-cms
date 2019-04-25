@@ -10,9 +10,9 @@ return [
     | Contains an array with the applications available locales.
     |
     */
-    'locales'                            => [
-        'vi',
-        'en',
+    'locales'                     => [
+        'vi' => 'Vietnamese',
+        'en' => 'English',
     ],
 
     /*
@@ -25,7 +25,7 @@ return [
     | colombian spanish will be saved as 'es-CO' into the database.
     |
     */
-    'locale_separator'                   => '_',
+    'locale_separator'            => '_',
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     | and never fallback to the translator one.
     |
     */
-    'locale'                             => null,
+    'locale'                      => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     | $useTranslationFallback when defined
     |
     */
-    'use_fallback'                       => true,
+    'use_fallback'                => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     | locale. Note that 'use_fallback' must be enabled.
     |
      */
-    'use_property_fallback'              => true,
+    'use_property_fallback'       => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ return [
     | set it to false.
     |
     */
-    'fallback_locale'                    => 'vi',
+    'fallback_locale'             => 'vi',
 
     /*
     |--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ return [
     | set this to 'App\Translations'.
     |
     */
-    'translation_model_namespace'        => null,
+    'translation_model_namespace' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -100,7 +100,7 @@ return [
     | application, set this to 'Trans'.
     |
     */
-    'translation_suffix'                 => 'Translation',
+    'translation_suffix'          => 'Translation',
 
     /*
     |--------------------------------------------------------------------------
@@ -111,7 +111,7 @@ return [
     | translation model.
     |
     */
-    'locale_key'                         => 'locale',
+    'locale_key'                  => 'locale',
 
     /*
     |--------------------------------------------------------------------------
@@ -122,5 +122,12 @@ return [
     | translations relationship is already loaded.
     |
      */
-    'to_array_always_loads_translations' => false,
+
+    'to_array_always_loads_translations' => true,
+
+    /*
+     * Ignore translate with url
+     * will return null
+     */
+    'ignore_url'                         => ['admin', 'login'],
 ];

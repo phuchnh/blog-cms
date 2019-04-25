@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Transformers\OptionTransformer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class OptionController extends ApiBaseController
 {
@@ -51,6 +52,8 @@ class OptionController extends ApiBaseController
         }
         //Option::insert($request->validated());
 
+        Cache::delete('siteOptionSetting');
+
         return $this->noContent();
     }
 
@@ -65,6 +68,8 @@ class OptionController extends ApiBaseController
     {
         $option->fill($request->all());
         $option->save();
+
+        Cache::delete('siteOptionSetting');
 
         return $this->noContent();
     }

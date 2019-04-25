@@ -23,14 +23,17 @@
                             @isset($data[0])
                                 <div class="col-xs-12 col-sm-7">
                                     <div class="card border_radius--none">
-                                        <div class="card-img-top background__cover--center"
-                                             style="background: url({{$data[0]['thumbnail']}})">
-                                        </div>
+                                        @isset ($data[0]['thumbnail'])
+                                            <div class="card-img-top background__cover--center"
+                                                 style="background: url({{$data[0]['thumbnail']}})">
+                                            </div>
+                                        @endisset
+
                                         <div class="card-body">
                                             <h5 class="card-title fs--1-3em">{{$data[0]['title']}}</h5>
                                             <hr class="hr__short--grey">
                                             <div class="card-text margin_bottom--20">
-                                                {{$data[0]['content']}}
+                                                {{$data[0]['description']}}
                                             </div>
 
                                             <p class="text-right">
@@ -48,13 +51,16 @@
                             @isset($data[1])
                                 <div class="col-xs-12 col-sm-5">
                                     <div class="card border_radius--none">
-                                        <div class="card-img-top background__cover--center"
-                                             style="background: url({{$data[1]['thumbnail']}})">
-                                        </div>
+                                        @isset ($data[0]['thumbnail'])
+                                            <div class="card-img-top background__cover--center"
+                                                 style="background: url({{$data[1]['thumbnail']}})">
+                                            </div>
+                                        @endisset
+
                                         <div class="card-body">
                                             <h5 class="card-title fs--1-3em">{{$data[1]['title']}}</h5>
                                             <hr class="hr__short--grey">
-                                            <div class="card-text margin_bottom--20">{{$data[1]['content']}}</div>
+                                            <div class="card-text margin_bottom--20">{{$data[1]['description']}}</div>
 
                                             <p class="text-right">
                                                 <a href="{{route('blogitem',$data[1]['slug'])}}"
@@ -86,7 +92,7 @@
                                             <div class="card-body">
                                                 <h5 class="card-title fs--1-3em">{{$item['title']}}</h5>
                                                 <hr class="hr__short--grey">
-                                                <div class="card-text margin_bottom--20">{{$item['content']}}</div>
+                                                <div class="card-text margin_bottom--20">{{$item['description']}}</div>
 
                                                 <p class="text-right">
                                                     <a href="{{route('blogitem',$item['slug'])}}"

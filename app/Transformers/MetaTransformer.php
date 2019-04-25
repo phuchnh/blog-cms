@@ -31,4 +31,19 @@ class MetaTransformer extends Transformer
     {
         return $meta->toArray();
     }
+
+    /**
+     * @param $metas
+     * @return array @mix
+     */
+    public function transformArray($metas)
+    {
+        $result = [];
+        foreach ($metas as $meta) {
+            $result[$meta->meta_key] = $meta->meta_value;
+        }
+
+        return $result;
+    }
+
 }

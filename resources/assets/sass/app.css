@@ -1,6 +1,4 @@
-// Ant design
 @import '~ant-design-vue/dist/antd.min.css';
-// AdminLTE
 @import '~admin-lte/bower_components/bootstrap/dist/css/bootstrap.min.css';
 @import '~admin-lte/bower_components/font-awesome/css/font-awesome.min.css';
 @import '~admin-lte/bower_components/Ionicons/css/ionicons.min.css';
@@ -8,9 +6,7 @@
 @import '~element-ui/lib/theme-chalk/index.css';
 @import '~admin-lte/dist/css/AdminLTE.min.css';
 @import '~admin-lte/dist/css/skins/skin-blue.min.css';
-// Editor
 @import '~jodit/build/jodit.min.css';
-
 .ant-message {
   z-index: 9999 !important;
 }
@@ -23,15 +19,13 @@
   color: red;
 }
 
-.user-panel>.image>img {
+.user-panel > .image > img {
   height: 45px;
 }
 
-.ck {
-  &.ck-content {
-    border: 1px solid #c4c4c4 !important;
-    border-top: none !important;
-  }
+.ck.ck-content {
+  border: 1px solid #c4c4c4 !important;
+  border-top: none !important;
 }
 
 .ck-content .image > figcaption {
@@ -48,23 +42,24 @@
   position: fixed;
   padding: 15px;
   background: #fff;
-  -webkit-box-shadow: 0px -4px 5px 0px rgba(219, 219, 219, 1);
-  -moz-box-shadow: 0px -4px 5px 0px rgba(219, 219, 219, 1);
-  box-shadow: 0px -4px 5px 0px rgba(219, 219, 219, 1);
+  -webkit-box-shadow: 0px -4px 5px 0px #dbdbdb;
+  -moz-box-shadow: 0px -4px 5px 0px #dbdbdb;
+  box-shadow: 0px -4px 5px 0px #dbdbdb;
   bottom: 0;
   right: 0;
   width: calc(100% - 230px);
-
-  .form-group {
-    margin-bottom: 0;
-
-    .btn {
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-  }
-
-  @media (max-width: 767px) {
+}
+.button-section-fixed .form-group {
+  margin-bottom: 0;
+}
+.button-section-fixed .form-group .btn {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+@media (max-width: 767px) {
+  .button-section-fixed {
     width: 100%;
   }
 }
+
+/*# sourceMappingURL=app.css.map */

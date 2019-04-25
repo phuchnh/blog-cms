@@ -9,7 +9,7 @@
       <PostMetaImageForm v-model="metas.banner" :boxTitle="'Banner'"></PostMetaImageForm>
       <CategoryBox :boxTitle="'Categories'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
-      <PostEventForm v-if="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
+      <PostEventForm v-show="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
       <PostOtherForm v-model="metas.others" :boxTitle="'Custom Related Post'" :type="getPostType"></PostOtherForm>
     </div>
     <PostActionBox @click="handleAction"></PostActionBox>

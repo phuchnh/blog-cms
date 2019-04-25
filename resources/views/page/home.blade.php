@@ -3,52 +3,62 @@
 @section('content')
     <article>
         <!-- Banner -->
-        <section class="banner banner__home-page background__cover--center"
-                 style="background:url('/app/img/olc-banner_home.jpg')">
-            <div class="banner_content text-center font_color--white">
-                <h1>
-                    WE ARE
-                    <small>A solution-driven, mindfulness-based training and coaching company in Vietnam.</small>
-                </h1>
-                <div class="content margin_bottom--25">
-                    We work with individuals, teams and organizations<br>to transform the workplace, one mindful leader
-                    at a time.
+        @isset($setting['banner'])
+            <section class="banner banner__home-page background__cover--center"
+                     style="background:url('@isset($setting['banner']['image']){{$setting['banner']['image']}}@endisset')">
+                <div class="banner_content text-center font_color--white">
+                    @if (array_search(app()->getLocale(), array_column($setting['banner']['content'], 'locale')))
+                        <h1>
+                            @isset($setting['banner']['content'][app()->getLocale()]->title)
+                                {{$setting['banner']['content'][app()->getLocale()]->title}}
+                            @endif
+
+                            <small>@isset($setting['banner']['content'][app()->getLocale()]->sub_title){{$setting['banner']['content'][app()->getLocale()]->sub_title}}@endisset</small>
+                        </h1>
+                        <div class="content margin_bottom--25">
+                            @isset($setting['banner']['content'][app()->getLocale()]->description){{$setting['banner']['content'][app()->getLocale()]->description}}@endisset
+                        </div>
+                        <a href="@isset($setting['banner']['content'][app()->getLocale()]->link){{$setting['banner']['content'][app()->getLocale()]->link}}@endisset" class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
+                            @lang('site.view_more')
+                        </a>
+                    @endif
                 </div>
-                <button class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
-                    Read more
-                </button>
-            </div>
-        </section>
+            </section>
+        @endisset
 
-        <!-- Introduction -->
-        <section class="section-content section-content__introduction">
-            <h2 class="section-content__header text-center">
-                INTRODUCTION
-            </h2>
+    <!-- Introduction -->
+        @isset($setting['introduction'])
+            <section class="section-content section-content__introduction">
+                <h2 class="section-content__header text-center">
+                    INTRODUCTION
+                </h2>
 
-            <div class="section-content__container container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="section-content__container--padding">
-                            <header class="font-weight-bold fs--2rem margin_bottom--15">
-                                <span class="font_color--dark-grey">WELCOME</span><br>
-                                <span class="font_color--orange">TO ONE LIFE CONNECTION</span>
-                            </header>
+                <div class="section-content__container container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="section-content__container--padding">
+                                <header class="font-weight-bold fs--2rem margin_bottom--15">
+                                    <span class="font_color--dark-grey">WELCOME</span><br>
+                                    <span class="font_color--orange">TO ONE LIFE CONNECTION</span>
+                                </header>
 
-                            <div class="content">
-                                Improve Performance and Purposeat work with our unique training & coaching solution
-                                based on insights and applications of Mindfulness,Neuroscience, Emotional
-                                Intelligence,Happiness & Wellbeing. Watch this video and learn more.
+                                <div class="content">
+                                    @isset($setting['introduction']['content'][app()->getLocale()]->description)
+                                        {{$setting['introduction']['content'][app()->getLocale()]->description}}
+                                    @endif
+                                </div>
+                                <a href="@isset($setting['introduction']['content'][app()->getLocale()]->link) $setting['introduction']['content'][app()->getLocale()]->link} @endisset" class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</a>
                             </div>
-                            <div class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</div>
+                        </div>
+                        <div class=" col-xs-12 col-sm-6">
+                            @isset($setting['introduction']['image'])
+                                <img src="{{$setting['introduction']['image']}}" width="484" height="315">
+                            @endif
                         </div>
                     </div>
-                    <div class=" col-xs-12 col-sm-6">
-                        <img src="/app/img/olc-banner_home.jpg" width="484" height="315">
-                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endisset
 
         <!-- In The Press -->
         <section class="section-content section-content__inthepress">
