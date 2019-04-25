@@ -54,7 +54,7 @@
                         </div>
                         <div class=" col-xs-12 col-sm-6">
                             @isset($setting['introduction']['image'])
-                                <img src="{{$setting['introduction']['image']}}" width="484" height="315">
+                                <img class="img-responsive" src="{{$setting['introduction']['image']}}">
                             @endif
                         </div>
                     </div>
