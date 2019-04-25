@@ -21,7 +21,7 @@ class TaxonomyController extends ApiBaseController
     {
         Taxonomy::disableAutoloadTranslations();
 
-        if ($locale = $request->get('locale', config('app.locale'))) {
+        if ($locale = $request->get('locale', config('translatable.locale'))) {
             $taxonomies = $taxonomies->ofLocale($locale);
         }
 

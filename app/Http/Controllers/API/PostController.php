@@ -23,7 +23,7 @@ class PostController extends ApiBaseController
     {
         $posts = $posts->search($request);
 
-        if ($locale = $request->get('locale', config('app.locale'))) {
+        if ($locale = $request->get('locale', config('translatable.locale'))) {
             $posts = $posts->ofLocale($locale);
         }
 
