@@ -5,11 +5,12 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'"></PostMetaImageForm>
-      <PostMetaImageForm v-model="metas.banner" :title="'banner'"></PostMetaImageForm>
-      <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
+      <PostMetaImageForm v-model="metas.thumbnail" :boxTitle="'Thumbnail'"></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.banner" :boxTitle="'Banner'"></PostMetaImageForm>
+      <CategoryBox :boxTitle="'Categories'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
-      <PostEventForm v-show="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
+      <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'" v-model="metas.event"></PostEventForm>
+      <PostOtherForm v-model="metas.others" :boxTitle="'Custom Related Post'" :type="getPostType"></PostOtherForm>
     </div>
     <PostActionBox @click="handleAction"></PostActionBox>
   </div>
@@ -25,10 +26,12 @@
   import PostEventForm from '@/components/PostEventForm.vue'
   import * as _ from 'lodash'
   import PostMetaImageForm from './PostMetaImageForm'
+  import PostOtherForm from './PostOtherForm'
 
   export default {
     name: 'PostForm',
     components: {
+      PostOtherForm,
       PostMetaImageForm,
       TranslationBox,
       CategoryBox,
@@ -60,6 +63,7 @@
           event: {},
           thumbnail: null,
           banner: null,
+          others: [],
         },
         groups: [],
         tags: [],
@@ -175,6 +179,13 @@
           metas.push({
             meta_key: 'banner',
             meta_value: this.metas.banner,
+          })
+        }
+
+        if (this.metas.others.length > 0) {
+          metas.push({
+            meta_key: 'others',
+            meta_value: this.metas.others,
           })
         }
 

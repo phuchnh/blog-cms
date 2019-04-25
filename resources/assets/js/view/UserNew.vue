@@ -11,28 +11,8 @@
   export default {
     name: 'UserNew',
     components: { UserForm },
-    computed: {
-      ...mapGetters({
-        saved: 'user/saved',
-      }),
-    },
     beforeRouteLeave (from, to, next) {
-      if (_.isEmpty(this.$refs.userForm.user)) {
-        this.$store.dispatch('user/saved', true)
-      }
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('user/resetState')
-          next()
-        }).catch(() => {})
-      } else {
-        this.$store.dispatch('user/resetState')
-        next()
-      }
+      this.$store.dispatch('user/resetState').then(() => next())
     },
     data () {
       return {

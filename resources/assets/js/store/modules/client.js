@@ -5,7 +5,6 @@ export const namespaced = true
 const initialState = {
   clients: [],
   client: {},
-  saved: false,
   paginator: {},
   queryParams: {
     sort: 'updated_at',
@@ -21,7 +20,6 @@ export const state = { ...initialState }
 const getters = {
   client: state => state.client,
   clients: state => state.clients,
-  saved: state => state.saved,
   pagination: state => state.paginator,
   getQueryParams: state => state.queryParams,
 }
@@ -60,37 +58,42 @@ const actions = {
   },
   update ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    return Promise.all([
-      ApiService.post('/assets', payload.meta.thumbnail),
-      ApiService.put(`/clients/${ payload.id }`, input),
-    ]).then((resp) => {
-      const imgUrl = resp[0].data.data[0].uri
-      const clientId = payload.id
-      const metaData = {
-        thumbnail: imgUrl,
-      }
-      return dispatch('meta/createMeta', { data: metaData, model: 'clients', model_id: clientId }, { root: true })
-    })
+    if (_.isString(payload.meta.thumbnail) || !payload.meta.thumbnail) {
+      return ApiService.put(`/clients/${ payload.id }`, input)
+    } else {
+      return Promise.all([
+        ApiService.post('/assets', payload.meta.thumbnail),
+        ApiService.put(`/clients/${ payload.id }`, input),
+      ]).then((resp) => {
+        const imgUrl = resp[0].data.data[0].uri
+        const clientId = payload.id
+        const metaData = {
+          thumbnail: imgUrl,
+        }
+        return dispatch('meta/createMeta', { data: metaData, model: 'clients', model_id: clientId }, { root: true })
+      })
+    }
   },
   create ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    return Promise.all([
-      ApiService.post('/assets', payload.meta.thumbnail),
-      ApiService.post('/clients', input),
-    ]).then((resp) => {
-      const imgUrl = resp[0].data.data[0].uri
-      const clientId = resp[1].data.data.id
-      const metaData = {
-        thumbnail: imgUrl,
-      }
-      return dispatch('meta/createMeta', { data: metaData, model: 'clients', model_id: clientId }, { root: true })
-    })
+    if (!payload.meta.thumbnail) {
+      ApiService.post('/clients', input)
+    } else {
+      return Promise.all([
+        ApiService.post('/assets', payload.meta.thumbnail),
+        ApiService.post('/clients', input),
+      ]).then((resp) => {
+        const imgUrl = resp[0].data.data[0].uri
+        const clientId = resp[1].data.data.id
+        const metaData = {
+          thumbnail: imgUrl,
+        }
+        return dispatch('meta/createMeta', { data: metaData, model: 'clients', model_id: clientId }, { root: true })
+      })
+    }
   },
   resetState ({ commit }) {
     commit('resetState')
-  },
-  saved ({ commit }, payload) {
-    commit('saved', payload)
   },
 }
 
@@ -110,10 +113,6 @@ const mutations = {
   resetState (state) {
     state.client = {}
     state.clients = []
-    state.saved = false
-  },
-  saved (state, saved) {
-    state.saved = saved
   },
   setPaginator: (state, paginator) => {
     state.paginator = { ...paginator }

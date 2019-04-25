@@ -12,31 +12,13 @@
   export default {
     name: 'UserDetail',
     components: { UserForm },
-    computed: {
-      ...mapGetters({
-        saved: 'user/saved',
-      }),
-    },
     beforeRouteEnter (to, from, next) {
       Promise.all([
         store.dispatch('user/getItem', to.params.id),
-        store.dispatch('user/saved', true)
       ]).then(() => next())
     },
     beforeRouteLeave (from, to, next) {
-      if (!this.saved) {
-        this.$confirm('Are you sure you want to leave without saving?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'danger',
-        }).then(() => {
-          this.$store.dispatch('user/resetState')
-          next()
-        }).catch(() => {})
-      } else {
-        this.$store.dispatch('user/resetState')
-        next()
-      }
+      this.$store.dispatch('client/resetState').then(() => next())
     },
     data () {
       return {

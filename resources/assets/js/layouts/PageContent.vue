@@ -5,7 +5,6 @@
     <section class="content-header">
       <h1>
         {{ title }}
-        <small>{{ description }}</small>
       </h1>
       <ol class="breadcrumb">
         <li>

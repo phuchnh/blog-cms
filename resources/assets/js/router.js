@@ -66,7 +66,7 @@ export default new Router({
               name: 'FaqList',
               component: ListPost,
               meta: {
-                title: 'FaqList',
+                title: 'FAQ',
                 description: '',
                 postType: 'post_faq',
               },
@@ -76,7 +76,7 @@ export default new Router({
               name: 'FaqNew',
               component: NewPost,
               meta: {
-                title: 'FaqNew',
+                title: 'Create New FAQ',
                 description: 'Add new',
                 postType: 'post_faq',
               },
@@ -86,7 +86,7 @@ export default new Router({
               name: 'FaqDetail',
               component: EditPost,
               meta: {
-                title: 'FaqDetail',
+                title: 'Edit FAQ',
                 description: '',
                 postType: 'post_faq',
               },
@@ -99,7 +99,7 @@ export default new Router({
           name: 'userList',
           component: UserList,
           meta: {
-            title: 'UserList',
+            title: 'User',
             description: '',
           },
         },
@@ -108,7 +108,7 @@ export default new Router({
           name: 'userNew',
           component: UserNew,
           meta: {
-            title: 'UserNew',
+            title: 'Create New User',
             description: '',
           },
         },
@@ -117,7 +117,7 @@ export default new Router({
           name: 'userDetail',
           component: UserDetail,
           meta: {
-            title: 'UserDetail',
+            title: 'Edit User',
             description: '',
           },
         },
@@ -141,7 +141,7 @@ export default new Router({
               name: 'InThePressList',
               component: ListPost,
               meta: {
-                title: 'InThePressList',
+                title: 'In The Press',
                 description: 'InThePressList',
                 postType: 'post_presses',
               },
@@ -151,7 +151,7 @@ export default new Router({
               name: 'InThePressNew',
               component: NewPost,
               meta: {
-                title: 'InThePressNew',
+                title: 'Create new In The Press',
                 description: 'InThePressNew',
                 postType: 'post_presses',
               },
@@ -161,7 +161,7 @@ export default new Router({
               name: 'InThePressDetail',
               component: EditPost,
               meta: {
-                title: 'InThePressDetail',
+                title: 'Edit In The Press',
                 description: 'InThePressDetail',
                 postType: 'post_presses',
               },
@@ -189,7 +189,7 @@ export default new Router({
               name: 'BlogList',
               component: ListPost,
               meta: {
-                title: 'BlogList',
+                title: 'Blog',
                 description: 'BlogList',
                 postType: 'post_blogs',
               },
@@ -199,7 +199,7 @@ export default new Router({
               name: 'BlogNew',
               component: NewPost,
               meta: {
-                title: 'BlogNew',
+                title: 'Create New Blog',
                 description: 'BlogNew',
                 postType: 'post_blogs',
               },
@@ -209,7 +209,7 @@ export default new Router({
               name: 'BlogDetail',
               component: EditPost,
               meta: {
-                title: 'BlogDetail',
+                title: 'Edit Blog',
                 description: 'BlogDetail',
                 postType: 'post_blogs',
               },
@@ -223,7 +223,7 @@ export default new Router({
           name: 'clientList',
           component: ClientList,
           meta: {
-            title: 'ClientList',
+            title: 'Client',
             description: '',
           },
         },
@@ -232,7 +232,7 @@ export default new Router({
           name: 'clientNew',
           component: ClientNew,
           meta: {
-            title: 'ClientNew',
+            title: 'Create New Client',
             description: '',
           },
         },
@@ -241,7 +241,7 @@ export default new Router({
           name: 'clientDetail',
           component: ClientDetail,
           meta: {
-            title: 'ClientDetail',
+            title: 'Edit Client',
             description: '',
           },
         },
@@ -265,7 +265,7 @@ export default new Router({
               name: 'GuideList',
               component: ListPost,
               meta: {
-                title: 'GuideList',
+                title: 'Guide',
                 description: 'GuideList',
                 postType: 'post_guides',
               },
@@ -275,7 +275,7 @@ export default new Router({
               name: 'GuideNew',
               component: NewPost,
               meta: {
-                title: 'GuideNew',
+                title: 'Create New Guide',
                 description: 'GuideNew',
                 postType: 'post_guides',
               },
@@ -285,7 +285,7 @@ export default new Router({
               name: 'GuideDetail',
               component: EditPost,
               meta: {
-                title: 'GuideDetail',
+                title: 'Edit Guide',
                 description: 'GuideDetail',
                 postType: 'post_guides',
               },
@@ -313,7 +313,7 @@ export default new Router({
               name: 'EventList',
               component: ListPost,
               meta: {
-                title: 'EventList',
+                title: 'Event',
                 description: 'EventList',
                 postType: 'post_events',
               },
@@ -323,7 +323,7 @@ export default new Router({
               name: 'EventNew',
               component: NewPost,
               meta: {
-                title: 'EventNew',
+                title: 'Create New Event',
                 description: 'EventNew',
                 postType: 'post_events',
               },
@@ -333,9 +333,57 @@ export default new Router({
               name: 'EventDetail',
               component: EditPost,
               meta: {
-                title: 'EventDetail',
+                title: 'Edit Event',
                 description: 'EventDetail',
                 postType: 'post_events',
+              },
+            },
+          ],
+        },
+        //=================================== Events ==============================//
+
+        //=================================== Programs ==============================//
+        {
+          path: 'programs',
+          component: PostContainer,
+          props: {
+            postType: 'post_programs',
+            redirectToNew: 'ProgramNew',
+            redirectToDetail: 'ProgramDetail',
+            redirectToList: 'ProgramList',
+          },
+          meta: {
+            postType: 'post_programs',
+          },
+          children: [
+            {
+              path: '',
+              name: 'ProgramList',
+              component: ListPost,
+              meta: {
+                title: 'Program',
+                description: 'ProgramList',
+                postType: 'post_programs',
+              },
+            },
+            {
+              path: 'new',
+              name: 'ProgramNew',
+              component: NewPost,
+              meta: {
+                title: 'Create New Program',
+                description: 'ProgramNew',
+                postType: 'post_programs',
+              },
+            },
+            {
+              path: ':id',
+              name: 'ProgramDetail',
+              component: EditPost,
+              meta: {
+                title: 'Edit Program',
+                description: 'ProgramDetail',
+                postType: 'post_programs',
               },
             },
           ],
@@ -361,7 +409,7 @@ export default new Router({
               name: 'PraticeList',
               component: ListPost,
               meta: {
-                title: 'PraticeList',
+                title: 'Practice',
                 description: 'PraticeList',
                 postType: 'post_pratices',
               },
@@ -371,7 +419,7 @@ export default new Router({
               name: 'PraticeNew',
               component: NewPost,
               meta: {
-                title: 'PraticeNew',
+                title: 'Create New Practice',
                 description: 'PraticeNew',
                 postType: 'post_pratices',
               },
@@ -381,7 +429,7 @@ export default new Router({
               name: 'PraticeDetail',
               component: EditPost,
               meta: {
-                title: 'PraticeDetail',
+                title: 'Edit Practice',
                 description: 'PraticeDetail',
                 postType: 'post_pratices',
               },
@@ -395,7 +443,7 @@ export default new Router({
           name: 'categoryList',
           component: CategoryList,
           meta: {
-            title: 'CategoryList',
+            title: 'Category',
             description: '',
           },
         },
@@ -404,7 +452,7 @@ export default new Router({
           name: 'categoryNew',
           component: CategoryNew,
           meta: {
-            title: 'CategoryNew',
+            title: 'Create New Category',
             description: '',
           },
         },
@@ -413,7 +461,7 @@ export default new Router({
           name: 'categoryDetail',
           component: CategoryDetail,
           meta: {
-            title: 'CategoryDetail',
+            title: 'Edit Category',
             description: '',
           },
         },
@@ -433,7 +481,7 @@ export default new Router({
           name: 'pageNotFound',
           component: PageNotFound,
           meta: {
-            title: 'PageNotFound',
+            title: 'Page Not Found',
             description: '',
           },
         },

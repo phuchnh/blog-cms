@@ -1,13 +1,10 @@
 <template>
-  <div class="box">
-    <div class="box-header">
-      <div class="box-header with-border">
-        <h3 class="box-title">Custom Related Post</h3>
+  <div>
+    <div class="box box-widget no-border">
+      <div class="box-header">
+        <h3 class="box-title">{{ boxTitle }}</h3>
       </div>
-    </div>
-
-    <div class="box-body">
-      <div class="col-sm-12">
+      <div class="box-body">
         <el-select
             v-model="post"
             multiple
@@ -42,6 +39,9 @@
       value: {
         type: String | Object | Array,
       },
+      boxTitle: {
+        type: String,
+      },
       type: {
         type: String,
       },
@@ -59,7 +59,7 @@
           return JSON.stringify(item)
         }) : [],
         fetching: false,
-        relatedPost: []
+        relatedPost: [],
       }
     },
     created () {
@@ -98,6 +98,7 @@
         const params = {
           title: value,
           type: this.type,
+          with: 'metas',
         }
 
         // Call api to load post
@@ -115,8 +116,8 @@
             value: {
               id: val.id,
               title: val.title,
-              url: `${window.location.origin}/${val.slug}`,
-              thumbnail: val.meta.thumbnail || null
+              url: `${ window.location.origin }/${ val.slug }`,
+              thumbnail: val.metas.thumbnail || null,
             },
           }))
 
