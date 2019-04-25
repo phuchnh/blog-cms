@@ -58,31 +58,39 @@ const actions = {
   },
   update ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    return Promise.all([
-      ApiService.post('/assets', payload.meta.avatar),
-      ApiService.put(`/users/${ payload.id }`, input),
-    ]).then((resp) => {
-      const imgUrl = resp[0].data.data[0].uri
-      const userId = payload.id
-      const metaData = {
-        avatar: imgUrl,
-      }
-      return dispatch('meta/createMeta', { data: metaData, model: 'users', model_id: userId }, { root: true })
-    })
+    if (_.isString(payload.meta.avatar) || !payload.meta.avatar) {
+      return ApiService.put(`/users/${ payload.id }`, input)
+    } else {
+      return Promise.all([
+        ApiService.post('/assets', payload.meta.avatar),
+        ApiService.put(`/users/${ payload.id }`, input),
+      ]).then((resp) => {
+        const imgUrl = resp[0].data.data[0].uri
+        const userId = payload.id
+        const metaData = {
+          avatar: imgUrl,
+        }
+        return dispatch('meta/createMeta', { data: metaData, model: 'users', model_id: userId }, { root: true })
+      })
+    }
   },
   create ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    return Promise.all([
-      ApiService.post('/assets', payload.meta.avatar),
-      ApiService.post('/users', input),
-    ]).then((resp) => {
-      const imgUrl = resp[0].data.data[0].uri
-      const userId = resp[1].data.data.id
-      const metaData = {
-        avatar: imgUrl,
-      }
-      return dispatch('meta/createMeta', { data: metaData, model: 'users', model_id: userId }, { root: true })
-    })
+    if (!payload.meta.avatar) {
+      return ApiService.post('/users', input)
+    } else {
+      return Promise.all([
+        ApiService.post('/assets', payload.meta.avatar),
+        ApiService.post('/users', input),
+      ]).then((resp) => {
+        const imgUrl = resp[0].data.data[0].uri
+        const userId = resp[1].data.data.id
+        const metaData = {
+          avatar: imgUrl,
+        }
+        return dispatch('meta/createMeta', { data: metaData, model: 'users', model_id: userId }, { root: true })
+      })
+    }
   },
   resetState ({ commit }) {
     commit('resetState')
