@@ -12,7 +12,7 @@ use App\Models\Post;
 class PressController extends Controller
 {
     //Set Type
-    const TYPE = 'in_the_press';
+    const TYPE = 'post_presses';
 
     /**
      * Display a listing of the resource.
@@ -36,7 +36,7 @@ class PressController extends Controller
             ->orderBy('id', 'desc')->paginate(5);
 
         return view('page.about.press', [
-            'data'        => $this->loadTransformData($posts),
+            'data'        => $this->loadTransformDataPost($posts),
             'links'       => $posts->links(),
             'navigate'    => 'press',
             'subnavigate' => 'press',
@@ -75,14 +75,15 @@ class PressController extends Controller
      */
     private function getPostDetail($slug = null)
     {
-        if (Cache::has('post_'.$slug)) {
-            return Cache::get('post_'.$slug);
+        if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
+            return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {
-            $post = Post::findBySlugOrFail($slug);
+            $post = Post::ofLocale(app()->getLocale())
+                        ->where('slug', $slug)->firstOrFail();
 
-            $data = $this->loadTransformData($post);
+            $data = $this->loadTransformDataPost($post);
 
-            Cache::put('post_'.$slug, $data, 60);
+            Cache::put('post_'.app()->getLocale().'_'.$slug, $data, 60);
 
             return $data;
         }
@@ -101,7 +102,8 @@ class PressController extends Controller
         } else {
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
-            $others = Post::where('slug', '!=', $post['slug'])
+            $others = Post::ofLocale(app()->getLocale())
+                          ->where('slug', '!=', $post['slug'])
                           ->where('type', self::TYPE)
                           ->when($isOtherBoolean, function ($query) use ($post) {
                               $relatePosts = json_decode($post['meta']['others']);
@@ -110,7 +112,7 @@ class PressController extends Controller
                               return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
-            $data = $this->loadTransformData($others);
+            $data = $this->loadTransformDataPost($others);
 
             Cache::put('post_others_'.$post['slug'], $data, 60);
 

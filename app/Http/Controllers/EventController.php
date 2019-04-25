@@ -12,7 +12,7 @@ use App\Models\Post;
 class EventController extends Controller
 {
     //Set Type
-    const TYPE = 'event';
+    const TYPE = 'post_events';
 
     /**
      * Display a listing of the resource.
@@ -26,17 +26,17 @@ class EventController extends Controller
         $paginator = $request->get('perPage');
 
         // Load list posts
-        $posts = $posts
-            ->where('type', self::TYPE)
-            ->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-            })
-            ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc')->paginate(5);
+        $posts = $posts->ofLocale(app()->getLocale())
+                       ->where('type', self::TYPE)
+                       ->when($request->input('title'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                       })
+                       ->sortable([$request->get('sort') => $request->get('direction')])
+                       ->orderBy('id', 'desc')->paginate(5);
 
         return view('page.event.list', [
-            'data'        => $this->loadTransformData($posts),
+            'data'        => $this->loadTransformDataPost($posts),
             'links'       => $posts->links(),
             'navigate'    => 'event',
             'subnavigate' => 'event',
@@ -75,14 +75,15 @@ class EventController extends Controller
      */
     private function getPostDetail($slug = null)
     {
-        if (Cache::has('post_'.$slug)) {
-            return Cache::get('post_'.$slug);
+        if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
+            return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {
-            $post = Post::findBySlugOrFail($slug);
+            $post = Post::ofLocale(app()->getLocale())
+                        ->where('slug', $slug)->firstOrFail();
 
             $data = $this->loadTransformData($post);
 
-            Cache::put('post_'.$slug, $data, 60);
+            Cache::put('post_'.app()->getLocale().'_'.$slug, $data, 60);
 
             return $data;
         }
@@ -101,7 +102,8 @@ class EventController extends Controller
         } else {
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
-            $others = Post::where('slug', '!=', $post['slug'])
+            $others = Post::ofLocale(app()->getLocale())
+                          ->where('slug', '!=', $post['slug'])
                           ->where('type', self::TYPE)
                           ->when($isOtherBoolean, function ($query) use ($post) {
                               $relatePosts = json_decode($post['meta']['others']);

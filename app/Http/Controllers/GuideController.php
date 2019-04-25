@@ -10,7 +10,7 @@ use App\Models\Post;
 class GuideController extends Controller
 {
     //Set Type
-    const TYPE = 'guide';
+    const TYPE = 'post_guides';
 
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class GuideController extends Controller
             ->orderBy('id', 'desc')->paginate(5);
 
         return view('page.blog.index-row', [
-            'data'        => $this->loadTransformData($posts),
+            'data'        => $this->loadTransformDataPost($posts),
             'links'       => $posts->links(),
             'navigate'    => 'resources',
             'subnavigate' => 'guided-meditation',
@@ -78,7 +78,7 @@ class GuideController extends Controller
         } else {
             $post = Post::findBySlugOrFail($slug);
 
-            $data = $this->loadTransformData($post);
+            $data = $this->loadTransformDataPost($post);
 
             Cache::put('post_'.$slug, $data, 60);
 
@@ -108,7 +108,7 @@ class GuideController extends Controller
                               return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
-            $data = $this->loadTransformData($others);
+            $data = $this->loadTransformDataPost($others);
 
             Cache::put('post_others_'.$post['slug'], $data, 60);
 

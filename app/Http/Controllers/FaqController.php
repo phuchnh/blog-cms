@@ -50,7 +50,7 @@ class FaqController extends Controller
                 ->sortable([$request->get('sort') => $request->get('direction')])
                 ->orderBy('id', 'desc')->get();
 
-            Cache::put('post_faq', $this->loadTransformData($data), 600);
+            Cache::put('post_faq', $this->loadTransformDataPost($data), 600);
 
             return $data;
         }

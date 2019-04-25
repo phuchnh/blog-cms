@@ -10,7 +10,7 @@ use App\Models\Post;
 class PracticeController extends Controller
 {
     //Set Type
-    const TYPE = 'practice';
+    const TYPE = 'post_pratices';
 
     /**
      * Display a listing of the resource.
@@ -24,17 +24,17 @@ class PracticeController extends Controller
         $paginator = $request->get('perPage');
 
         // Load list posts
-        $posts = $posts
-            ->where('type', self::TYPE)
-            ->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-            })
-            ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc')->paginate(5);
+        $posts = $posts->ofLocale(app()->getLocale())
+                       ->where('type', self::TYPE)
+                       ->when($request->input('title'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                       })
+                       ->sortable([$request->get('sort') => $request->get('direction')])
+                       ->orderBy('id', 'desc')->paginate(5);
 
         return view('page.blog.index-row', [
-            'data'        => $this->loadTransformData($posts),
+            'data'        => $this->loadTransformDataPost($posts),
             'links'       => $posts->links(),
             'navigate'    => 'resources',
             'subnavigate' => 'daily-practices',
@@ -78,7 +78,7 @@ class PracticeController extends Controller
         } else {
             $post = Post::findBySlugOrFail($slug);
 
-            $data = $this->loadTransformData($post);
+            $data = $this->loadTransformDataPost($post);
 
             Cache::put('post_'.$slug, $data, 60);
 
@@ -108,7 +108,7 @@ class PracticeController extends Controller
                               return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
-            $data = $this->loadTransformData($others);
+            $data = $this->loadTransformDataPost($others);
 
             Cache::put('post_others_'.$post['slug'], $data, 60);
 

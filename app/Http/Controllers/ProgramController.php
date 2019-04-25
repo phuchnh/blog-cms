@@ -12,7 +12,7 @@ use App\Models\Post;
 class ProgramController extends Controller
 {
     //Set Type
-    const TYPE = 'program';
+    const TYPE = 'post_programs';
 
     /**
      * Display a listing of the resource.
@@ -36,7 +36,7 @@ class ProgramController extends Controller
             ->orderBy('id', 'desc')->paginate(5);
 
         return view('page.event.list', [
-            'data'        => $this->loadTransformData($posts),
+            'data'        => $this->loadTransformDataPost($posts),
             'links'       => $posts->links(),
             'navigate'    => 'program',
             'subnavigate' => 'program',
@@ -80,7 +80,7 @@ class ProgramController extends Controller
         } else {
             $post = Post::findBySlugOrFail($slug);
 
-            $data = $this->loadTransformData($post);
+            $data = $this->loadTransformDataPost($post);
 
             Cache::put('post_'.$slug, $data, 60);
 
@@ -110,7 +110,7 @@ class ProgramController extends Controller
                               return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
-            $data = $this->loadTransformData($others);
+            $data = $this->loadTransformDataPost($others);
 
             Cache::put('post_others_'.$post['slug'], $data, 60);
 

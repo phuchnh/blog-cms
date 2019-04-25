@@ -29,7 +29,7 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <select class="custom-select border_radius--2em">
-                                <option selected>Choose...</option>
+                                <option selected>Day...</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
@@ -39,7 +39,7 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <select class="custom-select border_radius--2em">
-                                <option selected>Choose...</option>
+                                <option selected>Month...</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
@@ -64,12 +64,16 @@
                     <div class="col-12">
                         @isset ($data)
                             <div class="card-deck">
-                                @foreach ($data as $item)
+                            @foreach ($data as $item)
                                     <div class="card border_radius--none border_none">
-                                        <div class="card-img-top background__cover--center"
-                                             style="background: url({{$item['thumbnail']}})">
-                                            <img class="d-none" src="{{$item['thumbnail']}}" alt="Card image cap">
-                                        </div>
+                                        @isset($item['meta']['thumbnail'])
+                                            <div class="card-img-top background__cover--center"
+                                                 style="background: url({{$item['meta']['thumbnail']}})">
+                                                <img class="d-none" src="{{$item['meta']['thumbnail']}}"
+                                                     alt="{{$item['title']}}">
+                                            </div>
+                                        @endisset
+
                                         <div class="card-body">
                                             <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
                                             <h5 class="card-title font_color--orange fs--1-3em">{{$item['title']}}</h5>

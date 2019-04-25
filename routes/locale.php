@@ -61,6 +61,7 @@ Route::get(trans('routes.why-mind-fullness').'/{slug?}', function ($slug = null)
 })->name('why-mind-fullness');
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get(trans('routes.home'), 'HomeController@index')->name('homepage');
 
 Route::get(trans('routes.blog'), 'BlogController@index')->name('blog');
 Route::get(trans('routes.blog').'/{slug}', 'BlogController@show')->name('blogitem');

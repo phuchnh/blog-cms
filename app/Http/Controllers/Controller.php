@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transformers\PostFrontEndTransformer;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -27,6 +28,22 @@ class Controller extends BaseController
      * @return \Illuminate\Support\Collection
      */
     public function loadTransformData($collection, $transformerClass = PostTransformer::class)
+    {
+        $data = responder()
+            ->success($collection, $transformerClass)
+            ->toCollection();
+
+        return $data['data'] ? $data['data'] : null;
+    }
+
+    /**
+     * transform data for post include meta transform
+     *
+     * @param $collection
+     * @param string $transformerClass
+     * @return \Illuminate\Support\Collection
+     */
+    public function loadTransformDataPost($collection, $transformerClass = PostFrontEndTransformer::class)
     {
         $data = responder()
             ->success($collection, $transformerClass)
