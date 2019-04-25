@@ -2,25 +2,25 @@
     <!-- footer inquiry -->
     <div class="footer_inquiry background--dark-grey text-center">
         <div class="container">
-            <header class="font_color--orange fs--2rem margin_bottom--30">INQUIRY</header>
+            <header class="font_color--orange fs--2rem margin_bottom--30 text-uppercase">@lang('site.inquiry')</header>
 
             <div class="row margin_bottom--15">
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="#"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white">
-                        Individual
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                        @lang('site.individual')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="#"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white">
-                        Company
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                        @lang('site.company')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="#"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white">
-                        Book a meeting
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                        @lang('site.book-a-meeting')
                     </a>
                 </div>
             </div>
@@ -37,7 +37,10 @@
                         </a>
 
                         <div class="content fs--1rem margin_top--30">
-                            <a href="#">139C Nguyen Dinh Chinh, Ward 8Phu Nhuan Dist. HCMC, Vietnam.</a>
+                            @isset($setting['address'])
+                                {{$setting['address']}}
+                            @endisset
+
                         </div>
                     </div>
                 </div>
@@ -45,57 +48,66 @@
                 <div class="col-sm-9 col-xs-12 ml-auto">
                     <div class="d-flex flex-column flex-sm-row bd-highlight">
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem">ABOUT</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.about')</header>
                             <ul class="nav flex-column margin--none padding--none">
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Story</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Experts</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">In the press</a>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.story')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.experts')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.in_the_press')</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Contact us</a>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.contact-us')</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem">EVENTS & PROGRAMS</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.events-and-programs')</header>
                             <ul class="nav flex-column margin--none padding--none">
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Programs</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Events</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('routes.programs')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('routes.events')</a></li>
                             </ul>
                         </div>
 
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem">RESULTS</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.results')</header>
                             <ul class="nav flex-column margin--none padding--none">
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Approach</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Expertise</a>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.approach')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.expertise')</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Testimonials</a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.testimonials')</a></li>
                             </ul>
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem">WHY MINDFULNESS</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('routes.why-mindfullness')</header>
                             <ul class="nav flex-column margin--none padding--none">
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Benefits</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">How to
-                                        practice</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">FAQ</a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.benefits')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.how_to_practise')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.faq')</a></li>
                             </ul>
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem">RESOURCES</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.resources')</header>
                             <ul class="nav flex-column margin--none padding--none">
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Blog</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Guided
-                                        Meditation</a></li>
-                                <li class="nav-item"><a class="nav-link padding_left--0" href="#">Daily Practices
-                                    </a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.blogs')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.guided-meditation')</a></li>
+                                <li class="nav-item"><a class="nav-link padding_left--0 text-capitalize"
+                                                        href="#">@lang('site.daily-practices')</a></li>
                             </ul>
                         </div>
                     </div>
@@ -107,7 +119,10 @@
     <div class="container-fluid">
         <div class="row footer_copyright padding_top--15 padding_bottom--15 border_top--1">
             <div class="col-12 fs--0-9rem text-center">
-                © 2018 One Life Connection Training & Consultancy Co., Ltd. All Rights Reserved.
+                @isset($setting['copyright'])
+                    {{$setting['copyright']}}
+                @endisset
+
             </div>
         </div>
         <!-- footer socialnetwork -->
@@ -118,24 +133,34 @@
 
                     <ul class="list-inline fs--1-1rem">
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fa-facebook-square"></i>
-                            </a>
+                            @isset($setting['facebook'])
+                                <a target="_blank" href="{{$setting['facebook']}}" class="font_color--white">
+                                    <i class="fab fa-facebook-square"></i>
+                                </a>
+                            @endisset
+
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fa-youtube-square"></i>
-                            </a>
+                            @isset($setting['youtube'])
+                                <a target="_blank" href="{{$setting['youtube']}}" class="font_color--white">
+                                    <i class="fab fa-youtube-square"></i>
+                                </a>
+                            @endisset
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
+                            @isset($setting['linkedin'])
+                                <a target="_blank" href="{{$setting['linkedin']}}" class="font_color--white">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                            @endisset
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class="font_color--white">
-                                <i class="fab fas fa-envelope"></i>
-                            </a>
+                            @isset($setting['email'])
+                                <a href="mailto:{{$setting['email']}}" class="font_color--white">
+                                    <i class="fab fas fa-envelope"></i>
+                                </a>
+                            @endisset
+
                         </li>
                     </ul>
                 </div>

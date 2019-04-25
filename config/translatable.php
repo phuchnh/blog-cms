@@ -11,7 +11,12 @@ return [
     |
     */
     'locales'                     => [
-        'vi' => 'Vietnamese',
+        'vi',
+        'en',
+    ],
+
+    'locales_array' => [
+        'vi' => 'Tiếng Việt',
         'en' => 'English',
     ],
 
@@ -129,5 +134,5 @@ return [
      * Ignore translate with url
      * will return null
      */
-    'ignore_url'                         => ['admin', 'login'],
+    'ignore_url'                         => ['admin', 'login', 'assets'],
 ];

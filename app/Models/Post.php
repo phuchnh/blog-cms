@@ -150,7 +150,6 @@ class Post extends Model
      */
     public function taxonomies()
     {
-        //return $this->hasMany(PostMeta::class, 'post_id');
         return $this->belongsToMany(Taxonomy::class)->using(PostTaxonomy::class)->withPivot(['order']);
     }
 
