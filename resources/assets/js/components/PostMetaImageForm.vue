@@ -1,29 +1,30 @@
 <template>
-  <div id="PostMetaImageForm" class="box">
-    <div class="box-header with-border">
-      <h3 class="box-title text-capitalize">{{ title }}</h3>
+  <div>
+    <div class="box box-widget no-border">
+      <div class="box-header">
+        <h3 class="box-title">{{ boxTitle }}</h3>
+        <div @click="uploadHandleImage" class="btn btn-sm btn-warning pull-right">
+          <i class="fa fa-upload"></i> Upload
+        </div>
 
-      <div @click="uploadHandleImage" class="btn btn-sm btn-warning pull-right">
-        <i class="fa fa-upload"></i> Upload
+        <p class="btn btn-default btn-sm btn-file pull-right">
+          <i class="fa fa-search"></i> Find image
+
+          <input type="file" class="form-control"
+                 :id="boxTitle"
+                 name="image"
+                 accept="image/*"
+                 @change="onFileChangeImage($event)"/>
+
+        </p>
       </div>
-
-      <p class="btn btn-default btn-sm btn-file pull-right">
-        <i class="fa fa-search"></i> Find image
-
-        <input type="file" class="form-control"
-               :id="title"
-               name="image"
-               accept="image/*"
-               @change="onFileChangeImage($event)"/>
-
-      </p>
-    </div>
-    <!-- /.box-header -->
-
-    <!-- form start -->
-    <div class="box-body text-center" v-show="imgUrl || image">
-      <img class="img img-thumbnail form-group" width="200"
-           :src="imgUrl ? imgUrl : image">
+      <div class="box-body">
+        <!-- form start -->
+        <div class="box-body text-center" v-show="imgUrl || image">
+          <img class="img img-thumbnail form-group" width="200"
+               :src="imgUrl ? imgUrl : image">
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +39,7 @@
       value: {
         type: String | Object | Array,
       },
-      title: {
+      boxTitle: {
         type: String,
       },
     },
@@ -100,26 +101,26 @@
 
               this.$message({
                 message: 'Upload image successful!',
-                type: 'success'
-              });
+                type: 'success',
+              })
             }
           }).catch(err => {
             this.$message({
               message: 'Upload image unsuccessful!',
-              type: 'error'
-            });
+              type: 'error',
+            })
           })
         }
       },
       resetData () {
         this.fileInput = null
-      }
+      },
     },
   }
 </script>
 
 <style scoped>
-  .btn-file{
+  .btn-file {
     margin-right: 15px;
   }
 </style>
