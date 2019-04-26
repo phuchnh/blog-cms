@@ -160,7 +160,7 @@
   // import component
   import SeoBox from '../components/SeoBox'
   import IntroductionBox from '../components/IntroductionBoxForm'
-  import ImageBox from '../components/PostMetaImageForm'
+  import ImageBox from '../components/ImagesBox'
   import BannerBox from '../components/BannerBox'
 
   export default {

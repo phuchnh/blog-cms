@@ -5,8 +5,8 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'"></PostMetaImageForm>
-      <PostMetaImageForm v-model="metas.banner" :title="'banner'"></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'" :limit="1"></PostMetaImageForm>
+      <PostMetaImageForm v-model="metas.banner" :title="'banner'" :limit="10"></PostMetaImageForm>
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
       <PostEventForm v-show="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
@@ -24,7 +24,7 @@
   import SeoBox from '@/components/SeoBox.vue'
   import PostEventForm from '@/components/PostEventForm.vue'
   import * as _ from 'lodash'
-  import PostMetaImageForm from './PostMetaImageForm'
+  import PostMetaImageForm from './ImagesBox'
 
   export default {
     name: 'PostForm',
