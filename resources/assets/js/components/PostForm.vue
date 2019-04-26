@@ -5,8 +5,8 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <PostMetaImageForm v-model="metas.thumbnail" :title="'thumbnail'" :limit="1"></PostMetaImageForm>
-      <PostMetaImageForm v-model="metas.banner" :title="'banner'" :limit="10"></PostMetaImageForm>
+      <ImagesBox v-model="metas.thumbnail" :title="'thumbnail'" :limit="1"></ImagesBox>
+      <ImagesBox v-model="metas.banner" :title="'banner'" :limit="10"></ImagesBox>
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
       <PostEventForm v-show="getPostType === 'post_events'" v-model="metas.event"></PostEventForm>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  import * as _ from 'lodash'
   import { mapActions, mapGetters } from 'vuex'
   import TranslationBox from '@/components/TranslationBox.vue'
   import CategoryBox from '@/components/CategoryBox.vue'
@@ -23,13 +24,12 @@
   import PostActionBox from '@/components/PostActionBox.vue'
   import SeoBox from '@/components/SeoBox.vue'
   import PostEventForm from '@/components/PostEventForm.vue'
-  import * as _ from 'lodash'
-  import PostMetaImageForm from './ImagesBox'
+  import ImagesBox from '@/components/ImagesBox'
 
   export default {
     name: 'PostForm',
     components: {
-      PostMetaImageForm,
+      ImagesBox,
       TranslationBox,
       CategoryBox,
       TagBox,

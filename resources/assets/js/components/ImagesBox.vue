@@ -37,7 +37,7 @@
   import * as _ from 'lodash'
 
   export default {
-    name: 'PostMetaImageForm',
+    name: 'ImagesBox',
     props: {
       value: {
         type: Object | Array,
