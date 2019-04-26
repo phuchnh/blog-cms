@@ -42,6 +42,5 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         'metas' => 'metum',
     ]);
 
-    Route::match(['put', 'post'], 'assets', 'AssetController@upload');
-    Route::get('assets', 'AssetController@index');
+    Route::apiResource('assets', 'AssetController')->except('update');
 });

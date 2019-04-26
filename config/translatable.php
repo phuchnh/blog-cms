@@ -15,6 +15,11 @@ return [
         'en',
     ],
 
+    'locales_array' => [
+        'vi' => 'Tiếng Việt',
+        'en' => 'English',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Locale separator
@@ -39,7 +44,7 @@ return [
     | and never fallback to the translator one.
     |
     */
-    'locale'                      => null,
+    'locale'                      => 'vi',
 
     /*
     |--------------------------------------------------------------------------
@@ -129,5 +134,5 @@ return [
      * Ignore translate with url
      * will return null
      */
-    'ignore_url'                         => ['admin', 'login'],
+    'ignore_url'                         => ['admin', 'login', 'assets'],
 ];

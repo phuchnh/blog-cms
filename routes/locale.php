@@ -10,10 +10,9 @@
 | contains the "locale" middleware group. Now create something great!
 |
 */
-
-Route::get('/about/{slug?}', function ($slug = null) {
+Route::get(trans('routes.about').'/{slug?}', function ($slug = null) {
     if (! $slug) {
-        return redirect('/about/story');
+        return redirect(app()->getLocale().'/'.trans('routes.about').'/story');
     }
 
     return view('page.about.'.$slug, [
@@ -22,19 +21,19 @@ Route::get('/about/{slug?}', function ($slug = null) {
     ]);
 })->name('about');
 
-Route::get('/event-programe', function () {
+Route::get(trans('routes.event-program'), function () {
     return view('page.event.index', [
         'navigate' => 'event',
     ]);
 })->name('event-program');
 
-Route::get('/resources', function () {
-    return redirect()->route('blog');
+Route::get(trans('routes.resources'), function () {
+    return redirect()->route(trans('routes.blog'));
 });
 
-Route::get('/results/{slug?}', function ($slug = null) {
+Route::get(trans('routes.results').'/{slug?}', function ($slug = null) {
     if (! $slug) {
-        return redirect('/results/approach');
+        return redirect(app()->getLocale().'/'.trans('routes.results').'/approach');
     }
 
     if ($slug === 'testimonial') {
@@ -50,39 +49,39 @@ Route::get('/results/{slug?}', function ($slug = null) {
         'navigate' => 'results',
         'slug'     => $slug,
     ]);
-});
+})->name('results');
 
-Route::get('/whymindfullness/{slug?}', function ($slug = null) {
+Route::get(trans('routes.why-mind-fullness').'/{slug?}', function ($slug = null) {
     $slug = $slug ? $slug : 'benefits';
 
     return view('page.why.'.$slug, [
         'navigate' => 'whymindfullness',
         'slug'     => $slug,
     ]);
-});
+})->name('why-mind-fullness');
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/'.trans('routes.blogs'), 'BlogController@index')->name('blog');
-Route::get('/'.trans('routes.blogs').'/{slug}', 'BlogController@show')->name('blogitem');
+Route::get(trans('routes.blog'), 'BlogController@index')->name('blog');
+Route::get(trans('routes.blog').'/{slug}', 'BlogController@show')->name('blogitem');
 
-Route::get('/'.trans('routes.practice'), 'PracticeController@index')->name('practice');
-Route::get('/'.trans('routes.practice').'/{slug}', 'PracticeController@show')->name('practiceitem');
+Route::get(trans('routes.practice'), 'PracticeController@index')->name('practice');
+Route::get(trans('routes.practice').'/{slug}', 'PracticeController@show')->name('practiceitem');
 
-Route::get('/'.trans('routes.guide'), 'GuideController@index')->name('guide');
-Route::get('/'.trans('routes.guide').'/{slug}', 'GuideController@show')->name('guideitem');
+Route::get(trans('routes.guide'), 'GuideController@index')->name('guide');
+Route::get(trans('routes.guide').'/{slug}', 'GuideController@show')->name('guideitem');
 
-Route::get('/'.trans('routes.press'), 'PressController@index')->name('press');
-Route::get('/'.trans('routes.press').'/{slug}', 'PressController@show')->name('pressitem');
+Route::get(trans('routes.press'), 'PressController@index')->name('press');
+Route::get(trans('routes.press').'/{slug}', 'PressController@show')->name('pressitem');
 
-Route::get('/'.trans('routes.event'), 'EventController@index')->name('event');
-Route::get('/'.trans('routes.event').'/{slug}', 'EventController@show')->name('eventitem');
+Route::get(trans('routes.event'), 'EventController@index')->name('event');
+Route::get(trans('routes.event').'/{slug}', 'EventController@show')->name('eventitem');
 
-Route::get('/'.trans('routes.program'), 'ProgramController@index')->name('program');
-Route::get('/'.trans('routes.program').'/{slug}', 'ProgramController@show')->name('programitem');
+Route::get(trans('routes.program'), 'ProgramController@index')->name('program');
+Route::get(trans('routes.program').'/{slug}', 'ProgramController@show')->name('programitem');
 
-Route::get('/'.trans('routes.faq'), 'FaqController@index')->name('faq');
-Route::get('/'.trans('routes.faq').'/{slug}', 'FaqController@show')->name('faqitem');
+Route::get(trans('routes.faq'), 'FaqController@index')->name('faq');
+Route::get(trans('routes.faq').'/{slug}', 'FaqController@show')->name('faqitem');
 
 // change language
 Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);

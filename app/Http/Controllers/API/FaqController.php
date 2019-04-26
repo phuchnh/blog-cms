@@ -19,7 +19,7 @@ class FaqController extends ApiBaseController
     {
         $faq = $faq->search($request);
 
-        if ($locale = $request->get('locale', config('app.locale'))) {
+        if ($locale = $request->get('locale', config('translatable.locale'))) {
             $faq = $faq->ofLocale($locale);
         }
 

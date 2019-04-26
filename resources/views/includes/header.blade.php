@@ -4,22 +4,31 @@
             <nav class="navbar navbar-expand-lg">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link font_color--white font-weight-bold" href="#">+84 8 66593431</a>
+                        @isset($setting['phone'])
+                            <a class="nav-link font_color--white font-weight-bold" href="#">{{$setting['phone']}}</a>
+                        @endisset
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font_color--white" href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
+                        @isset($setting['facebook'])
+                            <a target="_blank" href="{{$setting['facebook']}}" class="nav-link font_color--white">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                        @endisset
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font_color--white" href="#">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
+                        @isset($setting['facebook'])
+                            <a class="nav-link font_color--white" target="_blank" href="{{$setting['facebook']}}">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        @endisset
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font_color--white" href="#">
-                            <i class="fas fa-envelope"></i>
-                        </a>
+                        @isset($setting['email'])
+                            <a class="nav-link font_color--white" target="_blank" href="mailto:{{$setting['email']}}">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        @endisset
+
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -68,7 +77,7 @@
                             <a class="nav-link text-uppercase" href="/results">RESULTS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'whymindfullness') active @endif">
-                            <a class="nav-link text-uppercase" href="/whymindfullness">WHY MINDFULNESS</a>
+                            <a class="nav-link text-uppercase" href="/why-mind-fullness">WHY MINDFULNESS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'resources') active @endif">
                             <a class="nav-link text-uppercase" href="/resources">RESOURCES</a>
@@ -83,7 +92,7 @@
                     </form>
 
                     <ul class="navbar-nav ml-auto navbar-language">
-                        @foreach (config('translatable.locales') as $lang => $language)
+                        @foreach (config('translatable.locales_array') as $lang => $language)
                             <li class="nav-item text-uppercase @if ($lang === app()->getLocale()) active @endif">
                                 <a class="nav-link" href="{{ route('lang.switch', $lang) }}">
                                     {{ $lang }}

@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreatePostRequest;
-use App\Http\Requests\API\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\Taxonomy;
-use App\Models\TaxonomyTranslation;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
@@ -23,7 +20,7 @@ class PostController extends ApiBaseController
     {
         $posts = $posts->search($request);
 
-        if ($locale = $request->get('locale', config('app.locale'))) {
+        if ($locale = $request->get('locale', config('translatable.locale'))) {
             $posts = $posts->ofLocale($locale);
         }
 
@@ -83,9 +80,6 @@ class PostController extends ApiBaseController
         }
 
         return $this->created($post, PostTransformer::class);
-
-        // save
-        return $this->created($post);
     }
 
     /**
@@ -125,28 +119,6 @@ class PostController extends ApiBaseController
         $post->delete();
 
         return $this->noContent();
-    }
-
-    /**
-     * @param \App\Models\Post $post
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Models\Post
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data
-     */
-    private function updateMedia(Post $post, Request $request)
-    {
-        if (is_array($thumbnail = $request->get('thumbnail'))) {
-            $fileName = array_get($thumbnail, 'name');
-            $fileContent = array_get($thumbnail, 'body');
-
-            $post->addMediaFromBase64($fileContent)
-                 ->usingFileName($fileName)
-                 ->withCustomProperties(['thumbnail'])
-                 ->toMediaCollection();
-        }
-
-        return $post;
     }
 
     /**

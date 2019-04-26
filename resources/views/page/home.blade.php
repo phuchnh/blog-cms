@@ -18,7 +18,8 @@
                         <div class="content margin_bottom--25">
                             @isset($setting['banner']['content'][app()->getLocale()]->description){{$setting['banner']['content'][app()->getLocale()]->description}}@endisset
                         </div>
-                        <a href="@isset($setting['banner']['content'][app()->getLocale()]->link){{$setting['banner']['content'][app()->getLocale()]->link}}@endisset" class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
+                        <a href="@isset($setting['banner']['content'][app()->getLocale()]->link){{$setting['banner']['content'][app()->getLocale()]->link}}@endisset"
+                           class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
                             @lang('site.view_more')
                         </a>
                     @endif
@@ -47,7 +48,8 @@
                                         {{$setting['introduction']['content'][app()->getLocale()]->description}}
                                     @endif
                                 </div>
-                                <a href="@isset($setting['introduction']['content'][app()->getLocale()]->link) $setting['introduction']['content'][app()->getLocale()]->link} @endisset" class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</a>
+                                <a href="@isset($setting['introduction']['content'][app()->getLocale()]->link) {{$setting['introduction']['content'][app()->getLocale()]->link }} @endisset"
+                                   class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</a>
                             </div>
                         </div>
                         <div class=" col-xs-12 col-sm-6">
@@ -60,7 +62,7 @@
             </section>
         @endisset
 
-        <!-- In The Press -->
+    <!-- In The Press -->
         <section class="section-content section-content__inthepress">
             <h2 class="section-content__header text-center text-uppercase">
                 @lang('site.in_the_press')
@@ -70,7 +72,9 @@
                     <div id="inThePress" class="inthepress-carousel">
                         @foreach ($data['press'] as $press_item)
                             <div class="custom-item-press">
-                                <img src="{{$press_item['thumbnail']}}" alt=""/>
+                                @isset($press_item['thumbnail'])
+                                    <img src="{{$press_item['thumbnail']}}" alt=""/>
+                                @endisset
 
                                 <div class="d-block">
                                     <div class=" font_color--white">
@@ -110,9 +114,11 @@
                     <!-- Client Logo-->
                     <div id="client-logo" class="client-logo-carousel w-100">
                         @foreach ($data['clients'] as $client)
-                            <a target="_blank" href="{{$client['url']}}">
-                                <img src="{{$client['thumbnail']}}" alt="{{$client['name']}}">
-                            </a>
+                            @isset($client['meta']['thumbnail'])
+                                <a target="_blank" href="{{$client['url']}}">
+                                    <img src="{{$client['meta']['thumbnail']}}" alt="{{$client['name']}}">
+                                </a>
+                            @endisset
                         @endforeach
                     </div>
 
