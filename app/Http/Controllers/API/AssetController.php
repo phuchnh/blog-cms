@@ -92,7 +92,7 @@ class AssetController extends ApiBaseController
                     /**
                      * @var $asset \App\Models\Asset
                      */
-                    $asset = $this->fillAssetModel($file);
+                    $asset = $this->createNewInstance($file);
 
                     if ($path = $this->getPathUpload($file)) {
 
@@ -126,7 +126,7 @@ class AssetController extends ApiBaseController
      * @param \Illuminate\Http\UploadedFile $file
      * @return \App\Models\Asset
      */
-    private function fillAssetModel(UploadedFile $file)
+    private function createNewInstance(UploadedFile $file)
     {
         $asset = new Asset();
         $asset->name = $file->getClientOriginalName();

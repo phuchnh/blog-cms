@@ -10,19 +10,19 @@
               name="files"
               :action="action"
               :headers="headers"
-              listType="picture-card"
-              :defaultFileList="fileList"
+              listType="picture"
+              v-model="images"
               :remove="handleRemove"
               @preview="handlePreview"
               @change="handleChange"
           >
-            <div v-if="fileList.length < 3">
-              <a-icon type="plus"/>
-              <div class="ant-upload-text">Upload</div>
-            </div>
+            <a-button v-if="images.length < 2">
+              <a-icon type="upload"/>
+              Upload
+            </a-button>
           </a-upload>
-          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-            <img alt="example" style="width: 100%" :src="previewImage"/>
+          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :title="previewImage.name">
+            <img alt="example" class="img" :src="previewImage.url"/>
           </a-modal>
         </div>
       </div>
@@ -32,22 +32,19 @@
 
 <script>
   import { Cookie } from '@/util'
+  import { ApiService } from '../api'
 
   export default {
     name: 'PostMetaImageForm',
-    props: {
-      value: {
-        type: String | Object | Array,
-      },
-      title: {
-        type: String,
-      },
-    },
+    props: ['value', 'title'],
     data () {
       return {
+        images: [],
         previewVisible: false,
-        previewImage: '',
-        fileList: this.value || [],
+        previewImage: {
+          name: '',
+          url: '',
+        },
       }
     },
     computed: {
@@ -61,16 +58,16 @@
         }
       },
     },
+    created () {
+      if (this.value) {
+        this.images = [...this.value]
+      }
+    },
     watch: {
-      /**
-       * update value to parent
-       * @param val
-       */
-      imgUrl: {
-        deep: true,
-        handler (val) {
-          this.$emit('input', val)
-        },
+      images (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.$emit('input', newValue)
+        }
       },
     },
     methods: {
@@ -79,21 +76,26 @@
       },
 
       handleRemove (file) {
-        console.log(file)
-        debugger
+        return ApiService.delete(`/assets/${ file.uid }`).then(
+          () => true,
+          () => false,
+        )
       },
 
       handlePreview (file) {
-        this.previewImage = file.url || file.thumbUrl
+        this.previewImage.name = file.name
+        this.previewImage.url = file.url
         this.previewVisible = true
       },
 
       handleChange (info) {
 
-        let fileList = info.fileList
+        let fileList = [...info.fileList]
+
+        let images = []
 
         // 1. Read from response and show file link
-        fileList = fileList.map((file) => {
+        images = fileList.map((file) => {
           if (file.response) {
             file.url = file.response.data[0].uri
             file.uid = file.response.data[0].id
@@ -102,14 +104,23 @@
         })
 
         // 2. Filter successfully uploaded files according to response from server
-        fileList = fileList.filter((file) => {
+        images = fileList.filter((file) => {
           if (file.response) {
             return file.response.status === 'success'
           }
           return false
         })
 
-        this.fileList = [...fileList]
+        images = fileList.map((file) => {
+          return {
+            id: file.uid,
+            name: file.name,
+            status: 'done',
+            url: file.url,
+          }
+        })
+
+        this.images = _.assign([], this.images, [...images])
       },
 
       addFileList (name, url) {
@@ -118,7 +129,6 @@
           name: name,
           status: 'done',
           url: url,
-          thumbUrl: url,
         })
       },
 
@@ -148,5 +158,10 @@
   .ant-upload-select-picture-card .ant-upload-text {
     margin-top: 8px;
     color: #666;
+  }
+
+  .img {
+    width: 100%;
+    object-fit: contain;
   }
 </style>
