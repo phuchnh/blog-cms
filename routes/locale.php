@@ -10,7 +10,15 @@
 | contains the "locale" middleware group. Now create something great!
 |
 */
-Route::get(trans('routes.about').'/{slug?}', function ($slug = null) {
+
+$setting = (new \App\Http\View\Composers\SettingComposer)->getSettingInformation();
+
+Route::get(trans('routes.about').'/{slug?}', function ($slug = null) use ($setting) {
+
+    // Set SEO information
+    SEOMeta::setTitle($setting['about_seo'][app()->getLocale()]->title);
+    SEOMeta::setDescription($setting['about_seo'][app()->getLocale()]->description);
+
     if (! $slug) {
         return redirect(app()->getLocale().'/'.trans('routes.about').'/story');
     }
@@ -21,17 +29,29 @@ Route::get(trans('routes.about').'/{slug?}', function ($slug = null) {
     ]);
 })->name('about');
 
-Route::get(trans('routes.event-program'), function () {
+Route::get(trans('routes.event-program'), function () use ($setting) {
+    // Set SEO information
+    SEOMeta::setTitle($setting['event_seo'][app()->getLocale()]->title);
+    SEOMeta::setDescription($setting['event_seo'][app()->getLocale()]->description);
+    
     return view('page.event.index', [
         'navigate' => 'event',
     ]);
 })->name('event-program');
 
-Route::get(trans('routes.resources'), function () {
+Route::get(trans('routes.resources'), function () use ($setting) {
+    // Set SEO information
+    SEOMeta::setTitle($setting['resource_seo'][app()->getLocale()]->title);
+    SEOMeta::setDescription($setting['resource_seo'][app()->getLocale()]->description);
+
     return redirect()->route(trans('routes.blog'));
 });
 
-Route::get(trans('routes.results').'/{slug?}', function ($slug = null) {
+Route::get(trans('routes.results').'/{slug?}', function ($slug = null) use ($setting) {
+    // Set SEO information
+    SEOMeta::setTitle($setting['results_seo'][app()->getLocale()]->title);
+    SEOMeta::setDescription($setting['results_seo'][app()->getLocale()]->description);
+
     if (! $slug) {
         return redirect(app()->getLocale().'/'.trans('routes.results').'/approach');
     }
@@ -51,7 +71,11 @@ Route::get(trans('routes.results').'/{slug?}', function ($slug = null) {
     ]);
 })->name('results');
 
-Route::get(trans('routes.why-mind-fullness').'/{slug?}', function ($slug = null) {
+Route::get(trans('routes.why-mind-fullness').'/{slug?}', function ($slug = null) use ($setting) {
+    // Set SEO information
+    SEOMeta::setTitle($setting['why_seo'][app()->getLocale()]->title);
+    SEOMeta::setDescription($setting['why_seo'][app()->getLocale()]->description);
+
     $slug = $slug ? $slug : 'benefits';
 
     return view('page.why.'.$slug, [

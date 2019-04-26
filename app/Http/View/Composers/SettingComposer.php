@@ -8,6 +8,34 @@ use Illuminate\Support\Facades\Cache;
 class SettingComposer
 {
     /**
+     * @var array
+     */
+    protected $filterArray = [
+        'introduction',
+        'banner',
+        'seo',
+        'about_seo',
+        'event_seo',
+        'results_seo',
+        'why_seo',
+        'resource_seo',
+    ];
+
+    /**
+     * list seo in setting function
+     *
+     * @var array
+     */
+    protected $filterArraySeo = [
+        'seo',
+        'about_seo',
+        'event_seo',
+        'results_seo',
+        'why_seo',
+        'resource_seo',
+    ];
+
+    /**
      * @var default value
      */
     protected $setting;
@@ -36,18 +64,16 @@ class SettingComposer
      *
      * @return mixed
      */
-    protected function getSettingInformation()
+    public function getSettingInformation()
     {
         if (Cache::has('siteOptionSetting')) {
             return Cache::get('siteOptionSetting');
         } else {
-            $filterArray = ['introduction', 'banner', 'seo'];
-
-            $options = \App\Models\Option::get()->map(function ($value) use ($filterArray) {
-                if (in_array($value->option_name, $filterArray)) {
+            $options = \App\Models\Option::get()->map(function ($value) {
+                if (in_array($value->option_name, $this->filterArray)) {
                     $option_value = (array) json_decode($value->option_value);
 
-                    if ($value->option_name === 'seo') {
+                    if (in_array($value->option_name, $this->filterArraySeo)) {
                         return [$value->option_name => array_combine(array_column($option_value, 'locale'), $option_value)];
                     } else {
                         $option_value['content'] = array_combine(array_column($option_value['content'], 'locale'), $option_value['content']);

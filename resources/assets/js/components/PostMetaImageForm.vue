@@ -125,7 +125,7 @@
         const { data } = response
         return data[0].uri
       },
-      
+
       beforeUpload (file) {
         const isLt2M = file.size / 1024 / 1024 < 2
         if (!isLt2M) {

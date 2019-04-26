@@ -4,7 +4,6 @@
       <div class="row">
         <div class="col-xs-12">
           <a-tabs defaultActiveKey="1" tabPosition="left" :animated="false">
-
             <!-- General Information -->
             <a-tab-pane tab="General Information" key="1">
               <div class="tab-form">
@@ -137,6 +136,41 @@
                 <SeoBox v-model="meta.seo"></SeoBox>
               </div>
             </a-tab-pane>
+
+            <!-- About SEO -->
+            <a-tab-pane tab="About SEO" key="5">
+              <div class="tab-form">
+                <SeoBox v-model="meta.about_seo"></SeoBox>
+              </div>
+            </a-tab-pane>
+
+            <!-- Event SEO -->
+            <a-tab-pane tab="Event SEO" key="6">
+              <div class="tab-form">
+                <SeoBox v-model="meta.event_seo"></SeoBox>
+              </div>
+            </a-tab-pane>
+
+            <!-- Results SEO -->
+            <a-tab-pane tab="Results SEO" key="7">
+              <div class="tab-form">
+                <SeoBox v-model="meta.results_seo"></SeoBox>
+              </div>
+            </a-tab-pane>
+
+            <!-- Why SEO -->
+            <a-tab-pane tab="Why SEO" key="8">
+              <div class="tab-form">
+                <SeoBox v-model="meta.why_seo"></SeoBox>
+              </div>
+            </a-tab-pane>
+
+            <!-- Resources SEO -->
+            <a-tab-pane tab="Resources SEO" key="9">
+              <div class="tab-form">
+                <SeoBox v-model="meta.resource_seo"></SeoBox>
+              </div>
+            </a-tab-pane>
           </a-tabs>
         </div>
       </div>
@@ -172,6 +206,11 @@
       return {
         meta: {
           seo: [],
+          about_seo: [],
+          event_seo: [],
+          results_seo: [],
+          why_seo: [],
+          resource_seo: [],
           introduction: { content: [], image: '' },
           banner: { content: [], image: '' },
         },
@@ -198,6 +237,30 @@
         this.meta.seo = JSON.parse(this.settings.seo)
       }
 
+      if (this.settings.about_seo) {
+        this.meta.about_seo = JSON.parse(this.settings.about_seo)
+      }
+
+      if (this.settings.event_seo) {
+        this.meta.event_seo = JSON.parse(this.settings.event_seo)
+      }
+
+      if (this.settings.event_seo) {
+        this.meta.event_seo = JSON.parse(this.settings.event_seo)
+      }
+
+      if (this.settings.results_seo) {
+        this.meta.results_seo = JSON.parse(this.settings.results_seo)
+      }
+
+      if (this.settings.why_seo) {
+        this.meta.why_seo = JSON.parse(this.settings.why_seo)
+      }
+
+      if (this.settings.resource_seo) {
+        this.meta.resource_seo = JSON.parse(this.settings.resource_seo)
+      }
+
       if (this.settings.introduction) {
         this.meta.introduction = JSON.parse(this.settings.introduction)
       }
@@ -209,6 +272,11 @@
     methods: {
       save () {
         this.settings.seo = JSON.stringify(this.meta.seo)
+        this.settings.about_seo = JSON.stringify(this.meta.about_seo)
+        this.settings.event_seo = JSON.stringify(this.meta.event_seo)
+        this.settings.results_seo = JSON.stringify(this.meta.results_seo)
+        this.settings.why_seo = JSON.stringify(this.meta.why_seo)
+        this.settings.resource_seo = JSON.stringify(this.meta.resource_seo)
 
         // update introduction information
         this.settings.introduction = JSON.stringify(this.meta.introduction)
