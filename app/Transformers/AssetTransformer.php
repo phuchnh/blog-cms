@@ -4,7 +4,6 @@ namespace App\Transformers;
 
 use App\Models\Asset;
 use Flugg\Responder\Transformers\Transformer;
-use Illuminate\Support\Facades\Storage;
 
 class AssetTransformer extends Transformer
 {
