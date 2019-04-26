@@ -1,36 +1,37 @@
 <template>
-  <div id="PostMetaImageForm" class="box">
-    <div class="box-header with-border">
-      <h3 class="box-title text-capitalize">{{ title }}</h3>
-
-      <div @click="uploadHandleImage" class="btn btn-sm btn-warning pull-right">
-        <i class="fa fa-upload"></i> Upload
+  <div>
+    <div class="box box-widget">
+      <div class="box-header">
+        <h3 class="box-title text-capitalize">{{ title }}</h3>
       </div>
-
-      <p class="btn btn-default btn-sm btn-file pull-right">
-        <i class="fa fa-search"></i> Find image
-
-        <input type="file" class="form-control"
-               :id="title"
-               name="image"
-               accept="image/*"
-               @change="onFileChangeImage($event)"/>
-
-      </p>
-    </div>
-    <!-- /.box-header -->
-
-    <!-- form start -->
-    <div class="box-body text-center" v-show="imgUrl || image">
-      <img class="img img-thumbnail form-group" width="200"
-           :src="imgUrl ? imgUrl : image">
+      <div class="box-body">
+        <div class="clearfix">
+          <a-upload
+              name="files"
+              :action="action"
+              :headers="headers"
+              listType="picture-card"
+              :defaultFileList="fileList"
+              :remove="handleRemove"
+              @preview="handlePreview"
+              @change="handleChange"
+          >
+            <div v-if="fileList.length < 3">
+              <a-icon type="plus"/>
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+            <img alt="example" style="width: 100%" :src="previewImage"/>
+          </a-modal>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import { Cookie } from '@/util'
-  import axios from 'axios'
 
   export default {
     name: 'PostMetaImageForm',
@@ -44,12 +45,21 @@
     },
     data () {
       return {
-        image: null,
-        imgUrl: this.value ? this.value : '',
-        fileInput: null,
-        message: '',
-        showMessage: false,
+        previewVisible: false,
+        previewImage: '',
+        fileList: this.value || [],
       }
+    },
+    computed: {
+      action () {
+        return '/api/assets'
+      },
+      headers () {
+        return {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Authorization': 'Bearer ' + Cookie.findByName('token'),
+        }
+      },
     },
     watch: {
       /**
@@ -64,62 +74,79 @@
       },
     },
     methods: {
-      /**
-       * show preview image
-       */
-      onFileChangeImage (event) {
-        const file = event.target.files[0]
-        const reader = new FileReader()
-
-        reader.readAsDataURL(file)
-        reader.onloadend = () => {
-          this.image = reader.result
-        }
-
-        this.fileInput = file
+      handleCancel () {
+        this.previewVisible = false
       },
-      /**
-       * upload image through Axios
-       */
-      uploadHandleImage () {
-        let formData = new FormData()
-        formData.append('files[0]', this.fileInput)
 
-        if (this.fileInput) {
-          axios.post('/api/assets', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-              'Authorization': 'Bearer ' + Cookie.findByName('token'),
-            },
-          }).then(res => {
-            if (res.status === 200) {
-              this.imgUrl = res.data.data[0].uri
-
-              this.resetData()
-
-              this.$message({
-                message: 'Upload image successful!',
-                type: 'success'
-              });
-            }
-          }).catch(err => {
-            this.$message({
-              message: 'Upload image unsuccessful!',
-              type: 'error'
-            });
-          })
-        }
+      handleRemove (file) {
+        console.log(file)
+        debugger
       },
-      resetData () {
-        this.fileInput = null
-      }
+
+      handlePreview (file) {
+        this.previewImage = file.url || file.thumbUrl
+        this.previewVisible = true
+      },
+
+      handleChange (info) {
+
+        let fileList = info.fileList
+
+        // 1. Read from response and show file link
+        fileList = fileList.map((file) => {
+          if (file.response) {
+            file.url = file.response.data[0].uri
+            file.uid = file.response.data[0].id
+          }
+          return file
+        })
+
+        // 2. Filter successfully uploaded files according to response from server
+        fileList = fileList.filter((file) => {
+          if (file.response) {
+            return file.response.status === 'success'
+          }
+          return false
+        })
+
+        this.fileList = [...fileList]
+      },
+
+      addFileList (name, url) {
+        this.fileList.push({
+          uid: +new Date(),
+          name: name,
+          status: 'done',
+          url: url,
+          thumbUrl: url,
+        })
+      },
+
+      handleAfterUpload (response) {
+        const { data } = response
+        return data[0].uri
+      },
+
+      beforeUpload (file) {
+        const isLt2M = file.size / 1024 / 1024 < 2
+        if (!isLt2M) {
+          this.$message.error('Image must smaller than 2MB!')
+        }
+        return isLt2M
+      },
     },
   }
 </script>
 
-<style scoped>
-  .btn-file{
-    margin-right: 15px;
+<style scoped lang="scss">
+  /* you can make up upload button and sample style by using stylesheets */
+  .ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+  }
+
+  .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
   }
 </style>

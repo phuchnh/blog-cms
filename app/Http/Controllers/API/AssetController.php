@@ -20,6 +20,19 @@ class AssetController extends ApiBaseController
 
     /**
      * @param \Illuminate\Http\Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function remove(Request $request, $id)
+    {
+        $asset = Asset::find($id);
+        $asset->delete();
+        return $this->noContent();
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
