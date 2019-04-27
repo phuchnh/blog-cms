@@ -176,15 +176,7 @@
       </div>
 
       <!-- section button -->
-      <div class="button-section-fixed">
-        <div class="form-group text-center">
-          <div class="col-sm-12">
-            <button @click="save" type="button" class="btn btn-success">
-              <i class="fa fa-save"></i> Save
-            </button>
-          </div>
-        </div>
-      </div>
+      <PostActionBox @click="save" :actions="actions"></PostActionBox>
     </form>
   </div>
 </template>
@@ -194,16 +186,24 @@
   import store from '@/store'
 
   // import component
-  import SeoBox from '../components/SeoBox'
-  import IntroductionBox from '../components/IntroductionBoxForm'
-  import ImageBox from '../components/PostMetaImageForm'
-  import BannerBox from '../components/BannerBox'
+  import SeoBox from '@/components/SeoBox'
+  import IntroductionBox from '@/components/IntroductionBoxForm'
+  import ImageBox from '@/components/ImagesBox'
+  import PostActionBox from '@/components/PostActionBox'
+  import BannerBox from '@/components/PostEventForm'
 
   export default {
     name: 'Setting',
-    components: { IntroductionBox, SeoBox, ImageBox, BannerBox },
+    components: { IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
     data () {
       return {
+        actions: [
+          {
+            title: 'Save',
+            icon: 'fa fa-save',
+            type: 'btn-success',
+          },
+        ],
         meta: {
           seo: [],
           about_seo: [],
@@ -221,9 +221,11 @@
         settings: 'setting/settings',
       }),
     },
+
     beforeRouteLeave (from, to, next) {
       this.$store.dispatch('setting/resetState').then(() => next())
     },
+
     beforeRouteEnter (to, from, next) {
       store.dispatch('setting/fetchList').then(
         () => next(
@@ -232,6 +234,7 @@
           }),
       )
     },
+
     created () {
       if (this.settings.seo) {
         this.meta.seo = JSON.parse(this.settings.seo)
@@ -269,6 +272,7 @@
         this.meta.banner = JSON.parse(this.settings.banner)
       }
     },
+
     methods: {
       save () {
         this.settings.seo = JSON.stringify(this.meta.seo)
@@ -296,6 +300,5 @@
         })
       },
     },
-
   }
 </script>

@@ -18,25 +18,33 @@
 
   export default {
     name: 'PostActionBox',
-    data () {
-      return {
-        actions: [
-          {
-            title: 'Cancel',
-            icon: 'fa fa-times',
-            type: 'btn-default',
-          },
-          {
-            title: 'Save',
-            icon: 'fa fa-save',
-            type: 'btn-success',
-          },
-          {
-            title: 'Publish',
-            icon: 'fa fa-save',
-            type: 'btn-success',
-          },
-        ],
+    props: {
+      actions: {
+        type: Array,
+        default () {
+          return [
+            {
+              title: 'Cancel',
+              icon: 'fa fa-times',
+              type: 'btn-default',
+            },
+            {
+              title: 'Save',
+              icon: 'fa fa-save',
+              type: 'btn-success',
+            },
+            {
+              title: 'Publish',
+              icon: 'fa fa-save',
+              type: 'btn-success',
+            },
+          ]
+        },
+      },
+    },
+    created () {
+      if (this.value) {
+        this.actions = [...this.customs]
       }
     },
     methods: {

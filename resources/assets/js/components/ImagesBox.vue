@@ -9,21 +9,21 @@
             name="files"
             :action="action"
             :headers="headers"
-            listType="picture-card"
-            :defaultFileList="fileList"
+            listType="picture"
+            v-model="images"
+            :defaultFileList="images"
             :remove="handleRemove"
             @preview="handlePreview"
             @change="handleChange"
         >
-          <div v-if="fileList.length < 3">
-            <a-icon type="plus"/>
-            <div class="ant-upload-text">Upload</div>
-          </div>
+          <a-button v-if="disable">
+            <a-icon type="upload"/>
+            Upload
+          </a-button>
         </a-upload>
-        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-          <img alt="example" style="width: 100%" :src="previewImage"/>
+        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :title="previewImage.name">
+          <img alt="example" class="img" :src="previewImage.url"/>
         </a-modal>
-        >>>>>>> feature/edit_upload_image
       </div>
     </div>
   </div>
@@ -31,22 +31,33 @@
 
 <script>
   import { Cookie } from '@/util'
+  import { ApiService } from '../api'
+  import * as _ from 'lodash'
 
   export default {
-    name: 'PostMetaImageForm',
+    name: 'ImagesBox',
     props: {
       value: {
-        type: String | Object | Array,
+        type: Object | Array,
+        default: 0,
       },
       boxTitle: {
         type: String,
+        default: '',
+      },
+      limit: {
+        type: Number,
+        default: 1,
       },
     },
     data () {
       return {
+        images: [],
         previewVisible: false,
-        previewImage: '',
-        fileList: this.value || [],
+        previewImage: {
+          name: '',
+          url: '',
+        },
       }
     },
     computed: {
@@ -59,71 +70,93 @@
           'Authorization': 'Bearer ' + Cookie.findByName('token'),
         }
       },
-    },
-    watch: {
-      /**
-       * update value to parent
-       * @param val
-       */
-      imgUrl: {
-        deep: true,
-        handler (val) {
-          this.$emit('input', val)
-        },
+
+      disable () {
+        return this.images.length < this.limit
       },
     },
+
+    created () {
+      if (_.isObject(this.value)) {
+        this.images = _.assign([], this.images, [this.value])
+      }
+
+      if (_.isArray(this.value)) {
+        this.images = _.assign([], this.images, this.value)
+      }
+    },
+
+    watch: {
+      images (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          if (newValue.length > 1) {
+            this.$emit('input', newValue)
+          } else {
+            this.$emit('input', newValue[0])
+          }
+        }
+      },
+    },
+
     methods: {
       handleCancel () {
         this.previewVisible = false
       },
 
       handleRemove (file) {
-        console.log(file)
-        debugger
+        return ApiService.delete(`/assets/${ file.uid }`).then(
+          () => {
+            const index = this.images.findIndex((image) => file.uid === image.id)
+            if (index > -1) {
+              this.images.splice(index, 1)
+            }
+            return true
+          },
+          () => false,
+        )
       },
 
       handlePreview (file) {
-        this.previewImage = file.url || file.thumbUrl
+        this.previewImage.name = file.name
+        this.previewImage.url = file.url
         this.previewVisible = true
       },
 
       handleChange (info) {
 
         let fileList = info.fileList
+        let images = []
 
         // 1. Read from response and show file link
-        fileList = fileList.map((file) => {
+        images = fileList.map((file) => {
           if (file.response) {
             file.url = file.response.data[0].uri
+            file.thumbUrl = file.response.data[0].uri
             file.uid = file.response.data[0].id
           }
           return file
         })
 
         // 2. Filter successfully uploaded files according to response from server
-        fileList = fileList.filter((file) => {
+        images = fileList.filter((file) => {
           if (file.response) {
             return file.response.status === 'success'
           }
           return false
         })
 
-        this.fileList = [...fileList]
-      },
-
-      addFileList (name, url) {
-        this.fileList.push({
-          uid: +new Date(),
-          name: name,
-          status: 'done',
-          url: url,
-          thumbUrl: url,
+        images = fileList.map((file) => {
+          return {
+            id: file.uid,
+            uid: file.uid,
+            name: file.name,
+            status: 'done',
+            url: file.url,
+            thumbUrl: file.url,
+          }
         })
-      },
 
-      handleAfterUpload (response) {
-        const { data } = response
-        return data[0].uri
+        this.images = _.assign([], this.images, [...images])
       },
 
       beforeUpload (file) {
@@ -150,5 +183,10 @@
   .ant-upload-select-picture-card .ant-upload-text {
     margin-top: 8px;
     color: #666;
+  }
+
+  .img {
+    width: 100%;
+    object-fit: contain;
   }
 </style>

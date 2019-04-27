@@ -19,27 +19,57 @@ class AssetController extends ApiBaseController
     }
 
     /**
+     * Display a listing of the resource.
+     *
      * @param \Illuminate\Http\Request $request
-     * @param $id
+     * @param \App\Models\Asset $assets
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
-    public function remove(Request $request, $id)
+    public function index(Request $request, Asset $assets)
     {
-        $asset = Asset::find($id);
-        $asset->delete();
-        return $this->noContent();
+        $assets = $assets->whereCreatedBy($request->user()->id)->get();
+
+        return $this->ok($assets, AssetTransformer::class);
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Asset $asset
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Request $request, Asset $asset)
+    {
+        return $this->ok($asset, PostTransformer::class);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function store(Request $request)
     {
-        $assets = Asset::whereCreatedBy((auth('api')->user())->id)->get();
+        $models = $this->upload($request);
 
-        return $this->ok($assets, AssetTransformer::class);
+        return $this->ok($models, AssetTransformer::class);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Asset $asset
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(Request $request, Asset $asset)
+    {
+        $asset->delete();
+
+        return $this->noContent();
     }
 
     /**
@@ -62,7 +92,7 @@ class AssetController extends ApiBaseController
                     /**
                      * @var $asset \App\Models\Asset
                      */
-                    $asset = $this->fillAssetModel($file);
+                    $asset = $this->createNewInstance($file);
 
                     if ($path = $this->getPathUpload($file)) {
 
@@ -76,7 +106,7 @@ class AssetController extends ApiBaseController
             }
         }
 
-        return $this->ok($models, AssetTransformer::class);
+        return $models;
     }
 
     /**
@@ -96,7 +126,7 @@ class AssetController extends ApiBaseController
      * @param \Illuminate\Http\UploadedFile $file
      * @return \App\Models\Asset
      */
-    private function fillAssetModel(UploadedFile $file)
+    private function createNewInstance(UploadedFile $file)
     {
         $asset = new Asset();
         $asset->name = $file->getClientOriginalName();

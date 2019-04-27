@@ -32,7 +32,6 @@
 </template>
 
 <script>
-  import Vue from 'vue'
   import Editor from '@/components/Editor.vue'
   import * as _ from 'lodash'
 
@@ -76,7 +75,6 @@
           obj.content = ''
           return _.assign({}, obj, _.find(this.translations, (trans) => trans.locale === value) || {})
         })
-
       },
 
       onTabsChange (key) {
