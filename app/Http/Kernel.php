@@ -37,10 +37,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'locale' => [
-            \App\Http\Middleware\Language::class,
-        ],
-
         'api' => [
             'throttle:60,1',
             'bindings',
