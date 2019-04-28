@@ -1,7 +1,7 @@
 <template>
   <div class="box box-widget">
     <div class="box-header">
-      <h3 class="box-title text-capitalize">{{ title }}</h3>
+      <h3 class="box-title text-capitalize">{{ boxTitle }}</h3>
     </div>
     <div class="box-body">
       <div class="clearfix">
