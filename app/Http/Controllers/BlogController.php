@@ -9,6 +9,9 @@ use App\Models\Post;
 
 class BlogController extends Controller
 {
+    //Set Type
+    const TYPE = 'post_blogs';
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +25,7 @@ class BlogController extends Controller
 
         // Load list posts
         $posts = $posts->ofLocale(app()->getLocale())
-                       ->where('type', 'post_blogs')
+                       ->where('type', self::TYPE)
                        ->when($request->input('title'), function ($query) use ($request) {
                            /**@var \Illuminate\Database\Eloquent\Builder $query */
                            $query->where('title', 'LIKE', '%'.$request->input('title').'%');
@@ -49,11 +52,6 @@ class BlogController extends Controller
     public function show(Request $request, $slug)
     {
         $data = $this->getPostDetail($slug);
-
-        // New Code
-        //if ($data->translate()->where('slug', $slug)->first()->locale != app()->getLocale()) {
-        //    return redirect()->route('blogitem', $data->translate()->slug);
-        //}
 
         $others = $this->getPostOthers(collect($data));
 
@@ -103,6 +101,7 @@ class BlogController extends Controller
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
             $others = Post::ofLocale(app()->getLocale())
+                          ->where('type', self::TYPE)
                           ->where('slug', '!=', $post['slug'])
                           ->when($isOtherBoolean, function ($query) use ($post) {
                               $relatePosts = json_decode($post['meta']['others']);

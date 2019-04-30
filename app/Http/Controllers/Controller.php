@@ -24,8 +24,9 @@ class Controller extends BaseController
     /**
      * transform data for post
      *
-     * @param \Illuminate\Support\Collection $collection
-     * @return \Illuminate\Support\Collection
+     * @param $collection
+     * @param string $transformerClass
+     * @return mixed|null
      */
     public function loadTransformData($collection, $transformerClass = PostTransformer::class)
     {

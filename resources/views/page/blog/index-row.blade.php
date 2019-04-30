@@ -16,12 +16,15 @@
                         @foreach ($data as $item)
                             <div class="blog__content03--item">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
-                                        <div class="blog__content03--item-image background__cover--center"
-                                             style="background: url('{{$item['thumbnail']}}')">
-                                            <img class="d-none" src="{{$item['thumbnail']}}" alt="{{$item['title']}}">
+                                    @isset($item['meta']['thumbnail']['url'])
+                                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+                                            <div class="blog__content03--item-image background__cover--center"
+                                                 style="background: url('{{$item['meta']['thumbnail']['url']}}')">
+                                                <img class="d-none" src="{{$item['meta']['thumbnail']['url']}}"
+                                                     alt="{{$item['title']}}">
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endisset
 
                                     <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
                                         <div class="blog__content03--item-content">

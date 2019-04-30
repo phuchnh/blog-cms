@@ -3,10 +3,10 @@
 @section('content')
     <article class="event-section">
         <!-- Banner -->
-        @isset($item['meta']['banner'])
+        @isset($item['meta']['banner']['url'])
             <section
                     class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
-                    style="background:url('{{$item['meta']['banner']}}')">
+                    style="background:url('{{$item['meta']['banner']['url']}}')">
             </section>
         @endisset
 
@@ -41,18 +41,19 @@
 
             @if ($others)
                 <div class="event-section__other">
-                    <header class="text-center font-weight-bold fs--1-7rem">
-                        Other Post You May Like
+                    <header class="text-center font-weight-bold fs--1-7rem text-capitalize">
+                        @lang('site.other_posts_you_may_like')
                     </header>
 
                     <div class="event-section__other--list container">
                         <div class="card-deck">
                             @foreach( $others as $other)
                                 <div class="card border_radius--none border_none">
-                                    @isset($other['banner'])
+                                    @isset($other['meta']['thumbnail']['url'])
                                         <div class="card-img-top background__cover--center"
-                                             style="background: url('{{$other['thumbnail']}}')">
-                                            <img class="d-none" src="{{$other['thumbnail']}}" alt="Card image cap">
+                                             style="background: url('{{$other['meta']['thumbnail']['url']}}')">
+                                            <img class="d-none" src="{{$other['meta']['thumbnail']['url']}}"
+                                                 alt="{{$other['title']}}">
                                         </div>
                                     @endisset
 
