@@ -26,14 +26,14 @@ class ProgramController extends Controller
         $paginator = $request->get('perPage');
 
         // Load list posts
-        $posts = $posts
-            ->where('type', self::TYPE)
-            ->when($request->input('title'), function ($query) use ($request) {
-                /**@var \Illuminate\Database\Eloquent\Builder $query */
-                $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-            })
-            ->sortable([$request->get('sort') => $request->get('direction')])
-            ->orderBy('id', 'desc')->paginate(5);
+        $posts = $posts->ofLocale(app()->getLocale())
+                       ->where('type', self::TYPE)
+                       ->when($request->input('title'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                       })
+                       ->sortable([$request->get('sort') => $request->get('direction')])
+                       ->orderBy('id', 'desc')->paginate(5);
 
         return view('page.event.list', [
             'data'        => $this->loadTransformDataPost($posts),
@@ -101,13 +101,14 @@ class ProgramController extends Controller
         } else {
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
-            $others = Post::where('slug', '!=', $post['slug'])
+            $others = Post::ofLocale(app()->getLocale())
+                          ->where('slug', '!=', $post['slug'])
                           ->where('type', self::TYPE)
                           ->when($isOtherBoolean, function ($query) use ($post) {
-                              $relatePosts = json_decode($post['meta']['others']);
+                              $relatePosts = array_column((array) $post['meta']['others'], 'id');
 
                               /**@var \Illuminate\Database\Query\Builder $query */
-                              return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
+                              return $query->whereIn('id', $relatePosts);
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
             $data = $this->loadTransformDataPost($others);

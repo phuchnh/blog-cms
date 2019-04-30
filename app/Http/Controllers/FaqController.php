@@ -42,6 +42,7 @@ class FaqController extends Controller
             return Cache::get('post_faq');
         } else {
             $data = $posts
+                ->ofLocale(app()->getLocale())
                 ->where('type', self::TYPE)
                 ->when($request->input('title'), function ($query) use ($request) {
                     /**@var \Illuminate\Database\Eloquent\Builder $query */

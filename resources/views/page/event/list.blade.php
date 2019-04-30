@@ -66,10 +66,10 @@
                             <div class="card-deck">
                             @foreach ($data as $item)
                                     <div class="card border_radius--none border_none">
-                                        @isset($item['meta']['thumbnail'])
+                                        @isset($item['meta']['thumbnail']['url'])
                                             <div class="card-img-top background__cover--center"
-                                                 style="background: url({{$item['meta']['thumbnail']}})">
-                                                <img class="d-none" src="{{$item['meta']['thumbnail']}}"
+                                                 style="background: url({{$item['meta']['thumbnail']['url']}})">
+                                                <img class="d-none" src="{{$item['meta']['thumbnail']['url']}}"
                                                      alt="{{$item['title']}}">
                                             </div>
                                         @endisset

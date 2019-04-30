@@ -64,6 +64,7 @@ return [
 
     # S
     'story' => 'Câu chuyện',
+    'sign-up-now' => 'Đăng ký ngay',
 
     # T
     'take_an_assessment' => 'Take an assessment',

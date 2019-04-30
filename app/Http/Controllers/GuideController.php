@@ -103,10 +103,10 @@ class GuideController extends Controller
                           ->where('type', self::TYPE)
                           ->where('slug', '!=', $post['slug'])
                           ->when($isOtherBoolean, function ($query) use ($post) {
-                              $relatePosts = json_decode($post['meta']['others']);
+                              $relatePosts = array_column((array) $post['meta']['others'], 'id');
 
                               /**@var \Illuminate\Database\Query\Builder $query */
-                              return $query->whereIn('id', array_column((array) $relatePosts, 'key'));
+                              return $query->whereIn('id', $relatePosts);
                           })->limit(3)->orderBy('id', 'DESC')->get();
 
             $data = $this->loadTransformDataPost($others);

@@ -65,6 +65,7 @@ return [
 
     # S
     'story' => 'story',
+    'sign-up-now' => 'sign up now',
 
     # T
     'take_an_assessment' => 'Take an assessment',
