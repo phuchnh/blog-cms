@@ -62,9 +62,9 @@ class Controller extends BaseController
     protected function getMetaPost($data)
     {
         return [
-            'title'       => isset($data['meta']['title']) && $data['meta']['title'] ? $data['meta']['title'] : '',
+            'title'       => isset($data['meta']['title']) && $data['meta']['title'] ? $data['meta']['title'] : $data['title'],
             'keywords'    => isset($data['meta']['keywords']) && $data['meta']['keywords'] ? $data['meta']['keywords'] : '',
-            'description' => isset($data['meta']['description']) && $data['meta']['description'] ? $data['meta']['description'] : '',
+            'description' => isset($data['meta']['description']) && $data['meta']['description'] ? $data['meta']['description'] : $data['description'],
         ];
     }
 }
