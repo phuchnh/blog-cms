@@ -37,6 +37,7 @@ return [
     'events-and-programs' => 'Sự kiện & chương trình',
     'expertise' => 'Expertise',
     'experts' => 'experts',
+    'engage-with-us' => 'engage with us',
 
     # F
     'faq' => 'Câu hỏi',
@@ -58,6 +59,9 @@ return [
     # O
     'other_posts_you_may_like' => 'Bài viết khác bạn có thể quan tâm',
 
+    # P
+    'programs' => 'programs',
+
     # R
     'results' => 'results',
     'resources' => 'resources',
@@ -65,6 +69,7 @@ return [
     # S
     'story' => 'Câu chuyện',
     'sign-up-now' => 'Đăng ký ngay',
+    'subscribe-for-our-newsletter' => 'subscribe for our newsletter',
 
     # T
     'take_an_assessment' => 'Take an assessment',
