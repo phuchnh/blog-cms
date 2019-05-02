@@ -75,7 +75,6 @@
           obj.content = ''
           return _.assign({}, obj, _.find(this.translations, (trans) => trans.locale === value) || {})
         })
-
       },
 
       onTabsChange (key) {

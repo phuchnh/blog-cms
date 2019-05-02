@@ -12,11 +12,12 @@
               :headers="headers"
               listType="picture"
               v-model="images"
+              :defaultFileList="images"
               :remove="handleRemove"
               @preview="handlePreview"
               @change="handleChange"
           >
-            <a-button v-if="images.length < 2">
+            <a-button v-if="disable">
               <a-icon type="upload"/>
               Upload
             </a-button>
@@ -33,10 +34,24 @@
 <script>
   import { Cookie } from '@/util'
   import { ApiService } from '../api'
+  import * as _ from 'lodash'
 
   export default {
-    name: 'PostMetaImageForm',
-    props: ['value', 'title'],
+    name: 'ImagesBox',
+    props: {
+      value: {
+        type: Object | Array,
+        default: 0,
+      },
+      title: {
+        type: String,
+        default: '',
+      },
+      limit: {
+        type: Number,
+        default: 1,
+      },
+    },
     data () {
       return {
         images: [],
@@ -57,19 +72,34 @@
           'Authorization': 'Bearer ' + Cookie.findByName('token'),
         }
       },
+
+      disable () {
+        return this.images.length < this.limit
+      },
     },
+
     created () {
-      if (this.value) {
-        this.images = [...this.value]
+      if (_.isObject(this.value)) {
+        this.images = _.assign([], this.images, [this.value])
+      }
+
+      if (_.isArray(this.value)) {
+        this.images = _.assign([], this.images, this.value)
       }
     },
+
     watch: {
       images (newValue, oldValue) {
         if (newValue !== oldValue) {
-          this.$emit('input', newValue)
+          if (newValue.length > 1) {
+            this.$emit('input', newValue)
+          } else {
+            this.$emit('input', newValue[0])
+          }
         }
       },
     },
+
     methods: {
       handleCancel () {
         this.previewVisible = false
@@ -77,7 +107,13 @@
 
       handleRemove (file) {
         return ApiService.delete(`/assets/${ file.uid }`).then(
-          () => true,
+          () => {
+            const index = this.images.findIndex((image) => file.uid === image.id)
+            if (index > -1) {
+              this.images.splice(index, 1)
+            }
+            return true
+          },
           () => false,
         )
       },
@@ -90,14 +126,14 @@
 
       handleChange (info) {
 
-        let fileList = [...info.fileList]
-
+        let fileList = info.fileList
         let images = []
 
         // 1. Read from response and show file link
         images = fileList.map((file) => {
           if (file.response) {
             file.url = file.response.data[0].uri
+            file.thumbUrl = file.response.data[0].uri
             file.uid = file.response.data[0].id
           }
           return file
@@ -114,27 +150,15 @@
         images = fileList.map((file) => {
           return {
             id: file.uid,
+            uid: file.uid,
             name: file.name,
             status: 'done',
             url: file.url,
+            thumbUrl: file.url,
           }
         })
 
         this.images = _.assign([], this.images, [...images])
-      },
-
-      addFileList (name, url) {
-        this.fileList.push({
-          uid: +new Date(),
-          name: name,
-          status: 'done',
-          url: url,
-        })
-      },
-
-      handleAfterUpload (response) {
-        const { data } = response
-        return data[0].uri
       },
 
       beforeUpload (file) {

@@ -50,7 +50,7 @@ class SettingComposer
                     if ($value->option_name === 'seo') {
                         return [$value->option_name => array_combine(array_column($option_value, 'locale'), $option_value)];
                     } else {
-                        $option_value['content'] = array_combine(array_column($option_value['content'], 'locale'), $option_value['content']);
+                        $option_value['content'] = [];
 
                         return [$value->option_name => $option_value];
                     }

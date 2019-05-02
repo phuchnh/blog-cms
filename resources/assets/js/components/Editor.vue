@@ -35,7 +35,7 @@
         config.addNewLine = false
         config.addNewLineOnDBLClick = false
         config.enableDragAndDropFileToEditor = true
-        config.height = 400
+        config.height = 800
         config.uploader = {
           url: '/api/assets',
           format: 'json',
