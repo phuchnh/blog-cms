@@ -93,13 +93,16 @@
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
-              this.$store.dispatch('user/update', this.user).then(() => {
-                this.$message.success('Update successfully')
-                this.$emit('routeToList')
-              }).catch((error) => {
-                console.log(error)
-                this.$message.error('Error')
-              })
+              this.$store.dispatch('user/update', this.user)
+                   .then(() => this.$store.dispatch('auth/CHECK_AUTH'))
+                   .then(() => {
+                     this.$message.success('Update successfully')
+                     this.$emit('routeToList')
+                   }).
+                   catch((error) => {
+                     console.log(error)
+                     this.$message.error('Error')
+                   })
             } else if (this.formAction === 'create') {
               this.$store.dispatch('user/create', this.user).then(() => {
                 this.$message.success('Create successfully')

@@ -26,6 +26,7 @@
   import SeoBox from '@/components/SeoBox.vue'
   import PostEventForm from '@/components/PostEventForm.vue'
   import ImagesBox from '@/components/ImagesBox'
+  import PostOtherForm from '@/components/PostOtherForm'
 
   export default {
     name: 'PostForm',
