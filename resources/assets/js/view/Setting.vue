@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="phone" class="col-sm-2 control-label">Phone <span class="required">*</span></label>
+                      <label for="phone" class="col-sm-2 control-label">Phone</label>
                       <div class="col-sm-10">
                         <input class="form-control" id="phone" name="phone"
                                v-model="settings.phone"/>
@@ -53,9 +53,9 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="email" class="col-sm-2 control-label">Email <span class="required">*</span></label>
+                      <label for="email" class="col-sm-2 control-label">Email</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required|email'" class="form-control" id="email" name="email"
+                        <input v-validate="email" class="form-control" id="email" name="email"
                                v-model="settings.email"/>
                       </div>
                     </div>
