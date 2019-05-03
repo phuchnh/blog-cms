@@ -12,97 +12,81 @@
                     <h3 class="box-title">General Informaion</h3>
                   </div>
                   <div class="box-body">
-                    <div class="form-group" :class="{ 'has-error': errors.first('site_name') }">
-                      <label for="site-name" class="col-sm-2 control-label">Site name <span
-                          class="required">*</span></label>
+                    <div class="form-group">
+                      <label for="site-name" class="col-sm-2 control-label">Site name</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="site-name" name="site_name"
+                        <input class="form-control" id="site-name" name="site_name"
                                v-model="settings.site_name"/>
-                        <div class="help-block" v-if="errors.first('site_name')">
-                          <span>{{ errors.first('site_name') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('phone') }">
+                    <div class="form-group">
                       <label for="phone" class="col-sm-2 control-label">Phone <span class="required">*</span></label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="phone" name="phone"
+                        <input class="form-control" id="phone" name="phone"
                                v-model="settings.phone"/>
-                        <div class="help-block" v-if="errors.first('phone')">
-                          <span>{{ errors.first('phone') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('address') }">
-                      <label for="address" class="col-sm-2 control-label">Address <span
-                          class="required">*</span></label>
+                    <div class="form-group">
+                      <label for="address" class="col-sm-2 control-label">Address</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="address" name="address"
+                        <input class="form-control" id="address" name="address"
                                v-model="settings.address"/>
-                        <div class="help-block" v-if="errors.first('address')">
-                          <span>{{ errors.first('address') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('facebook') }">
-                      <label for="facebook" class="col-sm-2 control-label">Facebook <span
-                          class="required">*</span></label>
+                    <div class="form-group">
+                      <label for="facebook" class="col-sm-2 control-label">Facebook</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="facebook" name="facebook"
+                        <input class="form-control" id="facebook" name="facebook"
                                v-model="settings.facebook"/>
-                        <div class="help-block" v-if="errors.first('facebook')">
-                          <span>{{ errors.first('facebook') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('instagram') }">
-                      <label for="instagram" class="col-sm-2 control-label">Instagram <span
-                          class="required">*</span></label>
+                    <div class="form-group">
+                      <label for="instagram" class="col-sm-2 control-label">Instagram</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="instagram" name="instagram"
+                        <input class="form-control" id="instagram" name="instagram"
                                v-model="settings.instagram"/>
-                        <div class="help-block" v-if="errors.first('instagram')">
-                          <span>{{ errors.first('instagram') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('email') }">
+                    <div class="form-group">
                       <label for="email" class="col-sm-2 control-label">Email <span class="required">*</span></label>
                       <div class="col-sm-10">
                         <input v-validate="'required|email'" class="form-control" id="email" name="email"
                                v-model="settings.email"/>
-                        <div class="help-block" v-if="errors.first('email')">
-                          <span>{{ errors.first('email') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('linkedin') }">
-                      <label for="linkedin" class="col-sm-2 control-label">Linkedin <span
-                          class="required">*</span></label>
+                    <div class="form-group">
+                      <label for="linkedin" class="col-sm-2 control-label">Linkedin</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="linkedin" name="linkedin"
+                        <input class="form-control" id="linkedin" name="linkedin"
                                v-model="settings.linkedin"/>
-                        <div class="help-block" v-if="errors.first('linkedin')">
-                          <span>{{ errors.first('linkedin') }}</span>
-                        </div>
                       </div>
                     </div>
 
-                    <div class="form-group" :class="{ 'has-error': errors.first('copyright') }">
-                      <label for="copyright" class="col-sm-2 control-label">Copyright <span
-                          class="required">*</span></label>
+                    <div class="form-group">
+                      <label for="copyright" class="col-sm-2 control-label">Copyright</label>
                       <div class="col-sm-10">
-                        <input v-validate="'required'" class="form-control" id="copyright" name="copyright"
+                        <input class="form-control" id="copyright" name="copyright"
                                v-model="settings.copyright"/>
-                        <div class="help-block" v-if="errors.first('copyright')">
-                          <span>{{ errors.first('copyright') }}</span>
-                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Website Logo</label>
+                      <div class="col-sm-10">
+                        <image-box v-model="settings.logo" :limit="1"></image-box>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Default avatar</label>
+                      <div class="col-sm-10">
+                        <image-box v-model="settings.avatar" :limit="1"></image-box>
                       </div>
                     </div>
                   </div>
@@ -173,10 +157,10 @@
             </a-tab-pane>
           </a-tabs>
         </div>
-      </div>
 
-      <!-- section button -->
-      <PostActionBox @click="save" :actions="actions"></PostActionBox>
+        <!-- section button -->
+        <PostActionBox @click="save" :actions="actions"></PostActionBox>
+      </div>
     </form>
   </div>
 </template>
@@ -213,6 +197,8 @@
           resource_seo: [],
           introduction: { content: [], image: '' },
           banner: { content: [], image: '' },
+          logo: null,
+          avatar: null,
         },
       }
     },
@@ -293,6 +279,9 @@
             this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
               this.$message.success('Save successfully')
               this.$router.push({ name: 'setting' })
+            }).catch((err) => {
+              console.log(err)
+              this.$message.error('Error')
             })
           } else {
             this.$message.error('Invalid Form !')

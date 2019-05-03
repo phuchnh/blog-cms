@@ -20,22 +20,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="thumbnail" class="col-sm-2 control-label">Thumbnail</label>
+        <label class="col-sm-2 control-label">Thumbnail</label>
         <div class="col-sm-8">
-                    <span class="btn btn-default btn-sm btn-file">
-                        <i class="fa fa-upload"></i> Upload
-                        <input type="file" class="form-control"
-                               id="thumbnail"
-                               name="thumbnail"
-                               accept="image/*"
-                               @change="onFileChange($event)"/>
-                    </span>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-8 col-sm-offset-2">
-          <img class="img img-thumbnail" width="200" v-if="imgUrl || meta.thumbnail"
-               v-bind:src="imgUrl ? imgUrl : meta.thumbnail">
+          <upload-button v-model="meta.thumbnail" :limit="1"></upload-button>
         </div>
       </div>
       <div class="form-group">
@@ -52,9 +39,11 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import UploadButton from './UploadButton'
 
   export default {
     name: 'ClientForm',
+    components: { UploadButton },
     computed: {
       ...mapGetters({
         client: 'client/client',
@@ -98,22 +87,6 @@
             this.$message.error('Invalid Form !')
           }
         })
-
-      },
-      onFileChange (event) {
-        const file = event.target.files[0]
-        const temp = {
-          name: file.name,
-        }
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onloadend = () => {
-          this.imgUrl = reader.result
-          temp.body = reader.result.split(',')[1]
-        }
-        const fileInput = file
-        this.meta.thumbnail = new FormData()
-        this.meta.thumbnail.append('files[0]', fileInput)
       },
     },
   }

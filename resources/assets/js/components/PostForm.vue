@@ -26,7 +26,7 @@
   import SeoBox from '@/components/SeoBox.vue'
   import PostEventForm from '@/components/PostEventForm.vue'
   import ImagesBox from '@/components/ImagesBox'
-  import PostOtherForm from './PostOtherForm'
+  import PostOtherForm from '@/components/PostOtherForm'
 
   export default {
     name: 'PostForm',
@@ -182,7 +182,7 @@
           })
         }
 
-        if (this.metas.others.length > 0) {
+        if (this.metas.others) {
           metas.push({
             meta_key: 'others',
             meta_value: this.metas.others,

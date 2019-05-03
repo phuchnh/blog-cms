@@ -31,7 +31,10 @@ class Option extends Model
      *
      * @var array
      */
-    protected $casts = [];
+    protected $casts = [
+        'option_name'   => 'string',
+        'option_value' =>  'array',
+    ];
 
     /**
      * The attributes to validation
@@ -40,6 +43,6 @@ class Option extends Model
      */
     public static $rules = [
         '*.option_name'   => 'required|string',
-        '*.option_value' => 'required|string',
+        '*.option_value' => 'present',
     ];
 }

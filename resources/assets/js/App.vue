@@ -25,8 +25,11 @@
       Footer: Footer
     },
     name: 'App',
-    mounted() {
+    mounted () {
       console.log('App');
+    },
+    created () {
+      this.$store.dispatch('setting/fetchList')
     }
   };
 </script>

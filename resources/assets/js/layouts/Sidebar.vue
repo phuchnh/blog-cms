@@ -7,7 +7,9 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img v-bind:src="meta.avatar" class="img-circle" alt="User Image">
+          <img v-if="meta.avatar && meta.avatar.url" v-bind:src="meta.avatar.url" class="img-circle" alt="User Image">
+          <img v-else-if="setting.avatar && setting.avatar.url" v-bind:src="setting.avatar.url" class="img-circle" alt="User Image">
+          <img v-else src="../../images/default-avatar.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p v-if="currentUser">{{ currentUser.name }}</p>
@@ -46,6 +48,9 @@
       meta () {
         return this.currentUser.meta || {}
       },
+      setting () {
+        return this.$store.state.setting.settings
+      }
     },
   }
 </script>

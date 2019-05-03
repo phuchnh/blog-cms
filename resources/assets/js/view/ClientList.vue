@@ -25,7 +25,7 @@
         <el-table-column
             label="Thumbnail">
           <template slot-scope="scope">
-            <img :src="scope.row.meta.thumbnail" height="50" width="auto">
+            <img :src="scope.row.meta.thumbnail.url" height="50" width="auto">
           </template>
         </el-table-column>
         <el-table-column

@@ -5,12 +5,14 @@ export const namespaced = true
 
 const initialState = {
   settings: {},
+  display: false
 }
 
 export const state = { ...initialState }
 
 const getters = {
   settings: state => state.settings,
+  display: state => state.display
 }
 
 const actions = {
