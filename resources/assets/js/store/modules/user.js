@@ -25,14 +25,14 @@ const getters = {
 }
 
 const actions = {
-  getList ({ commit }, params) {
+  async getList ({ commit }, params) {
     if (_.keys(params).length === 0) {
       params = { ...state.queryParams }
     }
     params = {
       ...params,
     }
-    return ApiService.get('/users', params).then(res => {
+    await ApiService.get('/users', params).then(res => {
       const pagination = res.data.pagination
       const users = res.data.data
 
@@ -46,51 +46,32 @@ const actions = {
       })
     })
   },
-  getItem ({ commit }, id) {
-    return ApiService.get(`/users/${ id }`).then(res => {
+  async getItem ({ commit }, id) {
+    await ApiService.get(`/users/${ id }`).then(res => {
       commit('setItem', res.data.data)
     })
   },
-  delete ({ commit }, id) {
-    return ApiService.delete(`users/${ id }`).then(() => {
+  async delete ({ commit }, id) {
+    await ApiService.delete(`users/${ id }`).then(() => {
       commit('delete', id)
     })
   },
-  update ({ commit, dispatch }, payload) {
+  async update ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    if (_.isString(payload.meta.avatar) || !payload.meta.avatar) {
-      return ApiService.put(`/users/${ payload.id }`, input)
-    } else {
-      return Promise.all([
-        ApiService.post('/assets', payload.meta.avatar),
-        ApiService.put(`/users/${ payload.id }`, input),
-      ]).then((resp) => {
-        const imgUrl = resp[0].data.data[0].uri
-        const userId = payload.id
-        const metaData = {
-          avatar: imgUrl,
-        }
-        return dispatch('meta/createMeta', { data: metaData, model: 'users', model_id: userId }, { root: true })
-      })
-    }
+    await ApiService.put(`/users/${ payload.id }`, input)
+
+    // insert to meta table
+    await dispatch('meta/createMeta', { data: payload.meta, model: 'users', model_id: payload.id }, { root: true })
   },
-  create ({ commit, dispatch }, payload) {
+  async create ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    if (!payload.meta.avatar) {
-      return ApiService.post('/users', input)
-    } else {
-      return Promise.all([
-        ApiService.post('/assets', payload.meta.avatar),
-        ApiService.post('/users', input),
-      ]).then((resp) => {
-        const imgUrl = resp[0].data.data[0].uri
-        const userId = resp[1].data.data.id
-        const metaData = {
-          avatar: imgUrl,
-        }
-        return dispatch('meta/createMeta', { data: metaData, model: 'users', model_id: userId }, { root: true })
-      })
-    }
+    const resp = await ApiService.post('/users', input)
+
+    const { data } = resp.data
+
+    // insert to meta table
+    await dispatch('meta/createMeta', { data: payload.meta, model: 'users', model_id: data.id }, { root: true })
+
   },
   resetState ({ commit }) {
     commit('resetState')

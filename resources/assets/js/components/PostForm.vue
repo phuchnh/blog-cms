@@ -182,7 +182,7 @@
           })
         }
 
-        if (this.metas.others.length > 0) {
+        if (this.metas.others) {
           metas.push({
             meta_key: 'others',
             meta_value: this.metas.others,

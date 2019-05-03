@@ -8,78 +8,59 @@
           <a-tab-pane tab="General Information" key="1">
             <div class="box box-widget">
               <div class="box-body">
-                <div class="form-group" :class="{ 'has-error': errors.first('site_name') }">
+                <div class="form-group">
                   <label for="site-name">Site name</label>
-                  <input v-validate="'required'" class="form-control" id="site-name" name="site_name"
-                         v-model="settings.site_name" />
-                  <div class="help-block" v-if="errors.first('site_name')">
-                    <span>{{ errors.first('site_name') }}</span>
-                  </div>
+                  <input class="form-control" id="site-name" name="site_name"
+                         v-model="settings.site_name"/>
                 </div>
 
-                <div class="form-group" :class="{ 'has-error': errors.first('phone') }">
+                <div class="form-group">
                   <label for="phone">Phone</label>
-                  <input v-validate="'required'" class="form-control" id="phone" name="phone"
-                         v-model="settings.phone" />
-                  <div class="help-block" v-if="errors.first('phone')">
-                    <span>{{ errors.first('phone') }}</span>
-                  </div>
+                  <input class="form-control" id="phone" name="phone"
+                         v-model="settings.phone"/>
                 </div>
 
-                <div class="form-group" :class="{ 'has-error': errors.first('address') }">
+                <div class="form-group">
                   <label for="address">Address</label>
-                  <input v-validate="'required'" class="form-control" id="address" name="address"
-                         v-model="settings.address" />
-                  <div class="help-block" v-if="errors.first('address')">
-                    <span>{{ errors.first('address') }}</span>
-                  </div>
+                  <input class="form-control" id="address" name="address"
+                         v-model="settings.address"/>
                 </div>
 
-                <div class="form-group" :class="{ 'has-error': errors.first('facebook') }">
+                <div class="form-group">
                   <label for="facebook">Facebook</label>
-                  <input v-validate="'required'" class="form-control" id="facebook" name="facebook"
-                         v-model="settings.facebook" />
-                  <div class="help-block" v-if="errors.first('facebook')">
-                    <span>{{ errors.first('facebook') }}</span>
-                  </div>
+                  <input class="form-control" id="facebook" name="facebook"
+                         v-model="settings.facebook"/>
                 </div>
 
-                <div class="form-group" :class="{ 'has-error': errors.first('instagram') }">
+                <div class="form-group">
                   <label for="instagram">Instagram</label>
-                  <input v-validate="'required'" class="form-control" id="instagram" name="instagram"
-                         v-model="settings.instagram" />
-                  <div class="help-block" v-if="errors.first('instagram')">
-                    <span>{{ errors.first('instagram') }}</span>
-                  </div>
+                  <input class="form-control" id="instagram" name="instagram"
+                         v-model="settings.instagram"/>
                 </div>
 
                 <div class="form-group" :class="{ 'has-error': errors.first('email') }">
                   <label for="email">Email</label>
-                  <input v-validate="'required|email'" class="form-control" id="email" name="email"
-                         v-model="settings.email" />
+                  <input v-validate="'email'" class="form-control" id="email" name="email"
+                         v-model="settings.email"/>
                   <div class="help-block" v-if="errors.first('email')">
                     <span>{{ errors.first('email') }}</span>
                   </div>
                 </div>
 
-                <div class="form-group" :class="{ 'has-error': errors.first('linkedin') }">
+                <div class="form-group">
                   <label for="linkedin">Linkedin</label>
-                  <input v-validate="'required'" class="form-control" id="linkedin" name="linkedin"
-                         v-model="settings.linkedin" />
-                  <div class="help-block" v-if="errors.first('linkedin')">
-                    <span>{{ errors.first('linkedin') }}</span>
-                  </div>
+                  <input class="form-control" id="linkedin" name="linkedin"
+                         v-model="settings.linkedin"/>
                 </div>
 
-                <div class="form-group" :class="{ 'has-error': errors.first('copyright') }">
+                <div class="form-group">
                   <label for="copyright">Copyright</label>
-                  <input v-validate="'required'" class="form-control" id="copyright" name="copyright"
-                         v-model="settings.copyright" />
-                  <div class="help-block" v-if="errors.first('copyright')">
-                    <span>{{ errors.first('copyright') }}</span>
-                  </div>
+                  <input class="form-control" id="copyright" name="copyright"
+                         v-model="settings.copyright"/>
                 </div>
               </div>
+              <image-box v-model="settings.logo" :title="'Website Logo'" :limit="1"></image-box>
+              <image-box v-model="settings.avatar" :title="'Default avatar'" :limit="1"></image-box>
             </div>
           </a-tab-pane>
 
@@ -128,7 +109,7 @@
   export default {
     name: 'Setting',
     components: { IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
-    data() {
+    data () {
       return {
         actions: [
           {
@@ -141,6 +122,8 @@
           seo: [],
           introduction: { content: [], image: '' },
           banner: { content: [], image: '' },
+          logo: null,
+          avatar: null,
         },
       }
     },
@@ -152,7 +135,7 @@
     beforeRouteLeave (from, to, next) {
       this.$store.dispatch('setting/resetState').then(() => next())
     },
-    beforeRouteEnter(to, from, next) {
+    beforeRouteEnter (to, from, next) {
       store.dispatch('setting/fetchList').then(
         () => next(
           vm => {
@@ -160,7 +143,7 @@
           }),
       )
     },
-    created() {
+    created () {
       if (this.settings.seo) {
         this.meta.seo = JSON.parse(this.settings.seo)
       }
@@ -174,7 +157,7 @@
       }
     },
     methods: {
-      save() {
+      save () {
         this.settings.seo = JSON.stringify(this.meta.seo)
 
         // update introduction information
@@ -185,10 +168,14 @@
 
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
-              this.$message.success('Save successfully')
-              this.$router.push({ name: 'setting' })
-            })
+            this.$store.dispatch('setting/storeSetting', this.settings)
+                .then(() => {
+                  this.$message.success('Save successfully')
+                  this.$router.push({ name: 'setting' })
+                }).catch((err) => {
+                  console.log(err)
+                  this.$message.error('Error')
+                })
           } else {
             this.$message.error('Invalid Form !')
           }

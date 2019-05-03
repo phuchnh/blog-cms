@@ -8,6 +8,7 @@
       <span class="logo-mini"></span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
+        <img v-if="setting.logo && setting.logo.url" v-bind:src="setting.logo.url" style="width: 70%" alt="Website logo">
         <img src="../../images/onelifeconnection-logo.png" style="width: 70%" alt="Website logo">
       </span>
     </router-link>
@@ -32,7 +33,8 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img v-if="meta.avatar" v-bind:src="meta.avatar" class="user-image" alt="User Image">
+              <img v-if="meta.avatar && meta.avatar.url" v-bind:src="meta.avatar.url" class="user-image" alt="User Image">
+              <img v-else-if="setting.avatar && setting.avatar.url" v-bind:src="setting.avatar.url" class="user-image" alt="User Image">
               <img v-else src="../../images/default-avatar.png" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{ currentUser.name }}</span>
@@ -40,9 +42,9 @@
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img v-if="meta.avatar" v-bind:src="meta.avatar" class="img-circle" alt="User Image">
+                <img v-if="meta.avatar && meta.avatar.url" v-bind:src="meta.avatar.url" class="img-circle" alt="User Image">
+                <img v-else-if="setting.avatar && setting.avatar.url" v-bind:src="setting.avatar.url" class="img-circle" alt="User Image">
                 <img v-else src="../../images/default-avatar.png" class="img-circle" alt="User Image">
-
                 <p>
                   {{ currentUser.name }} - {{ currentUser.type | capitalize }}
                 </p>
@@ -84,6 +86,9 @@
       csrf () {
         return document.head.querySelector('meta[name="csrf-token"]').content
       },
+      setting () {
+        return this.$store.state.setting.settings
+      }
     },
   }
 </script>

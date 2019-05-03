@@ -1,33 +1,24 @@
 <template>
   <div>
-    <div class="box box-widget">
-      <div class="box-header">
-        <h3 class="box-title text-capitalize">{{ title }}</h3>
-      </div>
-      <div class="box-body">
-        <div class="clearfix">
-          <a-upload
-              name="files"
-              :action="action"
-              :headers="headers"
-              listType="picture"
-              v-model="images"
-              :defaultFileList="images"
-              :remove="handleRemove"
-              @preview="handlePreview"
-              @change="handleChange"
-          >
-            <a-button v-if="disable">
-              <a-icon type="upload"/>
-              Upload
-            </a-button>
-          </a-upload>
-          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :title="previewImage.name">
-            <img alt="example" class="img" :src="previewImage.url"/>
-          </a-modal>
-        </div>
-      </div>
-    </div>
+    <a-upload
+        name="files"
+        :action="action"
+        :headers="headers"
+        listType="picture"
+        v-model="images"
+        :defaultFileList="images"
+        :remove="handleRemove"
+        @preview="handlePreview"
+        @change="handleChange"
+    >
+      <a-button v-if="disable">
+        <a-icon type="upload"/>
+        Upload
+      </a-button>
+    </a-upload>
+    <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :title="previewImage.name">
+      <img alt="example" class="img" :src="previewImage.url"/>
+    </a-modal>
   </div>
 </template>
 
@@ -37,15 +28,11 @@
   import * as _ from 'lodash'
 
   export default {
-    name: 'ImagesBox',
+    name: 'UploadButton',
     props: {
       value: {
         type: Object | Array,
         default: 0,
-      },
-      title: {
-        type: String,
-        default: '',
       },
       limit: {
         type: Number,
