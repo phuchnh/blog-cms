@@ -54,8 +54,9 @@ class PostController extends Controller
                        ->orderBy('id', 'desc')->paginate($paginator);
 
         $return = [
-            'data'  => $this->loadTransformDataPost($posts),
-            'links' => $posts->links(),
+            'data'   => $this->loadTransformDataPost($posts),
+            'links'  => $posts->links(),
+            'banner' => $this->loadBannerTop($this->returnDataIndex['plugins']['slug']),
         ];
 
         // load SEO
@@ -142,6 +143,7 @@ class PostController extends Controller
 
     /**
      * load SEO data
+     *
      * @param null $slug
      */
     private function loadSeoData($slug = null)
@@ -164,10 +166,32 @@ class PostController extends Controller
     }
 
     /**
+     * load banner top
+     *
+     * @param $slug
+     * @return |null
+     */
+    private function loadBannerTop($slug)
+    {
+        if ($slug) {
+            $setting = (new \App\Http\View\Composers\SettingComposer)->getSettingInformation();
+
+            // load content
+            $item = isset($setting[$slug]) && $setting[$slug] ? json_decode($setting[$slug]) : null;
+
+            return isset($item->banner->url) && $item->banner->url ? $item->banner->url : null;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Set Meta content for detail
+     *
      * @param $meta
      */
-    private function setHeaderMeta($meta){
+    private function setHeaderMeta($meta)
+    {
         \SEOMeta::setTitle($meta['title']);
         \SEOMeta::setKeywords($meta['keywords']);
         \SEOMeta::setDescription($meta['description']);

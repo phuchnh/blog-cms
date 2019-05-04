@@ -2,10 +2,7 @@
 
 @section('content')
     <article class="about blog">
-        <!-- Banner -->
-        <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('/app/img/olc-banner_home.jpg')">
-        </section>
+        @include('includes.banner-page')
 
         @include('page.blog.navigate')
 
