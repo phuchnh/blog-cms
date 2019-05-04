@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loaded">
     <div class="wrapper">
       <Header></Header>
       <Sidebar></Sidebar>
@@ -29,7 +29,14 @@
       console.log('App');
     },
     created () {
-      this.$store.dispatch('setting/fetchList')
+      this.$store.dispatch('setting/fetchList').then(() => {
+        this.loaded = true
+      })
+    },
+    data () {
+      return {
+        loaded: false
+      }
     }
   };
 </script>
