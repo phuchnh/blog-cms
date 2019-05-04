@@ -14,50 +14,50 @@
         @include('page.event.navigate')
 
         <section class="event-main">
-            <div class="event-section__header margin_bottom--40 container">
+            <form class="event-section__header margin_bottom--40 container">
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <select class="custom-select border_radius--2em">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="custom-select border_radius--2em" name="day">
+                                <option value="" selected>Date</option>
+                                @for ($i = 1; $i <= 31; $i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <select class="custom-select border_radius--2em">
-                                <option selected>Day...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="custom-select border_radius--2em" name="month">
+                                <option value="" selected>Month</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <select class="custom-select border_radius--2em">
-                                <option selected>Month...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="custom-select border_radius--2em" name="year">
+                                <option value="" selected>Year</option>
+                                @for ($i = 1970; $i <= 2050; $i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
                             </select>
                         </div>
                     </div>
 
                     <div class="col-sm-6 ml-auto">
-                        <form class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto border--grey">
-                            <input class="form-control mr-sm-2 background--none border_none" type="search"
+                        <div class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto border--grey">
+                            <input class="form-control mr-sm-2 background--none border_none" type="search" name="title"
                                    placeholder="Search" aria-label="Search">
                             <button class="btn my-sm-0 ml-auto" type="submit">
                                 <i class="fas fa-search font_color--grey"></i>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="event-section__container container">
                 <div class="row">
