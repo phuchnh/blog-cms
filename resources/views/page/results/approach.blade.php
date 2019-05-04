@@ -2,13 +2,11 @@
 
 @section('content')
     <article class="about approach">
-        <!-- Banner -->
-        <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('/app/img/olc-banner_home.jpg')">
-        </section>
+        @include('includes.banner-page')
 
         @include('page.results.navigate')
 
+        @include('includes.content-single')
         <div class="child-page-top-desc">
             <div class="container">
                TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
@@ -17,7 +15,7 @@
 
         <div class="approach__content">
             <div class="container clearfix">
-                <img src="../assets/img/approach-01.png" alt="" />
+                <img src="/app/img/approach-01.png" alt="" />
                 <p>
                     At One Life Connection, we take your questions of practicality and impacts seriously.
                 </p>
@@ -41,7 +39,7 @@
                     According to our client’s specific needs and contexts, whether it relates to Customer Service, Employee Engagement,Corporate Culture or Leadership Development, we are able to design and deliver bespoke solutions to ensure short,medium and long-term impacts.
                 </p>
                 <p>
-                    <img src="../assets/img/approach-02.png" alt="" />
+                    <img src="/app/img/approach-02.png" alt="" />
                 </p>
             </div>
         </div>
@@ -49,6 +47,5 @@
         <div class="text-center">
             <a href="#" class="custom-btn">Contact Us</a>
         </div>
-
     </article>
 @stop

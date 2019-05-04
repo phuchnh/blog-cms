@@ -25,10 +25,11 @@ class FaqController extends Controller
         $posts = $this->getPosts($request, $posts);
 
         // load meta data
-        $this->loadSeoData('faq');
+        $item = $this->loadSeoData('faq');
 
         return view('page.why.faq', [
             'data'     => $posts,
+            'item'     => $item,
             'navigate' => 'whymindfullness',
             'slug'     => 'faq',
         ]);
@@ -61,8 +62,8 @@ class FaqController extends Controller
     }
 
     /**
-     * load SEO data
      * @param null $slug
+     * @return |null
      */
     private function loadSeoData($slug = null)
     {
@@ -80,6 +81,15 @@ class FaqController extends Controller
                 \SEOMeta::setTitle($item->seo[$locale_key_seo]->title);
                 \SEOMeta::setDescription($item->seo[$locale_key_seo]->description);
             }
+
+            // Key language
+            if (isset($item->content) && $item->content) {
+                $locale_key = array_search(app()->getLocale(), array_column($item->content, 'locale'));
+            }
+
+            return isset($locale_key) && isset($item->content[$locale_key]) && $item->content[$locale_key] ? $item->content[$locale_key] : null;
+        } else {
+            return null;
         }
     }
 }

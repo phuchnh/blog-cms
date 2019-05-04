@@ -2,10 +2,10 @@
 
 @section('content')
     <article class="about about-contact">
-        @include('page.about.banner')
+        @include('includes.banner-page')
 
         @include('page.about.navigate')
 
-        @include('page.about.content')
+        @include('includes.content-single')
     </article>
 @stop

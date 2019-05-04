@@ -2,24 +2,12 @@
 
 @section('content')
     <article class="about faq">
-        <!-- Banner -->
-        <section class="about__banner banner__about-page background__cover--center-bottom"
-                 style="background:url('/app/img/olc-banner_home.jpg')">
-        </section>
+        @include('includes.banner-page')
 
         @include('page.why.navigate')
 
-        <div class="child-page-top-desc">
-            <div class="container">
-                <p>
-                    TRANSFORM THE WORKPLACE, ONE MINDFUL LEADER AT A TIME
-                </p>
-                <p class="child-page-top-desc-02">
-                    If you’re new to mindfulness & meditation, it’s natural to have many questions. These answers may easeyour mind and help you practice with more confidence.
-                </p>
-            </div>
-        </div>
-
+        @include('includes.content-single')
+       
         @isset($data)
             <div class="faq-content">
                 <div class="container">
