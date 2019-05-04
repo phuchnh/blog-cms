@@ -80,8 +80,9 @@ class PostController extends Controller
         $return = [
             'item'   => $data,
             'others' => $others,
-            'meta'   => $this->getMetaPost($data),
         ];
+
+        $this->setHeaderMeta($this->getMetaPost($data));
 
         return view($this->returnDataDetail['view'], array_merge($return, $this->returnDataDetail['plugins']));
     }
@@ -160,5 +161,15 @@ class PostController extends Controller
                 \SEOMeta::setDescription($item->seo[$locale_key_seo]->description);
             }
         }
+    }
+
+    /**
+     * Set Meta content for detail 
+     * @param $meta
+     */
+    private function setHeaderMeta($meta){
+        \SEOMeta::setTitle($meta['title']);
+        \SEOMeta::setKeywords($meta['keywords']);
+        \SEOMeta::setDescription($meta['description']);
     }
 }
