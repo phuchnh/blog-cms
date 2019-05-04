@@ -79,6 +79,8 @@ return [
 
     # V
     'view_more' => 'view more',
+    'view_all_programs' => 'view all programs',
+    'view_all_events' => 'view all events',
 
     # W
     'why-mindfullness' => 'why-mindfullness',

@@ -57,13 +57,14 @@
                   <image-box v-model="meta.eventprogram.banner"
                              :box-title="'Banner'"></image-box>
 
-                  <content-box :box-title="'Content'" v-model="meta.eventprogram.content"></content-box>
-
                   <SeoBox v-model="meta.eventprogram.seo"></SeoBox>
                 </a-tab-pane>
 
                 <!-- Event -->
                 <a-tab-pane tab="Event" key="2">
+                  <image-box v-model="meta.event.thumbnail"
+                             :box-title="'Thumbnail'"></image-box>
+
                   <image-box v-model="meta.event.banner"
                              :box-title="'Banner'"></image-box>
 
@@ -74,6 +75,9 @@
 
                 <!-- Program -->
                 <a-tab-pane tab="Program" key="3">
+                  <image-box v-model="meta.program.thumbnail"
+                             :box-title="'Thumbnail'"></image-box>
+
                   <image-box v-model="meta.program.banner"
                              :box-title="'Banner'"></image-box>
 

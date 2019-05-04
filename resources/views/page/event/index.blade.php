@@ -3,13 +3,15 @@
 @section('content')
     <article class="event-section">
         <!-- Banner -->
-        <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
-                 style="background:url('/app/img/event/event-banner.jpg')">
+        @isset($banner)
+            <section class="about__banner banner__about-page background__cover--center-bottom"
+                     style="background:url('@if($banner){{$banner}}@else {{'/app/img/olc-banner_home.jpg'}}@endif')">
 
-            <div class="font_color--white font-weight-bold text-uppercase">
-                @lang('site.event-and-program')
-            </div>
-        </section>
+                <div class="font_color--white font-weight-bold text-uppercase">
+                    @lang('site.event-and-program')
+                </div>
+            </section>
+        @endisset
 
         <div class="event-headline__top">
             <div class="container">
@@ -23,34 +25,46 @@
                     <div class="col-12">
                         <div class="card-deck">
                             <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_14.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
-                                </div>
+                                @isset($event->thumbnail->url)
+                                    <div class="card-img-top background__cover--center"
+                                         style="background: url('{{$event->thumbnail->url}}')">
+                                        <img class="d-none" src="{{$event->thumbnail->url}}" alt="Card image cap">
+                                    </div>
+                                @endisset
+
                                 <div class="card-body">
-                                    <h5 class="card-title font-weight-bold fs--1-3em">EVENTS</h5>
+                                    <h5 class="card-title font-weight-bold fs--1-3em text-uppercase">@lang('site.events')</h5>
                                     <div class="card-text margin_bottom--20">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        @isset($event_content)
+                                            {!! $event_content->description !!}
+                                        @endisset
                                     </div>
 
-                                    <a href="{{route('event')}}" class="btn background--orange font_color--white border_radius--2em">
-                                        View all Events
+                                    <a href="{{route('event')}}"
+                                       class="btn background--orange font_color--white border_radius--2em text-capitalize">
+                                        @lang('site.view_all_events')
                                     </a>
                                 </div>
                             </div>
                             <div class="card border_radius--none border_none">
-                                <div class="card-img-top background__cover--center"
-                                     style="background: url('/app/img/event/event_14.jpg')">
-                                    <img class="d-none" src="/app/img/event/event_14.jpg" alt="Card image cap">
-                                </div>
+                                @isset($program->thumbnail->url)
+                                    <div class="card-img-top background__cover--center"
+                                         style="background: url('{{$program->thumbnail->url}}')">
+                                        <img class="d-none" src="{{$program->thumbnail->url}}" alt="Card image cap">
+                                    </div>
+                                @endisset
+
                                 <div class="card-body">
-                                    <h5 class="card-title font-weight-bold fs--1-3em">PROGRAMS</h5>
+                                    <h5 class="card-title font-weight-bold fs--1-3em text-uppercase">@lang('site.programs')</h5>
                                     <div class="card-text margin_bottom--20">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        @isset($program_content)
+                                            {!! $program_content->description !!}
+                                        @endisset
                                     </div>
 
-                                    <a href="{{route('program')}}" class="btn background--orange font_color--white border_radius--2em">
-                                        View all Programs
+                                    <a href="{{route('program')}}"
+                                       class="btn background--orange font_color--white border_radius--2em text-capitalize">
+                                        @lang('site.view_all_programs')
                                     </a>
                                 </div>
                             </div>

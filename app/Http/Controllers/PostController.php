@@ -164,7 +164,7 @@ class PostController extends Controller
     }
 
     /**
-     * Set Meta content for detail 
+     * Set Meta content for detail
      * @param $meta
      */
     private function setHeaderMeta($meta){
