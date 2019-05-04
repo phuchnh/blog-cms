@@ -24,6 +24,9 @@ class FaqController extends Controller
         // Load list posts
         $posts = $this->getPosts($request, $posts);
 
+        // load meta data
+        $this->loadSeoData('faq');
+
         return view('page.why.faq', [
             'data'     => $posts,
             'navigate' => 'whymindfullness',
@@ -54,6 +57,29 @@ class FaqController extends Controller
             Cache::put('post_faq', $this->loadTransformDataPost($data), 600);
 
             return $data;
+        }
+    }
+
+    /**
+     * load SEO data
+     * @param null $slug
+     */
+    private function loadSeoData($slug = null)
+    {
+        if ($slug) {
+            $setting = (new \App\Http\View\Composers\SettingComposer)->getSettingInformation();
+
+            // load content
+            $item = isset($setting[$slug]) && $setting[$slug] ? json_decode($setting[$slug]) : null;
+
+            // Set SEO information
+            if (isset($item->seo) && $item->seo) {
+                // Key language
+                $locale_key_seo = array_search(app()->getLocale(), array_column($item->seo, 'locale'));
+
+                \SEOMeta::setTitle($item->seo[$locale_key_seo]->title);
+                \SEOMeta::setDescription($item->seo[$locale_key_seo]->description);
+            }
         }
     }
 }

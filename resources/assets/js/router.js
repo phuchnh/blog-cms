@@ -10,6 +10,7 @@ import ClientList from '@/view/ClientList'
 import ClientDetail from '@/view/ClientDetail'
 import ClientNew from '@/view/ClientNew'
 import Setting from '@/view/Setting'
+import Navigation from '@/view/Navigation'
 import CategoryList from '@/view/CategoryList'
 import CategoryNew from '@/view/CategoryNew'
 import CategoryDetail from '@/view/CategoryDetail'
@@ -462,6 +463,16 @@ export default new Router({
           component: CategoryDetail,
           meta: {
             title: 'Edit Category',
+            description: '',
+          },
+        },
+
+        {
+          path: 'navigation',
+          name: 'navigation',
+          component: Navigation,
+          meta: {
+            title: 'Setting',
             description: '',
           },
         },
