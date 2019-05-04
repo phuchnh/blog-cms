@@ -1,31 +1,29 @@
 <template>
-  <div>
-    <div class="box box-widget">
-      <div class="box-header">
-        <h3 class="box-title text-capitalize">{{ title }}</h3>
-      </div>
-      <div class="box-body">
-        <div class="clearfix">
-          <a-upload
-              name="files"
-              :action="action"
-              :headers="headers"
-              listType="picture"
-              v-model="images"
-              :defaultFileList="images"
-              :remove="handleRemove"
-              @preview="handlePreview"
-              @change="handleChange"
-          >
-            <a-button v-if="disable">
-              <a-icon type="upload"/>
-              Upload
-            </a-button>
-          </a-upload>
-          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :title="previewImage.name">
-            <img alt="example" class="img" :src="previewImage.url"/>
-          </a-modal>
-        </div>
+  <div class="box box-widget">
+    <div class="box-header" v-if="boxTitle">
+      <h3 class="box-title text-capitalize">{{ boxTitle }}</h3>
+    </div>
+    <div class="box-body">
+      <div class="clearfix">
+        <a-upload
+            name="files"
+            :action="action"
+            :headers="headers"
+            listType="picture"
+            v-model="images"
+            :defaultFileList="images"
+            :remove="handleRemove"
+            @preview="handlePreview"
+            @change="handleChange"
+        >
+          <a-button v-if="disable">
+            <a-icon type="upload"/>
+            Upload
+          </a-button>
+        </a-upload>
+        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :title="previewImage.name">
+          <img alt="example" class="img" :src="previewImage.url"/>
+        </a-modal>
       </div>
     </div>
   </div>
@@ -43,7 +41,7 @@
         type: Object | Array,
         default: 0,
       },
-      title: {
+      boxTitle: {
         type: String,
         default: '',
       },
@@ -167,6 +165,9 @@
           this.$message.error('Image must smaller than 2MB!')
         }
         return isLt2M
+      },
+      resetData () {
+        this.fileInput = null
       },
     },
   }

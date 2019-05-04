@@ -68,19 +68,21 @@
                                         class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item @if ($navigate === 'about') active @endif">
-                            <a class="nav-link text-uppercase" href="/about">ABOUT</a>
+                            <a class="nav-link text-uppercase" href="{{route('about')}}">ABOUT</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'event-program') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('event-program')}}">EVENT & PROGRAMS</a>
+                            <a class="nav-link text-uppercase" href="{{route('event-program')}}">EVENT &
+                                PROGRAMS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'results') active @endif">
-                            <a class="nav-link text-uppercase" href="/results">RESULTS</a>
+                            <a class="nav-link text-uppercase" href="{{route('results')}}">RESULTS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'whymindfullness') active @endif">
-                            <a class="nav-link text-uppercase" href="/why-mind-fullness">WHY MINDFULNESS</a>
+                            <a class="nav-link text-uppercase" href="{{route('why-mind-fullness')}}">WHY
+                                MINDFULNESS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'resources') active @endif">
-                            <a class="nav-link text-uppercase" href="/resources">RESOURCES</a>
+                            <a class="nav-link text-uppercase" href="{{route('resources')}}">RESOURCES</a>
                         </li>
                     </ul>
                     <form class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">

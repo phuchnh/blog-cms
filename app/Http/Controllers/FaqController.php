@@ -42,6 +42,7 @@ class FaqController extends Controller
             return Cache::get('post_faq');
         } else {
             $data = $posts
+                ->ofLocale(app()->getLocale())
                 ->where('type', self::TYPE)
                 ->when($request->input('title'), function ($query) use ($request) {
                     /**@var \Illuminate\Database\Eloquent\Builder $query */
@@ -50,7 +51,7 @@ class FaqController extends Controller
                 ->sortable([$request->get('sort') => $request->get('direction')])
                 ->orderBy('id', 'desc')->get();
 
-            Cache::put('post_faq', $this->loadTransformData($data), 600);
+            Cache::put('post_faq', $this->loadTransformDataPost($data), 600);
 
             return $data;
         }

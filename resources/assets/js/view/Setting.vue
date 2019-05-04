@@ -98,14 +98,12 @@
 <script>
   import { mapGetters } from 'vuex'
   import store from '@/store'
-
   // import component
   import SeoBox from '@/components/SeoBox'
   import IntroductionBox from '@/components/IntroductionBoxForm'
   import ImageBox from '@/components/ImagesBox'
   import PostActionBox from '@/components/PostActionBox'
   import BannerBox from '@/components/PostEventForm'
-
   export default {
     name: 'Setting',
     components: { IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
@@ -141,21 +139,19 @@
     beforeRouteEnter (to, from, next) {
       store.dispatch('setting/fetchList')
             .then(
-              () => next(
-                vm => {
-                  vm.loading = false
-                }),
-            )
+        () => next(
+          vm => {
+            vm.loading = false
+          }),
+      )
     },
     created () {
       if (this.settings.seo) {
         this.meta.seo = JSON.parse(this.settings.seo)
       }
-
       if (this.settings.introduction) {
         this.meta.introduction = JSON.parse(this.settings.introduction)
       }
-
       if (this.settings.banner) {
         this.meta.banner = JSON.parse(this.settings.banner)
       }
@@ -164,31 +160,26 @@
     methods: {
       save () {
         this.settings = this.data
-
         this.settings.seo = JSON.stringify(this.meta.seo)
-
         // update introduction information
         this.settings.introduction = JSON.stringify(this.meta.introduction)
-
         // update banner information
         this.settings.banner = JSON.stringify(this.meta.banner)
-
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$store.dispatch('setting/storeSetting', this.settings)
-                .then(() => {
-                  this.$message.success('Save successfully')
-                  this.$router.push({ name: 'setting' })
-                }).catch((err) => {
-                  console.log(err)
-                  this.$message.error('Error')
-                })
+            .then(() => {
+              this.$message.success('Save successfully')
+              this.$router.push({ name: 'setting' })
+            }).catch((err) => {
+              console.log(err)
+              this.$message.error('Error')
+            })
           } else {
             this.$message.error('Invalid Form !')
           }
         })
       },
     },
-
   }
 </script>

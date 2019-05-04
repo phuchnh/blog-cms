@@ -37,6 +37,7 @@ return [
     'events-and-programs' => 'events & programs',
     'expertise' => 'Expertise',
     'experts' => 'experts',
+    'engage-with-us' => 'engage with us',
 
     # F
     'faq' => 'FAQ',
@@ -59,12 +60,17 @@ return [
     # O
     'other_posts_you_may_like' => 'Other Posts You May Like',
 
+    # P
+    'programs' => 'programs',
+
     # R
     'results' => 'results',
     'resources' => 'resources',
 
     # S
     'story' => 'story',
+    'sign-up-now' => 'sign up now',
+    'subscribe-for-our-newsletter' => 'subscribe for our newsletter',
 
     # T
     'take_an_assessment' => 'Take an assessment',

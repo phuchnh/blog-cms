@@ -5,7 +5,7 @@
         <h3 class="box-title">Content</h3>
       </div>
       <div class="box-body">
-        <a-tabs :defaultActiveKey="activeTab" @change="onTabsChange">
+        <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabsChange">
           <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
             <div class="form-group">
               <label for="title">title</label>

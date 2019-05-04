@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transformers\PostFrontEndTransformer;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,10 +24,27 @@ class Controller extends BaseController
     /**
      * transform data for post
      *
-     * @param \Illuminate\Support\Collection $collection
-     * @return \Illuminate\Support\Collection
+     * @param $collection
+     * @param string $transformerClass
+     * @return mixed|null
      */
     public function loadTransformData($collection, $transformerClass = PostTransformer::class)
+    {
+        $data = responder()
+            ->success($collection, $transformerClass)
+            ->toCollection();
+
+        return $data['data'] ? $data['data'] : null;
+    }
+
+    /**
+     * transform data for post include meta transform
+     *
+     * @param $collection
+     * @param string $transformerClass
+     * @return \Illuminate\Support\Collection
+     */
+    public function loadTransformDataPost($collection, $transformerClass = PostFrontEndTransformer::class)
     {
         $data = responder()
             ->success($collection, $transformerClass)
@@ -44,9 +62,9 @@ class Controller extends BaseController
     protected function getMetaPost($data)
     {
         return [
-            'title'       => isset($data['meta']['title']) && $data['meta']['title'] ? $data['meta']['title'] : '',
+            'title'       => isset($data['meta']['title']) && $data['meta']['title'] ? $data['meta']['title'] : $data['title'],
             'keywords'    => isset($data['meta']['keywords']) && $data['meta']['keywords'] ? $data['meta']['keywords'] : '',
-            'description' => isset($data['meta']['description']) && $data['meta']['description'] ? $data['meta']['description'] : '',
+            'description' => isset($data['meta']['description']) && $data['meta']['description'] ? $data['meta']['description'] : $data['description'],
         ];
     }
 }
