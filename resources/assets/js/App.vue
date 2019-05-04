@@ -1,6 +1,6 @@
 <template>
-  <div v-if="loaded">
-    <div class="wrapper">
+  <div v-loading.fullscreen.lock="!loaded">
+    <div class="wrapper" v-if="loaded">
       <Header></Header>
       <Sidebar></Sidebar>
       <PageContent>
