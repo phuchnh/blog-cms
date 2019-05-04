@@ -11,37 +11,37 @@
                 <div class="form-group">
                   <label for="site-name">Site name</label>
                   <input class="form-control" id="site-name" name="site_name"
-                         v-model="settings.site_name"/>
+                         v-model="data.site_name"/>
                 </div>
 
                 <div class="form-group">
                   <label for="phone">Phone</label>
                   <input class="form-control" id="phone" name="phone"
-                         v-model="settings.phone"/>
+                         v-model="data.phone"/>
                 </div>
 
                 <div class="form-group">
                   <label for="address">Address</label>
                   <input class="form-control" id="address" name="address"
-                         v-model="settings.address"/>
+                         v-model="data.address"/>
                 </div>
 
                 <div class="form-group">
                   <label for="facebook">Facebook</label>
                   <input class="form-control" id="facebook" name="facebook"
-                         v-model="settings.facebook"/>
+                         v-model="data.facebook"/>
                 </div>
 
                 <div class="form-group">
                   <label for="instagram">Instagram</label>
                   <input class="form-control" id="instagram" name="instagram"
-                         v-model="settings.instagram"/>
+                         v-model="data.instagram"/>
                 </div>
 
                 <div class="form-group" :class="{ 'has-error': errors.first('email') }">
                   <label for="email">Email</label>
                   <input v-validate="'email'" class="form-control" id="email" name="email"
-                         v-model="settings.email"/>
+                         v-model="data.email"/>
                   <div class="help-block" v-if="errors.first('email')">
                     <span>{{ errors.first('email') }}</span>
                   </div>
@@ -50,17 +50,17 @@
                 <div class="form-group">
                   <label for="linkedin">Linkedin</label>
                   <input class="form-control" id="linkedin" name="linkedin"
-                         v-model="settings.linkedin"/>
+                         v-model="data.linkedin"/>
                 </div>
 
                 <div class="form-group">
                   <label for="copyright">Copyright</label>
                   <input class="form-control" id="copyright" name="copyright"
-                         v-model="settings.copyright"/>
+                         v-model="data.copyright"/>
                 </div>
               </div>
-              <image-box v-model="settings.logo" :title="'Website Logo'" :limit="1"></image-box>
-              <image-box v-model="settings.avatar" :title="'Default avatar'" :limit="1"></image-box>
+              <image-box v-model="data.logo" :title="'Website Logo'" :limit="1"></image-box>
+              <image-box v-model="data.avatar" :title="'Default avatar'" :limit="1"></image-box>
             </div>
           </a-tab-pane>
 
@@ -121,27 +121,31 @@
         meta: {
           seo: [],
           introduction: { content: [], image: '' },
-          banner: { content: [], image: '' },
+          banner: { content: [],  image: '' },
           logo: null,
           avatar: null,
         },
+        data: {}
       }
     },
     computed: {
-      ...mapGetters({
-        settings: 'setting/settings',
-      }),
-    },
-    beforeRouteLeave (from, to, next) {
-      this.$store.dispatch('setting/resetState').then(() => next())
+      settings: {
+        get () {
+          return this.$store.getters['setting/list']
+        },
+        set (value) {
+          this.$store.commit('setting/setList', value)
+        }
+      }
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('setting/fetchList').then(
-        () => next(
-          vm => {
-            vm.loading = false
-          }),
-      )
+      store.dispatch('setting/fetchList')
+            .then(
+              () => next(
+                vm => {
+                  vm.loading = false
+                }),
+            )
     },
     created () {
       if (this.settings.seo) {
@@ -155,9 +159,12 @@
       if (this.settings.banner) {
         this.meta.banner = JSON.parse(this.settings.banner)
       }
+      this.data = {...this.settings}
     },
     methods: {
       save () {
+        this.settings = this.data
+
         this.settings.seo = JSON.stringify(this.meta.seo)
 
         // update introduction information
