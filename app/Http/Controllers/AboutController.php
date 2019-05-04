@@ -40,7 +40,7 @@ class AboutController extends Controller
 
         return view('page.about.'.$slug, [
             'navigate' => 'about',
-            'item'     => isset($item->content[$locale_key]) && $item->content[$locale_key] ? $item->content[$locale_key] : null,
+            'item'     => isset($locale_key) && isset($item->content[$locale_key]) && $item->content[$locale_key] ? $item->content[$locale_key] : null,
             'banner'   => isset($item->banner->url) && $item->banner->url ? $item->banner->url : null,
             'slug'     => $slug,
         ]);
