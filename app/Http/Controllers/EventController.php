@@ -16,7 +16,7 @@ class EventController extends PostController
         $this->returnDataIndex = [
             'view'    => 'page.event.list',
             'plugins' => [
-                'navigate'    => 'event',
+                'navigate'    => 'event-program',
                 'subnavigate' => 'event',
                 'slug'        => 'event',
             ],
@@ -26,7 +26,7 @@ class EventController extends PostController
         $this->returnDataDetail = [
             'view'    => 'page.event.item',
             'plugins' => [
-                'navigate'    => 'event',
+                'navigate'    => 'event-program',
                 'subnavigate' => 'event',
                 'slug'        => 'event',
             ],

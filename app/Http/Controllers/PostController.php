@@ -58,6 +58,9 @@ class PostController extends Controller
             'links' => $posts->links(),
         ];
 
+        // load SEO
+        $this->loadSeoData($this->returnDataIndex['plugins']['slug']);
+
         return view($this->returnDataIndex['view'], array_merge($return, $this->returnDataIndex['plugins']));
     }
 
@@ -133,6 +136,29 @@ class PostController extends Controller
             Cache::put('post_others_'.$post['slug'], $data, 60);
 
             return $data;
+        }
+    }
+
+    /**
+     * load SEO data
+     * @param null $slug
+     */
+    private function loadSeoData($slug = null)
+    {
+        if ($slug) {
+            $setting = (new \App\Http\View\Composers\SettingComposer)->getSettingInformation();
+
+            // load content
+            $item = isset($setting[$slug]) && $setting[$slug] ? json_decode($setting[$slug]) : null;
+
+            // Set SEO information
+            if (isset($item->seo) && $item->seo) {
+                // Key language
+                $locale_key_seo = array_search(app()->getLocale(), array_column($item->seo, 'locale'));
+
+                \SEOMeta::setTitle($item->seo[$locale_key_seo]->title);
+                \SEOMeta::setDescription($item->seo[$locale_key_seo]->description);
+            }
         }
     }
 }

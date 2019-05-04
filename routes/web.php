@@ -20,88 +20,15 @@ if (in_array($locale, ['admin', 'login'])) {
 Route::middleware('locale')
      ->prefix($locale)->group(function () {
 
-        $setting = (new \App\Http\View\Composers\SettingComposer)->getSettingInformation();
+        Route::get(trans('routes.about').'/{slug?}', 'AboutController@index')->name('about');
+        Route::get(trans('routes.event-program'), 'EventProgramController@index')->name('event-program');
+        Route::get(trans('routes.results').'/{slug?}', 'ResultsController@index')->name('results');
+        Route::get(trans('routes.why-mind-fullness').'/{slug?}', 'WhyMyFullnessController@index')
+             ->name('why-mind-fullness');
 
-        Route::get(trans('routes.about').'/{slug?}', function ($slug = null) use ($setting) {
-
-            // Set SEO information
-            if (isset($setting['about_seo'][app()->getLocale()]->title) && $setting['about_seo'][app()->getLocale()]->description) {
-                SEOMeta::setTitle($setting['about_seo'][app()->getLocale()]->title);
-                SEOMeta::setDescription($setting['about_seo'][app()->getLocale()]->description);
-            }
-
-            if (! $slug) {
-                return redirect(app()->getLocale().'/'.trans('routes.about').'/story');
-            }
-
-            return view('page.about.'.$slug, [
-                'navigate' => 'about',
-                'slug'     => $slug,
-            ]);
-        })->name('about');
-
-        Route::get(trans('routes.event-program'), function () use ($setting) {
-            // Set SEO information
-            if (isset($setting['event_seo'][app()->getLocale()]->title) && $setting['event_seo'][app()->getLocale()]->description) {
-                SEOMeta::setTitle($setting['event_seo'][app()->getLocale()]->title);
-                SEOMeta::setDescription($setting['event_seo'][app()->getLocale()]->description);
-            }
-
-            return view('page.event.index', [
-                'navigate' => 'event',
-            ]);
-        })->name('event-program');
-
-        Route::get(trans('routes.resources'), function () use ($setting) {
-            // Set SEO information
-            if (isset($setting['resource_seo'][app()->getLocale()]->title) && $setting['resource_seo'][app()->getLocale()]->description) {
-                SEOMeta::setTitle($setting['resource_seo'][app()->getLocale()]->title);
-                SEOMeta::setDescription($setting['resource_seo'][app()->getLocale()]->description);
-            }
-
+        Route::get(trans('routes.resources'), function () {
             return redirect()->route(trans('routes.blog'));
         })->name('resources');
-
-        Route::get(trans('routes.results').'/{slug?}', function ($slug = null) use ($setting) {
-            // Set SEO information
-            if (isset($setting['results_seo'][app()->getLocale()]->title) && $setting['results_seo'][app()->getLocale()]->description) {
-                SEOMeta::setTitle($setting['results_seo'][app()->getLocale()]->title);
-                SEOMeta::setDescription($setting['results_seo'][app()->getLocale()]->description);
-            }
-
-            if (! $slug) {
-                return redirect(app()->getLocale().'/'.trans('routes.results').'/approach');
-            }
-
-            if ($slug === 'testimonial') {
-                $data = \App\Models\Client::get();
-
-                $controller = new \App\Http\Controllers\Controller();
-
-                $clients = $controller->loadTransformData($data, \App\Transformers\ClientTransformer::class);
-            }
-
-            return view('page.results.'.$slug, [
-                'clients'  => isset($clients) && $clients ? $clients : null,
-                'navigate' => 'results',
-                'slug'     => $slug,
-            ]);
-        })->name('results');
-
-        Route::get(trans('routes.why-mind-fullness').'/{slug?}', function ($slug = null) use ($setting) {
-            // Set SEO information
-            if (isset($setting['why_seo'][app()->getLocale()]->title) && $setting['why_seo'][app()->getLocale()]->description) {
-                SEOMeta::setTitle($setting['why_seo'][app()->getLocale()]->title);
-                SEOMeta::setDescription($setting['why_seo'][app()->getLocale()]->description);
-            }
-
-            $slug = $slug ? $slug : 'benefits';
-
-            return view('page.why.'.$slug, [
-                'navigate' => 'whymindfullness',
-                'slug'     => $slug,
-            ]);
-        })->name('why-mind-fullness');
 
         Route::get('/', 'HomeController@index')->name('home');
         Route::get(trans('routes.home'), 'HomeController@index')->name('homepage');

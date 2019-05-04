@@ -62,4 +62,9 @@
   }
 }
 
+.boxNavigation .ant-tabs-tabpane {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 /*# sourceMappingURL=app.css.map */

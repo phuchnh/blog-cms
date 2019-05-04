@@ -35,7 +35,7 @@ class LanguageController extends Controller
                     return redirect()->to($lang . '/' .  trans('routes.' . $route_name, [], $lang) . '?' . http_build_query($query));
                 }
 
-                return redirect()->to($lang . '/' .  trans('routes.' . $route_name, [], $lang));
+                //return redirect()->to($lang . '/' .  trans('routes.' . $route_name, [], $lang));
             }
 
             // Replace the first segment by the new language code

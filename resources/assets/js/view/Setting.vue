@@ -103,7 +103,8 @@
   import IntroductionBox from '@/components/IntroductionBoxForm'
   import ImageBox from '@/components/ImagesBox'
   import PostActionBox from '@/components/PostActionBox'
-  import BannerBox from '@/components/PostEventForm'
+  import BannerBox from '@/components/BannerBox'
+
   export default {
     name: 'Setting',
     components: { IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
@@ -119,11 +120,11 @@
         meta: {
           seo: [],
           introduction: { content: [], image: '' },
-          banner: { content: [],  image: '' },
+          banner: { content: [], image: '' },
           logo: null,
           avatar: null,
         },
-        data: {}
+        data: {},
       }
     },
     computed: {
@@ -133,12 +134,11 @@
         },
         set (value) {
           this.$store.commit('setting/setList', value)
-        }
-      }
+        },
+      },
     },
     beforeRouteEnter (to, from, next) {
-      store.dispatch('setting/fetchList')
-            .then(
+      store.dispatch('setting/fetchList').then(
         () => next(
           vm => {
             vm.loading = false
@@ -155,7 +155,7 @@
       if (this.settings.banner) {
         this.meta.banner = JSON.parse(this.settings.banner)
       }
-      this.data = {...this.settings}
+      this.data = { ...this.settings }
     },
     methods: {
       save () {
@@ -167,8 +167,7 @@
         this.settings.banner = JSON.stringify(this.meta.banner)
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.$store.dispatch('setting/storeSetting', this.settings)
-            .then(() => {
+            this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
               this.$message.success('Save successfully')
               this.$router.push({ name: 'setting' })
             }).catch((err) => {
