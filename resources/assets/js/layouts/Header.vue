@@ -9,7 +9,7 @@
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
         <img v-if="setting.logo && setting.logo.url" v-bind:src="setting.logo.url" style="width: 70%" alt="Website logo">
-        <img src="../../images/onelifeconnection-logo.png" style="width: 70%" alt="Website logo">
+        <img v-else src="../../images/onelifeconnection-logo.png" style="width: 70%" alt="Website logo">
       </span>
     </router-link>
 
@@ -87,7 +87,7 @@
         return document.head.querySelector('meta[name="csrf-token"]').content
       },
       setting () {
-        return this.$store.state.setting.settings
+        return this.$store.state.setting.list
       }
     },
   }

@@ -4,38 +4,30 @@ import { Helper } from '../../util/helper'
 export const namespaced = true
 
 const initialState = {
-  settings: {},
-  display: false
+  list: {},
 }
 
 export const state = { ...initialState }
 
 const getters = {
-  settings: state => state.settings,
-  display: state => state.display
+  list: state => state.list,
 }
 
 const actions = {
-  fetchList ({ commit }, params) {
-    return ApiService.get('/options', params).then(res => {
-      commit('setSetting', res.data.data)
+  async fetchList ({ commit }, params) {
+    await ApiService.get('/options', params).then(res => {
+      commit('setList', res.data.data)
     })
   },
-  storeSetting ({ dispatch, commit }, payload) {
+  async storeSetting ({ dispatch, commit }, payload) {
     const input = Helper.filterInputSiteOption(payload)
-    return ApiService.post(`/options`, input)
-  },
-  resetState ({ commit }) {
-    commit('resetState')
+    await ApiService.post(`/options`, input)
   },
 }
 
 const mutations = {
-  setSetting (state, settings) {
-    state.settings = settings
-  },
-  resetState (state) {
-    state.settings = {}
+  setList (state, settings) {
+    state.list = settings
   },
 }
 

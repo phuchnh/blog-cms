@@ -50,6 +50,33 @@ class PostController extends Controller
                            /**@var \Illuminate\Database\Eloquent\Builder $query */
                            $query->where('title', 'LIKE', '%'.$request->input('title').'%');
                        })
+                       ->when($request->input('year'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->whereHas('metas', function ($query) use ($request) {
+                               /**@var \Illuminate\Database\Eloquent\Builder $query */
+                               $query->where('meta_key', '=', 'event')
+                                     ->whereRaw(/**@lang MySQL */
+                                         'YEAR(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('year')));
+                           });
+                       })
+                       ->when($request->input('day'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->whereHas('metas', function ($query) use ($request) {
+                               /**@var \Illuminate\Database\Eloquent\Builder $query */
+                               $query->where('meta_key', '=', 'event')
+                                     ->whereRaw(/**@lang MySQL */
+                                         'DAY(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('day')));
+                           });
+                       })
+                       ->when($request->input('month'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->whereHas('metas', function ($query) use ($request) {
+                               /**@var \Illuminate\Database\Eloquent\Builder $query */
+                               $query->where('meta_key', '=', 'event')
+                                     ->whereRaw(/**@lang MySQL */
+                                         'MONTH(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('month')));
+                           });
+                       })
                        ->sortable([$request->get('sort') => $request->get('direction')])
                        ->orderBy('id', 'desc')->paginate($paginator);
 

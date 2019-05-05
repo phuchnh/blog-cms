@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wrapper">
+  <div v-loading.fullscreen.lock="!loaded">
+    <div class="wrapper" v-if="loaded">
       <Header></Header>
       <Sidebar></Sidebar>
       <PageContent>
@@ -29,7 +29,14 @@
       console.log('App');
     },
     created () {
-      this.$store.dispatch('setting/fetchList')
+      this.$store.dispatch('setting/fetchList').then(() => {
+        this.loaded = true
+      })
+    },
+    data () {
+      return {
+        loaded: false
+      }
     }
   };
 </script>

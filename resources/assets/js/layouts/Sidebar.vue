@@ -50,7 +50,7 @@
         return this.currentUser.meta || {}
       },
       setting () {
-        return this.$store.state.setting.settings
+        return this.$store.state.setting.list
       }
     },
   }

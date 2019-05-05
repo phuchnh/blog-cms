@@ -1,139 +1,103 @@
 <template>
-  <div class="boxSection">
-    <form class="form-horizontal">
-      <div class="row">
-        <div class="col-xs-12">
-          <a-tabs defaultActiveKey="1" tabPosition="left" :animated="false">
-            <!-- General Information -->
-            <a-tab-pane tab="General Information" key="1">
-              <div class="tab-form">
-                <div class="box box-widget">
-                  <div class="box-header">
-                    <h3 class="box-title">General Informaion</h3>
-                  </div>
-                  <div class="box-body">
-                    <div class="form-group">
-                      <label for="site-name" class="col-sm-2 control-label">Site name</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="site-name" name="site_name"
-                               v-model="settings.site_name"/>
-                      </div>
-                    </div>
+  <div>
+    <div class="box box-widget">
+      <div class="box-body">
+        <a-tabs defaultActiveKey="1" tabPosition="left" :animated="false">
 
-                    <div class="form-group">
-                      <label for="phone" class="col-sm-2 control-label">Phone</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="phone" name="phone"
-                               v-model="settings.phone"/>
-                      </div>
-                    </div>
+          <!-- General Information -->
+          <a-tab-pane tab="General Information" key="1">
+            <div class="box box-widget">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="site-name">Site name</label>
+                  <input class="form-control" id="site-name" name="site_name"
+                         v-model="data.site_name"/>
+                </div>
 
-                    <div class="form-group">
-                      <label for="address" class="col-sm-2 control-label">Address</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="address" name="address"
-                               v-model="settings.address"/>
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input class="form-control" id="phone" name="phone"
+                         v-model="data.phone"/>
+                </div>
 
-                    <div class="form-group">
-                      <label for="facebook" class="col-sm-2 control-label">Facebook</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="facebook" name="facebook"
-                               v-model="settings.facebook"/>
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input class="form-control" id="address" name="address"
+                         v-model="data.address"/>
+                </div>
 
-                    <div class="form-group">
-                      <label for="instagram" class="col-sm-2 control-label">Instagram</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="instagram" name="instagram"
-                               v-model="settings.instagram"/>
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <label for="facebook">Facebook</label>
+                  <input class="form-control" id="facebook" name="facebook"
+                         v-model="data.facebook"/>
+                </div>
 
-                    <div class="form-group">
-                      <label for="email" class="col-sm-2 control-label">Email</label>
-                      <div class="col-sm-10">
-                        <input v-validate="email" class="form-control" id="email" name="email"
-                               v-model="settings.email"/>
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <label for="instagram">Instagram</label>
+                  <input class="form-control" id="instagram" name="instagram"
+                         v-model="data.instagram"/>
+                </div>
 
-                    <div class="form-group">
-                      <label for="linkedin" class="col-sm-2 control-label">Linkedin</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="linkedin" name="linkedin"
-                               v-model="settings.linkedin"/>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="copyright" class="col-sm-2 control-label">Copyright</label>
-                      <div class="col-sm-10">
-                        <input class="form-control" id="copyright" name="copyright"
-                               v-model="settings.copyright"/>
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Website Logo</label>
-                      <div class="col-sm-10">
-                        <image-box v-model="settings.logo" :limit="1"></image-box>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Default avatar</label>
-                      <div class="col-sm-10">
-                        <image-box v-model="settings.avatar" :limit="1"></image-box>
-                      </div>
-                    </div>
+                <div class="form-group" :class="{ 'has-error': errors.first('email') }">
+                  <label for="email">Email</label>
+                  <input v-validate="'email'" class="form-control" id="email" name="email"
+                         v-model="data.email"/>
+                  <div class="help-block" v-if="errors.first('email')">
+                    <span>{{ errors.first('email') }}</span>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label for="linkedin">Linkedin</label>
+                  <input class="form-control" id="linkedin" name="linkedin"
+                         v-model="data.linkedin"/>
+                </div>
+
+                <div class="form-group">
+                  <label for="copyright">Copyright</label>
+                  <input class="form-control" id="copyright" name="copyright"
+                         v-model="data.copyright"/>
+                </div>
               </div>
-            </a-tab-pane>
+              <image-box v-model="data.logo" :title="'Website Logo'" :limit="1"></image-box>
+              <image-box v-model="data.avatar" :title="'Default avatar'" :limit="1"></image-box>
+            </div>
+          </a-tab-pane>
 
-            <!-- Introduction -->
-            <a-tab-pane tab="Introduction" key="2">
-              <div class="tab-form">
-                <introduction-box v-model="meta.introduction.content"></introduction-box>
+          <!-- Introduction -->
+          <a-tab-pane tab="Introduction" key="2">
+            <div class="tab-form">
+              <introduction-box v-model="meta.introduction.content"></introduction-box>
 
-                <image-box v-model="meta.introduction.image"
-                           :title="'Introduction Image'"></image-box>
-              </div>
-            </a-tab-pane>
+              <image-box v-model="meta.introduction.image" :title="'Introduction Image'"></image-box>
+            </div>
+          </a-tab-pane>
 
-            <!-- Banner -->
-            <a-tab-pane tab="Banner" key="3">
-              <div class="tab-form">
-                <banner-box v-model="meta.banner.content"></banner-box>
+          <!-- Banner -->
+          <a-tab-pane tab="Banner" key="3">
+            <div class="tab-form">
+              <banner-box v-model="meta.banner.content"></banner-box>
 
-                <image-box v-model="meta.banner.image"
-                           :title="'Banner Image'"></image-box>
-              </div>
-            </a-tab-pane>
+              <image-box v-model="meta.banner.image" :title="'Banner Image'"></image-box>
+            </div>
+          </a-tab-pane>
 
-            <!-- SEO -->
-            <a-tab-pane tab="SEO" key="4">
-              <div class="tab-form">
-                <SeoBox v-model="meta.seo"></SeoBox>
-              </div>
-            </a-tab-pane>
-          </a-tabs>
-        </div>
-
-        <!-- section button -->
-        <PostActionBox @click="save" :actions="actions"></PostActionBox>
+          <!-- SEO -->
+          <a-tab-pane tab="SEO" key="4">
+            <div class="tab-form">
+              <SeoBox v-model="meta.seo"></SeoBox>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
       </div>
-    </form>
+      <PostActionBox @click="save" :actions="actions"></PostActionBox>
+    </div>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import store from '@/store'
-
   // import component
   import SeoBox from '@/components/SeoBox'
   import IntroductionBox from '@/components/IntroductionBoxForm'
@@ -160,18 +124,19 @@
           logo: null,
           avatar: null,
         },
+        data: {},
       }
     },
     computed: {
-      ...mapGetters({
-        settings: 'setting/settings',
-      }),
+      settings: {
+        get () {
+          return this.$store.getters['setting/list']
+        },
+        set (value) {
+          this.$store.commit('setting/setList', value)
+        },
+      },
     },
-
-    beforeRouteLeave (from, to, next) {
-      this.$store.dispatch('setting/resetState').then(() => next())
-    },
-
     beforeRouteEnter (to, from, next) {
       store.dispatch('setting/fetchList').then(
         () => next(
@@ -180,31 +145,26 @@
           }),
       )
     },
-
     created () {
       if (this.settings.seo) {
         this.meta.seo = JSON.parse(this.settings.seo)
       }
-
       if (this.settings.introduction) {
         this.meta.introduction = JSON.parse(this.settings.introduction)
       }
-
       if (this.settings.banner) {
         this.meta.banner = JSON.parse(this.settings.banner)
       }
+      this.data = { ...this.settings }
     },
-
     methods: {
       save () {
+        this.settings = this.data
         this.settings.seo = JSON.stringify(this.meta.seo)
-
         // update introduction information
         this.settings.introduction = JSON.stringify(this.meta.introduction)
-
         // update banner information
         this.settings.banner = JSON.stringify(this.meta.banner)
-
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
