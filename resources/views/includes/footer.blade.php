@@ -105,7 +105,7 @@
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('routes.why-mindfullness')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.why-mindfullness')</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">

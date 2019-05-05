@@ -82,5 +82,5 @@ return [
     'view_all_events' => 'view all events',
 
     # W
-    'why-mindfullness' => 'why-mindfullness',
+    'why-mindfullness' => 'why mindfullness',
 ];

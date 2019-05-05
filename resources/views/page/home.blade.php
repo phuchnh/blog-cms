@@ -5,7 +5,7 @@
         <!-- Banner -->
         @isset($setting['banner'])
             <section class="banner banner__home-page background__cover--center"
-                     style="background:url('@isset($setting['banner']['image']){{$setting['banner']['image']}}@endisset')">
+                     style="background:url('@isset($setting['banner']['image']->url){{$setting['banner']['image']->url}}@endisset')">
                 <div class="banner_content text-center font_color--white">
                     @if (array_search(app()->getLocale(), array_column($setting['banner']['content'], 'locale')))
                         <h1>
@@ -114,9 +114,9 @@
                     <!-- Client Logo-->
                     <div id="client-logo" class="client-logo-carousel w-100">
                         @foreach ($data['clients'] as $client)
-                            @isset($client['meta']['thumbnail'])
+                            @isset($client['meta']['thumbnail']['url'])
                                 <a target="_blank" href="{{$client['url']}}">
-                                    <img src="{{$client['meta']['thumbnail']}}" alt="{{$client['name']}}">
+                                    <img src="{{$client['meta']['thumbnail']['url']}}" alt="{{$client['name']}}">
                                 </a>
                             @endisset
                         @endforeach
