@@ -42,7 +42,7 @@ class PostController extends Controller
     public function index(Request $request, Post $posts)
     {
         $paginator = $request->get('perPage');
-        //dd($posts = $posts->ofLocale(app()->getLocale())->where('type', $this->type_post)->with('metas')->get()->toArray());
+
         // Load list posts
         $posts = $posts->ofLocale(app()->getLocale())
                        ->where('type', $this->type_post)
@@ -84,7 +84,7 @@ class PostController extends Controller
             'data'  => $this->loadTransformDataPost($posts),
             'links' => $posts->links(),
         ];
-        //dd($request);
+
         // load SEO
         $this->loadSeoData($this->returnDataIndex['plugins']['slug']);
 
