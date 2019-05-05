@@ -58,7 +58,9 @@
                                     @endisset
 
                                     <div class="card-body">
-                                        <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
+                                        <h6 class="font_color--green fs--0-8em font-italic">
+                                            @ifIssetShowCategoryTitle($item['taxonomies'])
+                                        </h6>
                                         <h5 class="card-title font_color--orange fs--1-3em">
                                             {{$other['title']}}
                                         </h5>

@@ -100,19 +100,12 @@
                                             </h5>
                                             <div class="card__date font_color--light-grey">
                                                 <p class="fs--0-9em">
-                                                    @isset($other['meta']['event']['date'])
-                                                        {{\Carbon\Carbon::parse($other['meta']['event']['date'])->format('l, F d, Y')}}
-                                                    @endisset
+                                                    @formatDateCarbon($other['meta']['event']['date'])
                                                 </p>
 
                                                 <p class="fs--0-9em font-weight-bold">
-                                                    @isset($other['meta']['event']['start_time'])
-                                                        {{\Carbon\Carbon::parse($other['meta']['event']['start_time'])->format('H:i A')}}
-                                                    @endisset
-                                                    –
-                                                    @isset($item['meta']['end_time'])
-                                                        {{\Carbon\Carbon::parse($other['meta']['event']['end_time'])->format('H:i A')}}
-                                                    @endisset
+                                                    @formatTimeCarbon($other['meta']['event']['start_time']) –
+                                                    @formatTimeCarbon($other['meta']['event']['end_time'])
                                                 </p>
                                             </div>
                                             <hr class="hr__short--grey"/>

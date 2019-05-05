@@ -2,14 +2,7 @@
 
 @section('content')
     <article class="event-section">
-        <!-- Banner -->
-        <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
-                 style="background:url('/app/img/event/event-banner.jpg')">
-
-            <div class="font_color--white font-weight-bold">
-                @lang('site.event-and-program')
-            </div>
-        </section>
+        @include('includes.banner-page')
 
         @include('page.event.navigate')
 
@@ -19,7 +12,7 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <select class="custom-select border_radius--2em" name="day">
-                                <option value="" selected>Date</option>
+                                <option value="" selected>@lang('site.day')</option>
                                 @for ($i = 1; $i <= 31; $i++)
                                     <option value="{{$i}}">{{$i}}</option>
                                 @endfor
@@ -29,7 +22,7 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <select class="custom-select border_radius--2em" name="month">
-                                <option value="" selected>Month</option>
+                                <option value="" selected>@lang('site.month')</option>
                                 @for ($i = 1; $i <= 12; $i++)
                                     <option value="{{$i}}">{{$i}}</option>
                                 @endfor
@@ -39,8 +32,8 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <select class="custom-select border_radius--2em" name="year">
-                                <option value="" selected>Year</option>
-                                @for ($i = 1970; $i <= 2050; $i++)
+                                <option value="" selected>@lang('site.year')</option>
+                                @for ($i = intval(date('Y')); $i >= intval(date('Y'))-3; $i--)
                                     <option value="{{$i}}">{{$i}}</option>
                                 @endfor
                             </select>
@@ -64,7 +57,7 @@
                     <div class="col-12">
                         @isset ($data)
                             <div class="card-deck">
-                            @foreach ($data as $item)
+                                @foreach ($data as $item)
                                     <div class="card border_radius--none border_none">
                                         @isset($item['meta']['thumbnail']['url'])
                                             <div class="card-img-top background__cover--center"
@@ -75,11 +68,17 @@
                                         @endisset
 
                                         <div class="card-body">
-                                            <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
+                                            <h6 class="font_color--green fs--0-8em font-italic">
+                                                @ifIssetShowCategoryTitle($item['taxonomies'])
+                                            </h6>
                                             <h5 class="card-title font_color--orange fs--1-3em">{{$item['title']}}</h5>
                                             <div class="card__date font_color--light-grey">
-                                                <p class="fs--0-9em">{{$item['created_at']}}</p>
-                                                <p class="fs--0-9em font-weight-bold">7:00 PM – 9:00 PM</p>
+                                                <p class="fs--0-9em">
+                                                    @formatDateCarbon($item['meta']['event']['date'])
+                                                </p>
+                                                <p class="fs--0-9em font-weight-bold">
+                                                    @formatTimeCarbon($item['meta']['event']['start_time']) – @formatTimeCarbon($item['meta']['event']['end_time'])
+                                                </p>
                                             </div>
                                             <hr class="hr__short--grey"/>
                                             <div class="card-text margin_bottom--20">{{$item['description']}}</div>

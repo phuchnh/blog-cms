@@ -29,6 +29,7 @@ return [
     # D
     'date-and-time' => 'date & time',
     'daily-practices' => 'daily practices',
+    'day' => 'Day',
 
     # E
     'event' => 'event',
@@ -57,6 +58,11 @@ return [
     # L
     'location' => 'location',
 
+    # M
+    'month' => 'Month',
+
+    # N
+
     # O
     'other_posts_you_may_like' => 'Other Posts You May Like',
 
@@ -81,6 +87,9 @@ return [
     'view_more' => 'view more',
     'view_all_programs' => 'view all programs',
     'view_all_events' => 'view all events',
+
+    # Y
+    'year' => 'Year',
 
     # W
     'why-mindfullness' => 'why mindfullness',

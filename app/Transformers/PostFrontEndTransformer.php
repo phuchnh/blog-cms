@@ -24,6 +24,7 @@ class PostFrontEndTransformer extends Transformer
      */
     protected $load = [
         'meta',
+        'taxonomies'   => TaxonomyTransformer::class,
     ];
 
     /**
@@ -46,8 +47,6 @@ class PostFrontEndTransformer extends Transformer
             "id" => $translations[$locale_key]['id'],
             "publish" => $post->publish,
             "type" => $post->type,
-            "created_by" => $post->created_by,
-            "updated_by" => $post->updated_by,
             "created_at" => $post->created_at,
             "updated_at" => $post->updated_at,
             "deleted_at" => $post->deleted_at,

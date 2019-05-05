@@ -29,6 +29,7 @@ return [
     # D
     'date-and-time' => 'Ngày',
     'daily-practices' => 'daily practices',
+    'day' => 'Ngày',
 
     # E
     'event' => 'Sự kiện',
@@ -56,6 +57,11 @@ return [
     # L
     'location' => 'Địa điểm',
 
+    # M
+    'month' => 'Tháng',
+
+    # N
+
     # O
     'other_posts_you_may_like' => 'Bài viết khác bạn có thể quan tâm',
 
@@ -80,6 +86,9 @@ return [
     'view_more' => 'Xem thêm',
     'view_all_programs' => 'view all programs',
     'view_all_events' => 'view all events',
+
+    # Y
+    'year' => 'Năm',
 
     # W
     'why-mindfullness' => 'why mindfullness',
