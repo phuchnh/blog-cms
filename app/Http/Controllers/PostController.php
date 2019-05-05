@@ -42,7 +42,7 @@ class PostController extends Controller
     public function index(Request $request, Post $posts)
     {
         $paginator = $request->get('perPage');
-//dd($posts = $posts->ofLocale(app()->getLocale())->where('type', $this->type_post)->with('metas')->get()->toArray());
+        //dd($posts = $posts->ofLocale(app()->getLocale())->where('type', $this->type_post)->with('metas')->get()->toArray());
         // Load list posts
         $posts = $posts->ofLocale(app()->getLocale())
                        ->where('type', $this->type_post)
@@ -50,32 +50,36 @@ class PostController extends Controller
                            /**@var \Illuminate\Database\Eloquent\Builder $query */
                            $query->where('title', 'LIKE', '%'.$request->input('title').'%');
                        })
-                       //->when($request->input('day'), function ($query) use ($request) {
-                       //    /**@var \Illuminate\Database\Eloquent\Builder $query */
-                       //    $query->whereDay('created_at', $request->input('day'));
-                       //})
-                       //->when($request->input('month'), function ($query) use ($request) {
-                       //    /**@var \Illuminate\Database\Eloquent\Builder $query */
-                       //    $query->whereMonth('created_at', $request->input('month'));
-                       //})
                        ->when($request->input('year'), function ($query) use ($request) {
                            /**@var \Illuminate\Database\Eloquent\Builder $query */
                            $query->whereHas('metas', function ($query) use ($request) {
                                /**@var \Illuminate\Database\Eloquent\Builder $query */
                                $query->where('meta_key', '=', 'event')
-                                ->whereYear('meta_value->date', $request->input('year'));
+                                     ->whereRaw(/**@lang MySQL */
+                                         'YEAR(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('year')));
                            });
                        })
-                        ->sortable([$request->get('sort') => $request->get('direction')])
-                        ->orderBy('id', 'desc')->paginate($paginator);
+                       ->when($request->input('day'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->whereHas('metas', function ($query) use ($request) {
+                               /**@var \Illuminate\Database\Eloquent\Builder $query */
+                               $query->where('meta_key', '=', 'event')
+                                     ->whereRaw(/**@lang MySQL */
+                                         'DAY(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('day')));
+                           });
+                       })
+                       ->when($request->input('month'), function ($query) use ($request) {
+                           /**@var \Illuminate\Database\Eloquent\Builder $query */
+                           $query->whereHas('metas', function ($query) use ($request) {
+                               /**@var \Illuminate\Database\Eloquent\Builder $query */
+                               $query->where('meta_key', '=', 'event')
+                                     ->whereRaw(/**@lang MySQL */
+                                         'MONTH(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('month')));
+                           });
+                       })
+                       ->sortable([$request->get('sort') => $request->get('direction')])
+                       ->orderBy('id', 'desc')->paginate($paginator);
 
-
-        //$test = collect($this->loadTransformDataPost($posts))
-        //                ->when($request->input('year'), function ($query) use ($request) {
-        //                   /**@var \Illuminate\Database\Eloquent\Builder $query */
-        //                   $query->whereYear('created_at', $request->input('year'));
-        //               });
-//dd($test);
         $return = [
             'data'  => $this->loadTransformDataPost($posts),
             'links' => $posts->links(),
