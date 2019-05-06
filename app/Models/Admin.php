@@ -21,6 +21,12 @@ class Admin extends User implements JWTSubject
     public const ADMIN = 'admin';
 
     /**
+     *
+     * @var string
+     */
+    public const EDITOR = 'editor';
+
+    /**
      * The model's attributes.
      *
      * @var array
@@ -41,7 +47,7 @@ class Admin extends User implements JWTSubject
             /**
              * @var $query \Illuminate\Database\Eloquent\Builder
              */
-            $query->where('type', self::ADMIN);
+            $query->whereIn('type', [self::ADMIN, self::EDITOR]);
         });
     }
 

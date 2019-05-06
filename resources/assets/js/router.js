@@ -46,6 +46,7 @@ export default new Router({
           meta: {
             title: 'Dashboard',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
         //==================================================================
@@ -60,6 +61,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_faq',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -70,6 +72,7 @@ export default new Router({
                 title: 'FAQ',
                 description: '',
                 postType: 'post_faq',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -80,6 +83,7 @@ export default new Router({
                 title: 'Create New FAQ',
                 description: 'Add new',
                 postType: 'post_faq',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -90,6 +94,7 @@ export default new Router({
                 title: 'Edit FAQ',
                 description: '',
                 postType: 'post_faq',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -102,6 +107,7 @@ export default new Router({
           meta: {
             title: 'User',
             description: '',
+            permission: ['admin']
           },
         },
         {
@@ -111,6 +117,7 @@ export default new Router({
           meta: {
             title: 'Create New User',
             description: '',
+            permission: ['admin']
           },
         },
         {
@@ -120,6 +127,7 @@ export default new Router({
           meta: {
             title: 'Edit User',
             description: '',
+            permission: ['admin']
           },
         },
 
@@ -135,6 +143,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_presses',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -145,6 +154,7 @@ export default new Router({
                 title: 'In The Press',
                 description: 'InThePressList',
                 postType: 'post_presses',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -155,6 +165,7 @@ export default new Router({
                 title: 'Create new In The Press',
                 description: 'InThePressNew',
                 postType: 'post_presses',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -165,6 +176,7 @@ export default new Router({
                 title: 'Edit In The Press',
                 description: 'InThePressDetail',
                 postType: 'post_presses',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -183,6 +195,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_blogs',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -193,6 +206,7 @@ export default new Router({
                 title: 'Blog',
                 description: 'BlogList',
                 postType: 'post_blogs',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -203,6 +217,7 @@ export default new Router({
                 title: 'Create New Blog',
                 description: 'BlogNew',
                 postType: 'post_blogs',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -213,6 +228,7 @@ export default new Router({
                 title: 'Edit Blog',
                 description: 'BlogDetail',
                 postType: 'post_blogs',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -226,6 +242,7 @@ export default new Router({
           meta: {
             title: 'Client',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
         {
@@ -235,6 +252,7 @@ export default new Router({
           meta: {
             title: 'Create New Client',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
         {
@@ -244,6 +262,7 @@ export default new Router({
           meta: {
             title: 'Edit Client',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
 
@@ -259,6 +278,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_guides',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -269,6 +289,7 @@ export default new Router({
                 title: 'Guide',
                 description: 'GuideList',
                 postType: 'post_guides',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -279,6 +300,7 @@ export default new Router({
                 title: 'Create New Guide',
                 description: 'GuideNew',
                 postType: 'post_guides',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -289,6 +311,7 @@ export default new Router({
                 title: 'Edit Guide',
                 description: 'GuideDetail',
                 postType: 'post_guides',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -307,6 +330,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_events',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -317,6 +341,7 @@ export default new Router({
                 title: 'Event',
                 description: 'EventList',
                 postType: 'post_events',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -327,6 +352,7 @@ export default new Router({
                 title: 'Create New Event',
                 description: 'EventNew',
                 postType: 'post_events',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -337,6 +363,7 @@ export default new Router({
                 title: 'Edit Event',
                 description: 'EventDetail',
                 postType: 'post_events',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -355,6 +382,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_programs',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -365,6 +393,7 @@ export default new Router({
                 title: 'Program',
                 description: 'ProgramList',
                 postType: 'post_programs',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -375,6 +404,7 @@ export default new Router({
                 title: 'Create New Program',
                 description: 'ProgramNew',
                 postType: 'post_programs',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -385,6 +415,7 @@ export default new Router({
                 title: 'Edit Program',
                 description: 'ProgramDetail',
                 postType: 'post_programs',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -403,6 +434,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_pratices',
+            permission: ['admin', 'editor']
           },
           children: [
             {
@@ -413,6 +445,7 @@ export default new Router({
                 title: 'Practice',
                 description: 'PraticeList',
                 postType: 'post_pratices',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -423,6 +456,7 @@ export default new Router({
                 title: 'Create New Practice',
                 description: 'PraticeNew',
                 postType: 'post_pratices',
+                permission: ['admin', 'editor']
               },
             },
             {
@@ -433,6 +467,7 @@ export default new Router({
                 title: 'Edit Practice',
                 description: 'PraticeDetail',
                 postType: 'post_pratices',
+                permission: ['admin', 'editor']
               },
             },
           ],
@@ -446,6 +481,7 @@ export default new Router({
           meta: {
             title: 'Category',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
         {
@@ -455,6 +491,7 @@ export default new Router({
           meta: {
             title: 'Create New Category',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
         {
@@ -464,6 +501,7 @@ export default new Router({
           meta: {
             title: 'Edit Category',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
 
@@ -474,6 +512,7 @@ export default new Router({
           meta: {
             title: 'Navigation',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
 
@@ -484,6 +523,7 @@ export default new Router({
           meta: {
             title: 'Setting',
             description: '',
+            permission: ['admin']
           },
         },
 
@@ -494,6 +534,7 @@ export default new Router({
           meta: {
             title: 'Page Not Found',
             description: '',
+            permission: ['admin', 'editor']
           },
         },
       ],

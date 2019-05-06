@@ -31,11 +31,21 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       if (!store.state.auth.currentUser.name) {
-        store.dispatch('auth/CHECK_AUTH').then(() => next())
+        store.dispatch('auth/CHECK_AUTH').then(() => {
+          if (_.includes(to.meta.permission, store.state.auth.currentUser.type)) {
+            next()
+          } else {
+            next(false)
+          }
+        })
+      } else if (_.includes(to.meta.permission, store.state.auth.currentUser.type)) {
+        next()
+      } else {
+        next(false)
       }
-      next()
     }
   } else {
+    debugger
     next()
   }
 })
