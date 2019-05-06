@@ -53,8 +53,8 @@
                             </div>
                         </div>
                         <div class=" col-xs-12 col-sm-6">
-                            @isset($setting['introduction']['image'])
-                                <img class="img-responsive" src="{{$setting['introduction']['image']}}">
+                            @isset($setting['introduction']['image']->url)
+                                <img class="img-responsive" src="{{$setting['introduction']['image']->url}}">
                             @endif
                         </div>
                     </div>
