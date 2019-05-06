@@ -21,7 +21,7 @@
                                 <div class="card border_radius--none">
                                     @isset ($data[0]['meta']['thumbnail']['url'])
                                         <div class="card-img-top background__cover--center"
-                                             style="background: url({{$data[0]['meta']['thumbnail']['url']}})">
+                                             style="background: url('{{$data[0]['meta']['thumbnail']['url']}}')">
                                         </div>
                                     @endisset
 
@@ -49,7 +49,7 @@
                                 <div class="card border_radius--none">
                                     @isset ($data[1]['meta']['thumbnail']['url'])
                                         <div class="card-img-top background__cover--center"
-                                             style="background: url({{$data[1]['meta']['thumbnail']['url']}})">
+                                             style="background: url('{{$data[1]['meta']['thumbnail']['url']}}')">
                                         </div>
                                     @endisset
 
@@ -83,7 +83,7 @@
                                         <div class="card border_radius--none">
                                             @isset ($item['meta']['thumbnail']['url'])
                                                 <div class="card-img-top background__cover--center"
-                                                     style="background: url({{$item['meta']['thumbnail']['url']}})">
+                                                     style="background: url('{{$item['meta']['thumbnail']['url']}}')">
                                                 </div>
                                             @endisset
 
