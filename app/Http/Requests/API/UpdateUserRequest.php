@@ -21,10 +21,23 @@ class UpdateUserRequest extends ApiBaseRequest
      */
     public function rules()
     {
+        $user = $this->route('user');
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'. $user->id . 'id',
             'type' => 'required|in:admin,editor',
+        ];
+    }
+
+    /**
+     * Set custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email already exists'
         ];
     }
 }

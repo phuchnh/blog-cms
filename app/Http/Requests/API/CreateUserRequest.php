@@ -23,8 +23,20 @@ class CreateUserRequest extends ApiBaseRequest
     {
         return [
             'name'  => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'type'  => 'required|in:admin,editor',
+        ];
+    }
+
+    /**
+     * Set custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email already exists'
         ];
     }
 }

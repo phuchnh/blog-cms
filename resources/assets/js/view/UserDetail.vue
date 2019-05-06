@@ -18,7 +18,7 @@
       ]).then(() => next())
     },
     beforeRouteLeave (from, to, next) {
-      this.$store.dispatch('client/resetState').then(() => next())
+      this.$store.dispatch('user/resetState').then(() => next())
     },
     data () {
       return {

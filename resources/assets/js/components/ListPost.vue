@@ -18,33 +18,32 @@
           @sort-change="handleSortChange"
           empty-text="No data"
       >
-        <el-table-column prop="slug" label="slug" sortable style="width: 30%">
+        <el-table-column prop="title" label="Title" sortable style="width: 30%">
           <template slot-scope="scope" class="text-nowrap">
-            <router-link :to="goToDetail(scope.row.id)">{{ scope.row.slug }}</router-link>
+            <router-link :to="goToDetail(scope.row.id)">{{ scope.row.title }}</router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="title" sortable style="width: 30%"/>
-        <el-table-column prop="tags" label="tags">
+        <el-table-column prop="slug" label="Slug" sortable style="width: 30%"/>
+        <el-table-column prop="tags" label="Tags">
           <template slot-scope="scope">
             <a href="javascript:void(0)" v-for="(tag, index) in filterTags(scope.row.taxonomies)" :key="index">
               {{ tag }},
             </a>
           </template>
         </el-table-column>
-        <el-table-column prop="groups" label="groups">
+        <el-table-column prop="groups" label="Groups">
           <template slot-scope="scope">
             <a href="javascript:void(0)" v-for="(group, index) in filterGroups(scope.row.taxonomies)" :key="index">
               {{ group }},
             </a>
           </template>
         </el-table-column>
-        <el-table-column label="actions" width="100">
+        <el-table-column label="Action" width="100">
           <template slot-scope="scope">
-            <el-button
-                size="mini"
-                type="danger"
+            <button
+                class="btn btn-danger"
                 @click="handleDelete(scope.$index, scope.row)">Delete
-            </el-button>
+            </button>
           </template>
         </el-table-column>
       </el-table>

@@ -58,7 +58,9 @@
     data () {
       return {
         imgUrl: null,
-        meta: {}
+        meta: {
+          thumbnail: {}
+        }
       }
     },
     methods: {

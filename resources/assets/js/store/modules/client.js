@@ -61,7 +61,9 @@ const actions = {
     await ApiService.put(`/clients/${ payload.id }`, input)
 
     // insert to meta table
-    await dispatch('meta/createMeta', { data: payload.meta, model: 'clients', model_id: payload.id }, { root: true })
+    if (!_.isEmpty(payload.meta)) {
+      await dispatch('meta/createMeta', { data: payload.meta, model: 'clients', model_id: payload.id }, { root: true })
+    }
   },
   async create ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
@@ -70,7 +72,9 @@ const actions = {
     const { data } = resp.data
 
     // insert to meta table
-    await dispatch('meta/createMeta', { data: payload.meta, model: 'clients', model_id: data.id }, { root: true })
+    if (!_.isEmpty(payload.meta)) {
+      await dispatch('meta/createMeta', { data: payload.meta, model: 'clients', model_id: data.id }, { root: true })
+    }
   },
   resetState ({ commit }) {
     commit('resetState')

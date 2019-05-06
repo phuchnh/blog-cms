@@ -57,7 +57,7 @@
 
   export default {
     name: 'UserForm',
-    components: { UploadButton},
+    components: { UploadButton },
     computed: {
       ...mapGetters({
         user: 'user/user',
@@ -72,7 +72,9 @@
     data () {
       return {
         imgUrl: null,
-        meta: {},
+        meta: {
+          avatar: {}
+        },
         userType: ['admin', 'editor'],
       }
     },
@@ -82,15 +84,19 @@
         this.$validator.validateAll().then((result) => {
           if (result) {
             if (this.formAction === 'edit') {
-              this.$store.dispatch('user/update', this.user)
-                   .then(() => this.$store.dispatch('auth/CHECK_AUTH'))
-                   .then(() => {
+              this.$store.dispatch('user/update', this.user).
+                   then(() => this.$store.dispatch('auth/CHECK_AUTH')).
+                   then(() => {
                      this.$message.success('Update successfully')
                      this.$emit('routeToList')
                    }).
                    catch((error) => {
                      console.log(error)
-                     this.$message.error('Error')
+                     if (error.response.status === 422) {
+                       this.$message.error(error.response.data.error.email[0])
+                     } else {
+                       this.$message.error('Error')
+                     }
                    })
             } else if (this.formAction === 'create') {
               this.$store.dispatch('user/create', this.user).then(() => {
@@ -98,7 +104,11 @@
                 this.$emit('routeToList')
               }).catch((error) => {
                 console.log(error)
-                this.$message.error('Error')
+                if (error.response.status === 422) {
+                  this.$message.error(error.response.data.error.email[0])
+                } else {
+                  this.$message.error('Error')
+                }
               })
             }
           } else {

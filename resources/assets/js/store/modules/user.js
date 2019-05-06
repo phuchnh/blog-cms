@@ -1,4 +1,4 @@
-import { ApiService } from '../../api'
+import { UserService} from '../../api/user.service'
 import * as _ from 'lodash'
 
 export const namespaced = true
@@ -32,7 +32,7 @@ const actions = {
     params = {
       ...params,
     }
-    await ApiService.get('/users', params).then(res => {
+    await UserService.getList(params).then(res => {
       const pagination = res.data.pagination
       const users = res.data.data
 
@@ -47,30 +47,34 @@ const actions = {
     })
   },
   async getItem ({ commit }, id) {
-    await ApiService.get(`/users/${ id }`).then(res => {
+    await UserService.getItem(id).then(res => {
       commit('setItem', res.data.data)
     })
   },
   async delete ({ commit }, id) {
-    await ApiService.delete(`users/${ id }`).then(() => {
+    await UserService.delete(id).then(() => {
       commit('delete', id)
     })
   },
   async update ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    await ApiService.put(`/users/${ payload.id }`, input)
+    await UserService.update(payload.id, input)
 
     // insert to meta table
-    await dispatch('meta/createMeta', { data: payload.meta, model: 'users', model_id: payload.id }, { root: true })
+    if (!_.isEmpty(payload.meta)) {
+      await dispatch('meta/createMeta', { data: payload.meta, model: 'users', model_id: payload.id }, { root: true })
+    }
   },
   async create ({ commit, dispatch }, payload) {
     const input = _.omit(payload, ['meta'])
-    const resp = await ApiService.post('/users', input)
+    const resp = await UserService.create(input)
 
     const { data } = resp.data
 
     // insert to meta table
-    await dispatch('meta/createMeta', { data: payload.meta, model: 'users', model_id: data.id }, { root: true })
+    if (!_.isEmpty(payload.meta)) {
+      await dispatch('meta/createMeta', { data: payload.meta, model: 'users', model_id: data.id }, { root: true })
+    }
 
   },
   resetState ({ commit }) {
