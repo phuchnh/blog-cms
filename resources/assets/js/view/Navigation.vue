@@ -208,7 +208,7 @@
   import BannerBox from '@/components/PostEventForm'
 
   export default {
-    name: 'Setting',
+    name: 'Navigation',
     components: { SeoBox, ImageBox, BannerBox, PostActionBox, ContentBox },
     data () {
       return {
@@ -245,7 +245,7 @@
     },
     computed: {
       ...mapGetters({
-        settings: 'setting/settings',
+        settings: 'setting/list',
       }),
     },
 

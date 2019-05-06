@@ -23,12 +23,18 @@ const actions = {
     const input = Helper.filterInputSiteOption(payload)
     await ApiService.post(`/options`, input)
   },
+  resetState ({commit}) {
+    commit('resetState')
+  }
 }
 
 const mutations = {
   setList (state, settings) {
     state.list = settings
   },
+  resetState (state) {
+    state.list = {}
+  }
 }
 
 export default {

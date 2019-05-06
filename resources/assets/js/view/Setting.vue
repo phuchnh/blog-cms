@@ -145,6 +145,9 @@
           }),
       )
     },
+    beforeRouteLeave (from, to, next) {
+      this.$store.dispatch('setting/resetState').then(() => next())
+    },
     created () {
       if (this.settings.seo) {
         this.meta.seo = JSON.parse(this.settings.seo)

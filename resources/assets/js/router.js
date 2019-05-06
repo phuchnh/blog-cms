@@ -472,7 +472,7 @@ export default new Router({
           name: 'navigation',
           component: Navigation,
           meta: {
-            title: 'Setting',
+            title: 'Navigation',
             description: '',
           },
         },
