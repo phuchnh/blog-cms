@@ -28,7 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         // load Press
-        $data['press'] = $this->loadInThePress('in_the_press');
+        $data['press'] = $this->loadInThePress('post_presses');
 
         // load Client
         $data['clients'] = $this->loadClient();
@@ -53,17 +53,19 @@ class HomeController extends Controller
     private function loadInThePress($type)
     {
         /** @var \App\Models\Post $post */
-        $post = Post::whereType($type)
-                    ->whereHas('metas', function ($query) {
-                        /**@var \Illuminate\Database\Eloquent\Builder $query */
-                        $query->where([
-                            'meta_key'   => 'home',
-                            'meta_value' => 'true',
-                        ]);
-                    })->get();
+        $post = Post::ofLocale(app()->getLocale())
+                    ->whereType($type)
+            //->whereHas('metas', function ($query) {
+            //    /**@var \Illuminate\Database\Eloquent\Builder $query */
+            //    $query->where([
+            //        'meta_key'   => 'home',
+            //        'meta_value' => 'true',
+            //    ]);
+            //})
+                    ->limit(6)->latest();
 
         // Transform Post Data
-        return $this->loadTransformData($post);
+        return $this->loadTransformDataPost($post);
     }
 
     /**
@@ -82,13 +84,13 @@ class HomeController extends Controller
     private function loadEventAndProgram()
     {
         /** @var \App\Models\Post $post */
-        $post = Post::whereType('event')
-                    ->orWhere('type', 'program')
+        $post = Post::ofLocale(app()->getLocale())
+                    ->whereType('post_events')
+                    ->orWhere('type', 'post_programs')
                     ->limit(6)
-                    ->latest()
-                    ->get();
+                    ->latest();
 
         // Transform Post Data
-        return $this->loadTransformData($post);
+        return $this->loadTransformDataPost($post);
     }
 }

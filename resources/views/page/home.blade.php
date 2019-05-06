@@ -4,33 +4,39 @@
     <article>
         <!-- Banner -->
         @isset($setting['banner'])
+            @php
+                $key_banner = array_search(app()->getLocale(), array_column($setting['banner']['content'], 'locale'));
+            @endphp
+
             <section class="banner banner__home-page background__cover--center"
                      style="background:url('@isset($setting['banner']['image']->url){{$setting['banner']['image']->url}}@endisset')">
                 <div class="banner_content text-center font_color--white">
-                    @if (array_search(app()->getLocale(), array_column($setting['banner']['content'], 'locale')))
-                        <h1>
-                            @isset($setting['banner']['content'][app()->getLocale()]->title)
-                                {{$setting['banner']['content'][app()->getLocale()]->title}}
-                            @endif
+                    <h1>
+                        @isset($setting['banner']['content'][$key_banner]->title)
+                            {{$setting['banner']['content'][$key_banner]->title}}
+                        @endif
 
-                            <small>@isset($setting['banner']['content'][app()->getLocale()]->sub_title){{$setting['banner']['content'][app()->getLocale()]->sub_title}}@endisset</small>
-                        </h1>
-                        <div class="content margin_bottom--25">
-                            @isset($setting['banner']['content'][app()->getLocale()]->description){{$setting['banner']['content'][app()->getLocale()]->description}}@endisset
-                        </div>
-                        <a href="@isset($setting['banner']['content'][app()->getLocale()]->link){{$setting['banner']['content'][app()->getLocale()]->link}}@endisset"
-                           class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
-                            @lang('site.view_more')
-                        </a>
-                    @endif
+                        <small>@isset($setting['banner']['content'][$key_banner]->sub_title){{$setting['banner']['content'][$key_banner]->sub_title}}@endisset</small>
+                    </h1>
+                    <div class="content margin_bottom--25" style="white-space: pre-line">
+                        @isset($setting['banner']['content'][$key_banner]->description){{$setting['banner']['content'][$key_banner]->description}}@endisset
+                    </div>
+                    <a href="@isset($setting['banner']['content'][$key_banner]->link){{$setting['banner']['content'][$key_banner]->link}}@endisset"
+                       class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
+                        @lang('site.view_more')
+                    </a>
                 </div>
             </section>
         @endisset
 
     <!-- Introduction -->
         @isset($setting['introduction'])
+            @php
+                $key_introduction = array_search(app()->getLocale(), array_column($setting['introduction']['content'], 'locale'));
+            @endphp
+
             <section class="section-content section-content__introduction">
-                <h2 class="section-content__header text-center">
+                <h2 class="section-content__header text-center text-uppercase">
                     INTRODUCTION
                 </h2>
 
@@ -44,11 +50,11 @@
                                 </header>
 
                                 <div class="content">
-                                    @isset($setting['introduction']['content'][app()->getLocale()]->description)
-                                        {{$setting['introduction']['content'][app()->getLocale()]->description}}
+                                    @isset($setting['introduction']['content'][$key_introduction]->description)
+                                        {{$setting['introduction']['content'][$key_introduction]->description}}
                                     @endif
                                 </div>
-                                <a href="@isset($setting['introduction']['content'][app()->getLocale()]->link) {{$setting['introduction']['content'][app()->getLocale()]->link }} @endisset"
+                                <a href="@isset($setting['introduction']['content'][$key_introduction]->link) {{$setting['introduction']['content'][$key_introduction]->link }} @endisset"
                                    class="btn background--orange border_radius--2em font_color--white">@lang('site.view_more')</a>
                             </div>
                         </div>
@@ -72,14 +78,15 @@
                     <div id="inThePress" class="inthepress-carousel">
                         @foreach ($data['press'] as $press_item)
                             <div class="custom-item-press">
-                                @isset($press_item['thumbnail'])
-                                    <img src="{{$press_item['thumbnail']}}" alt=""/>
+                                @isset($press_item['meta']['thumbnail']['url'])
+                                    <img src="{{$press_item['meta']['thumbnail']['url']}}"
+                                         alt="{{$press_item['title']}}"/>
                                 @endisset
 
                                 <div class="d-block">
                                     <div class=" font_color--white">
                                         <header class="font-italic">
-                                            CAFEBIZ
+                                            @ifIssetShowCategoryTitle($press_item['taxonomies'])
                                         </header>
 
                                         <div class="content text-uppercase">
@@ -154,27 +161,30 @@
                     @foreach ($data['eventAndProgram'] as $ep)
                         <div class="row background--white margin_left--0 margin_right--0">
                             <div class="col-sm-4 col-xs-12 padding_left--0">
-                                <div class="event-image background__cover--center"
-                                     style="background:url({{$ep['thumbnail']}})">
-                                    <img class="d-none" src="{{$ep['thumbnail']}}" width="370" height="325">
-                                </div>
+                                @isset($ep['meta']['thumbnail']['url'])
+                                    <div class="event-image background__cover--center"
+                                         style="background:url({{$ep['meta']['thumbnail']['url']}})">
+                                        <img class="d-none" src="{{$ep['meta']['thumbnail']['url']}}" width="370"
+                                             height="325">
+                                    </div>
+                                @endisset
                             </div>
                             <div class="col-sm-8 col-xs-12">
                                 <div class="event-content">
                                     <div class="event-content__date background--orange font_color--white margin_bottom--15">
-                                        <span class="font-weight-bold event-content__date--day">16</span>
+                                        <span class="font-weight-bold event-content__date--day">{{\Carbon\Carbon::parse($ep['meta']['event']['date'])->format('d')}}</span>
                                         <span>|</span>
-                                        <span class="event-content__date--month">March</span>
-                                        <span class="event-content__date--year">2017</span>
+                                        <span class="event-content__date--month">{{\Carbon\Carbon::parse($ep['meta']['event']['date'])->format('F')}}</span>
+                                        <span class="event-content__date--year">{{\Carbon\Carbon::parse($ep['meta']['event']['date'])->format('Y')}}</span>
                                     </div>
 
                                     <div class="event-content__body">
                                         <header class="event-content__title fs--1-2rem font-weight-bold text-uppercase">
-                                            {{$ep['title']}}
+                                            @ifIssetShowValue($ep['title'])
                                         </header>
 
                                         <div class="content">
-                                            {{$ep['description']}}
+                                            @ifIssetShowValue($ep['description'])
                                         </div>
 
                                         @if ($ep['type'] === 'event')

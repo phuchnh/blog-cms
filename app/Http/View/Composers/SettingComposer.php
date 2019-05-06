@@ -76,8 +76,6 @@ class SettingComposer
                     if (in_array($value->option_name, $this->filterArraySeo)) {
                         return [$value->option_name => array_combine(array_column($option_value, 'locale'), $option_value)];
                     } else {
-                        $option_value['content'] = [];
-
                         return [$value->option_name => $option_value];
                     }
                 } else {
