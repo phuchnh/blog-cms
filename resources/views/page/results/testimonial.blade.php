@@ -13,9 +13,9 @@
                 <div class="container">
                     <div id="client-logo" class="client-logo-carousel">
                         @foreach ($clients as $client)
-                            @isset($client['meta']['thumbnail'])
+                            @isset($client['meta']['thumbnail']['url'])
                                 <a target="_blank" href="{{$client['url']}}">
-                                    <img src="{{$client['meta']['thumbnail']}}" alt="{{$client['name']}}">
+                                    <img src="{{$client['meta']['thumbnail']['url']}}" alt="{{$client['name']}}">
                                 </a>
                             @endisset
                         @endforeach
