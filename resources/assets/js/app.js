@@ -21,6 +21,7 @@ Object.keys(filters).forEach(key => {
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(from)
   if (to.matched.some(record => record.meta.requiredAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
@@ -31,11 +32,21 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       if (!store.state.auth.currentUser.name) {
-        store.dispatch('auth/CHECK_AUTH').then(() => next())
+        store.dispatch('auth/CHECK_AUTH').then(() => {
+          if (_.includes(to.meta.permission, store.state.auth.currentUser.type)) {
+            next()
+          } else {
+            next({path: '/admin'})
+          }
+        })
+      } else if (_.includes(to.meta.permission, store.state.auth.currentUser.type)) {
+        next()
+      } else {
+        next({path: '/admin'})
       }
-      next()
     }
   } else {
+    debugger
     next()
   }
 })

@@ -53,7 +53,7 @@ class LoginController extends Controller
      */
     protected function authenticated($request, $user)
     {
-        if ($user->type === \App\Models\Admin::ADMIN) {
+        if (in_array($user->type, [\App\Models\Admin::ADMIN, \App\Models\Admin::EDITOR])) {
             $credentials = $request->only(['email', 'password']);
             $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
 
