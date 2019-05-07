@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -14,21 +15,21 @@ class PostController extends Controller
 
     // return data for index function
     public $returnDataIndex = [
-        'view'    => 'page.blog.index-mix',
+        'view' => 'page.blog.index-mix',
         'plugins' => [
-            'navigate'    => 'resources',
+            'navigate' => 'resources',
             'subnavigate' => 'blogs',
-            'slug'        => 'blog',
+            'slug' => 'blog',
         ],
     ];
 
     // return data for detail function
     public $returnDataDetail = [
-        'view'    => 'page.blog.item',
+        'view' => 'page.blog.item',
         'plugins' => [
-            'navigate'    => 'resources',
+            'navigate' => 'resources',
             'subnavigate' => 'blogs',
-            'slug'        => 'blog',
+            'slug' => 'blog',
         ],
     ];
 
@@ -44,45 +45,34 @@ class PostController extends Controller
         $paginator = $request->get('perPage');
 
         // Load list posts
-        $posts = $posts->ofLocale(app()->getLocale())
-                       ->where('type', $this->type_post)
-                       ->when($request->input('title'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-                       })
-                       ->when($request->input('year'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->whereHas('metas', function ($query) use ($request) {
-                               /**@var \Illuminate\Database\Eloquent\Builder $query */
-                               $query->where('meta_key', '=', 'event')
-                                     ->whereRaw(/**@lang MySQL */
-                                         'YEAR(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('year')));
-                           });
-                       })
-                       ->when($request->input('day'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->whereHas('metas', function ($query) use ($request) {
-                               /**@var \Illuminate\Database\Eloquent\Builder $query */
-                               $query->where('meta_key', '=', 'event')
-                                     ->whereRaw(/**@lang MySQL */
-                                         'DAY(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('day')));
-                           });
-                       })
-                       ->when($request->input('month'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->whereHas('metas', function ($query) use ($request) {
-                               /**@var \Illuminate\Database\Eloquent\Builder $query */
-                               $query->where('meta_key', '=', 'event')
-                                     ->whereRaw(/**@lang MySQL */
-                                         'MONTH(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('month')));
-                           });
-                       })
-                       ->sortable([$request->get('sort') => $request->get('direction')])
-                       ->orderBy('id', 'desc')->paginate($paginator);
+        $posts = $posts->ofLocale(app()->getLocale())->where('type', $this->type_post)->when($request->input('title'), function (
+            $query
+        ) use ($request) {
+            /**@var \Illuminate\Database\Eloquent\Builder $query */
+            $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+        })->when($request->input('year'), function ($query) use ($request) {
+            /**@var \Illuminate\Database\Eloquent\Builder $query */
+            $query->whereHas('metas', function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */ 'YEAR(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('year')));
+            });
+        })->when($request->input('day'), function ($query) use ($request) {
+            /**@var \Illuminate\Database\Eloquent\Builder $query */
+            $query->whereHas('metas', function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */ 'DAY(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('day')));
+            });
+        })->when($request->input('month'), function ($query) use ($request) {
+            /**@var \Illuminate\Database\Eloquent\Builder $query */
+            $query->whereHas('metas', function ($query) use ($request) {
+                /**@var \Illuminate\Database\Eloquent\Builder $query */
+                $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */ 'MONTH(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('month')));
+            });
+        })->sortable([$request->get('sort') => $request->get('direction')])->orderBy('id', 'desc')->paginate($paginator);
 
         $return = [
-            'data'   => $this->loadTransformDataPost($posts),
-            'links'  => $posts->links(),
+            'data' => $this->loadTransformDataPost($posts),
+            'links' => $posts->links(),
             'banner' => $this->loadBannerTop($this->returnDataIndex['plugins']['slug']),
         ];
 
@@ -96,17 +86,21 @@ class PostController extends Controller
      * Display the specified resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
+     * @param string $slug
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request, $slug)
     {
         $data = $this->getPostDetail($slug);
 
+        if ($data instanceof  RedirectResponse) {
+            return $data;
+        }
+
         $others = $this->getPostOthers(collect($data));
 
         $return = [
-            'item'   => $data,
+            'item' => $data,
             'others' => $others,
         ];
 
@@ -126,8 +120,22 @@ class PostController extends Controller
         if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
             return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {
-            $post = Post::ofLocale(app()->getLocale())
-                        ->where('slug', $slug)->firstOrFail();
+            $post = Post::whereTranslation('slug', $slug)->firstOrFail();
+
+            /**
+             * @var $postTranslation \App\Models\PostTranslation
+             */
+            $postTranslation = $post->translate()->where('slug', $slug)->firstOrFail();
+
+            if ($postTranslation->locale !== app()->getLocale()) {
+                $slug = [
+                    'slug' => $postTranslation->post->translate(app()->getLocale())->slug,
+                ];
+
+                return redirect()->route(\request()->route()->getName(), $slug);
+            }
+
+            $post = Post::ofLocale(app()->getLocale())->where('slug', $slug)->firstOrFail();
 
             $data = $this->loadTransformDataPost($post);
 
@@ -150,15 +158,14 @@ class PostController extends Controller
         } else {
             $isOtherBoolean = array_key_exists('meta', $post->toArray()) && isset($post['meta']['others']) ? true : false;
 
-            $others = Post::ofLocale(app()->getLocale())
-                          ->where('type', $this->type_post)
-                          ->where('slug', '!=', $post['slug'])
-                          ->when($isOtherBoolean, function ($query) use ($post) {
-                              $relatePosts = array_column((array) $post['meta']['others'], 'id');
+            $others = Post::ofLocale(app()->getLocale())->where('type', $this->type_post)->where('slug', '!=', $post['slug'])->when($isOtherBoolean, function (
+                $query
+            ) use ($post) {
+                $relatePosts = array_column((array) $post['meta']['others'], 'id');
 
-                              /**@var \Illuminate\Database\Query\Builder $query */
-                              return $query->whereIn('id', $relatePosts);
-                          })->limit(3)->orderBy('id', 'DESC')->get();
+                /**@var \Illuminate\Database\Query\Builder $query */
+                return $query->whereIn('id', $relatePosts);
+            })->limit(3)->orderBy('id', 'DESC')->get();
 
             $data = $this->loadTransformDataPost($others);
 

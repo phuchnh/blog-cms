@@ -48,4 +48,12 @@ class PostTranslation extends Model
     {
         $this->attributes['slug'] = SlugService::createSlug($this, 'slug', (String) $value, ['unique' => true]);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id');
+    }
 }
