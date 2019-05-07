@@ -5,11 +5,22 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
+      <div v-show="getPostType === 'post_events' || getPostType === 'post_programs' || getPostType === 'post_presses'"
+           class="box box-widget">
+        <div class="box-header">
+          <h3 class="box-title text-capitalize">Show Post In</h3>
+        </div>
+        <div class="box-body">
+          <PostDisplay v-model="metas.is_home" :title="'Display on HomePage'"></PostDisplay>
+        </div>
+      </div>
+
       <ImagesBox v-model="metas.thumbnail" :boxTitle="'thumbnail'" :limit="1"></ImagesBox>
       <ImagesBox v-model="metas.banner" :boxTitle="'banner'" :limit="10"></ImagesBox>
-      <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
+      <CategoryBox :boxTitle="'Category'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
-      <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'" v-model="metas.event"></PostEventForm>
+      <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'"
+                     v-model="metas.event"></PostEventForm>
       <PostOtherForm v-model="metas.others" :boxTitle="'Custom Related Post'" :type="getPostType"></PostOtherForm>
     </div>
     <PostActionBox @click="handleAction"></PostActionBox>
@@ -27,6 +38,7 @@
   import PostEventForm from '@/components/PostEventForm.vue'
   import ImagesBox from '@/components/ImagesBox'
   import PostOtherForm from '@/components/PostOtherForm'
+  import PostDisplay from '@/components/PostDisplay'
 
   export default {
     name: 'PostForm',
@@ -39,6 +51,7 @@
       PostActionBox,
       SeoBox,
       PostEventForm,
+      PostDisplay,
     },
     props: {
       formAction: {
