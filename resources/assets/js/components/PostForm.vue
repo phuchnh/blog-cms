@@ -78,6 +78,7 @@
           thumbnail: null,
           banner: null,
           others: [],
+          is_home: 0
         },
         groups: [],
         tags: [],
@@ -146,7 +147,7 @@
         this.post.type = 'post_faq'
         this.post.translations = [...this.translations]
 
-        // Cretae
+        // Create
         if (this.isCreate) {
           this.createItem(this.post).then((resp) => {
             return Promise.all([
@@ -173,6 +174,13 @@
           metas.push({
             meta_key: 'seo',
             meta_value: this.metas.seo,
+          })
+        }
+
+        if (this.metas.is_home.length > 0) {
+          metas.push({
+            meta_key: 'is_home',
+            meta_value: this.metas.is_home,
           })
         }
 

@@ -55,14 +55,13 @@ class HomeController extends Controller
         /** @var \App\Models\Post $post */
         $post = Post::ofLocale(app()->getLocale())
                     ->whereType($type)
-            //->whereHas('metas', function ($query) {
-            //    /**@var \Illuminate\Database\Eloquent\Builder $query */
-            //    $query->where([
-            //        'meta_key'   => 'home',
-            //        'meta_value' => 'true',
-            //    ]);
-            //})
-                    ->limit(6)->latest();
+                    ->whereHas('metas', function ($query) {
+                        /**@var \Illuminate\Database\Eloquent\Builder $query */
+                        $query->where('meta_key', '=', 'is_home')
+                              ->where('meta_value', '"true"');
+                    })
+                    ->limit(6)
+                    ->latest();
 
         // Transform Post Data
         return $this->loadTransformDataPost($post);
@@ -87,6 +86,11 @@ class HomeController extends Controller
         $post = Post::ofLocale(app()->getLocale())
                     ->whereType('post_events')
                     ->orWhere('type', 'post_programs')
+                    ->whereHas('metas', function ($query) {
+                        /**@var \Illuminate\Database\Eloquent\Builder $query */
+                        $query->where('meta_key', '=', 'is_home')
+                              ->where('meta_value', '"true"');
+                    })
                     ->limit(6)
                     ->latest();
 
