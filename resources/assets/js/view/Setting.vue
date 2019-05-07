@@ -75,7 +75,10 @@
             <div class="tab-form">
               <introduction-box v-model="meta.introduction.content"></introduction-box>
 
-              <image-box v-model="meta.introduction.image" :title="'Introduction Image'"></image-box>
+              <div class="form-group">
+                <label>Introduction Image</label>
+                <upload-button v-model="meta.introduction.image" :limit="1"></upload-button>
+              </div>
             </div>
           </a-tab-pane>
 
@@ -84,7 +87,10 @@
             <div class="tab-form">
               <banner-box v-model="meta.banner.content"></banner-box>
 
-              <image-box v-model="meta.banner.image" :title="'Banner Image'"></image-box>
+              <div class="form-group">
+                <label>Banner Image</label>
+                <upload-button v-model="meta.banner.image" :limit="1"></upload-button>
+              </div>
             </div>
           </a-tab-pane>
 
