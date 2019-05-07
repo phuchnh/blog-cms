@@ -5,14 +5,14 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <ImagesBox v-model="metas.thumbnail" :boxTitle="'thumbnail'" :limit="1"></ImagesBox>
-      <ImagesBox v-model="metas.banner" :boxTitle="'banner'" :limit="10"></ImagesBox>
+      <ImagesBox v-model="metas.thumbnail" :boxTitle="'thumbnail'" :limit="1" @uploading="uploadImage"></ImagesBox>
+      <ImagesBox v-model="metas.banner" :boxTitle="'banner'" :limit="10" @uploading="uploadImage"></ImagesBox>
       <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
       <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'" v-model="metas.event"></PostEventForm>
       <PostOtherForm v-model="metas.others" :boxTitle="'Custom Related Post'" :type="getPostType"></PostOtherForm>
     </div>
-    <PostActionBox @click="handleAction"></PostActionBox>
+    <PostActionBox @click="handleAction" :disable="imageUploading"></PostActionBox>
   </div>
 </template>
 
@@ -67,6 +67,7 @@
         },
         groups: [],
         tags: [],
+        imageUploading: false
       }
     },
     computed: {
@@ -222,6 +223,10 @@
       backToList () {
         this.$router.push({ name: this.redirectToList })
       },
+
+      uploadImage (event) {
+        this.imageUploading = event
+      }
 
     },
   }

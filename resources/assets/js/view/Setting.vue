@@ -60,11 +60,11 @@
                 </div>
                 <div class="form-group">
                   <label>Website logo</label>
-                  <upload-button v-model="data.logo" :limit="1"></upload-button>
+                  <upload-button v-model="data.logo" :limit="1" @uploading="uploadImage"></upload-button>
                 </div>
                 <div class="form-group">
                   <label>Default avatar</label>
-                  <upload-button v-model="data.avatar" :limit="1"></upload-button>
+                  <upload-button v-model="data.avatar" :limit="1" @uploading="uploadImage"></upload-button>
                 </div>
               </div>
             </div>
@@ -77,7 +77,7 @@
 
               <div class="form-group">
                 <label>Introduction Image</label>
-                <upload-button v-model="meta.introduction.image" :limit="1"></upload-button>
+                <upload-button v-model="meta.introduction.image" :limit="1" @uploading="uploadImage"></upload-button>
               </div>
             </div>
           </a-tab-pane>
@@ -89,7 +89,7 @@
 
               <div class="form-group">
                 <label>Banner Image</label>
-                <upload-button v-model="meta.banner.image" :limit="1"></upload-button>
+                <upload-button v-model="meta.banner.image" :limit="1" @uploading="uploadImage"></upload-button>
               </div>
             </div>
           </a-tab-pane>
@@ -102,7 +102,7 @@
           </a-tab-pane>
         </a-tabs>
       </div>
-      <PostActionBox @click="save" :actions="actions"></PostActionBox>
+      <PostActionBox @click="save" :actions="actions" :disable="imageUploading"></PostActionBox>
     </div>
   </div>
 </template>
@@ -138,6 +138,7 @@
           avatar: null,
         },
         data: {},
+        imageUploading: false
       }
     },
     computed: {
@@ -192,6 +193,9 @@
           }
         })
       },
+      uploadImage (event) {
+        this.imageUploading = event
+      }
     },
   }
 </script>
