@@ -31,9 +31,7 @@ class Admin extends User implements JWTSubject
      *
      * @var array
      */
-    public $attributes = [
-        'type' => self::ADMIN,
-    ];
+    public $attributes = [];
 
     /**
      * The "booting" method of the model.
