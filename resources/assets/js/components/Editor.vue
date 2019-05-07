@@ -37,7 +37,7 @@
         config.enableDragAndDropFileToEditor = true
         config.height = 800
         config.uploader = {
-          url: '/api/assets',
+          url: `${window.location.origin}/api/assets`,
           format: 'json',
           headers: {
             'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
