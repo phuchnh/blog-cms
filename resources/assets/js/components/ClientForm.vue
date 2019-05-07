@@ -22,13 +22,13 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Thumbnail</label>
         <div class="col-sm-8">
-          <upload-button v-model="meta.thumbnail" :limit="1"></upload-button>
+          <upload-button v-model="meta.thumbnail" :limit="1" @uploading="uploadImage"></upload-button>
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-offset-2 col-md-4">
           <button @click="$emit('routeToList')" class="btn btn-default margin-r-5" type="button">Cancel</button>
-          <button @click="submit" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
+          <button @click="submit" :disabled="imageUploading" type="button" class="btn btn-success">{{ formAction === 'create' ? 'Create' :
             'Update'}}
           </button>
         </div>
@@ -60,7 +60,8 @@
         imgUrl: null,
         meta: {
           thumbnail: {}
-        }
+        },
+        imageUploading: false
       }
     },
     methods: {
@@ -90,6 +91,9 @@
           }
         })
       },
+      uploadImage (event) {
+        this.imageUploading = event
+      }
     },
   }
 </script>

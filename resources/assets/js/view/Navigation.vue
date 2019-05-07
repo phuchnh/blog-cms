@@ -10,7 +10,7 @@
                 <!-- Story -->
                 <a-tab-pane tab="Story" key="1">
                   <image-box v-model="meta.story.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.story.content"></content-box>
 
@@ -20,7 +20,7 @@
                 <!-- Expert -->
                 <a-tab-pane tab="Expert" key="2">
                   <image-box v-model="meta.expert.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.expert.content"></content-box>
 
@@ -30,7 +30,7 @@
                 <!-- Press -->
                 <a-tab-pane tab="Press" key="3">
                   <image-box v-model="meta.press.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.press.content"></content-box>
 
@@ -40,7 +40,7 @@
                 <!-- Contact -->
                 <a-tab-pane tab="Contact" key="4">
                   <image-box v-model="meta.contact.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.contact.content"></content-box>
 
@@ -55,7 +55,7 @@
                 <!-- Event & Program -->
                 <a-tab-pane tab="Event & Program" key="1">
                   <image-box v-model="meta.eventprogram.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <SeoBox v-model="meta.eventprogram.seo"></SeoBox>
                 </a-tab-pane>
@@ -63,10 +63,10 @@
                 <!-- Event -->
                 <a-tab-pane tab="Event" key="2">
                   <image-box v-model="meta.event.thumbnail"
-                             :box-title="'Thumbnail'"></image-box>
+                             :box-title="'Thumbnail'" @uploading="uploadImage"></image-box>
 
                   <image-box v-model="meta.event.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.event.content"></content-box>
 
@@ -76,10 +76,10 @@
                 <!-- Program -->
                 <a-tab-pane tab="Program" key="3">
                   <image-box v-model="meta.program.thumbnail"
-                             :box-title="'Thumbnail'"></image-box>
+                             :box-title="'Thumbnail'" @uploading="uploadImage"></image-box>
 
                   <image-box v-model="meta.program.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.program.content"></content-box>
 
@@ -94,7 +94,7 @@
                 <!-- Approach -->
                 <a-tab-pane tab="Approach" key="1">
                   <image-box v-model="meta.approach.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.approach.content"></content-box>
 
@@ -104,7 +104,7 @@
                 <!-- Expertise -->
                 <a-tab-pane tab="Expertise" key="2">
                   <image-box v-model="meta.expertise.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.expertise.content"></content-box>
 
@@ -114,7 +114,7 @@
                 <!-- Testimonial -->
                 <a-tab-pane tab="Testimonial" key="3">
                   <image-box v-model="meta.testimonial.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.testimonial.content"></content-box>
 
@@ -129,7 +129,7 @@
                 <!-- Benefits -->
                 <a-tab-pane tab="Benefits" key="1">
                   <image-box v-model="meta.benefits.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.benefits.content"></content-box>
 
@@ -139,7 +139,7 @@
                 <!-- Practise -->
                 <a-tab-pane tab="Practise" key="2">
                   <image-box v-model="meta.practise.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.practise.content"></content-box>
 
@@ -149,7 +149,7 @@
                 <!-- Faq -->
                 <a-tab-pane tab="Faq" key="3">
                   <image-box v-model="meta.faq.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <content-box :box-title="'Content'" v-model="meta.faq.content"></content-box>
 
@@ -164,7 +164,7 @@
                 <!-- Blog -->
                 <a-tab-pane tab="Blog" key="1">
                   <image-box v-model="meta.blog.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <SeoBox v-model="meta.blog.seo"></SeoBox>
                 </a-tab-pane>
@@ -172,7 +172,7 @@
                 <!-- Guide -->
                 <a-tab-pane tab="Guide" key="2">
                   <image-box v-model="meta.guide.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <SeoBox v-model="meta.guide.seo"></SeoBox>
                 </a-tab-pane>
@@ -180,7 +180,7 @@
                 <!-- Practice -->
                 <a-tab-pane tab="Practice" key="3">
                   <image-box v-model="meta.practice.banner"
-                             :box-title="'Banner'"></image-box>
+                             :box-title="'Banner'" @uploading="uploadImage"></image-box>
 
                   <SeoBox v-model="meta.practice.seo"></SeoBox>
                 </a-tab-pane>
@@ -190,7 +190,7 @@
         </div>
 
         <!-- section button -->
-        <PostActionBox @click="save" :actions="actions"></PostActionBox>
+        <PostActionBox @click="save" :actions="actions" :disable="imageUploading"></PostActionBox>
       </div>
     </form>
   </div>
@@ -241,6 +241,7 @@
           guide: [],
           practice: [],
         },
+        imageUploading: false
       }
     },
     computed: {
@@ -371,6 +372,9 @@
           }
         })
       },
+      uploadImage (event) {
+        this.imageUploading = event
+      }
     },
   }
 </script>

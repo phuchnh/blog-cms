@@ -58,6 +58,7 @@
           name: '',
           url: '',
         },
+        uploading: false
       }
     },
     computed: {
@@ -96,6 +97,11 @@
           }
         }
       },
+      uploading (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.$emit('uploading', newValue)
+        }
+      }
     },
 
     methods: {
@@ -123,6 +129,9 @@
       },
 
       handleChange (info) {
+        if (info.file.status === 'uploading') {
+          this.uploading = true
+        }
 
         let fileList = info.fileList
         let images = []
@@ -157,6 +166,10 @@
         })
 
         this.images = _.assign([], this.images, [...images])
+
+        if (info.file.status === 'done') {
+          this.uploading = false
+        }
       },
 
       beforeUpload (file) {
