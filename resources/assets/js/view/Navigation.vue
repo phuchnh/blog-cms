@@ -249,10 +249,6 @@
       }),
     },
 
-    beforeRouteLeave (from, to, next) {
-      this.$store.dispatch('setting/resetState').then(() => next())
-    },
-
     beforeRouteEnter (to, from, next) {
       store.dispatch('setting/fetchList').then(
         () => next(

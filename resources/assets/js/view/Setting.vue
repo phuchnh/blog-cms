@@ -58,9 +58,15 @@
                   <input class="form-control" id="copyright" name="copyright"
                          v-model="data.copyright"/>
                 </div>
+                <div class="form-group">
+                  <label>Website logo</label>
+                  <upload-button v-model="data.logo" :limit="1"></upload-button>
+                </div>
+                <div class="form-group">
+                  <label>Default avatar</label>
+                  <upload-button v-model="data.avatar" :limit="1"></upload-button>
+                </div>
               </div>
-              <image-box v-model="data.logo" :title="'Website Logo'" :limit="1"></image-box>
-              <image-box v-model="data.avatar" :title="'Default avatar'" :limit="1"></image-box>
             </div>
           </a-tab-pane>
 
@@ -104,10 +110,11 @@
   import ImageBox from '@/components/ImagesBox'
   import PostActionBox from '@/components/PostActionBox'
   import BannerBox from '@/components/BannerBox'
+  import UploadButton from '../components/UploadButton'
 
   export default {
     name: 'Setting',
-    components: { IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
+    components: { UploadButton, IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
     data () {
       return {
         actions: [
@@ -144,9 +151,6 @@
             vm.loading = false
           }),
       )
-    },
-    beforeRouteLeave (from, to, next) {
-      this.$store.dispatch('setting/resetState').then(() => next())
     },
     created () {
       if (this.settings.seo) {
