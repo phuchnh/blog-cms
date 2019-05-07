@@ -20,7 +20,7 @@
               <label for="slug">slug</label>
               <input type="text" class="form-control" id="slug" placeholder="slug" v-model="trans.slug">
             </div>
-            <div class="form-group">
+            <div class="form-group" v-show="useEditor">
               <label>content</label>
               <Editor :id="trans.locale" v-model="trans.content"/>
             </div>
@@ -45,6 +45,12 @@
         type: Array,
         default () {
           return []
+        },
+      },
+      useEditor: {
+        type: Boolean,
+        default () {
+          return true
         },
       },
     },

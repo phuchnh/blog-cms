@@ -7,12 +7,21 @@ export default {
   state: () => {
     return {
       loading: false,
+      item: {},
     }
   },
 
   getters: {
     getListByType: (state) => (type) => {
       return state[type]
+    },
+
+    getItem: (state) => {
+      return state.item
+    },
+
+    getLoading: (state) => {
+      return state.loading
     },
   },
 
@@ -25,6 +34,18 @@ export default {
 
     setListByType (state, { type, lists }) {
       Vue.set(state, type, lists)
+    },
+
+    setItem (state, item) {
+      Vue.set(state, 'item', item)
+    },
+
+    beforeFetching (state) {
+      state.loading = true
+    },
+
+    afterFetching (state) {
+      state.loading = false
     },
   },
 
@@ -43,6 +64,31 @@ export default {
             item: data,
           })
           return data
+        })
+    },
+
+    update ({ commit }, { id, payload }) {
+      return TaxonomyService
+        .update(id, payload)
+        .then((resp) => {
+          commit('setItem', payload)
+          return resp
+        })
+    },
+
+    fetchItem ({ commit }, id) {
+      commit('beforeFetching')
+      return TaxonomyService
+        .getById(id, { with: 'translations' })
+        .then(resp => {
+          const { data } = resp.data
+          commit('setItem', data)
+          commit('afterFetching')
+          return resp
+        })
+        .catch(e => {
+          console.log(e)
+          commit('afterFetching')
         })
     },
 
