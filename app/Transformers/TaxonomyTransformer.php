@@ -31,16 +31,19 @@ class TaxonomyTransformer extends Transformer
      */
     public function transform(Taxonomy $taxonomy)
     {
-        $translation = $taxonomy->translations()->where('locale', config('translatable.locale'))->first();
-
-        return [
-            'id'          => $taxonomy->id,
-            'parent_id'   => $taxonomy->parent_id,
-            'type'        => $taxonomy->type,
-            'locale'      => $translation->locale,
-            'title'       => $translation->title,
-            'slug'        => $translation->slug,
-            'description' => $translation->description,
-        ];
+        $translation = $taxonomy->translations()->where('locale', request('locale'))->first();
+        if ($translation) {
+            return [
+                'id'          => $taxonomy->id,
+                'parent_id'   => $taxonomy->parent_id,
+                'type'        => $taxonomy->type,
+                'locale'      => $translation->locale,
+                'title'       => $translation->title,
+                'slug'        => $translation->slug,
+                'description' => $translation->description,
+            ];
+        } else {
+            return [];
+        }
     }
 }

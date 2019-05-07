@@ -10,6 +10,14 @@
 
     <!-- /.box-box-body -->
     <div class="box-body">
+      <div class="row">
+        <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
+          <select class="form-control" @change="getListByLanguage">
+            <option value="vi" selected>Vietnamese</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
       <el-table
           v-loading="loading"
           :data="lists"
@@ -187,6 +195,11 @@
         const queryParams = _.merge(this.queryParams, value)
         this.getData(queryParams)
       },
+
+      getListByLanguage (event) {
+        const queryParams = _.merge(this.queryParams, {locale: event.target.value})
+        this.fetchList(queryParams)
+      }
     },
   }
 </script>
