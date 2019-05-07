@@ -5,6 +5,7 @@
         <button v-for="(action, index) in actions" :key="index" type="button" class="btn btn-sm margin-r-5"
                 :class="action.type"
                 @click="onClick(action)"
+                :disabled="disable && action.title !== 'Cancel'"
         >
           <i :class="action.icon"></i> {{ action.title | capitalize }}
         </button>
@@ -41,6 +42,10 @@
           ]
         },
       },
+      disable: {
+        type: Boolean,
+        default: false
+      }
     },
     created () {
       if (this.value) {

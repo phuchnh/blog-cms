@@ -26,16 +26,18 @@
         <el-table-column prop="slug" label="Slug" sortable style="width: 30%"/>
         <el-table-column prop="tags" label="Tags">
           <template slot-scope="scope">
-            <a href="javascript:void(0)" v-for="(tag, index) in filterTags(scope.row.taxonomies)" :key="index">
-              {{ tag }},
-            </a>
+            <router-link href="javascript:void(0)" v-for="(tag, index) in filterTags(scope.row.taxonomies)" :key="index"
+                         :to="{name: 'TaxonomyEdit', params: {id: tag.id}}">
+              {{ tag.title }},
+            </router-link>
           </template>
         </el-table-column>
         <el-table-column prop="groups" label="Groups">
           <template slot-scope="scope">
-            <a href="javascript:void(0)" v-for="(group, index) in filterGroups(scope.row.taxonomies)" :key="index">
-              {{ group }},
-            </a>
+            <router-link v-for="(group, index) in filterGroups(scope.row.taxonomies)" :key="index"
+                         :to="{name: 'TaxonomyEdit', params: {id: group.id}}">
+              {{ group.title }},
+            </router-link>
           </template>
         </el-table-column>
         <el-table-column label="Action" width="100">
@@ -108,7 +110,10 @@
       filterTags (taxonomies) {
         return _.reduce(taxonomies, (result, value) => {
           if (value.type === 'tags') {
-            result.push(value.title)
+            result.push({
+              title: value.title,
+              id: value.id,
+            })
           }
           return result
         }, [])
@@ -117,7 +122,10 @@
       filterGroups (taxonomies) {
         return _.reduce(taxonomies, (result, value) => {
           if (value.type === 'groups') {
-            result.push(value.title)
+            result.push({
+              title: value.title,
+              id: value.id,
+            })
           }
           return result
         }, [])
