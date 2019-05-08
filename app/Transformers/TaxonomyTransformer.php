@@ -31,7 +31,8 @@ class TaxonomyTransformer extends Transformer
      */
     public function transform(Taxonomy $taxonomy)
     {
-        $translation = $taxonomy->translations()->where('locale', request('locale'))->first();
+        $locale = request('locale') ? request('locale') : config('translatable.locale');
+        $translation = $taxonomy->translations()->where('locale', $locale)->first();
         if ($translation) {
             return [
                 'id'          => $taxonomy->id,

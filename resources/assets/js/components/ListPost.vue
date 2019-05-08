@@ -204,9 +204,8 @@
         this.getData(queryParams)
       },
 
-      getListByLanguage (event) {
-        const queryParams = _.merge(this.queryParams, {locale: event.target.value})
-        this.fetchList(queryParams)
+      getListByLanguage () {
+        this.fetchList()
       }
     },
   }
