@@ -1,12 +1,18 @@
 <template>
   <div class="form-group">
-      <div class="col-sm-8">
-        <p>{{ title }}</p>
-      </div>
+    <div class="col-sm-8">
+      <p>{{ title }}</p>
+    </div>
 
-      <div class="col-sm-4">
-        <el-switch v-model="status" class="pull-right"></el-switch>
-      </div>
+    <div class="col-sm-4">
+      <el-switch
+          v-model="status"
+          class="pull-right"
+          active-value="1"
+          inactive-value="0"
+      >
+      </el-switch>
+    </div>
   </div>
 </template>
 
@@ -15,7 +21,7 @@
     name: 'PostDisplay',
     props: {
       value: {
-        type: String | Object | Array,
+        type: Number | Object | Array,
       },
       title: {
         type: String,
@@ -23,7 +29,7 @@
     },
     data () {
       return {
-        status: this.value ? JSON.parse(this.value) : false
+        status: _.toString(this.value),
       }
     },
     watch: {
@@ -34,7 +40,7 @@
       status: {
         deep: true,
         handler (val) {
-          this.$emit('input', _.toString(val))
+          this.$emit('input', parseInt(val))
         },
       },
     },

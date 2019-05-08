@@ -5,11 +5,26 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
+      <div class="box box-widget">
+        <div class="box-header">
+          <h3 class="box-title text-capitalize">Status</h3>
+        </div>
+        <div class="box-body">
+          <PostDisplay v-model="post.publish" :title="'Publish'"></PostDisplay>
+
+          <PostDisplay
+              v-show="getPostType === 'post_events' || getPostType === 'post_programs' || getPostType === 'post_presses'"
+              v-model="metas.is_home" :title="'Display on HomePage'"></PostDisplay>
+        </div>
+      </div>
+
       <ImagesBox v-model="metas.thumbnail" :boxTitle="'thumbnail'" :limit="1" @uploading="uploadImage"></ImagesBox>
       <ImagesBox v-model="metas.banner" :boxTitle="'banner'" :limit="10" @uploading="uploadImage"></ImagesBox>
-      <CategoryBox :boxTitle="'Groups'" :boxType="'groups'" v-model="groups"></CategoryBox>
+      <CategoryBox :boxTitle="'Category'" :boxType="'groups'" v-model="groups"></CategoryBox>
+
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
-      <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'" v-model="metas.event"></PostEventForm>
+      <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'"
+                     v-model="metas.event"></PostEventForm>
       <PostOtherForm v-model="metas.others" :boxTitle="'Custom Related Post'" :type="getPostType"></PostOtherForm>
     </div>
     <PostActionBox @click="handleAction" :disable="imageUploading"></PostActionBox>
@@ -27,6 +42,7 @@
   import PostEventForm from '@/components/PostEventForm.vue'
   import ImagesBox from '@/components/ImagesBox'
   import PostOtherForm from '@/components/PostOtherForm'
+  import PostDisplay from '@/components/PostDisplay'
 
   export default {
     name: 'PostForm',
@@ -39,6 +55,7 @@
       PostActionBox,
       SeoBox,
       PostEventForm,
+      PostDisplay,
     },
     props: {
       formAction: {
@@ -54,9 +71,7 @@
     },
     data () {
       return {
-        post: {
-          publish: 0,
-        },
+        post: {},
         translations: [],
         metas: {
           seo: [],
@@ -64,10 +79,11 @@
           thumbnail: null,
           banner: null,
           others: [],
+          is_home: 0,
         },
         groups: [],
         tags: [],
-        imageUploading: false
+        imageUploading: false,
       }
     },
     computed: {
@@ -120,11 +136,6 @@
         if (action === 'save') {
           this.submit()
         }
-
-        if (action === 'publish') {
-          this.post.publish = 1
-          this.submit()
-        }
       },
 
       submit () {
@@ -132,7 +143,7 @@
         this.post.type = 'post_faq'
         this.post.translations = [...this.translations]
 
-        // Cretae
+        // Create
         if (this.isCreate) {
           this.createItem(this.post).then((resp) => {
             return Promise.all([
@@ -159,6 +170,13 @@
           metas.push({
             meta_key: 'seo',
             meta_value: this.metas.seo,
+          })
+        }
+
+        if (this.metas.is_home.length > 0) {
+          metas.push({
+            meta_key: 'is_home',
+            meta_value: this.metas.is_home,
           })
         }
 
@@ -226,7 +244,7 @@
 
       uploadImage (event) {
         this.imageUploading = event
-      }
+      },
 
     },
   }

@@ -7,7 +7,7 @@
         @include('page.why.navigate')
 
         @include('includes.content-single')
-       
+
         @isset($data)
             <div class="faq-content">
                 <div class="container">
@@ -16,7 +16,7 @@
                             <li class="faq-content__item">
                                 <div class="faq-content__item__quest">
                                     <i class="fas fa-plus"></i>
-                                    {{$item['description']}}
+                                    {{$item['title']}}
                                 </div>
                                 <div class="faq-content__item__answer">
                                     {!! $item['content'] !!}

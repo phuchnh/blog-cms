@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
           <select class="form-control" @change="getListByLanguage" v-model="locale">
-            <option value="vi" selected>Vietnamese</option>
+            <option value="vi" selected>Tiếng Việt</option>
             <option value="en">English</option>
           </select>
         </div>
