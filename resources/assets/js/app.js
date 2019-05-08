@@ -35,13 +35,13 @@ router.beforeEach((to, from, next) => {
           if (_.includes(to.meta.permission, store.state.auth.currentUser.type)) {
             next()
           } else {
-            next({path: '/admin'})
+            next(false)
           }
         })
       } else if (_.includes(to.meta.permission, store.state.auth.currentUser.type)) {
         next()
       } else {
-        next({path: '/admin'})
+        next(false)
       }
     }
   } else {

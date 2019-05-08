@@ -128,7 +128,7 @@ return [
     |
      */
 
-    'to_array_always_loads_translations' => true,
+    'to_array_always_loads_translations' => false,
 
     /*
      * Ignore translate with url

@@ -1,5 +1,6 @@
 import { PostService } from '@/api'
 import * as _ from 'lodash'
+import Vue from 'vue'
 
 export default {
   namespaced: true,
@@ -13,7 +14,8 @@ export default {
         direction: 'desc',
         page: 1,
         perPage: 10,
-        only: ['id', 'slug', 'title', 'description'].join(','),
+        only: ['id', 'slug', 'title', 'description', 'publish'].join(','),
+        locale: 'vi'
       },
       loading: false,
       item: {
@@ -33,6 +35,10 @@ export default {
 
     getLists: (state) => {
       return state.lists
+    },
+
+    getListByType: (state) => (type) => {
+      return state[type]
     },
 
     getTotal: (state) => {
@@ -71,6 +77,12 @@ export default {
       state.queryParams = { ...queryParams }
     },
 
+    setListByType (state, { type, lists }) {
+      Vue.set(state, type, lists)
+      console.log(state)
+      console.log(type)
+    },
+
     deleteItemInList (state, { lists, total }) {
       state.lists = [...lists]
       state.total = total
@@ -79,12 +91,32 @@ export default {
     setPostType: (state, postType) => {
       state.postType = postType
     },
+
+    setLocale (state, locale) {
+      state.queryParams = {...state.queryParams, locale: locale}
+    }
   },
 
   actions: {
 
     setPostType: ({ state, commit }, postType) => {
       commit('setPostType', postType)
+    },
+
+    fetchListByType ({ state, commit }, params = {}) {
+      return PostService
+      .getPosts(params.type)
+       .then(resp => {
+        const { data } = resp.data
+
+        commit('setListByType', {
+          type: params.type,
+          lists: data,
+        })
+      })
+       .catch(err => {
+        console.log(err)
+      })
     },
 
     fetchList ({ state, commit }, params = {}) {
@@ -117,6 +149,7 @@ export default {
           console.log(err)
         })
     },
+
     fetchItem ({ commit }, id) {
       commit('startLoading')
       return PostService

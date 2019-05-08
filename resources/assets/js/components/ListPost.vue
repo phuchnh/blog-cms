@@ -10,6 +10,14 @@
 
     <!-- /.box-box-body -->
     <div class="box-body">
+      <div class="row">
+        <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
+          <select class="form-control" @change="getListByLanguage" v-model="locale">
+            <option value="vi" selected>Vietnamese</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
       <el-table
           v-loading="loading"
           :data="lists"
@@ -38,6 +46,11 @@
                          :to="{name: 'TaxonomyEdit', params: {id: group.id}}">
               {{ group.title }},
             </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="publish" label="Status">
+          <template slot-scope="scope">
+            {{ scope.row.publish ? 'Publish' : 'Draft' }}
           </template>
         </el-table-column>
         <el-table-column label="Action" width="100">
@@ -100,6 +113,14 @@
       queryParams () {
         return this.getQueryParams
       },
+      locale: {
+        get () {
+          return this.getQueryParams.locale
+        },
+        set (value) {
+          this.$store.commit('faq/setLocale', value)
+        }
+      }
     },
     beforeRouteEnter (to, from, next) {
       return store.dispatch('faq/fetchList').then(() => next())
@@ -187,6 +208,10 @@
         const queryParams = _.merge(this.queryParams, value)
         this.getData(queryParams)
       },
+
+      getListByLanguage () {
+        this.fetchList()
+      }
     },
   }
 </script>
