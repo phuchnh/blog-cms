@@ -12,7 +12,7 @@
     <div class="box-body">
       <div class="row">
         <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
-          <select class="form-control" @change="getListByLanguage">
+          <select class="form-control" @change="getListByLanguage" v-model="locale">
             <option value="vi" selected>Vietnamese</option>
             <option value="en">English</option>
           </select>
@@ -108,6 +108,14 @@
       queryParams () {
         return this.getQueryParams
       },
+      locale: {
+        get () {
+          return this.getQueryParams.locale
+        },
+        set (value) {
+          this.$store.commit('faq/setLocale', value)
+        }
+      }
     },
     beforeRouteEnter (to, from, next) {
       return store.dispatch('faq/fetchList').then(() => next())
