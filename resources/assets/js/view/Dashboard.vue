@@ -79,6 +79,10 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+      <div class="row">
+        <recent-post></recent-post>
+        <recent-user></recent-user>
+      </div>
     </section>
   </div>
 </template>
@@ -87,22 +91,35 @@
   import { Cookie } from '@/util/cookie'
   import store from '@/store'
   import { mapGetters } from 'vuex'
+  import RecentPost from '../components/RecentPost'
+  import RecentUser from '../components/RecentUser'
 
   export default {
     name: 'Dashboard',
+    components: { RecentUser, RecentPost },
     beforeRouteEnter (to, from, next) {
       Promise.all([
         store.dispatch('user/getList'),
         store.dispatch('client/getList'),
-        store.dispatch('faq/fetchListByType', {type: 'post_blogs'}),
-        store.dispatch('faq/fetchListByType', {type: 'post_events'}),
-        store.dispatch('faq/fetchListByType', {type: 'post_programs'})
-      ])
-        .then(() => next())
+        store.dispatch('faq/fetchListByType', { type: 'post_blogs' }),
+        store.dispatch('faq/fetchListByType', { type: 'post_events' }),
+        store.dispatch('faq/fetchListByType', { type: 'post_programs' }),
+      ]).then(() => next())
+    },
+    beforeRouteLeave (from, to, next) {
+      Promise.all([
+        store.dispatch('faq/resetState'),
+        store.dispatch('user/resetState'),
+      ]).then(() => next())
     },
     computed: {
-      ...mapGetters({clients: 'client/clients',
-        users: 'user/users'}),
+      ...mapGetters({
+        clients: 'client/clients',
+        users: 'user/users',
+        loading: 'faq/getLoading',
+        redirectToDetail: 'route/redirectToDetail',
+        queryParams: 'faq/getQueryParams'
+      }),
       blogs () {
         return this.$store.getters['faq/getListByType']('post_blogs')
       },
@@ -111,9 +128,16 @@
       },
       programs () {
         return this.$store.getters['faq/getListByType']('post_programs')
-      }
+      },
+      posts () {
+        return this.$store.getters['faq/getLists']
+      },
     },
     mounted () {
+      // console.log(router.options.routes[0].children)
+      // console.log(router.options.routes[0].children.find((value) => {
+      //   return value.props && value.props.postType === 'post_blogs'
+      // }));
       this.totalUsers = this.users.length
       this.totalClients = this.clients.length
       this.totalBlogs = this.blogs.length
@@ -126,9 +150,14 @@
         totalClients: 0,
         totalBlogs: 0,
         totalEvents: 0,
-        totalPrograms: 0
+        totalPrograms: 0,
       }
     },
+    methods: {
+      goToDetail (id) {
+        return { name: this.redirectToDetail, params: { id: id } }
+      },
+    }
   }
 </script>
 

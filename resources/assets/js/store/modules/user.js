@@ -1,5 +1,6 @@
 import { UserService} from '../../api/user.service'
 import * as _ from 'lodash'
+import Vue from 'vue'
 
 export const namespaced = true
 const initialState = {
@@ -33,8 +34,13 @@ const actions = {
       ...params,
     }
     await UserService.getList(params).then(res => {
-      const pagination = res.data.pagination
-      const users = res.data.data
+      let pagination = res.data.pagination
+      let users = res.data.data
+
+      if (params.limit) {
+        pagination.total = params.limit
+        users = _.take(users, params.limit)
+      }
 
       commit('setList', {
         users: users,
@@ -80,6 +86,9 @@ const actions = {
   resetState ({ commit }) {
     commit('resetState')
   },
+  setQueryParams ({commit}, params) {
+    commit('setQueryParams', params)
+  },
 }
 
 const mutations = {
@@ -96,11 +105,15 @@ const mutations = {
     })
   },
   resetState (state) {
-    state.user = {}
-    state.users = []
+    for (let f in state) {
+      Vue.set(state, f, initialState[f])
+    }
   },
   setPaginator: (state, paginator) => {
     state.paginator = { ...paginator }
+  },
+  setQueryParams (state, params) {
+    state.queryParams = {...params}
   },
 }
 
