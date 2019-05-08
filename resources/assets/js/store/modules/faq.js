@@ -15,6 +15,7 @@ export default {
         page: 1,
         perPage: 10,
         only: ['id', 'slug', 'title', 'description'].join(','),
+        locale: 'vi'
       },
       loading: false,
       item: {
@@ -90,6 +91,10 @@ export default {
     setPostType: (state, postType) => {
       state.postType = postType
     },
+
+    setLocale (state, locale) {
+      state.queryParams = {...state.queryParams, locale: locale}
+    }
   },
 
   actions: {
