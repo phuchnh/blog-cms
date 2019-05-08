@@ -26,6 +26,13 @@
           @sort-change="handleSortChange"
           empty-text="No data"
       >
+        <el-table-column prop="thumbnail" label="Thumbnail" style="width: 30%">
+          <template slot-scope="scope" class="text-nowrap">
+            <img
+                style="width: auto; height: 50px"
+                :src="scope.row.thumbnail"/>
+          </template>
+        </el-table-column>
         <el-table-column prop="title" label="Title" sortable style="width: 30%">
           <template slot-scope="scope" class="text-nowrap">
             <router-link :to="goToDetail(scope.row.id)">{{ scope.row.title }}</router-link>
@@ -119,8 +126,8 @@
         },
         set (value) {
           this.$store.commit('faq/setLocale', value)
-        }
-      }
+        },
+      },
     },
     beforeRouteEnter (to, from, next) {
       return store.dispatch('faq/fetchList').then(() => next())
@@ -174,26 +181,23 @@
 
       handleDelete (index, row) {
         this.$confirm('This will delete the item. Continue?', 'Warning', {
-              confirmButtonText: 'OK',
-              cancelButtonText: 'Cancel',
-              type: 'warning',
-            })
-            .then(() => {
-              return this.deleteItem(row.id)
-            })
-            .then(() => {
-              this.$message({
-                type: 'success',
-                message: 'Delete completed',
-              })
-              this.getData({
-                ...this.queryParams,
-                page: 1,
-              })
-            })
-            .catch(() => {
-              console.log('Cancel')
-            })
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          return this.deleteItem(row.id)
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Delete completed',
+          })
+          this.getData({
+            ...this.queryParams,
+            page: 1,
+          })
+        }).catch(() => {
+          console.log('Cancel')
+        })
       },
 
       getData (queryParams) {
@@ -211,7 +215,7 @@
 
       getListByLanguage () {
         this.fetchList()
-      }
+      },
     },
   }
 </script>

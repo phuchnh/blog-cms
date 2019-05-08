@@ -142,7 +142,7 @@ export default {
 
       params = {
         ...params,
-        with: 'taxonomies',
+        with: 'taxonomies,metas,thumbnail',
       }
 
       return PostService
