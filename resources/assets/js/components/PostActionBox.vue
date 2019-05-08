@@ -33,12 +33,7 @@
               title: 'Save',
               icon: 'fa fa-save',
               type: 'btn-success',
-            },
-            {
-              title: 'Publish',
-              icon: 'fa fa-save',
-              type: 'btn-success',
-            },
+            }
           ]
         },
       },

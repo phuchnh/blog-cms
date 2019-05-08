@@ -5,13 +5,16 @@
       <SeoBox v-model="metas.seo"></SeoBox>
     </div>
     <div class="col-xs-12 col-md-4">
-      <div v-show="getPostType === 'post_events' || getPostType === 'post_programs' || getPostType === 'post_presses'"
-           class="box box-widget">
+      <div class="box box-widget">
         <div class="box-header">
-          <h3 class="box-title text-capitalize">Show Post In</h3>
+          <h3 class="box-title text-capitalize">Status</h3>
         </div>
         <div class="box-body">
-          <PostDisplay v-model="metas.is_home" :title="'Display on HomePage'"></PostDisplay>
+          <PostDisplay v-model="post.publish" :title="'Publish'"></PostDisplay>
+
+          <PostDisplay
+              v-show="getPostType === 'post_events' || getPostType === 'post_programs' || getPostType === 'post_presses'"
+              v-model="metas.is_home" :title="'Display on HomePage'"></PostDisplay>
         </div>
       </div>
 
@@ -68,9 +71,7 @@
     },
     data () {
       return {
-        post: {
-          publish: 0,
-        },
+        post: {},
         translations: [],
         metas: {
           seo: [],
@@ -78,11 +79,11 @@
           thumbnail: null,
           banner: null,
           others: [],
-          is_home: 0
+          is_home: 0,
         },
         groups: [],
         tags: [],
-        imageUploading: false
+        imageUploading: false,
       }
     },
     computed: {
@@ -133,11 +134,6 @@
         }
 
         if (action === 'save') {
-          this.submit()
-        }
-
-        if (action === 'publish') {
-          this.post.publish = 1
           this.submit()
         }
       },
@@ -248,7 +244,7 @@
 
       uploadImage (event) {
         this.imageUploading = event
-      }
+      },
 
     },
   }
