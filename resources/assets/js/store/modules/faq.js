@@ -14,7 +14,7 @@ export default {
         direction: 'desc',
         page: 1,
         perPage: 10,
-        only: ['id', 'slug', 'title', 'description'].join(','),
+        only: ['id', 'slug', 'title', 'description', 'publish'].join(','),
         locale: 'vi'
       },
       loading: false,

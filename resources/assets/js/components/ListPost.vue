@@ -48,6 +48,11 @@
             </router-link>
           </template>
         </el-table-column>
+        <el-table-column prop="publish" label="Status">
+          <template slot-scope="scope">
+            {{ scope.row.publish ? 'Publish' : 'Draft' }}
+          </template>
+        </el-table-column>
         <el-table-column label="Action" width="100">
           <template slot-scope="scope">
             <button
