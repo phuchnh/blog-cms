@@ -12,6 +12,7 @@ import meta from './modules/meta'
 import route from './modules/route'
 import setting from './modules/setting'
 import dashboard from './modules/dashboard'
+import locale from './modules/locale'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     client,
     meta,
     setting,
-    dashboard
+    dashboard,
+    locale
   },
 })

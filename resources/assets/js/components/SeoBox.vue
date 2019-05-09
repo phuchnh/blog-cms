@@ -4,7 +4,7 @@
       <h3 class="box-title">Search Engine Optimization</h3>
     </div>
     <div class="box-body">
-      <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabsChange">
+      <a-tabs v-model="activeTab" :animated="false" @change="onTabsChange">
         <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
           <div class="form-group">
             <label for="title">title</label>
@@ -27,6 +27,7 @@
 
 <script>
   import * as _ from 'lodash'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'SeoBox',
@@ -38,9 +39,22 @@
         },
       },
     },
+    computed: {
+      ...mapGetters('locale', ['getLocale']),
+
+      locale: {
+        get () {
+          this.activeTab = this.getLocale === 'vi' ? 0 : 1
+          return this.getLocale
+        },
+        set (value) {
+          this.$store.dispatch('locale/setLocale', value)
+        }
+      }
+    },
     data () {
       return {
-        activeTab: 0,
+        activeTab: null,
         translations: this.value,
       }
     },
@@ -53,6 +67,11 @@
           this.$emit('input', newValue)
         }
       },
+      locale (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.activeTab = newValue === 'vi' ? 0 : 1
+        }
+      }
     },
     methods: {
       defaultTranslations () {
@@ -69,6 +88,7 @@
 
       onTabsChange (key) {
         this.activeTab = key
+        this.locale = this.activeTab === 0 ? 'vi' : 'en'
       },
     },
   }

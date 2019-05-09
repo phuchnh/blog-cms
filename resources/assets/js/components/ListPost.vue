@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
           <select class="form-control" @change="getListByLanguage" v-model="locale">
-            <option value="vi" selected>Tiếng Việt</option>
+            <option value="vi">Tiếng Việt</option>
             <option value="en">English</option>
           </select>
         </div>
@@ -104,6 +104,7 @@
     },
     computed: {
       ...mapGetters('faq', ['getLoading', 'getLists', 'getTotal', 'getQueryParams']),
+      ...mapGetters('locale', ['getLocale']),
       ...mapGetters('route', {
         redirectToNew: 'redirectToNew',
         redirectToDetail: 'redirectToDetail',
@@ -122,10 +123,10 @@
       },
       locale: {
         get () {
-          return this.getQueryParams.locale
+          return this.getLocale
         },
         set (value) {
-          this.$store.commit('faq/setLocale', value)
+          this.$store.dispatch('locale/setLocale', value)
         },
       },
     },

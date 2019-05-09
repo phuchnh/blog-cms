@@ -88,12 +88,17 @@
     },
     computed: {
       ...mapGetters('faq', ['getLoading', 'getPostType']),
+      ...mapGetters('locale', ['getLocale']),
       ...mapGetters('route', {
         redirectToList: 'redirectToList',
       }),
 
       loading () {
         return this.getLoading
+      },
+
+      locale () {
+        return this.getLocale
       },
 
       isCreate () {
