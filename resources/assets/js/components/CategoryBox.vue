@@ -82,21 +82,35 @@
         defaultCategory: {
           title: '',
           parent_id: null,
-          locale: 'vi',
+          locale: this.locale,
           type: this.boxType,
         },
       }
     },
 
     created () {
-      store.dispatch('taxonomies/fetchListByType', this.boxType)
+      store.dispatch('taxonomies/fetchListByType', {
+        type: this.boxType,
+        locale: this.locale
+      })
     },
 
     computed: {
       ...mapGetters('taxonomies', ['getListByType']),
+      ...mapGetters('locale', ['getLocale']),
+
       categories () {
         return this.getListByType(this.boxType)
       },
+      locale: {
+        get () {
+          return this.getLocale
+        },
+        set (value) {
+          this.$store.dispatch('locale/setLocale', value)
+        }
+      }
+
     },
 
     watch: {

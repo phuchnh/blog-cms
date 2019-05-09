@@ -92,13 +92,13 @@ export default {
         })
     },
 
-    fetchListByType ({ commit }, type) {
+    fetchListByType ({ commit }, params) {
       return TaxonomyService
-        .getAll({ type: type })
+        .getAll(params)
         .then(resp => {
           const { data } = resp.data
           commit('setListByType', {
-            type: type,
+            type: params.type,
             lists: data,
           })
           return resp

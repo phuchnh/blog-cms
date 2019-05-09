@@ -68,7 +68,7 @@
         selectedIds: [],
         toggleShow: false,
         defaultTag: {
-          locale: 'vi',
+          locale: this.locale,
           title: '',
           parent_id: null,
           type: this.boxType,
@@ -76,7 +76,10 @@
       }
     },
     created () {
-      store.dispatch('taxonomies/fetchListByType', this.boxType)
+      store.dispatch('taxonomies/fetchListByType', {
+        type: this.boxType,
+        locale: this.locale
+      })
 
       if (this.value.length > 0) {
         this.selectedIds = this.value
@@ -86,10 +89,19 @@
 
     computed: {
       ...mapGetters('taxonomies', ['getListByType']),
+      ...mapGetters('locale', ['getLocale']),
 
       tags () {
         return this.getListByType(this.boxType)
       },
+      locale: {
+        get () {
+          return this.getLocale
+        },
+        set (value) {
+          this.$store.dispatch('locale/setLocale', value)
+        }
+      }
     },
 
     watch: {
