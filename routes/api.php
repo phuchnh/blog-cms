@@ -43,5 +43,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     ]);
     Route::apiResource('newsletters', 'NewsletterController');
 
+    Route::get('summary', 'SummaryController@summaryAll');
+
     Route::apiResource('assets', 'AssetController')->except('update');
 });
