@@ -42,5 +42,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         'metas' => 'metum',
     ]);
 
+    Route::get('summary', 'SummaryController@summaryAll');
+
     Route::apiResource('assets', 'AssetController')->except('update');
 });

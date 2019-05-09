@@ -11,6 +11,7 @@ import client from './modules/client'
 import meta from './modules/meta'
 import route from './modules/route'
 import setting from './modules/setting'
+import dashboard from './modules/dashboard'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     user,
     client,
     meta,
-    setting
+    setting,
+    dashboard
   },
 })

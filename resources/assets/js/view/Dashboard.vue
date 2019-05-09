@@ -9,7 +9,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Users</span>
-              <span class="info-box-number">{{ totalUsers }}</span>
+              <span class="info-box-number">{{ summary.user }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -22,7 +22,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Clients</span>
-              <span class="info-box-number">{{ totalClients }}</span>
+              <span class="info-box-number">{{ summary.client }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -39,7 +39,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Blogs</span>
-              <span class="info-box-number">{{ totalBlogs }}</span>
+              <span class="info-box-number">{{ post.post_blogs }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -52,7 +52,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Events</span>
-              <span class="info-box-number">{{ totalEvents }}</span>
+              <span class="info-box-number">{{ post.post_events }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -70,7 +70,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Programs</span>
-              <span class="info-box-number">{{ totalPrograms }}</span>
+              <span class="info-box-number">{{ post.post_programs }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -98,13 +98,7 @@
     name: 'Dashboard',
     components: { RecentUser, RecentPost },
     beforeRouteEnter (to, from, next) {
-      Promise.all([
-        store.dispatch('user/getList'),
-        store.dispatch('client/getList'),
-        store.dispatch('faq/fetchListByType', { type: 'post_blogs' }),
-        store.dispatch('faq/fetchListByType', { type: 'post_events' }),
-        store.dispatch('faq/fetchListByType', { type: 'post_programs' }),
-      ]).then(() => next())
+      store.dispatch('dashboard/getSummary').then(() => next())
     },
     beforeRouteLeave (from, to, next) {
       Promise.all([
@@ -114,43 +108,10 @@
     },
     computed: {
       ...mapGetters({
-        clients: 'client/clients',
-        users: 'user/users',
-        loading: 'faq/getLoading',
-        redirectToDetail: 'route/redirectToDetail',
-        queryParams: 'faq/getQueryParams'
+        summary: 'dashboard/getSummary'
       }),
-      blogs () {
-        return this.$store.getters['faq/getListByType']('post_blogs')
-      },
-      events () {
-        return this.$store.getters['faq/getListByType']('post_events')
-      },
-      programs () {
-        return this.$store.getters['faq/getListByType']('post_programs')
-      },
-      posts () {
-        return this.$store.getters['faq/getLists']
-      },
-    },
-    mounted () {
-      // console.log(router.options.routes[0].children)
-      // console.log(router.options.routes[0].children.find((value) => {
-      //   return value.props && value.props.postType === 'post_blogs'
-      // }));
-      this.totalUsers = this.users.length
-      this.totalClients = this.clients.length
-      this.totalBlogs = this.blogs.length
-      this.totalEvents = this.events.length
-      this.totalPrograms = this.programs.length
-    },
-    data () {
-      return {
-        totalUsers: 0,
-        totalClients: 0,
-        totalBlogs: 0,
-        totalEvents: 0,
-        totalPrograms: 0,
+      post () {
+        return this.summary.post
       }
     },
     methods: {
