@@ -1,6 +1,7 @@
 <?php
 return [
     'home'          => 'home',
+    'search'        => 'search',
     'blog'          => 'blog',
     'practice'      => 'practice',
     'guide'         => 'guide',
