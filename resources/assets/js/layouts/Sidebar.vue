@@ -23,6 +23,8 @@
         <!-- Optionally, you can add icons to the links -->
         <router-link :to="{name: 'navigation'}" tag="li" active-class="active"><a><i class="fa fa-bars"></i> <span>Navigation</span></a></router-link>
         <router-link :to="{name: 'userList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-user"></i> <span>User</span></a></router-link>
+        <router-link :to="{name: 'PeopleList'}" tag="li" active-class="active"><a><i class="fa fa-users"></i> <span>People</span></a></router-link>
+        <router-link :to="{name: 'TestimonialList'}" tag="li" active-class="active"><a><i class="fa fa-users"></i> <span>Testimonial</span></a></router-link>
         <router-link :to="{name: 'clientList'}" tag="li" active-class="active"><a><i class="fa fa-users"></i> <span>Client</span></a></router-link>
         <router-link :to="{name: 'InThePressList'}" tag="li" active-class="active"><a><i class="fa fa-newspaper-o"></i> <span>In The Press</span></a></router-link>
         <router-link :to="{name: 'BlogList'}" tag="li" active-class="active"><a><i class="fa fa-book"></i> <span>Blog</span></a></router-link>

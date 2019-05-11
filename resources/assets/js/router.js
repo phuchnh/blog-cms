@@ -15,9 +15,15 @@ import CategoryList from '@/view/CategoryList'
 import CategoryNew from '@/view/CategoryNew'
 import CategoryDetail from '@/view/CategoryDetail'
 import PostContainer from '@/view/PostContainer'
+
 import ListPost from './components/ListPost'
 import EditPost from './components/EditPost'
 import NewPost from './components/NewPost'
+
+import PostSimpleList from './components/PostSimpleList'
+import PostSimpleEdit from './components/PostSimpleEdit'
+import PostSimpleNew from './components/PostSimpleNew'
+
 import TaxonomyForm from './components/TaxonomyForm'
 
 Vue.use(Router)
@@ -486,6 +492,110 @@ export default new Router({
           ],
         },
         //=================================== Pratices ==============================//
+
+        //=================================== Peoples ==============================//
+        {
+          path: 'people',
+          component: PostContainer,
+          props: {
+            postType: 'post_people',
+            redirectToNew: 'PeopleNew',
+            redirectToDetail: 'PeopleDetail',
+            redirectToList: 'PeopleList',
+          },
+          meta: {
+            postType: 'post_people',
+            permission: ['admin', 'editor'],
+          },
+          children: [
+            {
+              path: '',
+              name: 'PeopleList',
+              component: PostSimpleList,
+              meta: {
+                title: 'People',
+                description: 'PeopleList',
+                postType: 'post_people',
+                permission: ['admin', 'editor'],
+              },
+            },
+            {
+              path: 'new',
+              name: 'PeopleNew',
+              component: PostSimpleNew,
+              meta: {
+                title: 'Create New People',
+                description: 'PeopleNew',
+                postType: 'post_people',
+                permission: ['admin', 'editor'],
+              },
+            },
+            {
+              path: ':id',
+              name: 'PeopleDetail',
+              component: PostSimpleEdit,
+              meta: {
+                title: 'Edit People',
+                description: 'PeopleDetail',
+                postType: 'post_people',
+                permission: ['admin', 'editor'],
+              },
+            },
+          ],
+        },
+        //=================================== Peoples ==============================//
+
+        //=================================== Testimonials ==============================//
+        {
+          path: 'testimonial',
+          component: PostContainer,
+          props: {
+            postType: 'post_testimonial',
+            redirectToNew: 'TestimonialNew',
+            redirectToDetail: 'TestimonialDetail',
+            redirectToList: 'TestimonialList',
+          },
+          meta: {
+            postType: 'post_testimonial',
+            permission: ['admin', 'editor'],
+          },
+          children: [
+            {
+              path: '',
+              name: 'TestimonialList',
+              component: PostSimpleList,
+              meta: {
+                title: 'Testimonial',
+                description: 'TestimonialList',
+                postType: 'post_testimonial',
+                permission: ['admin', 'editor'],
+              },
+            },
+            {
+              path: 'new',
+              name: 'TestimonialNew',
+              component: PostSimpleNew,
+              meta: {
+                title: 'Create New Testimonial',
+                description: 'TestimonialNew',
+                postType: 'post_testimonial',
+                permission: ['admin', 'editor'],
+              },
+            },
+            {
+              path: ':id',
+              name: 'TestimonialDetail',
+              component: PostSimpleEdit,
+              meta: {
+                title: 'Edit Testimonial',
+                description: 'TestimonialDetail',
+                postType: 'post_testimonial',
+                permission: ['admin', 'editor'],
+              },
+            },
+          ],
+        },
+        //=================================== Testimonials ==============================//
 
         {
           path: 'categories',
