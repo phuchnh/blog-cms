@@ -76,6 +76,7 @@ return [
     'story' => 'Câu chuyện',
     'sign-up-now' => 'Đăng ký ngay',
     'subscribe-for-our-newsletter' => 'subscribe for our newsletter',
+    'submit-form' => 'submit form',
 
     # T
     'take_an_assessment' => 'Take an assessment',
@@ -89,6 +90,12 @@ return [
 
     # Y
     'year' => 'Năm',
+    'your-name' => 'Your name',
+    'your-email' => 'Your email',
+    'your-cellphone' => 'Your cellphone',
+    'your-company-industrial' => 'Your company industrial',
+    'your-preferable-time' => 'Your preferable time',
+    'purpose-of-your-inquiry' => 'Purpose of your inquiry',
 
     # W
     'why-mindfullness' => 'why mindfullness',

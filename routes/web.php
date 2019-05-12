@@ -19,7 +19,9 @@ if (in_array($locale, ['admin', 'login'])) {
 
 Route::middleware('locale')
      ->prefix($locale)->group(function () {
-
+        // FORM
+        Route::resource(trans('routes.subscriber'), 'SubscriberController');
+        
         Route::get(trans('routes.about').'/{slug?}', 'AboutController@index')->name('about');
         Route::get(trans('routes.event-program'), 'EventProgramController@index')->name('event-program');
         Route::get(trans('routes.results').'/{slug?}', 'ResultsController@index')->name('results');

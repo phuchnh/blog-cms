@@ -13,6 +13,7 @@ return [
     'event-program'     => 'event-program',
     'resources'         => 'resources',
     'results'           => 'results',
+    'subscriber'        => 'subscriber',
     'why-mind-fullness' => 'why-mind-fullness',
 ];
 

@@ -18,9 +18,9 @@
 
                         <small>@isset($setting['banner']['content'][$key_banner]->sub_title){{$setting['banner']['content'][$key_banner]->sub_title}}@endisset</small>
                     </h1>
-                    <div class="content margin_bottom--25" style="white-space: pre-line">
-                        @isset($setting['banner']['content'][$key_banner]->description){{$setting['banner']['content'][$key_banner]->description}}@endisset
-                    </div>
+
+                    <div class="content margin_bottom--25" style="white-space: pre-line">@isset($setting['banner']['content'][$key_banner]->description){{$setting['banner']['content'][$key_banner]->description}}@endisset</div>
+
                     <a href="@isset($setting['banner']['content'][$key_banner]->link){{$setting['banner']['content'][$key_banner]->link}}@endisset"
                        class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
                         @lang('site.view_more')
