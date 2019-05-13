@@ -15,18 +15,14 @@ class CreateSubscriptionTable extends Migration
     {
         Schema::create('subscription', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email');
             $table->string('phone');
             $table->string('address');
             $table->string('type')->default('meeting');
             $table->text('content');
-            $table->string('braintree_id');
-            $table->string('braintree_plan');
-            $table->integer('quantity');
-            $table->timestamp('trial_ends_at')->nullable();
-            $table->timestamp('ends_at')->nullable();
             $table->timestamps();
         });
     }
