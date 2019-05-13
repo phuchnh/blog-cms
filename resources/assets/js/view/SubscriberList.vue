@@ -74,7 +74,7 @@
       return {
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
-        columns: ['Name']
+        columns: ['Email']
       }
     },
     mounted () {

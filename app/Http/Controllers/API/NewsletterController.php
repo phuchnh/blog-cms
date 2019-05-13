@@ -22,15 +22,24 @@ class NewsletterController extends ApiBaseController
         $perPage = $request->get('perPage');
         $offset = ($page - 1) * $perPage;
 
-        $data = $mailChimp->getMembers('', [
-            'count'  => $perPage + $offset,
-            'offset' => $offset,
-        ]);
+        if ($search = $request->get('email')) {
+            $data = $mailChimp->getApi()->get('search-members', [
+                'query' => 'email:' . urlencode($request->get('email'))
+            ]);
+            $members = collect(Arr::get($data, 'full_search.members', []));
+            $total =  Arr::get($data, 'full_search.total_items', 0);
+        } else {
+            $data = $mailChimp->getMembers('', [
+                'count'  => $perPage + $offset,
+                'offset' => $offset,
+            ]);
 
-        $members = collect(Arr::get($data, 'members', []));
-        $total = Arr::get($data, 'total_items', 0);
+            $members = collect(Arr::get($data, 'members', []));
+            $total = Arr::get($data, 'total_items', 0);
 
-        $members = $members->sortByDesc('id');
+            $members = $members->sortByDesc('id');
+        }
+
         $result = new LengthAwarePaginator($members->forPage(1, $perPage), $total, $perPage, 1);
 
         return $this->ok($result);
