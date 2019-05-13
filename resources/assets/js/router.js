@@ -25,6 +25,8 @@ import PostSimpleEdit from './components/PostSimpleEdit'
 import PostSimpleNew from './components/PostSimpleNew'
 
 import TaxonomyForm from './components/TaxonomyForm'
+import SubscriberList from '@/view/SubscriberList'
+import SubscriberDetail from '@/view/SubscriberDetail'
 
 Vue.use(Router)
 
@@ -118,7 +120,7 @@ export default new Router({
             },
           ],
         },
-        //==================================================================
+        //================================ User ==================================
         {
           path: 'users',
           name: 'userList',
@@ -441,7 +443,7 @@ export default new Router({
         },
         //=================================== Events ==============================//
 
-        //=================================== Pratices ==============================//
+        //=================================== Practices ==============================//
         {
           path: 'pratices',
           component: PostContainer,
@@ -596,6 +598,29 @@ export default new Router({
           ],
         },
         //=================================== Testimonials ==============================//
+
+        //=================================== Subscriber ==============================//
+        {
+          path: 'subscribers',
+          name: 'SubscriberList',
+          component: SubscriberList,
+          meta: {
+            title: 'Subscriber',
+            description: '',
+            permission: ['admin'],
+          },
+        },
+        {
+          path: 'subscribers/:email',
+          name: 'SubscriberDetail',
+          component: SubscriberDetail,
+          meta: {
+            title: 'View Subscriber',
+            description: '',
+            permission: ['admin'],
+          },
+        },
+        //=================================== Subscriber ==============================//
 
         {
           path: 'categories',
