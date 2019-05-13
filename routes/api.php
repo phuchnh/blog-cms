@@ -41,6 +41,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('users.metas', 'UserMetaController')->parameters([
         'metas' => 'metum',
     ]);
+    Route::apiResource('newsletters', 'NewsletterController');
 
     Route::apiResource('assets', 'AssetController')->except('update');
 });
