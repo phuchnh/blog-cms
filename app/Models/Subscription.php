@@ -30,13 +30,12 @@ class Subscription extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'name',
         'email',
         'phone',
         'address',
         'type',
-        'content'
+        'content',
     ];
 
     /**
@@ -60,11 +59,11 @@ class Subscription extends Model
      */
     public static $rules = [
         'name'    => 'required|string',
-        'email'   => 'required|string',
-        'phone'   => 'required|string',
+        'email'   => 'required|email',
+        'phone'   => 'string|nullable',
         'address' => 'string|nullable',
-        'type'    => 'required|string',
-        'content' => 'required|text',
+        'type'    => 'required|in:meeting,company,individual,newsletter',
+        'content' => 'text|nullable',
     ];
 
     /**

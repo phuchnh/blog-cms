@@ -2,84 +2,177 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Subscription;
 use App\Http\Requests\API\CreateSubscriberRequest;
+use Spatie\Newsletter\Newsletter;
 
 class SubscriberController extends Controller
 {
+    private $slugs = [
+        'meeting',
+        'company',
+        'individual',
+        'newsletter',
+    ];
+
+    private $mailchimp;
+
+    public function __construct(Newsletter $mailchimp)
+    {
+        $this->mailchimp = $mailchimp;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($slug = null)
+    public function index()
     {
-        return view('page.form.meeting', [
+        return redirect(route('subscriber.show', $this->slugs[0]));
+    }
+
+    /**
+     * save date to mailchimp & DB
+     *
+     * @param \App\Http\Requests\API\CreateSubscriberRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function store(CreateSubscriberRequest $request)
+    {
+        $type = $request->get('type');
+
+        $email = $request->get('email');
+
+        # set config newsletter
+        \Config::set('newsletter.lists.subscribers.id', config('newsletter.listIDS')[$request->type]);
+
+        # check email
+        $isSubscribed = $this->mailchimp->hasMember($email);
+        $mailChimpInput = $this->inputMailchimpData($request, $type);
+
+        # add email to mailchimp
+        if ($isSubscribed) {
+            $this->mailchimp->subscribe($email, $mailChimpInput);
+        }
+
+        # if type === meeting do this function
+        if ($type === $this->slugs[0]) {
+            # add DB type == meeting
+            $inputData = $request->validated();
+            $inputData['content'] =  '{"time":"'.$request->get('time').'","purpose":"'.$request->get('purpose').'","industry":"'.$request->get('industry').'"}';
+
+            # create record DB
+            Subscription::create($inputData);
+        }
+
+        return view('page.form.success', [
             'navigate' => '',
             'slug'     => '',
         ]);
     }
 
     /**
-     * @param \App\Http\Requests\API\CreateSubscriberRequest $request
-     */
-    public function create(CreateSubscriberRequest $request)
-    {
-        dd($request);
-        die();
-    }
-
-    /**
-     * @param \App\Http\Requests\API\CreateSubscriberRequest $request
-     */
-    public function store(CreateSubscriberRequest $request)
-    {
-        dd($request);
-        die();
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($slug)
     {
-        dd($id);
+        return view('page.form.'.$slug, [
+            'navigate' => '',
+            'slug'     => '',
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * get input data
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @param $type
+     * @return array
      */
-    public function edit($id)
+    private function inputMailchimpData($request, $type)
     {
-        dd($id);
+        if ($type === $this->slugs[0]) {
+            return $this->inputTypeMeeting($request);
+        } elseif ($type === $this->slugs[1]) {
+            return $this->inputTypeCompany($request);
+        } elseif ($type === $this->slugs[2]) {
+            return $this->inputTypeIndividual($request);
+        } elseif ($type === $this->slugs[3]) {
+            return $this->inputTypeNewsletter($request);
+        } else {
+            return [];
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * get data for company
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @param $type
+     * @return array
      */
-    public function update(Request $request, $id)
+    private function inputTypeCompany($request)
     {
-        dd($id);
+        return [
+            'MMERGE1' => $request->get('name'),
+            'MMERGE2' => $request->get('industry'),
+            'MMERGE6' => $request->get('purpose'),
+            'MMERGE3' => $request->get('position'),
+            'MMERGE4' => $request->get('phone'),
+            'MMERGE5' => $request->get('company_name'),
+        ];
     }
 
     /**
-     * Remove the specified resource from storage.
+     * get data for individual
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @param $type
+     * @return array
      */
-    public function destroy($id)
+    private function inputTypeIndividual($request)
     {
-        dd($id);
+        return [
+            'FNAME'   => $request->get('name'),
+            'MMERGE2' => $request->get('purpose'),
+            'PHONE'   => $request->get('phone'),
+        ];
+    }
+
+    /**
+     * get data for book a meeting
+     *
+     * @param $request
+     * @param $type
+     * @return array
+     */
+    private function inputTypeMeeting($request)
+    {
+        return [
+            'FNAME'   => $request->get('name'),
+            'PHONE'   => $request->get('phone'),
+            'MMERGE2' => $request->get('purpose'),
+            'MMERGE2' => $request->get('industry'),
+            'MMERGE5' => $request->get('purpose'),
+            'MMERGE3' => $request->get('time'),
+        ];
+    }
+
+    /**
+     * get data for newsletter
+     *
+     * @param $request
+     * @param $type
+     * @return array
+     */
+    private function inputTypeNewsletter($request)
+    {
+        return [
+            'MMERGE3' => $request->get('name'),
+        ];
     }
 }
