@@ -56,15 +56,12 @@ class SubscriberController extends Controller
             $this->mailchimp->subscribe($email, $mailChimpInput);
         }
 
-        # if type === meeting do this function
-        if ($type === $this->slugs[0]) {
-            # add DB type == meeting
-            $inputData = $request->validated();
-            $inputData['content'] =  '{"time":"'.$request->get('time').'","purpose":"'.$request->get('purpose').'","industry":"'.$request->get('industry').'"}';
+        # add DB type == meeting
+        $inputData = $request->validated();
+        $inputData['content'] = $this->filterDataContent($request);
 
-            # create record DB
-            Subscription::create($inputData);
-        }
+        # create record DB
+        Subscription::create($inputData);
 
         return view('page.form.success', [
             'navigate' => '',
@@ -174,5 +171,25 @@ class SubscriberController extends Controller
         return [
             'MMERGE3' => $request->get('name'),
         ];
+    }
+
+    /**
+     * convert input to string
+     *
+     * @param $request
+     * @return string
+     */
+    private function filterDataContent($request)
+    {
+        $data = $request->all();
+
+        $string_array = [];
+        foreach ($data as $key => $value) {
+            if ($key !== '_token' && $key !== '_method') {
+                $string_array[] = '"'.$key.'":"'.$value.'"';
+            }
+        }
+
+        return $string_array ? '{'.implode(',', $string_array).'}' : '';
     }
 }
