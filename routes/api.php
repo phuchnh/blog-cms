@@ -45,6 +45,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     ]);
     Route::apiResource('newsletters', 'NewsletterController');
     Route::post('newsletters/export', 'NewsletterController@exportCSV');
+    Route::apiResource('subscriptions', 'SubscriptionController');
 
     Route::get('summary', 'SummaryController@summaryAll');
 

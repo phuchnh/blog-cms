@@ -34,6 +34,7 @@
         <router-link :to="{name: 'PraticeList'}" tag="li" active-class="active"><a><i class="fa fa-heart"></i> <span>Daily Practice</span></a></router-link>
         <router-link :to="{name: 'FaqList'}" tag="li" active-class="active"><a><i class="fa fa-question"></i> <span>FAQ</span></a></router-link>
         <router-link :to="{name: 'SubscriberList'}" tag="li" active-class="active"><a><i class="fa fa-rss"></i> <span>Subscriber</span></a></router-link>
+        <router-link :to="{name: 'SubscriptionList'}" tag="li" active-class="active"><a><i class="fa fa-rss"></i> <span>Subscription</span></a></router-link>
         <router-link :to="{name: 'setting'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-gear"></i> <span>Setting</span></a></router-link>
       </ul>
       <!-- /.sidebar-menu -->

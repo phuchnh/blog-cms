@@ -13,6 +13,7 @@ import route from './modules/route'
 import setting from './modules/setting'
 import dashboard from './modules/dashboard'
 import subscriber from './modules/subscriber'
+import subscription from './modules/subscription'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     meta,
     setting,
     dashboard,
-    subscriber
+    subscriber,
+    subscription,
   },
 })

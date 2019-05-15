@@ -22,6 +22,7 @@ class CreateSubscriptionTable extends Migration
             $table->string('type')->default('meeting');
             $table->text('content')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
