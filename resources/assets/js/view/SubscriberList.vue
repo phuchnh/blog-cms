@@ -1,7 +1,7 @@
 <template>
   <div class="box box-widget" v-if="list">
     <div class="box-body">
-      <SearchBox :columns="columns" @change="handleSearch"/>
+      <SearchBox :columns="columns" :modes="modes" @change="handleSearch"/>
     </div>
 
     <div class="box-body">
@@ -74,7 +74,8 @@
       return {
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
-        columns: ['Email']
+        columns: ['Email'],
+        modes: ['Contain']
       }
     },
     mounted () {
@@ -98,6 +99,9 @@
         const queryParams = _.merge(this.queryParams, value)
         this.fetchList(queryParams)
       },
+      exportCSV () {
+        this.$store.dispatch('subscriber/getDataCSV')
+      }
     },
   }
 </script>

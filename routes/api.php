@@ -18,6 +18,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         Route::get('user', 'AuthController@user');
     });
 
+    Route::get('posts/recent', 'PostController@recentPost');
     Route::apiResource('posts', 'PostController');
     Route::put('posts/{post}/restore', 'PostController@restore');
     Route::delete('posts/{post}/permanent', 'PostController@deletePermanently');
@@ -25,6 +26,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('taxonomies', 'TaxonomyController');
     Route::match(['put', 'patch'], 'post/taxonomies/{post}', 'TaxonomyController@updateTaxonomies');
     Route::apiResource('faqs', 'FaqController');
+    Route::get('users/recent', 'UserController@recentUser');
     Route::apiResource('users', 'UserController');
     Route::apiResource('clients', 'ClientController');
     Route::apiResource('options', 'OptionController');
@@ -42,6 +44,7 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
         'metas' => 'metum',
     ]);
     Route::apiResource('newsletters', 'NewsletterController');
+    Route::post('newsletters/export', 'NewsletterController@exportCSV');
 
     Route::get('summary', 'SummaryController@summaryAll');
 

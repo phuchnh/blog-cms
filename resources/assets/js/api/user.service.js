@@ -22,4 +22,8 @@ export const UserService = {
   delete (userId, params = {}) {
     return ApiService.delete(`/users/${ userId }`, params)
   },
+
+  recentUser () {
+    return ApiService.get('/users/recent');
+  }
 }

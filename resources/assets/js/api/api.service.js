@@ -45,8 +45,8 @@ export const ApiService = {
     return axiosInstance.get(`${ url }`, { params })
   },
 
-  post (url, body) {
-    return axiosInstance.post(`${ url }`, body)
+  post (url, body, params) {
+    return axiosInstance.post(`${ url }`, body, params)
   },
 
   put (url, body, params = {}) {

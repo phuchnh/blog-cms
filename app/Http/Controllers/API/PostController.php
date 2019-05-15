@@ -214,4 +214,17 @@ class PostController extends ApiBaseController
 
         return $post;
     }
+
+    /**
+     * @param \App\Models\Post $posts
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function recentPost(Post $posts, Request $request)
+    {
+        if ($locale = $request->get('locale', config('translatable.locale'))) {
+            $posts = $posts->ofLocale($locale);
+        }
+        $posts = $posts->orderBy('created_at', 'desc')->take(10)->get();
+        return $this->ok($posts);
+    }
 }

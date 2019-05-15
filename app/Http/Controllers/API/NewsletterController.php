@@ -37,12 +37,16 @@ class NewsletterController extends ApiBaseController
             $members = collect(Arr::get($data, 'members', []));
             $total = Arr::get($data, 'total_items', 0);
 
-            $members = $members->sortByDesc('id');
+            //$members = $members->sortByDesc('id');
         }
 
         $result = new LengthAwarePaginator($members->forPage(1, $perPage), $total, $perPage, 1);
 
         return $this->ok($result);
+    }
+
+    public function exportCSV(Request $request) {
+        dd($request->all());
     }
 
     /**

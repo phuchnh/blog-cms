@@ -13,7 +13,7 @@
             border
             size="small"
             empty-text="No data"
-            height="240"
+            height="280"
         >
           <el-table-column prop="id" label="Id" min-width="30"/>
           <el-table-column prop="name" label="Name">
@@ -33,17 +33,6 @@
         </el-table>
       </div>
       <!-- /.box-body -->
-      <div class="box-footer text-center">
-        <el-pagination
-            layout="prev, pager, next"
-            background
-            :page-size="queryParams.perPage"
-            :total="total"
-            :current-page="queryParams.page"
-            @current-change="handleCurrentChange"
-        >
-        </el-pagination>
-      </div>
     </div>
   </div>
 </template>
@@ -57,15 +46,9 @@
   export default {
     name: 'RecentUser',
     computed: {
-      ...mapGetters('user', ['users', 'pagination', 'getQueryParams']),
+      ...mapGetters('user', ['recentUser']),
       lists () {
-        return this.users
-      },
-      total () {
-        return this.pagination.total
-      },
-      queryParams () {
-        return this.getQueryParams
+        return this.recentUser
       },
     },
     data () {
@@ -74,36 +57,13 @@
       }
     },
     created () {
-      Promise.all([
-        store.dispatch('user/setQueryParams', {
-          sort: 'created_at',
-          direction: 'desc',
-          page: 1,
-          perPage: 5,
-          only: ['id', 'name', 'email', 'type', 'created_at'].join(','),
-          limit: 10,
-        }),
-        store.dispatch('user/getList')
-      ]).then(() => {
+      store.dispatch('user/fetchRecentUser').then(() => {
         this.loading = false
       })
     },
     methods: {
-      ...mapActions('user', ['getList']),
-
       goToDetail (id) {
         this.$router.push({ name: 'userDetail', params: { id: id } })
-      },
-
-      handleCurrentChange (currentPage) {
-        this.getData({
-          ...this.queryParams,
-          page: currentPage,
-        })
-      },
-
-      getData (queryParams) {
-        return this.getList(queryParams)
       },
     },
   }

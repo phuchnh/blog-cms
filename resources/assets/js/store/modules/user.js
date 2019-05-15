@@ -1,4 +1,4 @@
-import { UserService} from '../../api/user.service'
+import { UserService } from '../../api/user.service'
 import * as _ from 'lodash'
 import Vue from 'vue'
 
@@ -14,6 +14,7 @@ const initialState = {
     perPage: 10,
     only: ['id', 'name', 'type'].join(','),
   },
+  recentUser: [],
 }
 
 export const state = { ...initialState }
@@ -23,6 +24,7 @@ const getters = {
   users: state => state.users,
   pagination: state => state.paginator,
   getQueryParams: state => state.queryParams,
+  recentUser: state => state.recentUser,
 }
 
 const actions = {
@@ -83,21 +85,27 @@ const actions = {
     }
 
   },
+  async fetchRecentUser ({ commit }) {
+    await UserService.recentUser().then(resp => {
+      const { data } = resp.data
+      commit('setRecentUser', data)
+    })
+  },
   resetState ({ commit }) {
     commit('resetState')
   },
-  setQueryParams ({commit}, params) {
+  setQueryParams ({ commit }, params) {
     commit('setQueryParams', params)
   },
 }
 
 const mutations = {
   setList (state, { users, queryParams = {} }) {
-    state.users = users
+    state.users = [...users]
     state.queryParams = { ...queryParams }
   },
   setItem (state, user) {
-    state.user = user
+    state.user = {...user}
   },
   delete (state, id) {
     state.users = _.filter(state.users, (item) => {
@@ -113,8 +121,11 @@ const mutations = {
     state.paginator = { ...paginator }
   },
   setQueryParams (state, params) {
-    state.queryParams = {...params}
+    state.queryParams = { ...params }
   },
+  setRecentUser (state, list) {
+    state.recentUser = [...list]
+  }
 }
 
 export default {

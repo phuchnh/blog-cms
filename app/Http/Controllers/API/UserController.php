@@ -76,4 +76,14 @@ class UserController extends ApiBaseController
 
         return $this->noContent();
     }
+
+    /**
+     * @param \App\Models\User $users
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function recentUser(User $users)
+    {
+        $users = $users->query()->orderBy('created_at', 'desc')->take(10)->get();
+        return $this->ok($users);
+    }
 }

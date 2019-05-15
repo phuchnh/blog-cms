@@ -12,7 +12,7 @@ const initialState = {
     page: 1,
     perPage: 10,
     only: ['id', 'slug', 'title', 'description', 'publish'].join(','),
-    locale: 'vi'
+    locale: 'vi',
   },
   loading: false,
   item: {
@@ -22,12 +22,13 @@ const initialState = {
       seo: [],
     },
   },
+  recentPost: [],
 }
 
 export default {
   namespaced: true,
   state: () => {
-    return {...initialState}
+    return { ...initialState }
   },
 
   getters: {
@@ -57,6 +58,10 @@ export default {
 
     getPostType: (state) => {
       return state.postType
+    },
+
+    getRecentPost: (state) => {
+      return state.recentPost
     },
   },
 
@@ -93,18 +98,22 @@ export default {
     },
 
     setLocale (state, locale) {
-      state.queryParams = {...state.queryParams, locale: locale}
+      state.queryParams = { ...state.queryParams, locale: locale }
     },
 
     setQueryParams (state, params) {
-      state.queryParams = {...params}
+      state.queryParams = { ...params }
+    },
+
+    setRecentPost (state, list) {
+      state.recentPost = [...list]
     },
 
     resetState (state) {
       for (let f in state) {
         Vue.set(state, f, initialState[f])
       }
-    }
+    },
   },
 
   actions: {
@@ -113,22 +122,19 @@ export default {
       commit('setPostType', postType)
     },
 
-    setQueryParams ({commit}, params) {
+    setQueryParams ({ commit }, params) {
       commit('setQueryParams', params)
     },
 
     fetchListByType ({ state, commit }, params = {}) {
-      return PostService
-      .getPosts(params.type)
-       .then(resp => {
+      return PostService.getPosts(params.type).then(resp => {
         const { data } = resp.data
 
         commit('setListByType', {
           type: params.type,
           lists: data,
         })
-      })
-       .catch(err => {
+      }).catch(err => {
         console.log(err)
       })
     },
@@ -145,77 +151,68 @@ export default {
         with: 'taxonomies,metas,thumbnail',
       }
 
-      return PostService
-        .getPosts(state.postType, params)
-        .then(resp => {
-          const { params } = resp.config
-          let { data, pagination } = resp.data
+      return PostService.getPosts(state.postType, params).then(resp => {
+        const { params } = resp.config
+        const { data, pagination } = resp.data
 
-          // Limit data
-          if (params.limit) {
-            data = _.take(data, params.limit)
-            pagination.total = params.limit
-          }
-
-          commit('setList', {
-            lists: data,
-            total: pagination.total,
-            queryParams: params,
-          })
-
-          commit('endLoading')
+        commit('setList', {
+          lists: data,
+          total: pagination.total,
+          queryParams: params,
         })
-        .catch(err => {
-          console.log(err)
-        })
+
+        commit('endLoading')
+      }).catch(err => {
+        console.log(err)
+      })
     },
 
     fetchItem ({ commit }, id) {
       commit('startLoading')
-      return PostService
-        .getPost(id, { with: 'translations,taxonomies' })
-        .then(resp => {
-          const { data } = resp.data
-          commit('setItem', data)
-          commit('endLoading')
-        })
+      return PostService.getPost(id, { with: 'translations,taxonomies' }).then(resp => {
+        const { data } = resp.data
+        commit('setItem', data)
+        commit('endLoading')
+      })
     },
 
     createItem ({ state, commit }, payload) {
       commit('startLoading')
-      return PostService
-        .createPost({
-          ...payload,
-          type: state.postType,
-        })
-        .then(resp => {
-          commit('endLoading')
-          const { data } = resp.data
-          return data
-        })
+      return PostService.createPost({
+        ...payload,
+        type: state.postType,
+      }).then(resp => {
+        commit('endLoading')
+        const { data } = resp.data
+        return data
+      })
     },
 
     updateItem ({ state, commit }, payload) {
       commit('startLoading')
-      return PostService
-        .updatePost(payload.id, {
-          ...payload,
-          type: state.postType,
-        })
-        .then(() => {
-          commit('endLoading')
-          return payload
-        })
+      return PostService.updatePost(payload.id, {
+        ...payload,
+        type: state.postType,
+      }).then(() => {
+        commit('endLoading')
+        return payload
+      })
     },
 
     deleteItem ({ state, commit, dispatch }, id) {
       commit('startLoading')
-      return PostService
-        .deletePost(id)
-        .then(resp => {
-          commit('endLoading')
-          return resp
-        })
+      return PostService.deletePost(id).then(resp => {
+        commit('endLoading')
+        return resp
+      })
+    },
+
+    fetchRecentPost ({ commit }) {
+      return PostService.recentPost().then(resp => {
+        const { data } = resp.data
+        commit('setRecentPost', data)
+        commit('endLoading')
+      })
     },
 
     resetState ({ commit }) {
