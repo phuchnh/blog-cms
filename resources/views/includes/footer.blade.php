@@ -6,19 +6,19 @@
 
             <div class="row margin_bottom--15">
                 <div class="col-sm-4 col-xs-12 text-center">
-                    <a href="#"
+                    <a href="{{route('subscriber.show', 'individual')}}"
                        class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
                         @lang('site.individual')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
-                    <a href="#"
+                    <a href="{{route('subscriber.show', 'company')}}"
                        class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
                         @lang('site.company')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
-                    <a href="#"
+                    <a href="{{route('subscriber.show', 'meeting')}}"
                        class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
                         @lang('site.book-a-meeting')
                     </a>
@@ -198,7 +198,8 @@
             </div>
 
             <div class="col-sm-3 background--grey element_center--text-center">
-                <a href="#" class="font-weight-bold font_color--white fs--1-1rem text-uppercase">
+                <a href="{{route('subscriber.show', 'newsletter')}}"
+                   class="font-weight-bold font_color--white fs--1-1rem text-uppercase">
                     @lang('site.subscribe-for-our-newsletter')
                 </a>
             </div>

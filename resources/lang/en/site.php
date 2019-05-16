@@ -45,6 +45,7 @@ return [
 
     # G
     'guided-meditation' => 'guided meditation',
+    'go_back' => 'go back',
 
     # H
     'home' => 'home',

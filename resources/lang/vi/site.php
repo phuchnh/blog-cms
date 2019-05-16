@@ -45,7 +45,7 @@ return [
 
     # G
     'guided-meditation' => 'guided meditation',
-
+    'go_back' => 'quay lại',
     # H
     'home' => 'Trang chủ',
     'how_to_practise' => 'How to practise',
