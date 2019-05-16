@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Cookie } from '@/util/cookie'
+import { AuthService } from './auth.service'
 
 const axiosInstance = axios.create({
   baseURL: '/api',
@@ -33,6 +34,7 @@ axiosInstance.interceptors.response.use(
     const { config, response: { status } } = error
 
     if (status === 401) {
+      AuthService.logout();
       window.location.href = window.location.origin + '/login'
     }
     return Promise.reject(error);
@@ -45,8 +47,8 @@ export const ApiService = {
     return axiosInstance.get(`${ url }`, { params })
   },
 
-  post (url, body) {
-    return axiosInstance.post(`${ url }`, body)
+  post (url, body, config = {}) {
+    return axiosInstance.post(`${ url }`, body, config)
   },
 
   put (url, body, params = {}) {

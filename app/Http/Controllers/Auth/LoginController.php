@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -55,15 +56,33 @@ class LoginController extends Controller
     {
         if (in_array($user->type, [\App\Models\Admin::ADMIN, \App\Models\Admin::EDITOR])) {
             $credentials = $request->only(['email', 'password']);
-            $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
+            //$minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
+            $minutes = now()->addMinutes(1)->timestamp;
 
             if ($token = auth('api')->attempt($credentials, ['exp' => $minutes])) {
-                setcookie('token', $token, $minutes, $this->redirectToAdmin ?: '/admin');
+                $options = ['/admin', null, false, false];
+                $cookie = cookie('token', $token, $minutes, ...$options);
+                return redirect()->intended($this->redirectToAdmin ?: '/admin')->cookie($cookie);
             }
 
             return redirect()->intended($this->redirectToAdmin ?: '/admin');
         }
 
         return redirect()->intended($this->redirectTo ?: '/home');
+    }
+
+    /**
+     * The user has logged out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        $cookie = cookie()->forget('token');
+        if ($request->hasHeader('Authorization')) {
+            auth('api')->logout();
+        }
+        return redirect()->intended('/login')->cookie($cookie);
     }
 }
