@@ -10,14 +10,25 @@
                 </div>
 
                 <div class="col-xs-12 col-sm-7">
-                    Thank you!
+                    <div class="form-container">
+                        <div class="content">
+                            @php
+                                $thankyou = json_decode($setting['thankyou']);
+                            @endphp
 
-                    <a href="{{route('home')}}" class="btn-link text-capitalize">
-                        <i class="fa fa-caret-left"></i>
+                            @isset($thankyou->{app()->getLocale()})
+                                {!! $thankyou->{app()->getLocale()} !!}
+                            @endif
 
-                        @lang('site.go_back')
-                    </a>
+                            <div class="clearfix"/>
 
+                            <a href="{{route('home')}}" class="btn-link text-capitalize font_color--orange">
+                                <i class="fa fa-caret-left"></i>
+
+                                @lang('site.go_back')
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

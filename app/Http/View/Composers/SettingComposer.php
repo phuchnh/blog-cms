@@ -84,6 +84,8 @@ class SettingComposer
             })->collapse()->toArray();
 
             Cache::put('siteOptionSetting', $options, 60);
+
+            return $options;
         }
     }
 }

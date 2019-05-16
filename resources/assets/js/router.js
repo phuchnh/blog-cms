@@ -604,21 +604,21 @@ export default new Router({
 
         //=================================== Subscriber ==============================//
         {
-          path: 'subscribers',
+          path: 'mailchimps',
           name: 'SubscriberList',
           component: SubscriberList,
           meta: {
-            title: 'Subscriber',
+            title: 'Mailchimp',
             description: '',
             permission: ['admin'],
           },
         },
         {
-          path: 'subscribers/:email',
+          path: 'mailchimps/:email',
           name: 'SubscriberDetail',
           component: SubscriberDetail,
           meta: {
-            title: 'View Subscriber',
+            title: 'View Mailchimp Account',
             description: '',
             permission: ['admin'],
           },

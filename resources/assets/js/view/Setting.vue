@@ -94,8 +94,27 @@
             </div>
           </a-tab-pane>
 
+          <!--Thankyou -->
+          <a-tab-pane tab="Thankyou" key="4">
+            <div class="tab-form">
+              <a-tabs defaultActiveKey="1" :animated="false">
+                <a-tab-pane tab="Vietnamese" key="1">
+                  <div class="tab-form">
+                    <Editor id="thankyou_vi" v-model="meta.thankyou.vi"/>
+                  </div>
+                </a-tab-pane>
+
+                <a-tab-pane tab="English" key="2">
+                  <div class="tab-form">
+                    <Editor id="thankyou_en" v-model="meta.thankyou.en"/>
+                  </div>
+                </a-tab-pane>
+              </a-tabs>
+            </div>
+          </a-tab-pane>
+
           <!-- SEO -->
-          <a-tab-pane tab="SEO" key="4">
+          <a-tab-pane tab="SEO" key="5">
             <div class="tab-form">
               <SeoBox v-model="meta.seo"></SeoBox>
             </div>
@@ -116,11 +135,12 @@
   import ImageBox from '@/components/ImagesBox'
   import PostActionBox from '@/components/PostActionBox'
   import BannerBox from '@/components/BannerBox'
-  import UploadButton from '../components/UploadButton'
+  import UploadButton from '@/components/UploadButton'
+  import Editor from '@/components/Editor'
 
   export default {
     name: 'Setting',
-    components: { UploadButton, IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox },
+    components: { UploadButton, IntroductionBox, SeoBox, ImageBox, BannerBox, PostActionBox, Editor },
     data () {
       return {
         actions: [
@@ -134,11 +154,12 @@
           seo: [],
           introduction: { content: [], image: '' },
           banner: { content: [], image: '' },
+          thankyou: {},
           logo: null,
           avatar: null,
         },
         data: {},
-        imageUploading: false
+        imageUploading: false,
       }
     },
     computed: {
@@ -169,6 +190,9 @@
       if (this.settings.banner) {
         this.meta.banner = JSON.parse(this.settings.banner)
       }
+      if (this.settings.thankyou) {
+        this.meta.thankyou = JSON.parse(this.settings.thankyou)
+      }
       this.data = { ...this.settings }
     },
     methods: {
@@ -179,6 +203,8 @@
         this.settings.introduction = JSON.stringify(this.meta.introduction)
         // update banner information
         this.settings.banner = JSON.stringify(this.meta.banner)
+        // update thankyou
+        this.settings.thankyou = JSON.stringify(this.meta.thankyou)
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$store.dispatch('setting/storeSetting', this.settings).then(() => {
@@ -195,7 +221,7 @@
       },
       uploadImage (event) {
         this.imageUploading = event
-      }
+      },
     },
   }
 </script>
