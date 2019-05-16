@@ -54,6 +54,8 @@ Route::middleware('locale')
         Route::get(trans('routes.faq'), 'FaqController@index')->name('faq');
         Route::get(trans('routes.faq').'/{slug}', 'FaqController@show')->name('faqitem');
 
+        Route::get(trans('routes.search'), 'SearchController@index')->name('search');
+
         // change language
         Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
     });

@@ -8,6 +8,29 @@
 
         @include('includes.content-single')
 
+        @isset($testimonials)
+            @if($testimonials)
+                <div class="test__content">
+                    <div class="container">
+                        <div class="test__content__slider text-center">
+                            @foreach ($testimonials as $testimonial)
+                                <div>
+                                    <p class="test__content__slider__desc">
+                                        <i>
+                                            “{!! $testimonial['content'] !!}”
+                                        </i>
+                                    </p>
+                                    <p class="test__content__slider__author">
+                                        - {{$testimonial['title']}} -<br/>{{$testimonial['description']}}
+                                    </p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endisset
+
         @isset($clients)
             <div class="test__content-02">
                 <div class="container">

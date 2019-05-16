@@ -4,7 +4,7 @@
     <article class="event-section">
         <!-- Banner -->
         @isset($banner)
-            <section class="about__banner banner__about-page background__cover--center-bottom"
+            <section class="event__banner banner__event-page background__cover--center-bottom element_center--text-center"
                      style="background:url('@if($banner){{$banner}}@else {{'/app/img/olc-banner_home.jpg'}}@endif')">
 
                 <div class="font_color--white font-weight-bold text-uppercase">

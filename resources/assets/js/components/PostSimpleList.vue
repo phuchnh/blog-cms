@@ -26,35 +26,12 @@
           @sort-change="handleSortChange"
           empty-text="No data"
       >
-        <el-table-column prop="thumbnail" label="Thumbnail" style="width: 30%">
-          <template slot-scope="scope" class="text-nowrap">
-            <img
-                style="width: auto; height: 50px"
-                :src="scope.row.thumbnail"/>
-          </template>
-        </el-table-column>
         <el-table-column prop="title" label="Title" sortable style="width: 30%">
           <template slot-scope="scope" class="text-nowrap">
             <router-link :to="goToDetail(scope.row.id)">{{ scope.row.title }}</router-link>
           </template>
         </el-table-column>
         <el-table-column prop="slug" label="Slug" sortable style="width: 30%"/>
-        <el-table-column prop="tags" label="Tags">
-          <template slot-scope="scope">
-            <router-link href="javascript:void(0)" v-for="(tag, index) in filterTags(scope.row.taxonomies)" :key="index"
-                         :to="{name: 'TaxonomyEdit', params: {id: tag.id}}">
-              {{ tag.title }},
-            </router-link>
-          </template>
-        </el-table-column>
-        <el-table-column prop="groups" label="Groups">
-          <template slot-scope="scope">
-            <router-link v-for="(group, index) in filterGroups(scope.row.taxonomies)" :key="index"
-                         :to="{name: 'TaxonomyEdit', params: {id: group.id}}">
-              {{ group.title }},
-            </router-link>
-          </template>
-        </el-table-column>
         <el-table-column prop="publish" label="Status">
           <template slot-scope="scope">
             {{ scope.row.publish ? 'Publish' : 'Draft' }}
@@ -92,7 +69,7 @@
   import * as _ from 'lodash'
 
   export default {
-    name: 'ListPost',
+    name: 'PostSimpleList',
     components: {
       SearchBox,
     },

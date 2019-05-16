@@ -30,6 +30,12 @@ h2.section-content__header {
     @media #{$info-phone} {
       padding: 15px;
 
+      .section-content__container--padding {
+        text-align: center;
+        .content {
+          text-align: left;
+        }
+      }
       .row .col-xs-12{
         margin-bottom: 15px;
       }

@@ -2,30 +2,32 @@ import { PostService } from '@/api'
 import * as _ from 'lodash'
 import Vue from 'vue'
 
+const initialState = {
+  postType: 'post',
+  lists: [],
+  total: 0,
+  queryParams: {
+    sort: 'updated_at',
+    direction: 'desc',
+    page: 1,
+    perPage: 10,
+    only: ['id', 'slug', 'title', 'description', 'publish'].join(','),
+    locale: 'vi'
+  },
+  loading: false,
+  item: {
+    translations: [],
+    taxonomies: [],
+    metas: {
+      seo: [],
+    },
+  },
+}
+
 export default {
   namespaced: true,
   state: () => {
-    return {
-      postType: 'post',
-      lists: [],
-      total: 0,
-      queryParams: {
-        sort: 'updated_at',
-        direction: 'desc',
-        page: 1,
-        perPage: 10,
-        only: ['id', 'slug', 'title', 'description', 'publish'].join(','),
-        locale: 'vi'
-      },
-      loading: false,
-      item: {
-        translations: [],
-        taxonomies: [],
-        metas: {
-          seo: [],
-        },
-      },
-    }
+    return {...initialState}
   },
 
   getters: {
@@ -79,8 +81,6 @@ export default {
 
     setListByType (state, { type, lists }) {
       Vue.set(state, type, lists)
-      console.log(state)
-      console.log(type)
     },
 
     deleteItemInList (state, { lists, total }) {
@@ -94,6 +94,16 @@ export default {
 
     setLocale (state, locale) {
       state.queryParams = {...state.queryParams, locale: locale}
+    },
+
+    setQueryParams (state, params) {
+      state.queryParams = {...params}
+    },
+
+    resetState (state) {
+      for (let f in state) {
+        Vue.set(state, f, initialState[f])
+      }
     }
   },
 
@@ -101,6 +111,10 @@ export default {
 
     setPostType: ({ state, commit }, postType) => {
       commit('setPostType', postType)
+    },
+
+    setQueryParams ({commit}, params) {
+      commit('setQueryParams', params)
     },
 
     fetchListByType ({ state, commit }, params = {}) {
@@ -128,14 +142,20 @@ export default {
 
       params = {
         ...params,
-        with: 'taxonomies',
+        with: 'taxonomies,metas,thumbnail',
       }
 
       return PostService
         .getPosts(state.postType, params)
         .then(resp => {
           const { params } = resp.config
-          const { data, pagination } = resp.data
+          let { data, pagination } = resp.data
+
+          // Limit data
+          if (params.limit) {
+            data = _.take(data, params.limit)
+            pagination.total = params.limit
+          }
 
           commit('setList', {
             lists: data,
@@ -196,6 +216,10 @@ export default {
           commit('endLoading')
           return resp
         })
+    },
+
+    resetState ({ commit }) {
+      commit('resetState')
     },
   },
 }

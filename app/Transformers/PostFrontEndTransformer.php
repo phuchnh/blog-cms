@@ -15,6 +15,7 @@ class PostFrontEndTransformer extends Transformer
         'translations' => PostTranslationTransformer::class,
         'taxonomies'   => TaxonomyTransformer::class,
         'meta',
+        'route',
     ];
 
     /**
@@ -24,7 +25,8 @@ class PostFrontEndTransformer extends Transformer
      */
     protected $load = [
         'meta',
-        'taxonomies'   => TaxonomyTransformer::class,
+        'route',
+        'taxonomies' => TaxonomyTransformer::class,
     ];
 
     /**
@@ -39,17 +41,17 @@ class PostFrontEndTransformer extends Transformer
         $locale_key = array_search(app()->getLocale(), array_column($translations, 'locale'));
 
         return [
-            "locale" => $post->locale,
-            "title" => $translations[$locale_key]['title'],
-            "slug" => $translations[$locale_key]['slug'],
+            "locale"      => $post->locale,
+            "title"       => $translations[$locale_key]['title'],
+            "slug"        => $translations[$locale_key]['slug'],
             "description" => $translations[$locale_key]['description'],
-            "content" => $translations[$locale_key]['content'],
-            "id" => $translations[$locale_key]['id'],
-            "publish" => $post->publish,
-            "type" => $post->type,
-            "created_at" => $post->created_at,
-            "updated_at" => $post->updated_at,
-            "deleted_at" => $post->deleted_at,
+            "content"     => $translations[$locale_key]['content'],
+            "id"          => $translations[$locale_key]['id'],
+            "publish"     => $post->publish,
+            "type"        => $post->type,
+            "created_at"  => $post->created_at,
+            "updated_at"  => $post->updated_at,
+            "deleted_at"  => $post->deleted_at,
         ];
     }
 
@@ -60,5 +62,26 @@ class PostFrontEndTransformer extends Transformer
     public function includeMeta($value)
     {
         return (new MetaFrontEndTransformer())->transformArray($value->metas);
+    }
+
+    /**
+     * load Route attribute
+     *
+     * @param $value
+     * @return mixed|string
+     */
+    public function includeRoute($value)
+    {
+        $arrayType = [
+            'post_blogs'    => 'blogitem',
+            'post_pratices' => 'practiceitem',
+            'post_guides'   => 'guideitem',
+            'post_presses'  => 'pressitem',
+            'post_events'   => 'eventitem',
+            'post_programs' => 'programitem',
+            'post_faq'      => 'faq',
+        ];
+
+        return isset($arrayType[$value->type]) ? [$arrayType[$value->type]] : ['home'];
     }
 }

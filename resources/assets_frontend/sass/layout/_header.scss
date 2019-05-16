@@ -11,6 +11,11 @@
 
   .form-search {
     display: none;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover .nav-link{
+    color: #fff;
   }
 
   @media #{$info-phone, $info-tablet-horizontal ,$info-tablet-vertical} {
@@ -27,7 +32,7 @@
     }
   }
 
-  @media #{$info-tablet-horizontal} {
+  @media screen and (max-width: 1440px) {
     .form-search {
       display: block;
 
@@ -81,7 +86,7 @@
     font-size: 2.5rem;
   }
 
-  @media #{$info-tablet-horizontal} {
+  @media screen and (max-width: 1440px) {
     & {
       display: block;
     }

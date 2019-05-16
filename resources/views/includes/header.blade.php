@@ -39,8 +39,8 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <form class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">
-                        <input class="form-control mr-sm-2 background--none border_none" type="search"
+                    <form action="{{route('search')}}" method="get" class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">
+                        <input class="form-control mr-sm-2 background--none border_none" type="title"
                                placeholder="Search" aria-label="Search">
                         <button class="btn my-sm-0 ml-auto" type="submit">
                             <i class="fas fa-search font_color--orange"></i>
@@ -85,8 +85,8 @@
                             <a class="nav-link text-uppercase" href="{{route('resources')}}">RESOURCES</a>
                         </li>
                     </ul>
-                    <form class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">
-                        <input class="form-control mr-sm-2 background--none border_none" type="search"
+                    <form action="{{route('search')}}" method="get" class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">
+                        <input name="title" class="form-control mr-sm-2 background--none border_none" type="input"
                                placeholder="Search" aria-label="Search">
                         <button class="btn my-sm-0 ml-auto" type="submit">
                             <i class="fas fa-search font_color--orange"></i>
