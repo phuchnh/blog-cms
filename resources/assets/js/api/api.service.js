@@ -34,8 +34,7 @@ axiosInstance.interceptors.response.use(
     const { config, response: { status } } = error
 
     if (status === 401) {
-      AuthService.logout();
-      window.location.href = window.location.origin + '/login'
+      return AuthService.logout().then(() => window.location.href = window.location.origin + '/login')
     }
     return Promise.reject(error);
   },

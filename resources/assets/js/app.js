@@ -25,8 +25,7 @@ router.beforeEach((to, from, next) => {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!store.state.auth.isAuthenticated) {
-      AuthService.logout()
-      window.location.href = window.location.origin + '/login'
+      return AuthService.logout().then(() => window.location.href = window.location.origin + '/login')
     } else {
       if (!store.state.auth.currentUser.name) {
         store.dispatch('auth/CHECK_AUTH').then(() => {

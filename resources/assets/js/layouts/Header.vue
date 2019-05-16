@@ -89,8 +89,7 @@
     },
     methods: {
       logout () {
-        AuthService.logout();
-        window.location.href = window.location.origin + '/login'
+        return AuthService.logout().then(() => window.location.href = window.location.origin + '/login')
       },
     },
   }
