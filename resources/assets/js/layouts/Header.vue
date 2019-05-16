@@ -57,12 +57,7 @@
                   </router-link>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat"
-                     onclick="event.preventDefault(); document.getElementById('logout').submit();">Sign out</a>
-                  <form id="logout" action="/logout" method="POST" style="display: none;">
-                    <input type="hidden" :value="csrf" name="_token">
-                    <input type="_method" value="post">
-                  </form>
+                  <a href="#" class="btn btn-default btn-flat" @click.prevent="logout">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -74,6 +69,8 @@
 </template>
 
 <script>
+  import {AuthService} from '../api';
+
   export default {
     name: 'Header',
     computed: {
@@ -89,6 +86,12 @@
       setting () {
         return this.$store.state.setting.list
       }
+    },
+    methods: {
+      logout () {
+        AuthService.logout();
+        window.location.href = window.location.origin + '/login'
+      },
     },
   }
 </script>
