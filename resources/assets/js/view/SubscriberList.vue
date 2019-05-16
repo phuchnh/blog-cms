@@ -1,10 +1,20 @@
 <template>
   <div class="box box-widget" v-if="list">
+    <div class="box-header">
+        <a @click="exportCSV" class="btn btn-success pull-right"><i class="fa fa-download"></i> Export</a>
+    </div>
     <div class="box-body">
       <SearchBox :columns="columns" :modes="modes" @change="handleSearch"/>
     </div>
 
     <div class="box-body">
+      <div class="row">
+        <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
+          <select v-model="contactType" class="form-control" @change="fetchList">
+            <option v-for="type in contactTypes" :value="type.value">{{ type.name }}</option>
+          </select>
+        </div>
+      </div>
       <el-table
           :data="list"
           border
@@ -75,16 +85,26 @@
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
         columns: ['Email'],
-        modes: ['Contain']
+        modes: ['Contain'],
+        contactTypes: [
+          {value: 'meeting', name: 'Book A Meeting'},
+          {value: 'company', name: 'For Company'},
+          {value: 'individual', name: 'For Individual'},
+          {value: 'newsletter', name: 'Pro List'}
+        ],
+        contactType: 'company'
       }
     },
     mounted () {
       this.fetchList()
     },
     methods: {
-      fetchList (options) {
+      fetchList () {
         this.loading = true
-        this.$store.dispatch('subscriber/getList', options).then(() => this.loading = false)
+        Promise.all([
+          this.$store.dispatch('subscriber/setContactType', this.contactType),
+          this.$store.dispatch('subscriber/getList')
+        ]).then(() => this.loading = false)
       },
       paginate (currentPage) {
         this.fetchList({
@@ -100,7 +120,7 @@
         this.fetchList(queryParams)
       },
       exportCSV () {
-        this.$store.dispatch('subscriber/getDataCSV')
+        this.$store.dispatch('subscriber/exportCSV')
       }
     },
   }

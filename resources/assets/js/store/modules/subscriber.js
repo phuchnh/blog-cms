@@ -12,6 +12,7 @@ const initialState = {
     direction: 'desc',
     page: 1,
     perPage: 10,
+    type: 'company'
   },
 }
 
@@ -26,6 +27,7 @@ const getters = {
 
 const actions = {
   async getList ({ commit }, params) {
+    console.log(params)
     if (_.keys(params).length === 0) {
       params = { ...state.queryParams }
     }
@@ -51,35 +53,33 @@ const actions = {
       commit('setItem', res.data.data)
     })
   },
-  async getDataCSV ({ dispatch }) {
-    // await axios.post('https://us15.api.mailchimp.com', {
-    //     apikey: '0a1d9c6e34b21c56d1b851b6c3da5562-us15',
-    //     id: 'a8c465aa5f',
-    // }, {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*',
-    //   }
-    // }).then(res => {
-    //       dispatch('subscriber/exportCSV', res)
-    //     })
-    const axiosInstance = axios.create({
-      baseURL: 'https://us15.api.mailchimp.com',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    })
-    await axiosInstance.post('/export/1.0/list/', {
-      apikey: '0a1d9c6e34b21c56d1b851b6c3da5562-us15',
-      id: 'a8c465aa5f',
-    }).then(res => {
-      debugger
-      dispatch('subscriber/exportCSV', res)
+  // async getDataCSV ({ dispatch }) {
+  //   const axiosInstance = axios.create({
+  //     baseURL: 'https://us15.api.mailchimp.com',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json'
+  //     },
+  //   })
+  //   await axiosInstance.post('/export/1.0/list/', {
+  //     apikey: '0a1d9c6e34b21c56d1b851b6c3da5562-us15',
+  //     id: 'c96f7aff99',
+  //   }).then(res => {
+  //     dispatch('exportCSV', res)
+  //   })
+  // },
+  async exportCSV ({ commit }, data) {
+    await ApiService.post('/newsletters/export', data).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'subscriber.csv'); //or any other extension
+      document.body.appendChild(link);
+      link.click();
     })
   },
-  async exportCSV ({ commit }, data) {
-    await ApiService.post('/newsletter/export', data)
+  setContactType ({ commit }, type) {
+    commit('setContactType', type)
   },
   resetState ({ commit }) {
     commit('resetState')
@@ -101,6 +101,9 @@ const mutations = {
   setPaginator: (state, paginator) => {
     state.paginator = { ...paginator }
   },
+  setContactType (state, type) {
+    state.queryParams = {...state.queryParams, type: type}
+  }
 }
 
 export default {

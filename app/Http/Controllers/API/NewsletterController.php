@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
@@ -22,14 +24,17 @@ class NewsletterController extends ApiBaseController
         $perPage = $request->get('perPage');
         $offset = ($page - 1) * $perPage;
 
+        # set config newsletter
         if ($search = $request->get('email')) {
+            $listId = array_get(config('newsletter.lists'), $request->get('type') . '.id', 0);
             $data = $mailChimp->getApi()->get('search-members', [
-                'query' => 'email:' . urlencode($request->get('email'))
+                'query' => 'email:' . urlencode($request->get('email')),
+                'list_id' => $listId
             ]);
             $members = collect(Arr::get($data, 'full_search.members', []));
             $total =  Arr::get($data, 'full_search.total_items', 0);
         } else {
-            $data = $mailChimp->getMembers('', [
+            $data = $mailChimp->getMembers($request->get('type'), [
                 'count'  => $perPage + $offset,
                 'offset' => $offset,
             ]);
@@ -46,7 +51,41 @@ class NewsletterController extends ApiBaseController
     }
 
     public function exportCSV(Request $request) {
-        dd($request->all());
+        $listId = array_get(config('newsletter.lists'), $request->get('type') . '.id', 0);
+        $http = new Client();
+        $httpResponse = $http->post('https://us15.api.mailchimp.com/export/1.0/list', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'apikey' => '0a1d9c6e34b21c56d1b851b6c3da5562-us15',
+                'id' => $listId,
+            ]
+        ]);
+        $body = $httpResponse->getBody()->getContents();
+        $data = collect($request->get('data'))->flatten();
+        $data = $data->map(function ($item) {
+           $item = str_replace(['[', ']'], '', $item);
+           return explode(PHP_EOL, $item);
+        })->flatten();
+        $name = 'subscriber';
+        //$data = explode(PHP_EOL, $data);
+        return response()->stream(function () use ($data) {
+           $handle = fopen('php://output', 'w');
+           // export utf-8
+           fputs($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+
+           $data->chunk(100)->each(function ($chunk) use ($handle) {
+                $chunk->each(function ($item) use ($handle) {
+                   $record = [];
+                   $record[] = str_getcsv($item);
+                   fputcsv($handle, array_flatten($record));
+                });
+           });
+           fclose($handle);
+        }, 200, [
+            'Content-Encoding'    => 'UTF-8',
+            'Content-Type'        => 'application/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="'.$name.'.csv"',
+        ]);
     }
 
     /**
