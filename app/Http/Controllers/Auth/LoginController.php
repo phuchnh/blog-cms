@@ -56,8 +56,7 @@ class LoginController extends Controller
     {
         if (in_array($user->type, [\App\Models\Admin::ADMIN, \App\Models\Admin::EDITOR])) {
             $credentials = $request->only(['email', 'password']);
-            //$minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
-            $minutes = now()->addMinutes(1)->timestamp;
+            $minutes = now()->addMinutes(\JWTFactory::getTTL() * config('jwt.ttl'))->timestamp;
 
             if ($token = auth('api')->attempt($credentials, ['exp' => $minutes])) {
                 $options = ['/admin', null, false, false];

@@ -3,9 +3,12 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class Token
 {
+    use AuthenticatesUsers;
     /**
      * Handle an incoming request.
      *
@@ -19,9 +22,21 @@ class Token
             return $next($request);
         }
 
-        auth()->logout();
-        $request->session()->invalidate();
+        return $this->logout($request);
+    }
 
-        return redirect('/');
+    /**
+     * The user has logged out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        $cookie = cookie()->forget('token');
+        if ($request->hasHeader('Authorization')) {
+            auth('api')->logout();
+        }
+        return redirect()->intended('/login')->cookie($cookie);
     }
 }
