@@ -39,6 +39,15 @@ return [
     /*
      * If you're having trouble with https connections, set this to false.
      */
-    'ssl' => false,
+    'ssl' => true,
 
+    /*
+     * list groups Ids from mailchimp
+     */
+    'listIDS' => [
+        'meeting' => '0350b3edc1',
+        'company' => 'c96f7aff99',
+        'individual' => '138e7576cf',
+        'newsletter' => 'a8c465aa5f',
+    ]
 ];

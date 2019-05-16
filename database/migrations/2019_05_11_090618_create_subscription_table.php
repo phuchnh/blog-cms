@@ -13,17 +13,16 @@ class CreateSubscriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('first_name');
-            $table->string('last_name');
             $table->string('email');
             $table->string('phone');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('type')->default('meeting');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

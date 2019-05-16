@@ -23,4 +23,8 @@ export const PostService = {
   deletePost (postId, params = {}) {
     return ApiService.delete(`/posts/${ postId }`, params)
   },
+
+  recentPost (params = {}) {
+    return ApiService.get('/posts/recent', params)
+  }
 }

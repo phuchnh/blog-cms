@@ -47,6 +47,17 @@
           return ['Title', 'Slug']
         },
       },
+      modes: {
+        type: Array,
+        default () {
+          return [
+            'Contain',
+            'Exactly',
+            'Starts with',
+            'Ends with',
+          ]
+        },
+      },
     },
 
     filters: {
@@ -57,12 +68,6 @@
 
     data () {
       return {
-        modes: [
-          'Contain',
-          'Exactly',
-          'Starts with',
-          'Ends with',
-        ],
         search: {
           column: '',
           keyword: '',

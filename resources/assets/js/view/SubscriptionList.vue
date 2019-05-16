@@ -16,28 +16,28 @@
             label="Id">
         </el-table-column>
         <el-table-column
-            prop="email_address"
+            prop="email"
             label="Email">
         </el-table-column>
         <el-table-column
             prop="merge_fields"
             label="Name">
           <template slot-scope="scope">
-            {{ scope.row.merge_fields.MMERGE3 }}
+            {{ scope.row.name }}
           </template>
         </el-table-column>
         <el-table-column
-            prop="status"
-            label="Status">
+            prop="type"
+            label="Type">
           <template slot-scope="scope">
-            {{ scope.row.status | capitalize }}
+            {{ scope.row.type }}
           </template>
         </el-table-column>
         <el-table-column
             label="Action"
             width="100">
           <template slot-scope="scope">
-            <button class="btn btn-default margin-r-5" @click="routeToDetail(scope.row.email_address)">View</button>
+            <button class="btn btn-default margin-r-5" @click="routeToDetail(scope.row.id)">View</button>
           </template>
         </el-table-column>
       </el-table>
@@ -61,47 +61,54 @@
   import SearchBox from '../components/SearchBox'
 
   export default {
-    name: 'SubscriberList',
+    name: 'SubscriptionList',
     components: { SearchBox },
     computed: {
-      ...mapGetters('subscriber', {
+      ...mapGetters('subscription', {
         list: 'list',
         pagination: 'pagination',
         queryParams: 'getQueryParams',
       }),
     },
+
     data () {
       return {
         loading: true,
         sort: { ascending: 'asc', descending: 'desc' },
         columns: ['Email'],
-        modes: ['Contain']
+        modes: ['Contain'],
       }
     },
+
     mounted () {
       this.fetchList()
     },
+
     methods: {
+      /**
+       * get list from store
+       * @param options
+       */
       fetchList (options) {
         this.loading = true
-        this.$store.dispatch('subscriber/getList', options).then(() => this.loading = false)
+        this.$store.dispatch('subscription/getList', options).then(() => this.loading = false)
       },
+
       paginate (currentPage) {
         this.fetchList({
           ...this.queryParams,
           page: currentPage,
         })
       },
-      routeToDetail (email) {
-        this.$router.push({ name: 'SubscriberDetail', params: { email: email } })
+
+      routeToDetail (id) {
+        this.$router.push({ name: 'SubscriptionDetail', params: { id: id } })
       },
+
       handleSearch (value) {
         const queryParams = _.merge(this.queryParams, value)
         this.fetchList(queryParams)
       },
-      exportCSV () {
-        this.$store.dispatch('subscriber/getDataCSV')
-      }
     },
   }
 </script>

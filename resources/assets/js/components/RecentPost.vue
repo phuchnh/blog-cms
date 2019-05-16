@@ -13,7 +13,7 @@
             border
             size="small"
             empty-text="No data"
-            height="240"
+            height="280"
         >
           <el-table-column prop="id" label="Id" min-width="30"/>
           <el-table-column prop="title" label="Title">
@@ -35,17 +35,6 @@
         </el-table>
       </div>
       <!-- /.box-body -->
-      <div class="box-footer text-center">
-        <el-pagination
-            layout="prev, pager, next"
-            background
-            :page-size="queryParams.perPage"
-            :total="total"
-            :current-page="queryParams.page"
-            @current-change="handleCurrentChange"
-        >
-        </el-pagination>
-      </div>
     </div>
   </div>
 </template>
@@ -59,18 +48,12 @@
   export default {
     name: 'RecentPost',
     computed: {
-      ...mapGetters('faq', ['getLoading', 'getLists', 'getTotal', 'getQueryParams']),
+      ...mapGetters('faq', ['getLoading', 'getRecentPost']),
       loading () {
         return this.getLoading
       },
       lists () {
-        return this.getLists
-      },
-      total () {
-        return this.getTotal
-      },
-      queryParams () {
-        return this.getQueryParams
+        return this.getRecentPost
       },
     },
     filters: {
@@ -79,53 +62,14 @@
       },
     },
     created () {
-      Promise.all([
-        store.dispatch('faq/setPostType', ''),
-        store.dispatch('faq/setQueryParams', {
-          sort: 'created_at',
-          direction: 'desc',
-          page: 1,
-          perPage: 5,
-          only: ['id', 'title', 'publish', 'type', 'created_at'].join(','),
-          locale: 'vi',
-          limit: 10,
-        }),
-      ]).then(() => {
-        store.dispatch('faq/fetchList')
-      })
+      store.dispatch('faq/fetchRecentPost')
     },
     methods: {
-      ...mapActions('faq', ['fetchList']),
-
       goToDetail (id, postType) {
         const routeByPostType = router.options.routes[0].children.find(value => {
           return value.props && value.props.postType === postType
         })
         this.$router.push({ name: routeByPostType.props.redirectToDetail, params: { id: id } })
-      },
-
-      handleCurrentChange (currentPage) {
-        this.getData({
-          ...this.queryParams,
-          page: currentPage,
-        })
-      },
-
-      handleSortChange ({ prop, order }) {
-        const direction = { ascending: 'desc', descending: 'asc' }
-        this.getData({
-          ...this.queryParams,
-          sort: prop,
-          direction: direction[order],
-        })
-      },
-
-      getData (queryParams) {
-        queryParams = {
-          ...queryParams,
-          with: 'taxonomies',
-        }
-        return this.fetchList(queryParams)
       },
     },
   }

@@ -28,6 +28,9 @@ import TaxonomyForm from './components/TaxonomyForm'
 import SubscriberList from '@/view/SubscriberList'
 import SubscriberDetail from '@/view/SubscriberDetail'
 
+import SubscriptionList from '@/view/SubscriptionList'
+import SubscriptionDetail from '@/view/SubscriptionDetail'
+
 Vue.use(Router)
 
 export default new Router({
@@ -621,6 +624,29 @@ export default new Router({
           },
         },
         //=================================== Subscriber ==============================//
+
+        //=================================== Subscription ==============================//
+        {
+          path: 'subscriptions',
+          name: 'SubscriptionList',
+          component: SubscriptionList,
+          meta: {
+            title: 'Subscription',
+            description: '',
+            permission: ['admin'],
+          },
+        },
+        {
+          path: 'subscriptions/:id',
+          name: 'SubscriptionDetail',
+          component: SubscriptionDetail,
+          meta: {
+            title: 'View Subscription',
+            description: '',
+            permission: ['admin'],
+          },
+        },
+        //=================================== Subscription ==============================//
 
         {
           path: 'categories',
