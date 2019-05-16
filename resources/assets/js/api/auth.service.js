@@ -18,8 +18,8 @@ export const AuthService = {
       let config = {}
       config.baseURL = '/'
       config.headers = {};
-      if (Cookie.findByName('token')){
-        config.headers['Authorization'] = `${ Cookie.findByName('token')}`
+      if (Cookie.findByName('token')) {
+        config.headers['Authorization'] = `${ Cookie.findByName('token') }`
       }
       return ApiService.post(`logout`, body, config)
     }

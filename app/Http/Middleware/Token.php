@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Token
 {
@@ -34,9 +35,14 @@ class Token
     protected function loggedOut(Request $request)
     {
         $cookie = cookie()->forget('token');
-        if ($request->hasHeader('Authorization')) {
-            auth('api')->logout();
+        try {
+            if ($token = \JWTAuth::parseToken()) {
+                auth('api')->logout();
+            }
+        } catch (JWTException $exception) {
+            return redirect()->intended('/login')->cookie($cookie);
         }
+
         return redirect()->intended('/login')->cookie($cookie);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
 {
@@ -48,8 +49,8 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  mixed $user
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $user
      * @return mixed
      */
     protected function authenticated($request, $user)
@@ -61,6 +62,7 @@ class LoginController extends Controller
             if ($token = auth('api')->attempt($credentials, ['exp' => $minutes])) {
                 $options = ['/admin', null, false, false];
                 $cookie = cookie('token', $token, $minutes, ...$options);
+
                 return redirect()->intended($this->redirectToAdmin ?: '/admin')->cookie($cookie);
             }
 
@@ -73,15 +75,20 @@ class LoginController extends Controller
     /**
      * The user has logged out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return mixed
      */
     protected function loggedOut(Request $request)
     {
         $cookie = cookie()->forget('token');
-        if ($request->hasHeader('Authorization')) {
-            auth('api')->logout();
+        try {
+            if ($token = \JWTAuth::parseToken()) {
+                auth('api')->logout();
+            }
+        } catch (JWTException $exception) {
+            return redirect()->intended('/login')->cookie($cookie);
         }
+
         return redirect()->intended('/login')->cookie($cookie);
     }
 }
