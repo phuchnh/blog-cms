@@ -120,7 +120,7 @@
         this.fetchList(queryParams)
       },
       exportCSV () {
-        this.$store.dispatch('subscriber/exportCSV')
+        this.$store.dispatch('subscriber/exportCSV', {type: this.contactType})
       }
     },
   }

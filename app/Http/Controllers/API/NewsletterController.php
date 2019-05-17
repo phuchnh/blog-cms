@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -50,42 +51,64 @@ class NewsletterController extends ApiBaseController
         return $this->ok($result);
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function exportCSV(Request $request) {
-        $listId = array_get(config('newsletter.lists'), $request->get('type') . '.id', 0);
-        $http = new Client();
-        $httpResponse = $http->post('https://us15.api.mailchimp.com/export/1.0/list', [
-            'headers' => ['Content-Type' => 'application/json'],
-            'json' => [
-                'apikey' => '0a1d9c6e34b21c56d1b851b6c3da5562-us15',
-                'id' => $listId,
-            ]
-        ]);
-        $body = $httpResponse->getBody()->getContents();
-        $data = collect($request->get('data'))->flatten();
-        $data = $data->map(function ($item) {
-           $item = str_replace(['[', ']'], '', $item);
-           return explode(PHP_EOL, $item);
-        })->flatten();
-        $name = 'subscriber';
-        //$data = explode(PHP_EOL, $data);
-        return response()->stream(function () use ($data) {
-           $handle = fopen('php://output', 'w');
-           // export utf-8
-           fputs($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+        try {
+            $listId = array_get(config('newsletter.lists'), $request->get('type').'.id', 0);
+            $http = new Client([
+                'base_uri' => 'https://us15.api.mailchimp.com',
+                'verify'   => false
+            ]);
 
-           $data->chunk(100)->each(function ($chunk) use ($handle) {
-                $chunk->each(function ($item) use ($handle) {
-                   $record = [];
-                   $record[] = str_getcsv($item);
-                   fputcsv($handle, array_flatten($record));
+            $headers = [
+                'Accept'       => 'application/json',
+                'Content-Type' => 'application/json',
+            ];
+
+            $body = json_encode([
+                'apikey' => '0a1d9c6e34b21c56d1b851b6c3da5562-us15',
+                'id'     => $listId,
+            ]);
+
+            $httpResponse = $http->request('POST', '/export/1.0/list/', [
+                'headers' => $headers,
+                'body'    => $body,
+            ]);
+            $content = $httpResponse->getBody()->getContents();
+            $data = collect($content)->flatten();
+            $data = $data->map(function ($item) {
+                $item = str_replace(['[', ']'], '', $item);
+
+                return explode(PHP_EOL, $item);
+            })->flatten();
+            $name = $request->get('type'). '_subscriber';
+
+            return response()->stream(function () use ($data) {
+                $handle = fopen('php://output', 'w');
+                // export utf-8
+                fputs($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+
+                $data->chunk(100)->each(function ($chunk) use ($handle) {
+                    $chunk->each(function ($item) use ($handle) {
+                        $record = [];
+                        $record[] = str_getcsv($item);
+                        fputcsv($handle, array_flatten($record));
+                    });
                 });
-           });
-           fclose($handle);
-        }, 200, [
-            'Content-Encoding'    => 'UTF-8',
-            'Content-Type'        => 'application/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="'.$name.'.csv"',
-        ]);
+
+                fclose($handle);
+            }, 200, [
+                'Content-Encoding'    => 'UTF-8',
+                'Content-Type'        => 'application/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="'.$name.'.csv"',
+            ]);
+        } catch (\Exception $e) {
+            return $this->unprocessable(422, $e->getMessage());
+        }
     }
 
     /**
