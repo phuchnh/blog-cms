@@ -7,19 +7,19 @@
             <div class="row margin_bottom--15">
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'individual')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize font-weight-bold">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.individual')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'company')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize font-weight-bold">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.company')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'meeting')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize font-weight-bold">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.book-a-meeting')
                     </a>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="col-sm-9 col-xs-12 ml-auto">
                     <div class="d-flex flex-column flex-sm-row bd-highlight">
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.about')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">About</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">

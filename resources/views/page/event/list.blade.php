@@ -14,7 +14,7 @@
                             <select class="custom-select border_radius--2em" name="day">
                                 <option value="" selected>@lang('site.day')</option>
                                 @for ($i = 1; $i <= 31; $i++)
-                                    <option value="{{$i}}">{{$i}}</option>
+                                    <option @if($i===intval(Request::query('day'))) selected @endif value="{{$i}}">{{$i}}</option>
                                 @endfor
                             </select>
                         </div>
@@ -24,7 +24,7 @@
                             <select class="custom-select border_radius--2em" name="month">
                                 <option value="" selected>@lang('site.month')</option>
                                 @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{$i}}">{{$i}}</option>
+                                    <option @if($i===intval(Request::query('month'))) selected @endif value="{{$i}}">{{$i}}</option>
                                 @endfor
                             </select>
                         </div>
@@ -34,7 +34,7 @@
                             <select class="custom-select border_radius--2em" name="year">
                                 <option value="" selected>@lang('site.year')</option>
                                 @for ($i = intval(date('Y')); $i >= intval(date('Y'))-3; $i--)
-                                    <option value="{{$i}}">{{$i}}</option>
+                                    <option @if($i===intval(Request::query('year'))) selected @endif value="{{$i}}">{{$i}}</option>
                                 @endfor
                             </select>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="col-sm-6 ml-auto">
                         <div class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto border--grey">
                             <input class="form-control mr-sm-2 background--none border_none" type="search" name="title"
-                                   placeholder="Search" aria-label="Search">
+                                   placeholder="Search" aria-label="Search" value="@if(Request::query('title')){{Request::query('title')}}@endif">
                             <button class="btn my-sm-0 ml-auto" type="submit">
                                 <i class="fas fa-search font_color--grey"></i>
                             </button>

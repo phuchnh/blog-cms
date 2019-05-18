@@ -18,7 +18,17 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('home')}}">@lang('site.home')</a></li>
-                                    <li class="breadcrumb-item"><a href="{{route('blog')}}">@lang('site.blogs')</a>
+                                    <li class="breadcrumb-item">
+                                        <a href="{{route('blog')}}">@lang('site.blogs')</a>
+                                        @isset($subnavigate)
+                                            @if ($subnavigate === 'blogs')
+                                                <a href="{{route('program')}}">@lang('site.blogs')</a>
+                                            @elseif($subnavigate === 'guided-meditation')
+                                                <a href="{{route('guide')}}">@lang('site.guided-meditation')</a>
+                                            @else
+                                                <a href="{{route('practice')}}">@lang('site.daily-practices')</a>
+                                            @endif
+                                        @endisset
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{$item['title']}}

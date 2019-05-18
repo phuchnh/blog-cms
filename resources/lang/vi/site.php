@@ -14,22 +14,24 @@ return [
     # A
     'about' => 'Về chúng tôi',
     'approach' => 'Approach',
-    'attend-a-program' => 'Attend a Program',
+    'attend-a-program' => 'Tham gia chương trình',
 
     # B
-    'blogs' => 'blogs',
-    'benefits' => 'benefits',
-    'book-a-meeting' => 'book a meeting',
+    'blogs' => 'Bài viết',
+    'benefits' => 'Lợi ích',
+    'book-a-meeting' => 'Đặt lịch hẹn',
+    'back_to_all_events' => 'Tất cả sự kiện',
+    'back_to_all_programs' => 'Tất cả chương trình',
 
     # C
     'client' => 'Khách hàng',
     'clients' => 'Khách hàng',
-    'contact-us' => 'contact-us',
-    'company' => 'company',
+    'contact-us' => 'liên hệ',
+    'company' => 'Công ty',
 
     # D
     'date-and-time' => 'Ngày',
-    'daily-practices' => 'daily practices',
+    'daily-practices' => 'Thực hành',
     'day' => 'Ngày',
 
     # E
@@ -37,23 +39,24 @@ return [
     'events' => 'Sự kiện',
     'event-and-program' => 'Sự kiện & chương trình',
     'events-and-programs' => 'Sự kiện & chương trình',
-    'expertise' => 'Expertise',
-    'experts' => 'experts',
-    'engage-with-us' => 'engage with us',
+    'expertise' => 'Chuyên môn',
+    'experts' => 'Chuyên gia',
+    'engage-with-us' => 'Kết nối với chúng tôi',
 
     # F
     'faq' => 'Câu hỏi',
 
     # G
-    'guided-meditation' => 'guided meditation',
+    'guided-meditation' => 'hướng dẫn thiền',
     'go_back' => 'quay lại',
     # H
     'home' => 'Trang chủ',
-    'how_to_practise' => 'How to practise',
+    'how_to_practise' => 'Tập luyện như thế nào',
 
     # I
-    'in_the_press' => 'in the press',
-    'inquiry' => 'inquiry',
+    'in_the_press' => 'Thông cáo báo chí',
+    'individual' => 'cá nhân',
+    'inquiry' => 'liên hệ',
 
     # L
     'location' => 'Địa điểm',
@@ -67,36 +70,36 @@ return [
     'other_posts_you_may_like' => 'Bài viết khác bạn có thể quan tâm',
 
     # P
-    'programs' => 'programs',
+    'programs' => 'chương trình',
 
     # R
-    'results' => 'results',
-    'resources' => 'resources',
+    'results' => 'Kết quả',
+    'resources' => 'tài nguyên',
 
     # S
     'story' => 'Câu chuyện',
     'sign-up-now' => 'Đăng ký ngay',
-    'subscribe-for-our-newsletter' => 'subscribe for our newsletter',
-    'submit-form' => 'submit form',
+    'subscribe-for-our-newsletter' => 'đăng ký nhận thông báo',
+    'submit-form' => 'hoàn tất đăng ký',
 
     # T
-    'take_an_assessment' => 'Take an assessment',
-    'testimonial' => 'Testimonial',
-    'testimonials' => 'Testimonials',
+    'take_an_assessment' => 'Đáng giá',
+    'testimonial' => 'Chứng nhận',
+    'testimonials' => 'Chứng nhận',
 
     # V
     'view_more' => 'Xem thêm',
-    'view_all_programs' => 'view all programs',
-    'view_all_events' => 'view all events',
+    'view_all_programs' => 'Xem tất cả chương trình',
+    'view_all_events' => 'Xem tất cả sự kiện',
 
     # Y
     'year' => 'Năm',
-    'your-name' => 'Your name',
-    'your-email' => 'Your email',
-    'your-cellphone' => 'Your cellphone',
-    'your-company-industrial' => 'Your company industrial',
-    'your-preferable-time' => 'Your preferable time',
-    'purpose-of-your-inquiry' => 'Purpose of your inquiry',
+    'your-name' => 'Tên',
+    'your-email' => 'Email',
+    'your-cellphone' => 'Số điện thoại',
+    'your-company-industrial' => 'Lĩnh vực kinh doanh',
+    'your-preferable-time' => 'Thời gian phù hợp',
+    'purpose-of-your-inquiry' => 'Mục đích cần tư vấn',
 
     # W
     'why-mindfullness' => 'why mindfullness',
