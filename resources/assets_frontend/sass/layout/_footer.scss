@@ -62,6 +62,12 @@
       padding-bottom: 15px;
     }
   }
+
+  .background--grey {
+    &:hover {
+      background: #c6d757;
+    }
+  }
 }
 
 .footer_inquiry {

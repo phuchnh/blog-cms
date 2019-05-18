@@ -211,7 +211,9 @@
                                         <div class="content">
                                             @ifIssetShowValue($ep['description'])
                                         </div>
+                                    </div>
 
+                                    <div class="event-content__footer">
                                         @if ($ep['type'] === 'event')
                                             <a href="{{route('eventitem', $ep['slug'])}}"
                                                class="font_color--green pull-right" title="">
@@ -223,7 +225,6 @@
                                                 @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                             </a>
                                         @endif
-
                                     </div>
                                 </div>
                             </div>
