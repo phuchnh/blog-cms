@@ -24,7 +24,13 @@
                                             <a href="{{route('event-program')}}">@lang('site.event-and-program')</a>
                                         </li>
                                         <li class="breadcrumb-item">
-                                            <a href="{{route('event')}}">@lang('site.event')</a>
+                                            @isset($subnavigate)
+                                                @if ($subnavigate === 'program')
+                                                    <a href="{{route('program')}}">@lang('site.programs')</a>
+                                                @else
+                                                    <a href="{{route('event')}}">@lang('site.events')</a>
+                                                @endif
+                                            @endisset
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">
                                             {{$item['title']}}
@@ -65,11 +71,32 @@
                                     <p class="margin_bottom--10">{{$item['meta']['event']['location']}}</p>
                                 @endisset
 
-                                <a href="#"
-                                   class="btn btn-block border_radius--2em background--green font_color--white margin_top--30 margin_bottom--15">
-                                    @lang('site.sign-up-now')
-                                </a>
+                                @isset($item['meta']['sign_up_link'])
+                                    <a href="{{$item['meta']['sign_up_link']}}"
+                                       target="_blank"
+                                       class="btn btn-block border_radius--2em background--green font_color--white margin_top--30 margin_bottom--15">
+                                        @lang('site.sign-up-now')
+                                    </a>
+                                @endisset
                             </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            @isset($subnavigate) @if ($subnavigate === 'program')
+                                <a href="{{route('program')}}"
+                                   class="btn btn-sm background--orange font_color--white border_radius--2em mt-4">
+                                    <i class="fa fa-caret-left"></i>
+                                    @lang('site.back_to_all_events')
+                                </a>
+                            @endif @endisset
+
+                            @isset($subnavigate) @if ($subnavigate === 'event')
+                                <a href="{{route('event')}}"
+                                   class="btn btn-sm background--orange font_color--white border_radius--2em mt-4">
+                                    <i class="fa fa-caret-left"></i>
+                                    @lang('site.back_to_all_events')
+                                </a>
+                            @endif @endisset
                         </div>
                     </div>
                 </div>
@@ -94,7 +121,8 @@
                                         @endisset
 
                                         <div class="card-body">
-                                            <h6 class="font_color--green fs--0-8em font-italic">Category</h6>
+                                            <h6 class="font_color--green fs--0-8em font-italic">
+                                                @ifIssetShowCategoryTitle($other['taxonomies'])</h6>
                                             <h5 class="card-title font_color--orange fs--1-3em">
                                                 {{$other['title']}}
                                             </h5>

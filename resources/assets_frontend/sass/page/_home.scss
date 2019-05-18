@@ -32,11 +32,12 @@ h2.section-content__header {
 
       .section-content__container--padding {
         text-align: center;
+
         .content {
           text-align: left;
         }
       }
-      .row .col-xs-12{
+      .row .col-xs-12 {
         margin-bottom: 15px;
       }
     }
@@ -182,15 +183,13 @@ h2.section-content__header {
       }
     }
 
-    a.font_color--green {
-      position: absolute;
-      bottom: 25px;
-      right: 25px;
-      @media #{$info-phone} {
-        bottom: 15px;
-        right: 15px;
+    .event-content__body {
+      .content {
+        min-height: 75px;
       }
+    }
 
+    a.font_color--green {
       &:hover {
         color: #a3b627;
         opacity: .85;
@@ -207,6 +206,10 @@ h2.section-content__header {
       @media #{$info-phone} {
 
       }
+    }
+
+    .event-content__body {
+      padding: 10px 15px 15px 0;
     }
 
     .event-content {

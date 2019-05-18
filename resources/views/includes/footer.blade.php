@@ -7,19 +7,19 @@
             <div class="row margin_bottom--15">
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'individual')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.individual')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'company')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.company')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'meeting')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.book-a-meeting')
                     </a>
                 </div>
@@ -47,97 +47,97 @@
                 <div class="col-sm-9 col-xs-12 ml-auto">
                     <div class="d-flex flex-column flex-sm-row bd-highlight">
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.about')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">About</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('about').'/story'}}">@lang('site.story')</a>
+                                       href="{{route('about').'/story'}}">Story</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('about').'/expert'}}">@lang('site.experts')</a>
+                                       href="{{route('about').'/expert'}}">Experts</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('press')}}">@lang('site.in_the_press')</a>
+                                       href="{{route('press')}}">In the press</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('about').'/contact'}}">@lang('site.contact-us')</a>
+                                       href="{{route('about').'/contact'}}">Contact Us</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.events-and-programs')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">Events & Programs</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('program')}}">@lang('site.programs')</a>
+                                       href="{{route('program')}}">Programs</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('event')}}">@lang('site.events')</a>
+                                       href="{{route('event')}}">Events</a>
                                 </li>
                             </ul>
                         </div>
 
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.results')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">Results</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('results').'/approach'}}">@lang('site.approach')</a>
+                                       href="{{route('results').'/approach'}}">Approach</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('results').'/expertise'}}">@lang('site.expertise')</a>
+                                       href="{{route('results').'/expertise'}}">Expertise</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('results').'/testimonial'}}">@lang('site.testimonials')</a>
+                                       href="{{route('results').'/testimonial'}}">Testimonials</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.why-mindfullness')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">Why Mindfullness</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('why-mind-fullness').'/benefits'}}">@lang('site.benefits')</a>
+                                       href="{{route('why-mind-fullness').'/benefits'}}">Benefits</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('why-mind-fullness').'/how-to-practise'}}">@lang('site.how_to_practise')</a>
+                                       href="{{route('why-mind-fullness').'/how-to-practise'}}">How to practise</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('faq')}}">@lang('site.faq')</a>
+                                       href="{{route('faq')}}">FAQ</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="flex-sm-fill">
-                            <header class="font-weight-bold fs--1rem text-uppercase">@lang('site.resources')</header>
+                            <header class="font-weight-bold fs--1rem text-uppercase">Resources</header>
 
                             <ul class="nav flex-column margin--none padding--none">
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('blog')}}">@lang('site.blogs')</a>
+                                       href="{{route('blog')}}">Blog</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('guide')}}">@lang('site.guided-meditation')</a>
+                                       href="{{route('guide')}}">Guided Meditation</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('practice')}}">@lang('site.daily-practices')</a>
+                                       href="{{route('practice')}}">Daily Practices</a>
                                 </li>
                             </ul>
                         </div>

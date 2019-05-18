@@ -20,9 +20,12 @@ return [
     'blogs' => 'blogs',
     'benefits' => 'benefits',
     'book-a-meeting' => 'book a meeting',
+    'back_to_all_events' => 'Back to all events',
+    'back_to_all_programs' => 'Back to all programs',
 
     # C
     'client' => 'client',
+    'clients' => 'clients',
     'contact-us' => 'contact-us',
     'company' => 'company',
 

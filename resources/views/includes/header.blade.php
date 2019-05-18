@@ -33,8 +33,8 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link font-weight-bold font_color--orange">
-                            Attend a Program <i class="fas fa-arrow-right"></i>
+                        <a href="@isset($setting['attend_program_link']) {{$setting['attend_program_link']}} @endisset" class="nav-link font-weight-bold font_color--orange">
+                            @lang('site.attend-a-program') <i class="fas fa-arrow-right"></i>
                         </a>
                     </li>
                 </ul>
@@ -64,25 +64,25 @@
                 <div class="collapse navbar-collapse" id="main_navigate">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item @if ($navigate === 'home') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('home')}}">Home <span
+                            <a class="nav-link text-uppercase font-weight-bold" href="{{route('home')}}">Home <span
                                         class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item @if ($navigate === 'about') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('about')}}">ABOUT</a>
+                            <a class="nav-link text-uppercase font-weight-bold" href="{{route('about')}}">ABOUT</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'event-program') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('event-program')}}">EVENT &
+                            <a class="nav-link text-uppercase font-weight-bold" href="{{route('event-program')}}">EVENTS &
                                 PROGRAMS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'results') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('results')}}">RESULTS</a>
+                            <a class="nav-link text-uppercase font-weight-bold" href="{{route('results')}}">RESULTS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'whymindfullness') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('why-mind-fullness')}}">WHY
+                            <a class="nav-link text-uppercase font-weight-bold" href="{{route('why-mind-fullness')}}">WHY
                                 MINDFULNESS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'resources') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('resources')}}">RESOURCES</a>
+                            <a class="nav-link text-uppercase font-weight-bold" href="{{route('resources')}}">RESOURCES</a>
                         </li>
                     </ul>
                     <form action="{{route('search')}}" method="get" class="form-inline form-search background--white border_radius--2em my-lg-0 ml-auto">

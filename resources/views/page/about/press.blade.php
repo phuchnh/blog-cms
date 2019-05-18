@@ -21,13 +21,17 @@
                             <div class="col-xs-12 col-sm-6 a-press__item ">
                                 <div class="custom-item-press">
                                     @isset($data[0]['meta']['thumbnail']['url'])
-                                        <img src="{{$data[0]['meta']['thumbnail']['url']}}" alt="{{$data[0]['title']}}">
+                                        <a href="{{route('pressitem', $data[0]['slug'])}}"
+                                           title="{{$data[0]['title']}}">
+                                            <img src="{{$data[0]['meta']['thumbnail']['url']}}"
+                                                 alt="{{$data[0]['title']}}">
+                                        </a>
                                     @endisset
 
                                     <div class="d-block">
                                         <div class="font_color--white">
                                             <header class="font-italic">
-                                                CAFEBIZ
+                                                @ifIssetShowCategoryTitle($data[0]['taxonomies'])
                                             </header>
 
                                             <div class="content text-uppercase">
@@ -51,13 +55,17 @@
                             <div class="col-xs-12 col-sm-6 a-press__item ">
                                 <div class="custom-item-press">
                                     @isset($data[1]['meta']['thumbnail']['url'])
-                                        <img src="{{$data[1]['meta']['thumbnail']['url']}}" alt="{{$data[1]['title']}}">
+                                        <a href="{{route('pressitem', $data[0]['slug'])}}"
+                                           title="{{$data[1]['title']}}">
+                                            <img src="{{$data[1]['meta']['thumbnail']['url']}}"
+                                                 alt="{{$data[1]['title']}}">
+                                        </a>
                                     @endisset
 
                                     <div class="d-block">
                                         <div class=" font_color--white">
                                             <header class="font-italic">
-                                                CAFEBIZ
+                                                @ifIssetShowCategoryTitle($data[1]['taxonomies'])
                                             </header>
 
                                             <div class="content text-uppercase">
@@ -78,23 +86,27 @@
                         @endisset
                     </div>
 
-                    @if(count($data) > 3)
+                    @if(count($data) > 2)
                         <div class="row a-press__content--child">
                             @foreach ($data as $key => $item)
                                 @if ($key === 0 || $key === 1)
                                     @continue
                                 @endif
 
-                                <div class="col-xs-12 col-sm-4 a-press__item a-press__item--child">
+                                <div class="col-xs-12 col-sm-4 a-press__item margin-bottom-15">
                                     <div class="custom-item-press">
                                         @isset($item['meta']['thumbnail']['url'])
-                                            <img src="{{$item['meta']['thumbnail']['url']}}" alt="{{$item['title']}}">
+                                            <a href="{{route('pressitem', $item['slug'])}}"
+                                               title="{{$item['title']}}">
+                                                <img src="{{$item['meta']['thumbnail']['url']}}"
+                                                     alt="{{$item['title']}}">
+                                            </a>
                                         @endisset
 
                                         <div class="d-block">
                                             <div class=" font_color--white">
                                                 <header class="font-italic">
-                                                    CAFEBIZ
+                                                    @ifIssetShowCategoryTitle($item['taxonomies'])
                                                 </header>
 
                                                 <div class="content text-uppercase">
@@ -111,9 +123,7 @@
                                             </a>
                                         </div>
                                     </div>
-
                                 </div>
-
                             @endforeach
                         </div>
                     @endif

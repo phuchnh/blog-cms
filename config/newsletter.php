@@ -25,14 +25,41 @@ return [
          * You can set it to any string you want and you can add
          * as many lists as you want.
          */
-        'subscribers' => [
+        'meeting' => [
 
             /*
              * A MailChimp list id. Check the MailChimp docs if you don't know
              * how to get this value:
              * http://kb.mailchimp.com/lists/managing-subscribers/find-your-list-id.
              */
-            'id' => env('MAILCHIMP_LIST_ID'),
+            'id' => '0350b3edc1',
+        ],
+        'company' => [
+
+            /*
+             * A MailChimp list id. Check the MailChimp docs if you don't know
+             * how to get this value:
+             * http://kb.mailchimp.com/lists/managing-subscribers/find-your-list-id.
+             */
+            'id' => 'c96f7aff99',
+        ],
+        'individual' => [
+
+            /*
+             * A MailChimp list id. Check the MailChimp docs if you don't know
+             * how to get this value:
+             * http://kb.mailchimp.com/lists/managing-subscribers/find-your-list-id.
+             */
+            'id' => '138e7576cf',
+        ],
+        'newsletter' => [
+
+            /*
+             * A MailChimp list id. Check the MailChimp docs if you don't know
+             * how to get this value:
+             * http://kb.mailchimp.com/lists/managing-subscribers/find-your-list-id.
+             */
+            'id' => 'a8c465aa5f',
         ],
     ],
 

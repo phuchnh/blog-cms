@@ -10,13 +10,45 @@
   .event-main {
     padding: 8.1% 0 40px;
 
+    .event-section__header {
+      .input-group {
+        @media #{$info-phone, $info-tablet-vertical} {
+          margin-bottom: 15px;
+        }
+      }
+
+      .form-search {
+        @media #{$info-phone, $info-tablet-vertical} {
+          min-width: 100%;
+
+          input {
+            width: 85%;
+          }
+        }
+      }
+    }
+
     .event-section__container {
-      .card-deck {
+      .card-columns {
         margin-bottom: 40px;
+        column-count: 3;
+
+        @media #{$info-phone} {
+          column-count: 1;
+        }
+
+        @media #{$info-tablet-vertical} {
+          column-count: 2;
+        }
 
         .card {
           .card-img-top {
             min-height: 15em;
+
+            img {
+              width: 100%;
+              min-height: 15em;
+            }
           }
 
           .card-body {
@@ -36,6 +68,14 @@
         }
 
         .breadcrumb-item:before {
+        }
+      }
+    }
+
+    .event-body {
+      .event-content {
+        @media #{$info-phone} {
+          margin-bottom: 15px;
         }
       }
     }
