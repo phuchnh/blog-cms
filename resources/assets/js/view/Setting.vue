@@ -15,6 +15,12 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="attendlink">Attend a program Link</label>
+                  <input class="form-control" id="attendlink" name="attend_program_link"
+                         v-model="data.attend_program_link"/>
+                </div>
+
+                <div class="form-group">
                   <label for="phone">Phone</label>
                   <input class="form-control" id="phone" name="phone"
                          v-model="data.phone"/>

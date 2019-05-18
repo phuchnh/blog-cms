@@ -33,7 +33,7 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link font-weight-bold font_color--orange">
+                        <a href="@isset($setting['attend_program_link']) {{$setting['attend_program_link']}} @endisset" class="nav-link font-weight-bold font_color--orange">
                             @lang('site.attend-a-program') <i class="fas fa-arrow-right"></i>
                         </a>
                     </li>
