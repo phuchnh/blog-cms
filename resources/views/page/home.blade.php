@@ -175,7 +175,7 @@
                                     @else
                                         <a href="{{route('programitem', $ep['slug'])}}">
                                             <div class="event-image background__cover--center"
-                                                 style="background:url({{$ep['meta']['thumbnail']['url']}})">
+                                                 style="background:url('{{$ep['meta']['thumbnail']['url']}}')">
                                                 <img class="d-none" src="{{$ep['meta']['thumbnail']['url']}}"
                                                      width="370"
                                                      height="325">
