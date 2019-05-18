@@ -71,10 +71,13 @@
                                     <p class="margin_bottom--10">{{$item['meta']['event']['location']}}</p>
                                 @endisset
 
-                                <a href="#"
-                                   class="btn btn-block border_radius--2em background--green font_color--white margin_top--30 margin_bottom--15">
-                                    @lang('site.sign-up-now')
-                                </a>
+                                @isset($item['meta']['sign_up_link'])
+                                    <a href="{{$item['meta']['sign_up_link']}}"
+                                       target="_blank"
+                                       class="btn btn-block border_radius--2em background--green font_color--white margin_top--30 margin_bottom--15">
+                                        @lang('site.sign-up-now')
+                                    </a>
+                                @endisset
                             </div>
                         </div>
 

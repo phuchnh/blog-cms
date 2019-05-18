@@ -25,6 +25,19 @@
       <TagBox :boxTitle="'Tags'" :boxType="'tags'" v-model="tags"></TagBox>
       <PostEventForm v-show="getPostType === 'post_events' || getPostType === 'post_programs'"
                      v-model="metas.event"></PostEventForm>
+
+      <div class="box box-widget"
+           v-if="getPostType === 'post_events' || getPostType === 'post_programs'">
+        <div class="box-header">
+          <h3 class="box-title text-capitalize">Sign Up Now</h3>
+        </div>
+        <div class="box-body">
+          <div class="form-group">
+            <input type="text" class="form-control" id="sign_up_link" placeholder="http://......." v-model="metas.sign_up_link">
+          </div>
+        </div>
+      </div>
+
       <PostOtherForm v-model="metas.others" :boxTitle="'Custom Related Post'" :type="getPostType"></PostOtherForm>
     </div>
     <PostActionBox @click="handleAction" :disable="imageUploading"></PostActionBox>
@@ -80,6 +93,7 @@
           banner: null,
           others: [],
           is_home: 0,
+          sign_up_link: null,
         },
         groups: [],
         tags: [],
@@ -198,6 +212,13 @@
           metas.push({
             meta_key: 'banner',
             meta_value: this.metas.banner,
+          })
+        }
+
+        if (this.metas.sign_up_link) {
+          metas.push({
+            meta_key: 'sign_up_link',
+            meta_value: this.metas.sign_up_link,
           })
         }
 
