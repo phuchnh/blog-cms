@@ -84,6 +84,8 @@
 
     methods: {
       ...mapActions('faq', ['createItem', 'updateItem']),
+      ...mapActions('postMeta', ['updateOrCreateMeta']),
+      
       handleAction (action) {
         if (action === 'cancel') {
           this.backToList()
