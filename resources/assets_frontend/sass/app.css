@@ -7721,9 +7721,17 @@ b {
     padding-bottom: 15px;
   }
 }
+.footer_network .background--grey:hover {
+  background: #c6d757;
+}
 
 .footer_inquiry {
   padding: 50px 0;
+}
+.footer_inquiry a:hover {
+  background: #a3b627;
+  border-color: #a3b627;
+  color: #fff;
 }
 @media only screen and (max-width : 767px) {
   .footer_inquiry .col-xs-12 {
@@ -7744,6 +7752,15 @@ b {
   text-decoration: underline;
   color: #fff !important;
 }
+.breadcrumb .breadcrumb-item {
+  text-transform: uppercase;
+  font-size: 9px;
+}
+.breadcrumb .breadcrumb-item a {
+  text-transform: uppercase;
+  font-size: 9px;
+}
+
 /*=============================================
 =            Home Section Content            =
 =============================================*/
@@ -7921,16 +7938,8 @@ h2.section-content__header:after {
     height: auto;
   }
 }
-.section-content__event-program .section-content__container a.font_color--green {
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-}
-@media only screen and (max-width : 767px) {
-  .section-content__event-program .section-content__container a.font_color--green {
-    bottom: 15px;
-    right: 15px;
-  }
+.section-content__event-program .section-content__container .event-content__body .content {
+  min-height: 75px;
 }
 .section-content__event-program .section-content__container a.font_color--green:hover {
   color: #a3b627;
@@ -7942,6 +7951,9 @@ h2.section-content__header:after {
   border-radius: 20px;
   z-index: 1;
   position: relative;
+}
+.section-content__event-program .section-content__container .event-content__body {
+  padding: 10px 15px 15px 0;
 }
 @media only screen and (max-width : 767px) {
   .section-content__event-program .section-content__container .event-content {
@@ -7984,13 +7996,41 @@ h2.section-content__header:after {
 .event-section .event-main {
   padding: 8.1% 0 40px;
 }
-.event-section .event-main .event-section__container .card-deck {
-  margin-bottom: 40px;
+@media only screen and (max-width : 767px), only screen and (max-width : 900px) {
+  .event-section .event-main .event-section__header .input-group {
+    margin-bottom: 15px;
+  }
 }
-.event-section .event-main .event-section__container .card-deck .card .card-img-top {
+@media only screen and (max-width : 767px), only screen and (max-width : 900px) {
+  .event-section .event-main .event-section__header .form-search {
+    min-width: 100%;
+  }
+  .event-section .event-main .event-section__header .form-search input {
+    width: 85%;
+  }
+}
+.event-section .event-main .event-section__container .card-columns {
+  margin-bottom: 40px;
+  column-count: 3;
+}
+@media only screen and (max-width : 767px) {
+  .event-section .event-main .event-section__container .card-columns {
+    column-count: 1;
+  }
+}
+@media only screen and (max-width : 900px) {
+  .event-section .event-main .event-section__container .card-columns {
+    column-count: 2;
+  }
+}
+.event-section .event-main .event-section__container .card-columns .card .card-img-top {
   min-height: 15em;
 }
-.event-section .event-main .event-section__container .card-deck .card .card-body {
+.event-section .event-main .event-section__container .card-columns .card .card-img-top img {
+  width: 100%;
+  min-height: 15em;
+}
+.event-section .event-main .event-section__container .card-columns .card .card-body {
   padding: 1.25rem 0;
 }
 .event-section .event-main .event-section__breadcrumb .breadcrumb {
@@ -7999,6 +8039,11 @@ h2.section-content__header:after {
 }
 .event-section .event-main .event-section__breadcrumb .breadcrumb a {
   color: #f5821f;
+}
+@media only screen and (max-width : 767px) {
+  .event-section .event-main .event-body .event-content {
+    margin-bottom: 15px;
+  }
 }
 .event-section .event-main .event-section__date {
   padding-top: 5rem;
