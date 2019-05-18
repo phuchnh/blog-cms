@@ -1,7 +1,7 @@
 <?php
 
-use Faker\Generator as Faker;
 use Illuminate\Support\Str;
+use Faker\Generator as Faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,9 +12,8 @@ use Illuminate\Support\Str;
 | your application. Factories provide a convenient way to generate new
 | model instances for testing / seeding your application's database.
 |
- */
-
-/*
+*/
+/**
  * @var $factory \Illuminate\Database\Eloquent\Factory
  */
 $factory->define(\App\Models\User::class, function (Faker $faker) {

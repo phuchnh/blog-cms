@@ -14,14 +14,14 @@ class DatabaseSeeder extends Seeder
 
         \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
 
-        /*
+        /**
          * Truncate table before seed
          */
         \App\Models\User::truncate();
         $this->call(UsersTableSeeder::class);
 
-        // \App\Models\Post::truncate();
-        // $this->call(PostsTableSeeder::class);
+        \App\Models\Post::truncate();
+        $this->call(PostsTableSeeder::class);
 
         \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
     }

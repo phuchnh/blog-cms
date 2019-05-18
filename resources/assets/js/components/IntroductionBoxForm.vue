@@ -1,0 +1,75 @@
+<template>
+  <div class="box box-widget">
+    <div class="box-body">
+      <a-tabs :defaultActiveKey="activeTab" :animated="false" @change="onTabsChange">
+        <a-tab-pane v-for="(trans, index) in translations" :key="index" :tab="trans.locale | localeName">
+          <div class="form-group">
+            <label for="title">title</label>
+            <input type="text" class="form-control" id="title" placeholder="title" v-model="trans.title">
+          </div>
+          <div class="form-group">
+            <label for="link">link</label>
+            <input type="text" class="form-control" id="link" placeholder="title" v-model="trans.link">
+          </div>
+          <div class="form-group">
+            <label for="description">description</label>
+            <textarea class="form-control" id="description" placeholder="description"
+                      v-model="trans.description" style="min-height: 10rem"></textarea>
+          </div>
+        </a-tab-pane>
+      </a-tabs>
+    </div>
+  </div>
+</template>
+
+<script>
+  import * as _ from 'lodash'
+
+  export default {
+    name: 'IntroductionBox',
+    props: {
+      value: {
+        type: Array,
+        default () {
+          return []
+        },
+      },
+    },
+    data () {
+      return {
+        activeTab: 0,
+        translations: this.value,
+      }
+    },
+    created () {
+      this.translations = [...this.defaultTranslations()]
+    },
+    watch: {
+      translations (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.$emit('input', newValue)
+        }
+      },
+    },
+    methods: {
+      defaultTranslations () {
+        return _.map(['vi', 'en'], (value) => {
+          let obj = {}
+          obj.locale = value
+          obj.title = ''
+          obj.description = ''
+          return _.assign({}, obj, _.find(this.translations, (trans) => trans.locale === value) || {})
+        })
+
+      },
+
+      onTabsChange (key) {
+        this.activeTab = key
+      },
+    },
+  }
+</script>
+
+<style scoped>
+
+</style>

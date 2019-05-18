@@ -1,0 +1,248 @@
+/*=============================================
+=            Home Section Content            =
+=============================================*/
+
+.section-content {
+  padding: 40px 0 40px;
+}
+
+h2.section-content__header {
+  font-weight: bold;
+
+  &:after {
+    content: '';
+    display: block;
+    background: #c6d757;
+    width: 80px;
+    height: 5px;
+    margin: 10px auto 0;
+  }
+}
+
+
+/* Introduction */
+
+.section-content__introduction {
+  padding: 7% 0 40px;
+
+  .section-content__container {
+    padding: 5.5% 4.2% 0;
+    @media #{$info-phone} {
+      padding: 15px;
+
+      .section-content__container--padding {
+        text-align: center;
+        .content {
+          text-align: left;
+        }
+      }
+      .row .col-xs-12{
+        margin-bottom: 15px;
+      }
+    }
+
+    .content {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+.section-content__introduction .btn {
+  padding: 10px 60px;
+}
+
+
+/* in the press */
+
+.section-content__inthepress {
+  padding: 6% 0;
+  @media #{$info-phone} {
+    padding: 6% 15px;
+  }
+
+  .section-content__header {
+    margin-bottom: 5%;
+  }
+
+  .inthepress-carousel {
+    .slick-arrow {
+      padding: 0;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      justify-content: center;
+      @media #{$info-tablet-horizontal} {
+        width: 40px;
+        height: 40px;
+        font-size: 1.6rem;
+      }
+
+      &.slick-next {
+        padding-left: 5px;
+      }
+
+      &.slick-prev {
+        padding-right: 5px;
+      }
+
+      &:before {
+        float: none;
+        display: block;
+        color: #f5821f;
+      }
+    }
+
+    .custom-item-press {
+      .d-block {
+        left: 18%;
+      }
+    }
+  }
+}
+
+
+/* client */
+
+.section-content__client {
+  padding: 0 4.2%;
+  @media #{$info-phone} {
+    padding: 15px;
+  }
+
+  .client-logo-carousel {
+    @media #{$info-phone} {
+      padding: 0 30px;
+    }
+
+    .slick-arrow {
+      background-color: transparent;
+      width: auto;
+      height: auto;
+      padding: 0;
+      @media #{$info-tablet-horizontal} {
+        font-size: 1.6rem;
+      }
+
+      &.slick-next {
+        right: -25px;
+        @media #{$info-phone} {
+          right: 0;
+        }
+      }
+
+      &.slick-prev {
+        left: -25px;
+        @media #{$info-phone} {
+          left: 0;
+        }
+      }
+    }
+  }
+}
+
+.section-content__client .section-content__container {
+  padding-top: 0px;
+}
+
+
+/* event & program */
+
+.section-content__event-program {
+  padding: 8.1% 0 40px;
+
+  .section-content__header {
+    margin-bottom: 5%;
+  }
+
+  .section-content__container {
+    width: 64vw;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    @media #{$info-tablet-horizontal} {
+      width: 80vw;
+    }
+    @media #{$info-tablet-vertical} {
+      width: 100%;
+    }
+
+    > .row {
+      height: 245px;
+      border-radius: 20px;
+      margin-bottom: 35px;
+      position: relative;
+      @media #{$info-phone} {
+        height: 200px;
+      }
+      @media screen and (max-width: 576px) {
+        height: auto;
+      }
+    }
+
+    a.font_color--green {
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      @media #{$info-phone} {
+        bottom: 15px;
+        right: 15px;
+      }
+
+      &:hover {
+        color: #a3b627;
+        opacity: .85;
+      }
+    }
+
+    .event-image {
+      //width: 20vw;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 20px;
+      z-index: 1;
+      position: relative;
+      @media #{$info-phone} {
+
+      }
+    }
+
+    .event-content {
+      @media #{$info-phone} {
+        padding-bottom: 40px;
+      }
+    }
+  }
+
+}
+
+
+.event-content__date {
+  margin-left: -50px;
+  display: inline-block;
+  z-index: 0;
+  padding: 0 50px;
+  align-content: center;
+}
+
+.event-content__date span {
+  vertical-align: middle
+}
+
+.event-content__date--day {
+  font-size: 2.8rem
+}
+
+.event-content__date--month,
+.event-content__date--year {
+  font-size: 1.3rem;
+}
+
+.section-content__event-program center.view-more {
+  padding: 3% 0;
+}
+
+
+/*=====  End of Home Section Content  ======*/

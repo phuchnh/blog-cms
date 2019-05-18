@@ -1,0 +1,1160 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+
+
+/*=============================================
+=            Section comment block            =
+=============================================*/
+
+.width--1700 {
+    width: 1700px;
+    margin: 0 auto
+}
+
+
+/*=====  End of Section comment block  ======*/
+
+
+/*=============================================
+=           Standard Color                    =
+=============================================*/
+
+.font_color--white {
+    color: #fff;
+}
+
+.font_color--orange {
+    color: #f5821f;
+}
+
+.font_color--orange:hover{
+    color: #f5821f;
+    text-decoration: underline;
+}
+
+.font_color--green {
+    color: #a3b627
+}
+
+.font_color--grey {
+    color: #393939
+}
+
+.font_color--light-grey {
+    color: #818181
+}
+
+.font_color--dark-grey {
+    color: #373737
+}
+
+
+/*=====  End ofStandard Color ======*/
+
+
+/*=============================================
+=            Background color            =
+=============================================*/
+
+.background--none {
+    background: none;
+}
+
+.background--white {
+    background: #fff
+}
+
+.background--light-orange {
+    background: #ffedcf;
+}
+
+.background--orange {
+    background: #f5821f;
+}
+
+.background--light-grey {
+    background: #ededed;
+}
+
+.background--grey {
+    background: #6d6d6d;
+}
+
+.background--dark-grey {
+    background: #393939;
+}
+
+.background--green {
+    background: #c6d757;
+}
+
+.background__cover--center {
+    -webkit-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat;
+}
+
+.background__cover--center-bottom {
+    -webkit-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    background-position: center bottom !important;
+    background-repeat: no-repeat;
+}
+
+.background__cover--center-top {
+    -webkit-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    background-position: center top !important;
+    background-repeat: no-repeat;
+}
+
+
+/*=====  End of Background color  ======*/
+
+
+/*=============================================
+=            Font Size Standard               =
+=============================================*/
+
+.fs--8 {
+    font-size: 8px;
+}
+
+.fs--9 {
+    font-size: 9px;
+}
+
+.fs--10 {
+    font-size: 10px;
+}
+
+.fs--11 {
+    font-size: 11px;
+}
+
+.fs--12 {
+    font-size: 12px;
+}
+
+.fs--13 {
+    font-size: 13px;
+}
+
+.fs--14 {
+    font-size: 14px;
+}
+
+.fs--15 {
+    font-size: 15px;
+}
+
+.fs--16 {
+    font-size: 16px;
+}
+
+.fs--17 {
+    font-size: 17px;
+}
+
+.fs--18 {
+    font-size: 18px;
+}
+
+.fs--19 {
+    font-size: 19px;
+}
+
+.fs--20 {
+    font-size: 20px;
+}
+
+.fs--21 {
+    font-size: 21px
+}
+
+.fs--22 {
+    font-size: 22px
+}
+
+.fs--23 {
+    font-size: 23px
+}
+
+.fs--24 {
+    font-size: 24px;
+}
+
+.fs--25 {
+    font-size: 25px
+}
+
+.fs--26 {
+    font-size: 26px
+}
+
+.fs--27 {
+    font-size: 27px
+}
+
+.fs--28 {
+    font-size: 28px
+}
+
+.fs--29 {
+    font-size: 29px
+}
+
+.fs--30 {
+    font-size: 30px
+}
+
+.fs--31 {
+    font-size: 31px
+}
+
+.fs--32 {
+    font-size: 32px
+}
+
+.fs--33 {
+    font-size: 33px
+}
+
+.fs--34 {
+    font-size: 34px
+}
+
+.fs--35 {
+    font-size: 35px
+}
+
+.fs--36 {
+    font-size: 36px
+}
+
+.fs--37 {
+    font-size: 37px
+}
+
+.fs--38 {
+    font-size: 38px
+}
+
+.fs--39 {
+    font-size: 39px
+}
+
+.fs--40 {
+    font-size: 40px
+}
+
+.fs--41 {
+    font-size: 41px
+}
+
+.fs--42 {
+    font-size: 42px
+}
+
+.fs--43 {
+    font-size: 43px
+}
+
+.fs--44 {
+    font-size: 44px
+}
+
+.fs--45 {
+    font-size: 45px
+}
+
+.fs--46 {
+    font-size: 46px
+}
+
+.fs--47 {
+    font-size: 47px
+}
+
+.fs--48 {
+    font-size: 48px
+}
+
+.fs--49 {
+    font-size: 49px
+}
+
+.fs--50 {
+    font-size: 50px
+}
+
+.fs--0-1em {
+    font-size: 0.1em
+}
+
+.fs--0-2em {
+    font-size: 0.2em
+}
+
+.fs--0-3em {
+    font-size: 0.3em
+}
+
+.fs--0-4em {
+    font-size: 0.4em
+}
+
+.fs--0-5em {
+    font-size: 0.5em
+}
+
+.fs--0-6em {
+    font-size: 0.6em
+}
+
+.fs--0-7em {
+    font-size: 0.7em
+}
+
+.fs--0-8em {
+    font-size: 0.8em
+}
+
+.fs--0-9em {
+    font-size: 0.9em
+}
+
+.fs--1em {
+    font-size: 1em
+}
+
+.fs--1-1em {
+    font-size: 1.1em
+}
+
+.fs--1-2em {
+    font-size: 1.2em
+}
+
+.fs--1-3em {
+    font-size: 1.3em
+}
+
+.fs--1-4em {
+    font-size: 1.4em
+}
+
+.fs--1-5em {
+    font-size: 1.5em
+}
+
+.fs--1-6em {
+    font-size: 1.6em
+}
+
+.fs--1-7em {
+    font-size: 1.7em
+}
+
+.fs--1-8em {
+    font-size: 1.8em
+}
+
+.fs--1-9em {
+    font-size: 1.9em
+}
+
+.fs--2em {
+    font-size: 2em
+}
+
+.fs--2-1em {
+    font-size: 2.1em
+}
+
+.fs--2-2em {
+    font-size: 2.2em
+}
+
+.fs--2-3em {
+    font-size: 2.3em
+}
+
+.fs--2-4em {
+    font-size: 2.4em
+}
+
+.fs--2-5em {
+    font-size: 2.5em
+}
+
+.fs--2-6em {
+    font-size: 2.6em
+}
+
+.fs--2-7em {
+    font-size: 2.7em
+}
+
+.fs--2-8em {
+    font-size: 2.8em
+}
+
+.fs--2-9em {
+    font-size: 2.9em
+}
+
+.fs--3em {
+    font-size: 3em
+}
+
+.fs--0-1rem {
+    font-size: 0.1rem
+}
+
+.fs--0-2rem {
+    font-size: 0.2rem
+}
+
+.fs--0-3rem {
+    font-size: 0.3rem
+}
+
+.fs--0-4rem {
+    font-size: 0.4rem
+}
+
+.fs--0-5rem {
+    font-size: 0.5rem
+}
+
+.fs--0-6rem {
+    font-size: 0.6rem
+}
+
+.fs--0-7rem {
+    font-size: 0.7rem
+}
+
+.fs--0-8rem {
+    font-size: 0.8rem
+}
+
+.fs--0-9rem {
+    font-size: 0.9rem
+}
+
+.fs--1rem {
+    font-size: 1rem
+}
+
+.fs--1-1rem {
+    font-size: 1.1rem
+}
+
+.fs--1-2rem {
+    font-size: 1.2rem
+}
+
+.fs--1-3rem {
+    font-size: 1.3rem
+}
+
+.fs--1-4rem {
+    font-size: 1.4rem
+}
+
+.fs--1-5rem {
+    font-size: 1.5rem
+}
+
+.fs--1-6rem {
+    font-size: 1.6rem
+}
+
+.fs--1-7rem {
+    font-size: 1.7rem
+}
+
+.fs--1-8rem {
+    font-size: 1.8rem
+}
+
+.fs--1-9rem {
+    font-size: 1.9rem
+}
+
+.fs--2rem {
+    font-size: 2rem
+}
+
+.fs--2-1rem {
+    font-size: 2.1rem
+}
+
+.fs--2-2rem {
+    font-size: 2.2rem
+}
+
+.fs--2-3rem {
+    font-size: 2.3rem
+}
+
+.fs--2-4rem {
+    font-size: 2.4rem
+}
+
+.fs--2-5rem {
+    font-size: 2.5rem
+}
+
+.fs--2-6rem {
+    font-size: 2.6rem
+}
+
+.fs--2-7rem {
+    font-size: 2.7rem
+}
+
+.fs--2-8rem {
+    font-size: 2.8rem
+}
+
+.fs--2-9rem {
+    font-size: 2.9rem
+}
+
+.fs--3rem {
+    font-size: 3rem
+}
+
+
+/*=====  End of Font Size Standard  ======*/
+
+
+/*=============================================
+=            margin standard            =
+=============================================*/
+
+.margin--none {
+    margin: 0
+}
+
+.margin--5 {
+    margin: 5px
+}
+
+.margin--10 {
+    margin: 10px
+}
+
+.margin--15 {
+    margin: 15px
+}
+
+.margin--20 {
+    margin: 20px
+}
+
+.margin--25 {
+    margin: 25px
+}
+
+.margin--30 {
+    margin: 30px
+}
+
+.margin--35 {
+    margin: 35px
+}
+
+.margin--40 {
+    margin: 40px
+}
+
+.margin--45 {
+    margin: 45px
+}
+
+.margin--50 {
+    margin: 50px
+}
+
+.margin_left--0 {
+    margin-left: 0px
+}
+
+.margin_left--5 {
+    margin-left: 5px
+}
+
+.margin_left--10 {
+    margin-left: 10px
+}
+
+.margin_left--15 {
+    margin-left: 15px
+}
+
+.margin_left--20 {
+    margin-left: 20px
+}
+
+.margin_left--25 {
+    margin-left: 25px
+}
+
+.margin_left--30 {
+    margin-left: 30px
+}
+
+.margin_left--35 {
+    margin-left: 35px
+}
+
+.margin_left--40 {
+    margin-left: 40px
+}
+
+.margin_left--45 {
+    margin-left: 45px
+}
+
+.margin_left--50 {
+    margin-left: 50px
+}
+
+.margin_right--0 {
+    margin-right: 5px
+}
+
+.margin_right--5 {
+    margin-right: 5px
+}
+
+.margin_right--10 {
+    margin-right: 10px
+}
+
+.margin_right--15 {
+    margin-right: 15px
+}
+
+.margin_right--20 {
+    margin-right: 20px
+}
+
+.margin_right--25 {
+    margin-right: 25px
+}
+
+.margin_right--30 {
+    margin-right: 30px
+}
+
+.margin_right--35 {
+    margin-right: 35px
+}
+
+.margin_right--40 {
+    margin-right: 40px
+}
+
+.margin_right--45 {
+    margin-right: 45px
+}
+
+.margin_right--50 {
+    margin-right: 50px
+}
+
+.margin_bottom--0 {
+    margin-bottom: 0px
+}
+
+.margin_bottom--5 {
+    margin-bottom: 5px
+}
+
+.margin_bottom--10 {
+    margin-bottom: 10px
+}
+
+.margin_bottom--15 {
+    margin-bottom: 15px
+}
+
+.margin_bottom--20 {
+    margin-bottom: 20px
+}
+
+.margin_bottom--25 {
+    margin-bottom: 25px
+}
+
+.margin_bottom--30 {
+    margin-bottom: 30px
+}
+
+.margin_bottom--35 {
+    margin-bottom: 35px
+}
+
+.margin_bottom--40 {
+    margin-bottom: 40px
+}
+
+.margin_bottom--45 {
+    margin-bottom: 45px
+}
+
+.margin_bottom--50 {
+    margin-bottom: 50px
+}
+
+.margin_top--0 {
+    margin-top: 0px
+}
+
+.margin_top--5 {
+    margin-top: 5px
+}
+
+.margin_top--10 {
+    margin-top: 10px
+}
+
+.margin_top--15 {
+    margin-top: 15px
+}
+
+.margin_top--20 {
+    margin-top: 20px
+}
+
+.margin_top--25 {
+    margin-top: 25px
+}
+
+.margin_top--30 {
+    margin-top: 30px
+}
+
+.margin_top--35 {
+    margin-top: 35px
+}
+
+.margin_top--40 {
+    margin-top: 40px
+}
+
+.margin_top--45 {
+    margin-top: 45px
+}
+
+.margin_top--50 {
+    margin-top: 50px
+}
+
+
+/*=====  End of margin standard  ======*/
+
+
+/*=============================================
+=            Padding Standard            =
+=============================================*/
+
+.padding--none {
+    padding: 0
+}
+
+.padding--5 {
+    padding: 5px
+}
+
+.padding--10 {
+    padding: 10px
+}
+
+.padding--15 {
+    padding: 15px
+}
+
+.padding--20 {
+    padding: 20px
+}
+
+.padding--25 {
+    padding: 25px
+}
+
+.padding--30 {
+    padding: 30px
+}
+
+.padding--35 {
+    padding: 35px
+}
+
+.padding--40 {
+    padding: 40px
+}
+
+.padding--45 {
+    padding: 45px
+}
+
+.padding--50 {
+    padding: 50px
+}
+
+.padding_left--0 {
+    padding-left: 0px
+}
+
+.padding_left--5 {
+    padding-left: 5px
+}
+
+.padding_left--10 {
+    padding-left: 10px
+}
+
+.padding_left--15 {
+    padding-left: 15px
+}
+
+.padding_left--20 {
+    padding-left: 20px
+}
+
+.padding_left--25 {
+    padding-left: 25px
+}
+
+.padding_left--30 {
+    padding-left: 30px
+}
+
+.padding_left--35 {
+    padding-left: 35px
+}
+
+.padding_left--40 {
+    padding-left: 40px
+}
+
+.padding_left--45 {
+    padding-left: 45px
+}
+
+.padding_left--50 {
+    padding-left: 50px
+}
+
+.padding_right--0 {
+    padding-right: 0px
+}
+
+.padding_right--5 {
+    padding-right: 5px
+}
+
+.padding_right--10 {
+    padding-right: 10px
+}
+
+.padding_right--15 {
+    padding-right: 15px
+}
+
+.padding_right--20 {
+    padding-right: 20px
+}
+
+.padding_right--25 {
+    padding-right: 25px
+}
+
+.padding_right--30 {
+    padding-right: 30px
+}
+
+.padding_right--35 {
+    padding-right: 35px
+}
+
+.padding_right--40 {
+    padding-right: 40px
+}
+
+.padding_right--45 {
+    padding-right: 45px
+}
+
+.padding_right--50 {
+    padding-right: 50px
+}
+
+.padding_bottom--0 {
+    padding-bottom: 0px
+}
+
+.padding_bottom--5 {
+    padding-bottom: 5px
+}
+
+.padding_bottom--10 {
+    padding-bottom: 10px
+}
+
+.padding_bottom--15 {
+    padding-bottom: 15px
+}
+
+.padding_bottom--20 {
+    padding-bottom: 20px
+}
+
+.padding_bottom--25 {
+    padding-bottom: 25px
+}
+
+.padding_bottom--30 {
+    padding-bottom: 30px
+}
+
+.padding_bottom--35 {
+    padding-bottom: 35px
+}
+
+.padding_bottom--40 {
+    padding-bottom: 40px
+}
+
+.padding_bottom--45 {
+    padding-bottom: 45px
+}
+
+.padding_bottom--50 {
+    padding-bottom: 50px
+}
+
+.padding_top--0 {
+    padding-top: 0px
+}
+
+.padding_top--5 {
+    padding-top: 5px
+}
+
+.padding_top--10 {
+    padding-top: 10px
+}
+
+.padding_top--15 {
+    padding-top: 15px
+}
+
+.padding_top--20 {
+    padding-top: 20px
+}
+
+.padding_top--25 {
+    padding-top: 25px
+}
+
+.padding_top--30 {
+    padding-top: 30px
+}
+
+.padding_top--35 {
+    padding-top: 35px
+}
+
+.padding_top--40 {
+    padding-top: 40px
+}
+
+.padding_top--45 {
+    padding-top: 45px
+}
+
+.padding_top--50 {
+    padding-top: 50px
+}
+
+
+/*=====  End of Padding Standard  ======*/
+
+
+/*=============================================
+=            Border Standard            =
+=============================================*/
+
+.border_none {
+    border: none
+}
+
+.border_top--1 {
+    border-top: 1px solid #363636
+}
+
+.border--orange {
+    border: 1px solid #f5821f;
+}
+
+.border--grey {
+    border: 1px solid #ced4da;
+}
+
+
+/*=====  End of Border Standard  ======*/
+
+
+/*=============================================
+=            Border Radius Standard            =
+=============================================*/
+
+.border_radius--none {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+}
+
+.border_radius--2em {
+    border-radius: 2em;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    -ms-border-radius: 2em;
+    -o-border-radius: 2em;
+}
+
+
+/*=====  End of Border Radius Standard  ======*/
+
+
+/*=============================================
+=            Align Content Standard            =
+=============================================*/
+
+.element_center--text-center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    -ms-justify-content: center;
+    -webkit-justify-content: center;
+}
+
+.element_center--text-left {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    text-align: left;
+    justify-content: center;
+    -ms-justify-content: center;
+    -webkit-justify-content: center;
+}
+
+.element_center--text-right {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    text-align: right;
+    justify-content: center;
+    -ms-justify-content: center;
+    -webkit-justify-content: center;
+}
+
+
+/*=====  End of Align Content Standard  ======*/
+
+
+/*=============================================
+=            Line Standard            =
+=============================================*/
+
+.hr__short--green {
+    background: #c6d757;
+    width: 100px;
+    height: 5px;
+    margin: 0 auto;
+    border:none;
+}
+
+.hr__short--white {
+    background: #fff;
+    width: 100px;
+    height: 5px;
+    border:none;
+}
+
+.hr__short--grey {
+    background: #cccccc;
+    width: 100px;
+    height: 0.2em;
+    border: none;
+}
+
+
+/*=====  End of Line Standard  ======*/
+
+
+/*=============================================
+=            Carousel Standard            =
+=============================================*/
+
+.carousel-control-next,
+.carousel-control-prev {
+    width: 5%;
+    color: #f5821f;
+    opacity: 1;
+}
+
+.carousel-control-next {
+    justify-content: flex-end;
+    align-items: right;
+}
+
+.carousel-control-prev {
+    justify-content: left
+}
+
+.carousel-control-next .fas,
+.carousel-control-prev .fas {
+    font-size: 35px;
+    padding: 20px 25px;
+    background-color: #fff
+}
+
+
+/*=====  End of Carousel Standard  ======*/

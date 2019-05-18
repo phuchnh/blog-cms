@@ -1,0 +1,246 @@
+/*=============================================
+=            HEADER            =
+=============================================*/
+
+.header-top {
+  font-size: 1em;
+
+  .navbar-nav.ml-auto {
+    font-size: 1em
+  }
+
+  .form-search {
+    display: none;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover .nav-link{
+    color: #fff;
+  }
+
+  @media #{$info-phone, $info-tablet-horizontal ,$info-tablet-vertical} {
+    .nav-item {
+      .nav-link {
+        display: none;
+      }
+
+      &:first-child {
+        .nav-link {
+          display: block;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1440px) {
+    .form-search {
+      display: block;
+
+      .form-control {
+        width: 80%;
+      }
+    }
+
+    .navbar-nav.ml-auto {
+      margin-left: 0 !important;
+      margin-right: auto !important;
+    }
+
+    .navbar-nav.mr-auto {
+      margin-right: 15px !important;
+    }
+  }
+  @media #{$info-phone, $info-tablet-vertical}{
+    .form-search {
+      display: none;
+    }
+
+    .navbar-nav.ml-auto {
+      margin-left: auto !important;
+      margin-right: 0 !important;
+    }
+
+    .navbar-nav.mr-auto {
+      margin-right: auto !important;
+    }
+  }
+}
+
+.header-main {
+  padding: 1em 2em;
+
+  .navbar-brand img {
+    height: 2.2em;
+  }
+
+  .navbar-light {
+    .nav-link {
+      color: #fff;
+    }
+  }
+
+  .navbar-toggler {
+    color: #fff;
+    padding: 0;
+    border: none;
+    font-size: 2.5rem;
+  }
+
+  @media screen and (max-width: 1440px) {
+    & {
+      display: block;
+    }
+
+    .navbar-brand {
+      img {
+        height: 1.6em;
+      }
+    }
+
+    .form-search {
+      display: none;
+    }
+
+    #main_navigate {
+      .nav-link {
+        font-size: 0.9rem;
+      }
+    }
+  }
+  @media #{$info-tablet-vertical} {
+    .navbar-brand img {
+      height: 1.6em;
+    }
+  }
+  @media #{$info-phone, $info-tablet-vertical}{
+    & {
+      padding: 1em 0;
+    }
+
+    .navbar-brand {
+      padding-left: 15px
+    }
+
+    .navbar-toggler {
+      padding-right: 15px;
+      padding-left: 56px;
+    }
+
+    .navbar-collapse {
+      border-top: 1px solid #999;
+      margin-top: 15px;
+      background: #eee;
+    }
+
+    .nav-item {
+      border-bottom: 1px solid #999;
+
+      .nav-link {
+        padding: 15px 15px;
+        cursor: pointer;
+        color: #212529;
+        font-weight: 400;
+      }
+
+      &.active {
+        .nav-link {
+          font-weight: 700;
+        }
+      }
+    }
+
+    .form-search {
+      margin: 0 !important;
+      max-width: 100%;
+      border-radius: 0;
+      display: flex;
+
+      .form-control {
+        width: 85%;
+        padding: 15px;
+        height: auto;
+      }
+
+      .btn {
+        padding: 15px 5%;
+        width: 13%;
+        text-align: center;
+      }
+    }
+
+    .navbar-language {
+      display: inline-block;
+      border-top: 1px solid #999;
+      width: 100%;
+
+      .nav-item {
+        border-bottom: none;
+        display: inline-block;
+      }
+
+      &:after {
+        content: '';
+        width: 100%;
+        background: #eee;
+        position: absolute;
+        z-index: 10;
+        height: 15px;
+        bottom: -14px;
+        left: 0;
+      }
+    }
+  }
+}
+
+/*=============================================
+=            Banner            =
+=============================================*/
+
+.banner__home-page {
+  width: 100%;
+  min-height: 670px;
+
+  h1 {
+    font-size: 5.3rem;
+    margin-bottom: 20px;
+
+    &:after {
+      content: '';
+      display: block;
+      height: 1px;
+      background-color: #fff;
+      width: 300px;
+      margin: 15px auto 0;
+    }
+
+    small {
+      font-size: 1.125rem;
+      font-weight: bold;
+      display: block;
+    }
+  }
+
+  .content {
+    font-size: 1.125rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .btn-lg {
+    padding: 10px 60px;
+  }
+
+  @media #{$info-phone}{
+    & {
+      min-height: 50vh;
+    }
+  }
+}
+
+.banner_content {
+  padding-top: 6%;
+}
+
+//.banner_content header {
+//  font-size: 4em;
+//  font-weight: bold;
+//}

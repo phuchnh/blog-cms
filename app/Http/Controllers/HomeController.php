@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Client;
+
+use App\Transformers\ClientTransformer;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -23,6 +27,74 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // load Press
+        $data['press'] = $this->loadInThePress('post_presses');
+
+        // load Client
+        $data['clients'] = $this->loadClient();
+
+        // load Event And Program
+        $data['eventAndProgram'] = $this->loadEventAndProgram();
+
+        return view('page.home', [
+            'data'        => $data,
+            'navigate'    => 'home',
+            'subnavigate' => 'home',
+            'slug'        => 'home',
+        ]);
+    }
+
+    /**
+     * load in the press data
+     *
+     * @param string $type
+     * @return \Illuminate\Support\Collection
+     */
+    private function loadInThePress($type)
+    {
+        /** @var \App\Models\Post $post */
+        $post = Post::ofLocale(app()->getLocale())
+                    ->whereType($type)
+                    ->whereHas('metas', function ($query) {
+                        /**@var \Illuminate\Database\Eloquent\Builder $query */
+                        $query->where('meta_key', '=', 'is_home')
+                              ->where('meta_value', '"true"');
+                    })
+                    ->limit(6)
+                    ->latest();
+
+        // Transform Post Data
+        return $this->loadTransformDataPost($post);
+    }
+
+    /**
+     * load client
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function loadClient()
+    {
+        $data = Client::get();
+        $data = $this->loadTransformData($data, ClientTransformer::class);
+
+        return $data;
+    }
+
+    private function loadEventAndProgram()
+    {
+        /** @var \App\Models\Post $post */
+        $post = Post::ofLocale(app()->getLocale())
+                    ->whereType('post_events')
+                    ->orWhere('type', 'post_programs')
+                    ->whereHas('metas', function ($query) {
+                        /**@var \Illuminate\Database\Eloquent\Builder $query */
+                        $query->where('meta_key', '=', 'is_home')
+                              ->where('meta_value', '"true"');
+                    })
+                    ->limit(6)
+                    ->latest();
+
+        // Transform Post Data
+        return $this->loadTransformDataPost($post);
     }
 }

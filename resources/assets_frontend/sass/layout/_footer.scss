@@ -1,0 +1,79 @@
+/*=============================================
+=            Footer Section            =
+=============================================*/
+
+.footer_information {
+  padding-top: 5%;
+  padding-bottom: 10px;
+
+  a {
+    color: #808080
+  }
+
+  @media #{$info-phone} {
+    .flex-sm-fill {
+      margin-bottom: 15px;
+    }
+
+    & {
+      display: none;
+    }
+  }
+}
+
+.footer_information__address {
+  img {
+    width: 17vw;
+    height: auto;
+  }
+
+  @media #{$info-phone} {
+    & {
+      display: none;
+    }
+  }
+}
+
+.footer_copyright {
+  color: #595959;
+}
+
+.footer_network {
+  .list-inline-item {
+    margin-right: 0;
+  }
+
+  .fab {
+    font-size: 1.6rem;
+    padding: 0 1.5em
+  }
+
+  .offset-sm-3.col-sm-6 {
+    padding-bottom: 10px
+  }
+
+  a:hover {
+    color: #fff;
+  }
+
+  @media #{$info-phone} {
+    .col-sm-3 {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+  }
+}
+
+.footer_inquiry {
+  padding: 50px 0;
+
+  @media #{$info-phone} {
+    .col-xs-12 {
+      margin-bottom: 15px;
+    }
+
+    & {
+      padding: 25px 0;
+    }
+  }
+}
