@@ -19,7 +19,8 @@
                         <small>@isset($setting['banner']['content'][$key_banner]->sub_title){{$setting['banner']['content'][$key_banner]->sub_title}}@endisset</small>
                     </h1>
 
-                    <div class="content margin_bottom--25" style="white-space: pre-line">@isset($setting['banner']['content'][$key_banner]->description){{$setting['banner']['content'][$key_banner]->description}}@endisset</div>
+                    <div class="content margin_bottom--25"
+                         style="white-space: pre-line">@isset($setting['banner']['content'][$key_banner]->description){{$setting['banner']['content'][$key_banner]->description}}@endisset</div>
 
                     <a href="@isset($setting['banner']['content'][$key_banner]->link){{$setting['banner']['content'][$key_banner]->link}}@endisset"
                        class="btn btn-lg fs--1rem border_radius--2em background--white font_color--orange font-weight-bold">
@@ -162,11 +163,25 @@
                         <div class="row background--white margin_left--0 margin_right--0">
                             <div class="col-sm-4 col-xs-12 padding_left--0">
                                 @isset($ep['meta']['thumbnail']['url'])
-                                    <div class="event-image background__cover--center"
-                                         style="background:url({{$ep['meta']['thumbnail']['url']}})">
-                                        <img class="d-none" src="{{$ep['meta']['thumbnail']['url']}}" width="370"
-                                             height="325">
-                                    </div>
+                                    @if ($ep['type'] === 'event')
+                                        <a href="{{route('eventitem', $ep['slug'])}}">
+                                            <div class="event-image background__cover--center"
+                                                 style="background:url({{$ep['meta']['thumbnail']['url']}})">
+                                                <img class="d-none" src="{{$ep['meta']['thumbnail']['url']}}"
+                                                     width="370"
+                                                     height="325">
+                                            </div>
+                                        </a>
+                                    @else
+                                        <a href="{{route('programitem', $ep['slug'])}}">
+                                            <div class="event-image background__cover--center"
+                                                 style="background:url({{$ep['meta']['thumbnail']['url']}})">
+                                                <img class="d-none" src="{{$ep['meta']['thumbnail']['url']}}"
+                                                     width="370"
+                                                     height="325">
+                                            </div>
+                                        </a>
+                                    @endif
                                 @endisset
                             </div>
                             <div class="col-sm-8 col-xs-12">
@@ -179,8 +194,18 @@
                                     </div>
 
                                     <div class="event-content__body">
-                                        <header class="event-content__title fs--1-2rem font-weight-bold text-uppercase">
-                                            @ifIssetShowValue($ep['title'])
+                                        <header class="event-content__title">
+                                            @if ($ep['type'] === 'event')
+                                                <a href="{{route('eventitem', $ep['slug'])}}"
+                                                   class="fs--1-2rem font-weight-bold text-uppercase font_color--grey">
+                                                    @ifIssetShowValue($ep['title'])
+                                                </a>
+                                            @else
+                                                <a href="{{route('programitem', $ep['slug'])}}"
+                                                   class="fs--1-2rem font-weight-bold text-uppercase font_color--grey">
+                                                    @ifIssetShowValue($ep['title'])
+                                                </a>
+                                            @endif
                                         </header>
 
                                         <div class="content">

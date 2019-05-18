@@ -11,12 +11,18 @@
     padding: 8.1% 0 40px;
 
     .event-section__container {
-      .card-deck {
+      .card-columns {
         margin-bottom: 40px;
+        column-count: 3;
 
         .card {
           .card-img-top {
             min-height: 15em;
+            
+            img {
+              width: 100%;
+              min-height: 15em;
+            }
           }
 
           .card-body {
