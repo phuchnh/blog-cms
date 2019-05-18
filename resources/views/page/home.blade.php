@@ -112,7 +112,7 @@
         <!-- Client -->
         <section class="section-content section-content__client container">
             <h2 class="section-content__header text-center text-uppercase">
-                @lang('site.client')
+                @lang('site.clients')
             </h2>
 
             @isset($data['clients'])
@@ -153,8 +153,8 @@
         <!-- Event & Programs -->
         @isset($data['eventAndProgram'])
             <section class="section-content section-content__event-program background--light-orange">
-                <h2 class="section-content__header text-center">
-                    @lang('site.event-and-program')
+                <h2 class="section-content__header text-center text-uppercase">
+                    @lang('site.events-and-programs')
                 </h2>
 
                 <div class="section-content__container padding_left--15 padding_right--15">

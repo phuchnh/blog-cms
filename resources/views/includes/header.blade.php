@@ -71,7 +71,7 @@
                             <a class="nav-link text-uppercase" href="{{route('about')}}">ABOUT</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'event-program') active @endif">
-                            <a class="nav-link text-uppercase" href="{{route('event-program')}}">EVENT &
+                            <a class="nav-link text-uppercase" href="{{route('event-program')}}">EVENTS &
                                 PROGRAMS</a>
                         </li>
                         <li class="nav-item @if ($navigate === 'results') active @endif">

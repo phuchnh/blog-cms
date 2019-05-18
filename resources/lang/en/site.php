@@ -23,6 +23,7 @@ return [
 
     # C
     'client' => 'client',
+    'clients' => 'clients',
     'contact-us' => 'contact-us',
     'company' => 'company',
 
