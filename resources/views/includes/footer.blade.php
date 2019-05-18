@@ -7,19 +7,19 @@
             <div class="row margin_bottom--15">
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'individual')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize font-weight-bold">
                         @lang('site.individual')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'company')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize font-weight-bold">
                         @lang('site.company')
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'meeting')}}"
-                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize">
+                       class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-capitalize font-weight-bold">
                         @lang('site.book-a-meeting')
                     </a>
                 </div>
