@@ -7923,7 +7923,8 @@ h2.section-content__header:after {
   }
 }
 .section-content__event-program .section-content__container > .row {
-  height: 245px;
+  min-height: 245px;
+  height: auto;
   border-radius: 20px;
   margin-bottom: 35px;
   position: relative;

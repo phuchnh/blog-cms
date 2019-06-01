@@ -62,7 +62,7 @@
                                         @isset($item['meta']['thumbnail']['url'])
                                             <a href="{{route('eventitem', $item['slug'])}}">
                                                 <div class="card-img-top background__cover--center"
-                                                     style="background: url({{$item['meta']['thumbnail']['url']}})">
+                                                     style="background: url('{{$item['meta']['thumbnail']['url']}}')">
                                                     <img class="d-none" src="{{$item['meta']['thumbnail']['url']}}"
                                                          alt="{{$item['title']}}">
                                                 </div>
