@@ -8014,14 +8014,14 @@ h2.section-content__header:after {
   margin-bottom: 40px;
   column-count: 3;
 }
-@media only screen and (max-width : 767px) {
-  .event-section .event-main .event-section__container .card-columns {
-    column-count: 1;
-  }
-}
 @media only screen and (max-width : 900px) {
   .event-section .event-main .event-section__container .card-columns {
     column-count: 2;
+  }
+}
+@media only screen and (max-width : 767px) {
+  .event-section .event-main .event-section__container .card-columns {
+    column-count: 1;
   }
 }
 .event-section .event-main .event-section__container .card-columns .card .card-img-top {
@@ -8049,21 +8049,32 @@ h2.section-content__header:after {
 .event-section .event-main .event-section__date {
   padding-top: 5rem;
 }
-.event-section .event-main .event-section__other d-none {
+.event-section .event-main .event-section__other {
   margin-top: 5rem;
   padding-top: 5rem;
   border-top: 1px solid #cccccc;
 }
-.event-section .event-main .event-section__other d-none header {
+.event-section .event-main .event-section__other header {
   margin-bottom: 3rem;
 }
-.event-section .event-main .event-section__other d-none .card-deck {
+.event-section .event-main .event-section__other .card-columns {
   margin-bottom: 40px;
+  column-count: 3;
 }
-.event-section .event-main .event-section__other d-none .card-deck .card .card-img-top {
+@media only screen and (max-width : 900px) {
+  .event-section .event-main .event-section__other .card-columns {
+    column-count: 2;
+  }
+}
+@media only screen and (max-width : 767px) {
+  .event-section .event-main .event-section__other .card-columns {
+    column-count: 1;
+  }
+}
+.event-section .event-main .event-section__other .card-columns .card .card-img-top {
   min-height: 12em;
 }
-.event-section .event-main .event-section__other d-none .card-deck .card .card-body {
+.event-section .event-main .event-section__other .card-columns .card .card-body {
   padding: 1.25rem 0;
 }
 .event-section .event-main.event-main--program {

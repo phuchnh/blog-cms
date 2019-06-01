@@ -33,12 +33,12 @@
         margin-bottom: 40px;
         column-count: 3;
 
-        @media #{$info-phone} {
-          column-count: 1;
-        }
-
         @media #{$info-tablet-vertical} {
           column-count: 2;
+        }
+        
+        @media #{$info-phone} {
+          column-count: 1;
         }
 
         .card {
@@ -84,7 +84,7 @@
       padding-top: 5rem
     }
 
-    .event-section__other d-none {
+    .event-section__other {
       margin-top: 5rem;
       padding-top: 5rem;
       border-top: 1px solid #cccccc;
@@ -93,8 +93,17 @@
         margin-bottom: 3rem;
       }
 
-      .card-deck {
+      .card-columns {
         margin-bottom: 40px;
+        column-count: 3;
+
+        @media #{$info-tablet-vertical} {
+          column-count: 2;
+        }
+
+        @media #{$info-phone} {
+          column-count: 1;
+        }
 
         .card {
           .card-img-top {

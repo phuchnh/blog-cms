@@ -55,7 +55,7 @@
                     </header>
 
                     <div class="event-section__other--list container">
-                        <div class="card-deck">
+                        <div class="card-columns">
                             @foreach( $others as $other)
                                 <div class="card border_radius--none border_none">
                                     @isset($other['meta']['thumbnail']['url'])
