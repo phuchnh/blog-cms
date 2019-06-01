@@ -221,7 +221,7 @@
                                             </a>
                                         @else
                                             <a href="{{route('programitem', $ep['slug'])}}"
-                                               class="font_color--green pull-right" title="">
+                                               class="font_color--orange pull-right" title="">
                                                 @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                             </a>
                                         @endif

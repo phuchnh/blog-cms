@@ -43,6 +43,8 @@
                             <div class="event-content">
                                 {!! $item['content'] !!}
                             </div>
+
+                            <div class="sharethis-inline-share-buttons"></div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +76,7 @@
                                             {{$other['title']}}
                                         </h5>
                                         <div class="card__date font_color--light-grey">
-                                            <p class="fs--0-9em">{{$other['created_at']}}</p>
+                                            <p class="fs--0-9em">@formatDateCarbon($other['created_at'])</p>
                                         </div>
                                         <hr class="hr__short--grey"/>
                                         <a href="{{route($slug.'item', $other['slug'])}}" class="font_color--orange">

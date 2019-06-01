@@ -46,6 +46,8 @@
                                 <div class="event-content">
                                     {!! $item['content'] !!}
                                 </div>
+
+                                <div class="sharethis-inline-share-buttons"></div>
                             </div>
                         </div>
 

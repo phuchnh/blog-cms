@@ -15,7 +15,7 @@ class PostFrontEndTransformer extends Transformer
         'translations' => PostTranslationTransformer::class,
         'taxonomies'   => TaxonomyTransformer::class,
         'meta',
-        'sort',
+        'route',
     ];
 
     /**
