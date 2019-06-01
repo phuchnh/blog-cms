@@ -21,7 +21,7 @@
                                     <li class="breadcrumb-item">
                                         @isset($subnavigate)
                                             @if ($subnavigate === 'blogs')
-                                                <a href="{{route('program')}}">@lang('site.blogs')</a>
+                                                <a href="{{route('blog')}}">@lang('site.blogs')</a>
                                             @elseif($subnavigate === 'guided-meditation')
                                                 <a href="{{route('guide')}}">@lang('site.guided-meditation')</a>
                                             @else
