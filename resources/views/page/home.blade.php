@@ -60,8 +60,16 @@
                             </div>
                         </div>
                         <div class=" col-xs-12 col-sm-6">
-                            @isset($setting['introduction']['image']->url)
-                                <img class="img-responsive" src="{{$setting['introduction']['image']->url}}">
+                            @isset($setting['introduction']['video_link'])
+                                @if ($setting['introduction']['video_link'])
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        {!! $setting['introduction']['video_link'] !!}
+                                    </div>
+                                @endif
+                            @else
+                                @isset($setting['introduction']['image']->url)
+                                    <img class="img-responsive" src="{{$setting['introduction']['image']->url}}">
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -221,7 +229,7 @@
                                             </a>
                                         @else
                                             <a href="{{route('programitem', $ep['slug'])}}"
-                                               class="font_color--green pull-right" title="">
+                                               class="font_color--orange pull-right" title="">
                                                 @lang('site.view_more') <i class="fas fa-arrow-right"></i>
                                             </a>
                                         @endif

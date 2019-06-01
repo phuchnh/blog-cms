@@ -17,6 +17,7 @@ class PostTransformer extends Transformer
         'taxonomies'   => TaxonomyTransformer::class,
         'metas'        => MetaTransformer::class,
         'thumbnail',
+        'sort',
     ];
 
     /**
@@ -48,6 +49,22 @@ class PostTransformer extends Transformer
             $key = array_search('thumbnail', array_column($metasArray, 'meta_key'));
 
             return $key ? [$metasArray[$key]['meta_value']['url']] : [];
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * @param $post
+     * @return string
+     */
+    public function includeSort($post)
+    {
+        $metasArray = $post->metas->toArray();
+        if ($metasArray) {
+            $key = array_search('sort', array_column($metasArray, 'meta_key'));
+
+            return $key ? [$metasArray[$key]['meta_value']] : [];
         } else {
             return [];
         }

@@ -148,7 +148,7 @@ export default {
 
       params = {
         ...params,
-        with: 'taxonomies,metas,thumbnail',
+        with: 'taxonomies,metas,thumbnail,sort',
       }
 
       return PostService.getPosts(state.postType, params).then(resp => {

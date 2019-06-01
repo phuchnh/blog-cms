@@ -5,6 +5,7 @@ import axios from 'axios'
 export const namespaced = true
 const initialState = {
   list: [],
+  recentList: [],
   item: {},
   paginator: {},
   queryParams: {
@@ -22,6 +23,7 @@ const getters = {
   item: state => state.item,
   pagination: state => state.paginator,
   getQueryParams: state => state.queryParams,
+  recentSubscriptions: state => state.recentList,
 }
 
 const actions = {
@@ -54,12 +56,30 @@ const actions = {
   resetState ({ commit }) {
     commit('resetState')
   },
+
+  async getRecentSubscription ({ commit }) {
+    const params = {
+      sort: 'created_at',
+      direction: 'desc',
+      page: 1,
+      perPage: 5,
+    }
+
+    await ApiService.get('/subscriptions', params).then(res => {
+      commit('setListRecent', {
+        list: res.data.data,
+      })
+    })
+  },
 }
 
 const mutations = {
   setList (state, { list, queryParams = {} }) {
     state.list = list
     state.queryParams = { ...queryParams }
+  },
+  setListRecent (state, { list }) {
+    state.recentList = list
   },
   setItem (state, item) {
     state.item = item
