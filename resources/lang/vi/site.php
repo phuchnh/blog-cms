@@ -83,7 +83,7 @@ return [
     'submit-form' => 'hoàn tất đăng ký',
 
     # T
-    'take_an_assessment' => 'Đáng giá',
+    'take_an_assessment' => 'Đánh giá',
     'testimonial' => 'Chứng nhận',
     'testimonials' => 'Chứng nhận',
 

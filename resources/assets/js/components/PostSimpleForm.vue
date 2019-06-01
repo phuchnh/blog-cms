@@ -13,6 +13,15 @@
         </div>
       </div>
 
+      <div v-if="getPostType == 'post_people'" class="box box-widget">
+        <div class="box-header">
+          <h3 class="box-title text-capitalize">Sort</h3>
+        </div>
+        <div class="box-body">
+          <input type="number" class="form-control" id="sort" placeholder="sort" v-model="metas.sort">
+        </div>
+      </div>
+
       <ImagesBox v-model="metas.thumbnail" :boxTitle="'thumbnail'" :limit="1" @uploading="uploadImage"></ImagesBox>
     </div>
     <PostActionBox @click="handleAction" :disable="imageUploading"></PostActionBox>
@@ -53,6 +62,7 @@
         translations: [],
         metas: {
           thumbnail: null,
+          sort: 0,
         },
         imageUploading: false,
       }
@@ -85,7 +95,7 @@
     methods: {
       ...mapActions('faq', ['createItem', 'updateItem']),
       ...mapActions('postMeta', ['updateOrCreateMeta']),
-      
+
       handleAction (action) {
         if (action === 'cancel') {
           this.backToList()
@@ -125,6 +135,13 @@
           metas.push({
             meta_key: 'thumbnail',
             meta_value: this.metas.thumbnail,
+          })
+        }
+
+        if (this.metas.sort) {
+          metas.push({
+            meta_key: 'sort',
+            meta_value: this.metas.sort,
           })
         }
 

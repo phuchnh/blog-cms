@@ -46,6 +46,8 @@
                                 <div class="event-content">
                                     {!! $item['content'] !!}
                                 </div>
+
+                                <div class="sharethis-inline-share-buttons"></div>
                             </div>
                         </div>
 
@@ -108,41 +110,44 @@
                         </header>
 
                         <div class="event-section__other--list container">
-                            <div class="card-deck">
+                            <div class="card-columns">
 
                                 @foreach( $others as $other)
-                                    <div class="card border_radius--none border_none">
-                                        @isset($other['meta']['thumbnail']['url'])
-                                            <div class="card-img-top background__cover--center"
-                                                 style="background: url({{$other['meta']['thumbnail']['url']}})">
-                                                <img class="d-none" src="{{$other['meta']['thumbnail']['url']}}"
-                                                     alt="{{$other['title']}}">
-                                            </div>
-                                        @endisset
+                                    <a href="{{route('eventitem', $other['slug'])}}">
+                                        <div class="card border_radius--none border_none">
+                                            @isset($other['meta']['thumbnail']['url'])
+                                                <div class="card-img-top background__cover--center"
+                                                     style="background: url('{{$other['meta']['thumbnail']['url']}}')">
+                                                    <img class="" src="{{$other['meta']['thumbnail']['url']}}"
+                                                         alt="{{$other['title']}}">
+                                                </div>
+                                            @endisset
 
-                                        <div class="card-body">
-                                            <h6 class="font_color--green fs--0-8em font-italic">
-                                                @ifIssetShowCategoryTitle($other['taxonomies'])</h6>
-                                            <h5 class="card-title font_color--orange fs--1-3em">
-                                                {{$other['title']}}
-                                            </h5>
-                                            <div class="card__date font_color--light-grey">
-                                                <p class="fs--0-9em">
-                                                    @formatDateCarbon($other['meta']['event']['date'])
-                                                </p>
+                                            <div class="card-body">
+                                                <h6 class="font_color--green fs--0-8em font-italic">
+                                                    @ifIssetShowCategoryTitle($other['taxonomies'])</h6>
+                                                <h5 class="card-title font_color--orange fs--1-3em">
+                                                    {{$other['title']}}
+                                                </h5>
+                                                <div class="card__date font_color--light-grey">
+                                                    <p class="fs--0-9em">
+                                                        @formatDateCarbon($other['meta']['event']['date'])
+                                                    </p>
 
-                                                <p class="fs--0-9em font-weight-bold">
-                                                    @formatTimeCarbon($other['meta']['event']['start_time']) –
-                                                    @formatTimeCarbon($other['meta']['event']['end_time'])
-                                                </p>
+                                                    <p class="fs--0-9em font-weight-bold">
+                                                        @formatTimeCarbon($other['meta']['event']['start_time']) –
+                                                        @formatTimeCarbon($other['meta']['event']['end_time'])
+                                                    </p>
+                                                </div>
+                                                <hr class="hr__short--grey"/>
+                                                <a href="{{route('eventitem', $other['slug'])}}"
+                                                   class="font_color--orange">
+                                                    @lang('site.view_more')
+                                                    <i class="fas fa-arrow-right fs--0-9em"></i>
+                                                </a>
                                             </div>
-                                            <hr class="hr__short--grey"/>
-                                            <a href="{{route('eventitem', $other['slug'])}}" class="font_color--orange">
-                                                @lang('site.view_more')
-                                                <i class="fas fa-arrow-right fs--0-9em"></i>
-                                            </a>
                                         </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         </div>

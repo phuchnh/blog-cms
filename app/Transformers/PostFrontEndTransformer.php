@@ -52,6 +52,7 @@ class PostFrontEndTransformer extends Transformer
             "created_at"  => $post->created_at,
             "updated_at"  => $post->updated_at,
             "deleted_at"  => $post->deleted_at,
+            "sort"        => $this->getSort($post),
         ];
     }
 
@@ -62,6 +63,21 @@ class PostFrontEndTransformer extends Transformer
     public function includeMeta($value)
     {
         return (new MetaFrontEndTransformer())->transformArray($value->metas);
+    }
+
+    /**
+     * @param $value
+     * @return array
+     */
+    public function getSort($value)
+    {
+        $metaArray = (new MetaFrontEndTransformer())->transformArray($value->metas);
+
+        if (key_exists('sort', $metaArray)) {
+            return intval($metaArray['sort']);
+        } else {
+            return 0;
+        }
     }
 
     /**

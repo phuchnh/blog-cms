@@ -32,6 +32,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="slug" label="Slug" sortable style="width: 30%"/>
+        <el-table-column v-if="getPostType == 'post_people'" prop="sort" label="Sort" sortable style="width: 10%">
+          <template slot-scope="scope" class="text-nowrap">
+            {{ scope.row.sort[0] ? parseInt(scope.row.sort[0]) : 0}}
+          </template>
+        </el-table-column>
         <el-table-column prop="publish" label="Status">
           <template slot-scope="scope">
             {{ scope.row.publish ? 'Publish' : 'Draft' }}
@@ -80,7 +85,7 @@
       }
     },
     computed: {
-      ...mapGetters('faq', ['getLoading', 'getLists', 'getTotal', 'getQueryParams']),
+      ...mapGetters('faq', ['getLoading', 'getLists', 'getTotal', 'getQueryParams','getPostType']),
       ...mapGetters('route', {
         redirectToNew: 'redirectToNew',
         redirectToDetail: 'redirectToDetail',

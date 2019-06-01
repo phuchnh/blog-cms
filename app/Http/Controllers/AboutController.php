@@ -60,8 +60,8 @@ class AboutController extends Controller
      */
     public function loadPeople()
     {
-        if (Cache::has('post_expert_'.(app()->getLocale()))) {
-            return Cache::get('post_expert_'.(app()->getLocale()));
+        if (\Cache::has('post_expert_'.(app()->getLocale()))) {
+            return \Cache::get('post_expert_'.(app()->getLocale()));
         } else {
             $posts = Post::ofLocale(app()->getLocale())
                          ->where('type', 'post_people')
@@ -69,7 +69,9 @@ class AboutController extends Controller
 
             $data = $this->loadTransformDataPost($posts);
 
-            Cache::put('post_expert_'.(app()->getLocale()), $data, 60);
+            $data = collect($data)->sortBy('sort')->toArray();
+
+            \Cache::put('post_expert_'.(app()->getLocale()), $data, 60);
 
             return $data;
         }
