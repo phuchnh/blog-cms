@@ -19,7 +19,6 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('home')}}">@lang('site.home')</a></li>
                                     <li class="breadcrumb-item">
-                                        <a href="{{route('blog')}}">@lang('site.blogs')</a>
                                         @isset($subnavigate)
                                             @if ($subnavigate === 'blogs')
                                                 <a href="{{route('program')}}">@lang('site.blogs')</a>
