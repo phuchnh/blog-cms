@@ -250,6 +250,9 @@ class PostController extends Controller
         \SEOMeta::setKeywords($meta['keywords']);
         \SEOMeta::setDescription($meta['description']);
 
+        \OpenGraph::setDescription($meta['description']);
+        \OpenGraph::setTitle($meta['title']);
+
         if (isset($meta['facebook_image']) && $meta['facebook_image']) {
             \OpenGraph::addImage($meta['facebook_image']);
         }

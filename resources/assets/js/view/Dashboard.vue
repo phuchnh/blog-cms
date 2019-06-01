@@ -80,6 +80,7 @@
       </div>
       <!-- /.row -->
       <div class="row">
+        <recent-subcription></recent-subcription>
         <recent-post></recent-post>
         <recent-user></recent-user>
       </div>
@@ -93,10 +94,11 @@
   import { mapGetters } from 'vuex'
   import RecentPost from '../components/RecentPost'
   import RecentUser from '../components/RecentUser'
+  import RecentSubcription from '../components/RecentSubcription'
 
   export default {
     name: 'Dashboard',
-    components: { RecentUser, RecentPost },
+    components: { RecentUser, RecentPost, RecentSubcription },
     beforeRouteEnter (to, from, next) {
       store.dispatch('dashboard/getSummary').then(() => next())
     },
@@ -108,17 +110,17 @@
     },
     computed: {
       ...mapGetters({
-        summary: 'dashboard/getSummary'
+        summary: 'dashboard/getSummary',
       }),
       post () {
         return this.summary.post
-      }
+      },
     },
     methods: {
       goToDetail (id) {
         return { name: this.redirectToDetail, params: { id: id } }
       },
-    }
+    },
   }
 </script>
 

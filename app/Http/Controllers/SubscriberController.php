@@ -59,6 +59,7 @@ class SubscriberController extends Controller
         # add DB type == meeting
         $inputData = $request->validated();
         $inputData['content'] = $this->filterDataContent($request);
+        $inputData['status'] = 0;
 
         # create record DB
         Subscription::create($inputData);

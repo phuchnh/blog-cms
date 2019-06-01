@@ -8,16 +8,12 @@
             {{ item.id }}
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Name</label>
-          <div class="col-sm-8" style="padding-top: 7px">
-            {{ item.name }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Email</label>
-          <div class="col-sm-8" style="padding-top: 7px">
-            {{ item.email }}
+        <div v-if="item.content">
+          <div v-for="(content, key) in item.content" :key="key" class="form-group">
+            <label class="col-sm-2 control-label text-capitalize">{{ key }}</label>
+            <div class="col-sm-8" style="padding-top: 7px">
+              {{ content }}
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -30,12 +26,6 @@
           <label class="col-sm-2 control-label">Last changed</label>
           <div class="col-sm-8" style="padding-top: 7px">
             {{ item.updated_at | dateTime }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Type</label>
-          <div class="col-sm-8" style="padding-top: 7px">
-            {{ item.type }}
           </div>
         </div>
         <div class="form-group">

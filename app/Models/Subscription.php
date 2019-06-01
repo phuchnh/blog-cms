@@ -22,6 +22,7 @@ class Subscription extends Model
         'phone',
         'address',
         'type',
+        'status',
     ];
 
     /**
@@ -36,6 +37,7 @@ class Subscription extends Model
         'address',
         'type',
         'content',
+        'status',
     ];
 
     /**
@@ -64,6 +66,7 @@ class Subscription extends Model
         'address' => 'string|nullable',
         'type'    => 'required|in:meeting,company,individual,newsletter',
         'content' => 'text|nullable',
+        'status'  => 'boolean|nullable',
     ];
 
     /**
