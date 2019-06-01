@@ -82,6 +82,12 @@
               <introduction-box v-model="meta.introduction.content"></introduction-box>
 
               <div class="form-group">
+                <label for="introductionVideo">Introduction Video - embed link</label>
+                <input class="form-control" id="introductionVideo" name="site_name"
+                       v-model="meta.introduction.video_link"/>
+              </div>
+
+              <div class="form-group">
                 <label>Introduction Image</label>
                 <upload-button v-model="meta.introduction.image" :limit="1" @uploading="uploadImage"></upload-button>
               </div>
