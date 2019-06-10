@@ -1,12 +1,14 @@
 .a-expert {
   .a-expert__top {
     text-align: center;
+
     .container {
       padding: 5.6% 10% 6.5%;
       @media #{$info-phone} {
         padding: 5.6% 15px 6.5%;
       }
     }
+
     .a-expert__top-01 {
       color: $primary-orange;
       font-weight: bold;
@@ -14,6 +16,7 @@
       font-size: 1.125rem;
       margin-bottom: 3%;
     }
+
     .a-expert__top-02 {
       font-size: 1.32rem;
     }
@@ -26,6 +29,7 @@
         padding: 0 15px;
       }
     }
+
     .a-expert__member__item {
       border: 2px solid #ebebeb;
       padding: 4% 7.5%;
@@ -33,6 +37,7 @@
       @media #{$info-phone} {
         padding: 4% 15px;
       }
+
       h2 {
         position: relative;
         padding-left: 240px;
@@ -43,6 +48,7 @@
         @media #{$info-phone} {
           padding-left: 120px;
         }
+
         &:before {
           content: '';
           width: 5px;
@@ -58,12 +64,14 @@
             height: 100%;
           }
         }
+
         span {
           display: block;
           font-size: 1.025rem;
           font-weight: normal;
           margin-top: 10px;
         }
+
         img {
           position: absolute;
           left: 0;
@@ -74,17 +82,24 @@
           }
         }
       }
+
       div {
         p {
           margin-bottom: 4.5%;
+
           &:last-child {
             margin-bottom: 0;
           }
+
           b {
             font-weight: bold;
           }
         }
       }
     }
+  }
+
+  iframe {
+    width: 100%;
   }
 }

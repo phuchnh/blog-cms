@@ -32,6 +32,7 @@ class FaqController extends Controller
             'item'     => $item,
             'navigate' => 'whymindfullness',
             'slug'     => 'faq',
+            'banner' => $this->loadBannerTop('faq'),
         ]);
     }
 
@@ -42,20 +43,20 @@ class FaqController extends Controller
      */
     private function getPosts($request, $posts)
     {
-        if (Cache::has('post_faq')) {
-            return Cache::get('post_faq');
+        if (Cache::has('post_faq_'.app()->getLocale())) {
+            return Cache::get('post_faq_'.app()->getLocale());
         } else {
             $data = $posts
                 ->ofLocale(app()->getLocale())
                 ->where('type', self::TYPE)
                 ->when($request->input('title'), function ($query) use ($request) {
                     /**@var \Illuminate\Database\Eloquent\Builder $query */
-                    $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                    $query->where('title', 'LIKE', '%' . $request->input('title') . '%');
                 })
                 ->sortable([$request->get('sort') => $request->get('direction')])
                 ->orderBy('id', 'desc')->get();
 
-            Cache::put('post_faq', $this->loadTransformDataPost($data), 600);
+            Cache::put('post_faq_'.app()->getLocale(), $this->loadTransformDataPost($data), 600);
 
             return $data;
         }
@@ -88,6 +89,26 @@ class FaqController extends Controller
             }
 
             return isset($locale_key) && isset($item->content[$locale_key]) && $item->content[$locale_key] ? $item->content[$locale_key] : null;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * load banner top
+     *
+     * @param $slug
+     * @return |null
+     */
+    private function loadBannerTop($slug)
+    {
+        if ($slug) {
+            $setting = (new \App\Http\View\Composers\SettingComposer)->getSettingInformation();
+
+            // load content
+            $item = isset($setting[$slug]) && $setting[$slug] ? json_decode($setting[$slug]) : null;
+
+            return isset($item->banner->url) && $item->banner->url ? $item->banner->url : null;
         } else {
             return null;
         }

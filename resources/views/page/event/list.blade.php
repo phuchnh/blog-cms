@@ -33,7 +33,7 @@
                         <div class="input-group">
                             <select class="custom-select border_radius--2em" name="year">
                                 <option value="" selected>@lang('site.year')</option>
-                                @for ($i = intval(date('Y')); $i >= intval(date('Y'))-3; $i--)
+                                @for ($i = intval(date('Y'))+1; $i >= intval(date('Y'))-1; $i--)
                                     <option @if($i===intval(Request::query('year'))) selected @endif value="{{$i}}">{{$i}}</option>
                                 @endfor
                             </select>

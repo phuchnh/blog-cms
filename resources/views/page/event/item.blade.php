@@ -83,7 +83,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-xs-12 col-sm-offset-3 col-sm-9 text-center">
                             @isset($subnavigate) @if ($subnavigate === 'program')
                                 <a href="{{route('program')}}"
                                    class="btn btn-sm background--orange font_color--white border_radius--2em mt-4">

@@ -5,19 +5,19 @@
             <header class="font_color--orange fs--2rem margin_bottom--30 text-uppercase">@lang('site.inquiry')</header>
 
             <div class="row margin_bottom--15">
-                <div class="col-sm-4 col-xs-12 text-center">
+                <div class="col-sm-6 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'individual')}}"
                        class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.individual')
                     </a>
                 </div>
-                <div class="col-sm-4 col-xs-12 text-center">
+                <div class="col-sm-6 col-xs-12 text-center">
                     <a href="{{route('subscriber.show', 'company')}}"
                        class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.company')
                     </a>
                 </div>
-                <div class="col-sm-4 col-xs-12 text-center">
+                <div class="col-sm-4 col-xs-12 text-center d-none">
                     <a href="{{route('subscriber.show', 'meeting')}}"
                        class="btn btn-block border--orange background--none border_radius--2em fs--1-3rem font_color--white text-uppercase font-weight-bold">
                         @lang('site.book-a-meeting')
@@ -137,7 +137,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link padding_left--0 text-capitalize"
-                                       href="{{route('practice')}}">Daily Practices</a>
+                                       href="{{route('practice')}}">Daily Practice</a>
                                 </li>
                             </ul>
                         </div>

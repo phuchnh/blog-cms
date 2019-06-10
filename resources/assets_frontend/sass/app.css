@@ -8340,6 +8340,9 @@ h2.section-content__header:after {
 .a-expert .a-expert__member .a-expert__member__item div p b {
   font-weight: bold;
 }
+.a-expert iframe {
+  width: 100%;
+}
 
 .a-press .a-press__top {
   font-size: 1.125rem;

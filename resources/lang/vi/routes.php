@@ -4,7 +4,7 @@ return [
     'search'            => 'search',
     'blog'              => 'blog',
     'practice'          => 'practice',
-    'guide'             => 'guide',
+    'guide'             => 'guidedmeditation',
     'press'             => 'press',
     'event'             => 'event',
     'program'           => 'program',
