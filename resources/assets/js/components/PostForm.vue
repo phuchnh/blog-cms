@@ -15,6 +15,8 @@
           <PostDisplay
               v-show="getPostType === 'post_events' || getPostType === 'post_programs' || getPostType === 'post_presses'"
               v-model="metas.is_home" :title="'Display on HomePage'"></PostDisplay>
+
+          <PostDisplay v-model="metas.featured" :title="'Featured The Post'"></PostDisplay>
         </div>
       </div>
 
@@ -33,7 +35,8 @@
         </div>
         <div class="box-body">
           <div class="form-group">
-            <input type="text" class="form-control" id="sign_up_link" placeholder="http://......." v-model="metas.sign_up_link">
+            <input type="text" class="form-control" id="sign_up_link" placeholder="http://......."
+                   v-model="metas.sign_up_link">
           </div>
         </div>
       </div>
@@ -187,10 +190,17 @@
           })
         }
 
-        if (this.metas.is_home.length > 0) {
+        if (this.metas.is_home > 0) {
           metas.push({
             meta_key: 'is_home',
             meta_value: this.metas.is_home,
+          })
+        }
+
+        if (this.metas.featured > 0) {
+          metas.push({
+            meta_key: 'featured',
+            meta_value: this.metas.featured,
           })
         }
 

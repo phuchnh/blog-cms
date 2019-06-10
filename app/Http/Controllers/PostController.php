@@ -45,48 +45,62 @@ class PostController extends Controller
         $paginator = $request->get('perPage');
 
         // Load list posts
-        $posts = $posts->ofLocale(app()->getLocale())
-                       ->when($this->type_post, function ($query) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->where('type', $this->type_post);
-                       })
-                       ->when($request->input('title'), function (
-                           $query
-                       ) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->where('title', 'LIKE', '%'.$request->input('title').'%');
-                       })
-                       ->when($request->input('year'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->whereHas('metas', function ($query) use ($request) {
-                               /**@var \Illuminate\Database\Eloquent\Builder $query */
-                               $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */
-                                   'YEAR(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('year')));
-                           });
-                       })
-                       ->when($request->input('day'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->whereHas('metas', function ($query) use ($request) {
-                               /**@var \Illuminate\Database\Eloquent\Builder $query */
-                               $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */
-                                   'DAY(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('day')));
-                           });
-                       })
-                       ->when($request->input('month'), function ($query) use ($request) {
-                           /**@var \Illuminate\Database\Eloquent\Builder $query */
-                           $query->whereHas('metas', function ($query) use ($request) {
-                               /**@var \Illuminate\Database\Eloquent\Builder $query */
-                               $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */
-                                   'MONTH(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('month')));
-                           });
-                       })
-                       ->sortable([$request->get('sort') => $request->get('direction')])
-                       ->orderBy('id', 'desc')
-                       ->paginate($paginator);
+        if (! $request->get('perPage')) {
+            $posts_featured = $this->getFeaturedPost($posts, $request);
+        }
+
+        $posts_index = $posts->ofLocale(app()->getLocale())
+                             ->when($this->type_post, function ($query) {
+                                 /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                 $query->where('type', $this->type_post);
+                             })
+                             ->whereHas('metas', function ($query) use ($request) {
+                                 /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                 $query->where('meta_key', '!=', 'featured');
+                             })
+                             ->when($request->input('title'), function (
+                                 $query
+                             ) use ($request) {
+                                 /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                 $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                             })
+                             ->when($request->input('year'), function ($query) use ($request) {
+                                 /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                 $query->whereHas('metas', function ($query) use ($request) {
+                                     /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                     $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */
+                                         'YEAR(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('year')));
+                                 });
+                             })
+                             ->when($request->input('day'), function ($query) use ($request) {
+                                 /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                 $query->whereHas('metas', function ($query) use ($request) {
+                                     /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                     $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */
+                                         'DAY(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('day')));
+                                 });
+                             })
+                             ->when($request->input('month'), function ($query) use ($request) {
+                                 /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                 $query->whereHas('metas', function ($query) use ($request) {
+                                     /**@var \Illuminate\Database\Eloquent\Builder $query */
+                                     $query->where('meta_key', '=', 'event')->whereRaw(/**@lang MySQL */
+                                         'MONTH(JSON_EXTRACT_NESTED(meta_value,"date")) = '.intval($request->input('month')));
+                                 });
+                             })
+                             ->sortable([$request->get('sort') => $request->get('direction')])
+                             ->orderBy('id', 'desc')
+                             ->paginate($paginator);
+
+        if (! $request->get('perPage')) {
+            $posts = $posts_featured->merge($posts_index);
+        } else {
+            $posts = $posts_index;
+        }
 
         $return = [
             'data'   => $this->loadTransformDataPost($posts),
-            'links'  => $posts->links(),
+            'links'  => $posts_index->links(),
             'banner' => $this->loadBannerTop($this->returnDataIndex['plugins']['slug']),
         ];
 
@@ -256,5 +270,28 @@ class PostController extends Controller
         if (isset($meta['facebook_image']) && $meta['facebook_image']) {
             \OpenGraph::addImage($meta['facebook_image']);
         }
+    }
+
+    public function getFeaturedPost($posts, $request)
+    {
+        return $posts->ofLocale(app()->getLocale())
+                     ->when($this->type_post, function ($query) {
+                         /**@var \Illuminate\Database\Eloquent\Builder $query */
+                         $query->where('type', $this->type_post);
+                     })
+                     ->when($request->input('title'), function (
+                         $query
+                     ) use ($request) {
+                         /**@var \Illuminate\Database\Eloquent\Builder $query */
+                         $query->where('title', 'LIKE', '%'.$request->input('title').'%');
+                     })
+                     ->whereHas('metas', function ($query) use ($request) {
+                         /**@var \Illuminate\Database\Eloquent\Builder $query */
+                         $query->where('meta_key', '=', 'featured')
+                               ->where('meta_value', '=', 1);
+                     })
+                     ->sortable([$request->get('sort') => $request->get('direction')])
+                     ->orderBy('id', 'desc')
+                     ->get();
     }
 }
