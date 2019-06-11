@@ -7677,7 +7677,7 @@ b {
   padding-bottom: 10px;
 }
 .footer_information a {
-  color: #808080;
+  color: #666666;
 }
 @media only screen and (max-width : 767px) {
   .footer_information .flex-sm-fill {
@@ -7754,11 +7754,11 @@ b {
 }
 .breadcrumb .breadcrumb-item {
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 12px;
 }
 .breadcrumb .breadcrumb-item a {
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 /*=============================================
@@ -8046,15 +8046,14 @@ h2.section-content__header:after {
   padding-top: 5rem;
 }
 .event-section .event-main .event-section__other {
-  margin-top: 5rem;
-  padding-top: 5rem;
+  margin-top: 3rem;
+  padding-top: 3rem;
   border-top: 1px solid #cccccc;
 }
 .event-section .event-main .event-section__other header {
   margin-bottom: 3rem;
 }
 .event-section .event-main .event-section__other .card-columns {
-  margin-bottom: 40px;
   column-count: 3;
 }
 @media only screen and (max-width : 900px) {
@@ -8859,12 +8858,9 @@ h2.section-content__header:after {
   padding-top: 3%;
 }
 .testimonials .test__content-03 iframe {
-  height: 350px;
-}
-@media only screen and (max-width : 767px) {
-  .testimonials .test__content-03 iframe {
-    height: 200px;
-  }
+  margin: 0 auto 50px;
+  width: 100%;
+  max-width: 580px;
 }
 .testimonials .test__content-03 p {
   margin: 5% 0;
