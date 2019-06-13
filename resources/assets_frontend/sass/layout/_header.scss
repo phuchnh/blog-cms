@@ -190,6 +190,18 @@
       }
     }
   }
+
+  @media #{$info-phone} {
+    .nav-item {
+      &.active {
+        background: #fff;
+        .nav-link {
+          font-weight: 700;
+          color: #f5821f !important
+        }
+      }
+    }
+  }
 }
 
 /*=============================================
@@ -203,6 +215,10 @@
   h1 {
     font-size: 5.3rem;
     margin-bottom: 20px;
+    
+    @media #{$info-phone}{
+      font-size: 3.3rem;
+    }
 
     &:after {
       content: '';

@@ -13,7 +13,7 @@ return [
      */
     # A
     'about' => 'Về chúng tôi',
-    'approach' => 'Approach',
+    'approach' => 'Cách tiếp cận',
     'attend-a-program' => 'Tham gia chương trình',
 
     # B
@@ -37,8 +37,8 @@ return [
     # E
     'event' => 'Sự kiện',
     'events' => 'Sự kiện',
-    'event-and-program' => 'Sự kiện & chương trình',
-    'events-and-programs' => 'Sự kiện & chương trình',
+    'event-and-program' => 'Sự kiện & Chương trình',
+    'events-and-programs' => 'Sự kiện & Chương trình',
     'expertise' => 'Chuyên môn',
     'experts' => 'Chuyên gia',
     'engage-with-us' => 'Kết nối với chúng tôi',
@@ -47,14 +47,14 @@ return [
     'faq' => 'Câu hỏi',
 
     # G
-    'guided-meditation' => 'hướng dẫn thiền',
+    'guided-meditation' => 'thiền dẫn',
     'go_back' => 'quay lại',
     # H
     'home' => 'Trang chủ',
-    'how_to_practise' => 'Tập luyện như thế nào',
+    'how_to_practise' => 'Cách thực hành',
 
     # I
-    'in_the_press' => 'Thông cáo báo chí',
+    'in_the_press' => 'Bài viết',
     'individual' => 'cá nhân',
     'inquiry' => 'liên hệ',
 
@@ -67,7 +67,7 @@ return [
     # N
 
     # O
-    'other_posts_you_may_like' => 'Bài viết khác bạn có thể quan tâm',
+    'other_posts_you_may_like' => 'Bài viết liên quan',
 
     # P
     'programs' => 'chương trình',
@@ -79,13 +79,13 @@ return [
     # S
     'story' => 'Câu chuyện',
     'sign-up-now' => 'Đăng ký ngay',
-    'subscribe-for-our-newsletter' => 'đăng ký nhận thông báo',
+    'subscribe-for-our-newsletter' => 'đăng ký nhận bản tin',
     'submit-form' => 'hoàn tất đăng ký',
 
     # T
     'take_an_assessment' => 'Đánh giá',
-    'testimonial' => 'Chứng nhận',
-    'testimonials' => 'Chứng nhận',
+    'testimonial' => 'Phản hồi Khách hàng',
+    'testimonials' => 'Phản hồi Khách hàng',
 
     # V
     'view_more' => 'Xem thêm',
