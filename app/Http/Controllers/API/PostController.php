@@ -207,7 +207,7 @@ class PostController extends ApiBaseController
     {
         foreach ($translations as $translation) {
             if (! $translation['title']) {
-                $translation = $this->autoCreatIfNullTranslation($translations, $translation['locale']);
+                $translation = $this->autoCreateIfNullTranslation($translations, $translation['locale']);
             }
             $post->translateOrNew($translation['locale'])->fill($translation);
         }
@@ -236,7 +236,7 @@ class PostController extends ApiBaseController
      * @param $locale
      * @return mixed
      */
-    public function autoCreatIfNullTranslation($translations, $locale)
+    public function autoCreateIfNullTranslation($translations, $locale)
     {
         foreach ($translations as $translation) {
             if ($translation['locale'] !== $locale && $translation['title']) {
