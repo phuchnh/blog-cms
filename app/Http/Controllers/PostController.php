@@ -119,6 +119,10 @@ class PostController extends Controller
      */
     public function show(Request $request, $slug)
     {
+        if (! $slug ) {
+            abort(404);
+        }
+
         $data = $this->getPostDetail($slug);
 
         if ($data instanceof RedirectResponse) {
@@ -145,6 +149,10 @@ class PostController extends Controller
      */
     private function getPostDetail($slug = null)
     {
+        if (! $slug ) {
+            abort(404);
+        }
+        
         if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
             return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {

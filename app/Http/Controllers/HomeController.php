@@ -61,7 +61,8 @@ class HomeController extends Controller
                               ->where('meta_value', '"true"');
                     })
                     ->limit(6)
-                    ->latest();
+                    ->latest()
+                    ->get();
 
         // Transform Post Data
         return $this->loadTransformDataPost($post);
@@ -92,7 +93,8 @@ class HomeController extends Controller
                               ->where('meta_value', '"true"');
                     })
                     ->limit(6)
-                    ->latest();
+                    ->latest()
+                    ->get();
 
         // Transform Post Data
         return $this->loadTransformDataPost($post);

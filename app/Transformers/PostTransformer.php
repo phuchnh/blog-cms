@@ -48,7 +48,7 @@ class PostTransformer extends Transformer
         if ($metasArray) {
             $key = array_search('thumbnail', array_column($metasArray, 'meta_key'));
 
-            return $key ? [$metasArray[$key]['meta_value']['url']] : [];
+            return $key && optional($metasArray[$key]['meta_value'])['url'] ? [$metasArray[$key]['meta_value']['url']] : [];
         } else {
             return [];
         }
