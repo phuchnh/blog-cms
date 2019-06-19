@@ -73,7 +73,7 @@
                                             {{$other['title']}}
                                         </h5>
                                         <div class="card__date font_color--light-grey">
-                                            <p class="fs--0-9em">{{$other['created_at']}}</p>
+                                            <p class="fs--0-9em">@formatDateCarbon($other['created_at'])</p>
                                         </div>
                                         <hr class="hr__short--grey"/>
                                         <a href="{{route('pressitem', $other['slug'])}}" class="font_color--orange">
