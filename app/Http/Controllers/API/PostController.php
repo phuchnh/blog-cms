@@ -210,6 +210,9 @@ class PostController extends ApiBaseController
                 continue;
             }
             $post->translateOrNew($translation['locale'])->fill($translation);
+
+            // delete Cache
+            $this->deleteCache($translation['locale'], $translation['slug']);
         }
 
         return $post;
@@ -225,6 +228,20 @@ class PostController extends ApiBaseController
             $posts = $posts->ofLocale($locale);
         }
         $posts = $posts->orderBy('created_at', 'desc')->take(10)->get();
+
         return $this->ok($posts);
+    }
+
+    /**
+     * forget Cache
+     *
+     * @param string $slug
+     * @return void
+     */
+    private function deleteCache($locale, $slug)
+    {
+        \Cache::forget('post_'.$locale.'_'.$slug);
+
+        return true;
     }
 }

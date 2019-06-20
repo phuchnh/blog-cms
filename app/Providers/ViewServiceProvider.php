@@ -53,14 +53,14 @@ class ViewServiceProvider extends ServiceProvider
          * Format Date
          */
         Blade::directive('formatDateCarbon', function ($expression) {
-            return "<?php echo \Carbon\Carbon::parse($expression)->format('l, F d, Y') ?>";
+            return "<?php echo \Carbon\Carbon::parse($expression)->addHours(+5)->format('l, F d, Y') ?>";
         });
 
         /**
          * Format Time
          */
         Blade::directive('formatTimeCarbon', function ($expression) {
-            return "<?php echo \Carbon\Carbon::parse($expression)->format('H:i A') ?>";
+            return "<?php echo \Carbon\Carbon::parse($expression)->addHours(+5)->format('H:i A') ?>";
         });
     }
 }

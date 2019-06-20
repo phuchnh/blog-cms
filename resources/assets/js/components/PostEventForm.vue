@@ -24,7 +24,7 @@
           <div class="form-group" :class="{ 'has-error': errors.first('start_time') }">
             <label>Start time <span class="required">*</span></label>
             <el-time-picker
-                format="hh:mm:ss A"
+                format="hh:mm A"
                 v-model="event.start_time"
                 placeholder="Pick start time"
                 name="start_time"
@@ -39,7 +39,7 @@
           <div class="form-group" :class="{ 'has-error': errors.first('end_time') }">
             <label>End time <span class="required">*</span></label>
             <el-time-picker
-                format="hh:mm:ss A"
+                format="hh:mm A"
                 v-model="event.end_time"
                 placeholder="Pick end time"
                 name="end_time"

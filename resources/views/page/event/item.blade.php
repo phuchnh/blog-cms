@@ -55,17 +55,10 @@
                             <div class="event-section__date background--light-grey padding--15">
                                 <b class="text-capitalize"> @lang('site.date-and-time')</b>
                                 <p class="margin_bottom--10">
-                                    @isset($item['meta']['event']['date'])
-                                        {{\Carbon\Carbon::parse($item['meta']['event']['date'])->format('l, F d, Y')}}
-                                    @endisset
+                                    @formatDateCarbon($item['meta']['event']['date'])
                                     <br>
-                                    @isset($item['meta']['event']['start_time'])
-                                        {{\Carbon\Carbon::parse($item['meta']['event']['start_time'])->format('H:i A')}}
-                                    @endisset
-                                    –
-                                    @isset($item['meta']['event']['end_time'])
-                                        {{\Carbon\Carbon::parse($item['meta']['event']['end_time'])->format('H:i A')}}
-                                    @endisset
+                                    @formatTimeCarbon($item['meta']['event']['start_time']) –
+                                    @formatTimeCarbon($item['meta']['event']['end_time'])
                                 </p>
 
                                 <b class="text-capitalize">@lang('site.location')</b>
