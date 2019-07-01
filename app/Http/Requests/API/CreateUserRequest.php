@@ -23,6 +23,7 @@ class CreateUserRequest extends ApiBaseRequest
     {
         return [
             'name'  => 'required|string|max:255',
+            'password'  => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'type'  => 'required|in:admin,editor',
         ];

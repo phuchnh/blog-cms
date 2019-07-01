@@ -82,6 +82,8 @@ return [
     'sign-up-now' => 'sign up now',
     'subscribe-for-our-newsletter' => 'subscribe for our newsletter',
     'submit-form' => 'submit form',
+    'subscribe' => 'subscribe',
+    'subscribe-headline' => 'Stay in touch <br> with our<br> latest story',
 
     # T
     'take_an_assessment' => 'Take an assessment',

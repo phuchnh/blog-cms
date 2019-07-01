@@ -46,7 +46,7 @@ class UserController extends ApiBaseController
     {
         $user = new User();
         $user->fill($request->validated());
-        $user->password = Hash::make('onelifeconnection');
+        $user->password = Hash::make($request->post('password'));
         $user->save();
 
         return $this->created($user);
@@ -60,6 +60,9 @@ class UserController extends ApiBaseController
     public function update(User $user, UpdateUserRequest $request)
     {
         $user->fill($request->validated());
+        if ($request->post('password')) {
+            $user->password = Hash::make($request->post('password'));
+        }
         $user->save();
 
         return $this->noContent();

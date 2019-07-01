@@ -21,11 +21,25 @@
             </div>
           </div>
         </div>
+        <div class="form-group" :class="{ 'has-error': errors.first('password') }">
+          <label for="password" class="col-sm-2 control-label">Password <span class="required">*</span></label>
+          <div class="col-sm-8">
+            <input v-if="user" class="form-control" type="password" id="password" name="password"
+                   v-model="user.password"/>
+
+            <input v-else v-validate="'required'" class="form-control" type="password" id="password" name="password"
+                  v-model="user.password"/>
+
+            <div class="help-block" v-if="errors.first('password')">
+              <span>{{ errors.first('password') }}</span>
+            </div>
+          </div>
+        </div>
         <div class="form-group" :class="{ 'has-error': errors.first('type') }">
           <label for="type" class="col-sm-2 control-label">Level <span class="required">*</span></label>
           <div class="col-sm-3">
             <select v-validate="'required'" class="form-control" id="type" name="type" v-model="user.type">
-              <option v-for="type in userType" :value="type">{{type | capitalize}}</option>
+              <option v-for="(type, index) in userType" :key="index" :value="type">{{type | capitalize}}</option>
             </select>
             <div class="help-block" v-if="errors.first('type')">
               <span>{{ errors.first('type') }}</span>

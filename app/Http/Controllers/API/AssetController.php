@@ -61,13 +61,16 @@ class AssetController extends ApiBaseController
      * Remove the specified resource from storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Asset $asset
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
-    public function destroy(Request $request, Asset $asset)
+    public function destroy(Request $request, $id)
     {
-        $asset->delete();
+        $asset = Asset::find($id);
+
+        if ($asset) {
+            $asset->delete();
+        }
 
         return $this->noContent();
     }

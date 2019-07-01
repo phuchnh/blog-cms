@@ -81,11 +81,13 @@ return [
     'sign-up-now' => 'Đăng ký ngay',
     'subscribe-for-our-newsletter' => 'đăng ký nhận bản tin',
     'submit-form' => 'hoàn tất đăng ký',
+    'subscribe' => 'đăng ký',
+    'subscribe-headline' => 'Nhận thông tin<br> về các chương trình &<br> câu chuyện cảm hứng<br> từ chúng tôi',
 
     # T
     'take_an_assessment' => 'Đánh giá',
-    'testimonial' => 'Phản hồi Khách hàng',
-    'testimonials' => 'Phản hồi Khách hàng',
+    'testimonial' => 'Phản hồi',
+    'testimonials' => 'Phản hồi',
 
     # V
     'view_more' => 'Xem thêm',
