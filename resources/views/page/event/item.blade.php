@@ -81,7 +81,7 @@
                                 <a href="{{route('program')}}"
                                    class="btn btn-sm background--orange font_color--white border_radius--2em mt-4">
                                     <i class="fa fa-caret-left"></i>
-                                    @lang('site.back_to_all_events')
+                                    @lang('site.back_to_all_programs')
                                 </a>
                             @endif @endisset
 

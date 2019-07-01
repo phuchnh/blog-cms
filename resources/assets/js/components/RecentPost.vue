@@ -28,7 +28,7 @@
           </el-table-column>
           <el-table-column prop="publish" label="Status">
             <template slot-scope="scope">
-              {{ scope.row.publish ? 'Publish' : 'Draft' }}
+              {{ scope.row.publish === 1 ? 'Publish' : 'Draft' }}
             </template>
           </el-table-column>
           <el-table-column prop="created_at" label="Created at"/>

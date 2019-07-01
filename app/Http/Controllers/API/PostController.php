@@ -207,7 +207,7 @@ class PostController extends ApiBaseController
     {
         foreach ($translations as $translation) {
             if (! $translation['title']) {
-                continue;
+                $translation = $this->autoCreateIfNullTranslation($translations, $translation['locale']);
             }
             $post->translateOrNew($translation['locale'])->fill($translation);
 
@@ -243,5 +243,23 @@ class PostController extends ApiBaseController
         \Cache::forget('post_'.$locale.'_'.$slug);
 
         return true;
+    }
+    
+    /**
+     * auto create locale if null
+     *
+     * @param $translations
+     * @param $locale
+     * @return mixed
+     */
+    public function autoCreateIfNullTranslation($translations, $locale)
+    {
+        foreach ($translations as $translation) {
+            if ($translation['locale'] !== $locale && $translation['title']) {
+                $translation['locale'] = $locale;
+
+                return $translation;
+            }
+        }
     }
 }
