@@ -45,7 +45,7 @@ class SubscriberController extends Controller
         $email = $request->get('email');
 
         # set config newsletter
-        \Config::set('newsletter.lists.subscribers.id', config('newsletter.listIDS')[$request->type]);
+        \Config::set('newsletter.lists.newsletter.id', config('newsletter.listIDS')[$request->type]);
 
         # check email
         $isSubscribed = $this->mailchimp->hasMember($email);
@@ -59,7 +59,7 @@ class SubscriberController extends Controller
         # add DB type == meeting
         $inputData = $request->validated();
         $inputData['content'] = $this->filterDataContent($request);
-        $inputData['status'] = 0;
+        $inputData['status']  = 0;
 
         # create record DB
         Subscription::create($inputData);

@@ -156,7 +156,7 @@ class PostController extends Controller
         if (Cache::has('post_'.app()->getLocale().'_'.$slug)) {
             return Cache::get('post_'.app()->getLocale().'_'.$slug);
         } else {
-            $post = Post::whereTranslation('slug', $slug)->firstOrFail();
+            $post = Post::whereTranslation('slug', $slug)->where('publish', 1)->firstOrFail();
 
             /**
              * @var $postTranslation \App\Models\PostTranslation
@@ -197,6 +197,7 @@ class PostController extends Controller
             $others = Post::ofLocale(app()->getLocale())
                           ->where('type', $this->type_post)
                           ->where('slug', '!=', $post['slug'])
+                          ->where('publish', 1)
                           ->when($isOtherBoolean, function (
                               $query
                           ) use ($post) {
@@ -298,6 +299,7 @@ class PostController extends Controller
                          $query->where('meta_key', '=', 'featured')
                                ->where('meta_value', '=', 1);
                      })
+                     ->where('publish', 1)
                      ->sortable([$request->get('sort') => $request->get('direction')])
                      ->orderBy('id', 'desc')
                      ->get();

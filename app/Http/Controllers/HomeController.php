@@ -58,7 +58,7 @@ class HomeController extends Controller
                     ->whereHas('metas', function ($query) {
                         /**@var \Illuminate\Database\Eloquent\Builder $query */
                         $query->where('meta_key', '=', 'is_home')
-                              ->where('meta_value', '"true"');
+                              ->where('meta_value', 1);
                     })
                     ->limit(6)
                     ->latest()
@@ -90,11 +90,10 @@ class HomeController extends Controller
                     ->whereHas('metas', function ($query) {
                         /**@var \Illuminate\Database\Eloquent\Builder $query */
                         $query->where('meta_key', '=', 'is_home')
-                              ->where('meta_value', '"true"');
+                              ->where('meta_value', 1);
                     })
                     ->limit(6)
-                    ->latest()
-                    ->get();
+                    ->latest();
 
         // Transform Post Data
         return $this->loadTransformDataPost($post);
