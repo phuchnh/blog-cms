@@ -42,7 +42,6 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    debugger
     next()
   }
 })

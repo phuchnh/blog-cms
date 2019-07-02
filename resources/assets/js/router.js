@@ -151,7 +151,7 @@ export default new Router({
           meta: {
             title: 'Edit User',
             description: '',
-            permission: ['admin'],
+            permission: ['admin', 'editor'],
           },
         },
 
