@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-xs-12 col-lg-2 col-md-3 pull-right" style="margin: 20px 0">
           <select v-model="contactType" class="form-control" @change="fetchList">
-            <option v-for="type in contactTypes" :value="type.value">{{ type.name }}</option>
+            <option v-for="(type, index) in contactTypes" :key="index" :value="type.value">{{ type.name }}</option>
           </select>
         </div>
       </div>

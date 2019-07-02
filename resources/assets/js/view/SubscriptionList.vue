@@ -37,7 +37,7 @@
             prop="status"
             label="Status">
           <template slot-scope="scope">
-            <label v-if="scope.row.status === 1" class="label label-default">Read</label>
+            <label v-if="parseInt(scope.row.status) === 1" class="label label-default">Read</label>
             <label v-else class="label label-success">New</label>
           </template>
         </el-table-column>
