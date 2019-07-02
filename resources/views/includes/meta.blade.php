@@ -19,6 +19,9 @@
     {{--<link rel="icon" type="image/png" sizes="32x32" href="https://dinosaur.vn/assets/img/favicon-32x32.png">--}}
     {{--<link rel="icon" type="image/png" sizes="16x16" href="https://dinosaur.vn/assets/img/favicon-16x16.png">--}}
 @endisset
+
 @isset($meta['facebook_image'])
-    <meta property="og:image" content="{{$meta['facebook_image']}}">
+    <meta property="og:image" content="{{$meta['facebook_image']['url']}}">
+    <meta property="og:image:width" content="{{$meta['facebook_image']['width']}}">
+    <meta property="og:image:height" content="{{$meta['facebook_image']['height']}}">
 @endisset

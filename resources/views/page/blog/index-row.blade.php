@@ -25,7 +25,7 @@
 
                                     <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
                                         <div class="blog__content03--item-content">
-                                            <p class="font_color--grey">{{$item['created_at']}}</p>
+                                            <p class="font_color--grey">@formatDateCarbon($item['created_at'])</p>
 
                                             <h3 class="font_color--orange font-weight-bold fs--1-7rem margin_top--15 margin_bottom--25">
                                                 {{$item['title']}}

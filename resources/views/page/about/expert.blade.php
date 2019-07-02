@@ -30,4 +30,10 @@
             @endif
         @endisset
     </article>
+    
+    <style>
+        iframe{
+            width: 100%;
+        }
+    </style>
 @stop

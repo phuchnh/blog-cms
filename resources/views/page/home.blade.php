@@ -71,6 +71,7 @@
                                     <img class="img-responsive" src="{{$setting['introduction']['image']->url}}">
                                 @endif
                             @endif
+
                         </div>
                     </div>
                 </div>
