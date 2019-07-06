@@ -78,6 +78,7 @@ return [
     'resources' => 'resources',
 
     # S
+    'share' => 'share',
     'story' => 'story',
     'sign-up-now' => 'sign up now',
     'subscribe-for-our-newsletter' => 'subscribe for our newsletter',

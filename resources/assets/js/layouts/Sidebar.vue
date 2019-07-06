@@ -21,19 +21,19 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
-        <router-link :to="{name: 'navigation'}" tag="li" active-class="active"><a><i class="fa fa-bars"></i> <span>Navigation</span></a></router-link>
+        <router-link :to="{name: 'navigation'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-bars"></i> <span>Navigation</span></a></router-link>
         <router-link :to="{name: 'userList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-user"></i> <span>User</span></a></router-link>
-        <router-link :to="{name: 'PeopleList'}" tag="li" active-class="active"><a><i class="fa fa-users"></i> <span>People</span></a></router-link>
-        <router-link :to="{name: 'TestimonialList'}" tag="li" active-class="active"><a><i class="fa fa-mail-reply"></i> <span>Testimonial</span></a></router-link>
-        <router-link :to="{name: 'clientList'}" tag="li" active-class="active"><a><i class="fa fa-user-circle"></i> <span>Client</span></a></router-link>
+        <router-link :to="{name: 'PeopleList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-users"></i> <span>People</span></a></router-link>
+        <router-link :to="{name: 'TestimonialList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-mail-reply"></i> <span>Testimonial</span></a></router-link>
+        <router-link :to="{name: 'clientList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-user-circle"></i> <span>Client</span></a></router-link>
         <router-link :to="{name: 'InThePressList'}" tag="li" active-class="active"><a><i class="fa fa-newspaper-o"></i> <span>In The Press</span></a></router-link>
         <router-link :to="{name: 'BlogList'}" tag="li" active-class="active"><a><i class="fa fa-book"></i> <span>Blog</span></a></router-link>
         <router-link :to="{name: 'EventList'}" tag="li" active-class="active"><a><i class="fa fa-calendar"></i> <span>Event</span></a></router-link>
         <router-link :to="{name: 'ProgramList'}" tag="li" active-class="active"><a><i class="fa fa-calendar"></i> <span>Program</span></a></router-link>
         <router-link :to="{name: 'GuideList'}" tag="li" active-class="active"><a><i class="fa fa-sticky-note"></i> <span>Guided Meditation</span></a></router-link>
         <router-link :to="{name: 'PraticeList'}" tag="li" active-class="active"><a><i class="fa fa-heart"></i> <span>Daily Practice</span></a></router-link>
-        <router-link :to="{name: 'FaqList'}" tag="li" active-class="active"><a><i class="fa fa-question"></i> <span>FAQ</span></a></router-link>
-        <router-link :to="{name: 'SubscriptionList'}" tag="li" active-class="active"><a><i class="fa fa-rss"></i> <span>Subscription</span></a></router-link>
+        <router-link :to="{name: 'FaqList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-question"></i> <span>FAQ</span></a></router-link>
+        <router-link :to="{name: 'SubscriptionList'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-rss"></i> <span>Subscription</span></a></router-link>
         <!--<router-link :to="{name: 'SubscriberList'}" tag="li" active-class="active"><a><i class="fa fa-envelope-square"></i> <span>Mailchimp</span></a></router-link>-->
         <router-link :to="{name: 'setting'}" v-if="currentUser.type === 'admin'" tag="li" active-class="active"><a><i class="fa fa-gear"></i> <span>Setting</span></a></router-link>
       </ul>

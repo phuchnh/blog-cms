@@ -85,7 +85,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_faq',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
           children: [
             {
@@ -96,7 +96,7 @@ export default new Router({
                 title: 'FAQ',
                 description: '',
                 postType: 'post_faq',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
             {
@@ -107,7 +107,7 @@ export default new Router({
                 title: 'Create New FAQ',
                 description: 'Add new',
                 postType: 'post_faq',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
             {
@@ -118,7 +118,7 @@ export default new Router({
                 title: 'Edit FAQ',
                 description: '',
                 postType: 'post_faq',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
           ],
@@ -151,7 +151,7 @@ export default new Router({
           meta: {
             title: 'Edit User',
             description: '',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
         },
 
@@ -266,7 +266,7 @@ export default new Router({
           meta: {
             title: 'Client',
             description: '',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
         },
         {
@@ -276,7 +276,7 @@ export default new Router({
           meta: {
             title: 'Create New Client',
             description: '',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
         },
         {
@@ -286,7 +286,7 @@ export default new Router({
           meta: {
             title: 'Edit Client',
             description: '',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
         },
 
@@ -510,7 +510,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_people',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
           children: [
             {
@@ -521,7 +521,7 @@ export default new Router({
                 title: 'People',
                 description: 'PeopleList',
                 postType: 'post_people',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
             {
@@ -532,7 +532,7 @@ export default new Router({
                 title: 'Create New People',
                 description: 'PeopleNew',
                 postType: 'post_people',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
             {
@@ -543,7 +543,7 @@ export default new Router({
                 title: 'Edit People',
                 description: 'PeopleDetail',
                 postType: 'post_people',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
           ],
@@ -562,7 +562,7 @@ export default new Router({
           },
           meta: {
             postType: 'post_testimonial',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
           children: [
             {
@@ -573,7 +573,7 @@ export default new Router({
                 title: 'Testimonial',
                 description: 'TestimonialList',
                 postType: 'post_testimonial',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
             {
@@ -584,7 +584,7 @@ export default new Router({
                 title: 'Create New Testimonial',
                 description: 'TestimonialNew',
                 postType: 'post_testimonial',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
             {
@@ -595,7 +595,7 @@ export default new Router({
                 title: 'Edit Testimonial',
                 description: 'TestimonialDetail',
                 postType: 'post_testimonial',
-                permission: ['admin', 'editor'],
+                permission: ['admin'],
               },
             },
           ],
@@ -686,7 +686,7 @@ export default new Router({
           meta: {
             title: 'Navigation',
             description: '',
-            permission: ['admin', 'editor'],
+            permission: ['admin'],
           },
         },
 

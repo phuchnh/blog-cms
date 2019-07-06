@@ -77,6 +77,7 @@ return [
     'resources' => 'tài nguyên',
 
     # S
+    'share' => 'Chia sẻ',
     'story' => 'Câu chuyện',
     'sign-up-now' => 'Đăng ký ngay',
     'subscribe-for-our-newsletter' => 'đăng ký nhận bản tin',
