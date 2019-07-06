@@ -44,7 +44,10 @@
                                 {!! $item['content'] !!}
                             </div>
 
-                            <div class="sharethis-inline-share-buttons"></div>
+                            <div class="share-section">
+                                <h4 class="font-weight-bold fs--1-7rem text-capitalize">@lang('site.share')</h4>
+                                <div id="share" class="sharethis-inline-share-buttons"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
