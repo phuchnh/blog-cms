@@ -18,10 +18,10 @@
             @change="handleChange"
             :loading="fetching">
           <el-option
-              v-for="item in data"
-              :key="item.value.id"
-              :label="item.value.title"
-              :value="item.value | stringify">
+              v-for="item in getListsOther"
+              :key="item.id"
+              :label="item.title"
+              :value="item | stringify">
           </el-option>
         </el-select>
       </div>
@@ -31,7 +31,7 @@
 
 <script>
   import _ from 'lodash'
-  import { ApiService } from '../api/api.service'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'PostOtherForm',
@@ -48,22 +48,17 @@
     },
     data () {
       this.lastFetchId = 0
-      this.fetchPost = _.debounce(this.fetchPost, 500)
-
       return {
         /**
-         *  set default value for select mutiple
+         *  set default value for select multiple
          */
-        data: [],
+        dataOthers: this.getListsOther,
         post: this.value ? _.map(this.value, (item) => {
           return JSON.stringify(item)
         }) : [],
         fetching: false,
         relatedPost: [],
       }
-    },
-    created () {
-      this.fetchPost()
     },
     watch: {
       /**
@@ -76,20 +71,26 @@
           this.$emit('input', val)
         },
       },
+
+      getListsOther (val) {
+        this.dataOthers = val
+      },
     },
     filters: {
       stringify: function (value) {
         return JSON.stringify(value)
       },
     },
+    computed: {
+      ...mapGetters('faq', ['getListsOther']),
+    },
     methods: {
       /**
        * load post from api
        * @param value
        */
-      fetchPost (value) {
+      async fetchPost (value) {
         this.lastFetchId += 1
-        this.data = []
         this.fetching = true
 
         const fetchId = this.lastFetchId
@@ -98,32 +99,13 @@
         const params = {
           title: value,
           type: this.type,
-          with: 'metas',
+          with: 'metas,thumbnail',
         }
 
-        // Call api to load post
-        ApiService.get('/posts', params).then(res => {
-          // receive data from api
-          const getData = res.data.data
+        await this.$store.dispatch('faq/fetchListOther', params)
 
-          // for fetch callback order
-          if (fetchId !== this.lastFetchId) {
-            return
-          }
-
-          // set data for select list
-          const data = getData.map(val => ({
-            value: {
-              id: val.id,
-              title: val.title,
-              url: `${ window.location.origin }/${ val.slug }`,
-              thumbnail: val.metas.thumbnail || null,
-            },
-          }))
-
-          this.data = data
-          this.fetching = false
-        })
+        // this.post =
+        this.fetching = false
       },
       /**
        * handle when select value after selected
@@ -137,7 +119,6 @@
         // map to value
         Object.assign(this, {
           post: [...value],
-          data: [],
           fetching: false,
         })
       },

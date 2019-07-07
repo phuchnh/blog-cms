@@ -30,6 +30,7 @@
     beforeRouteEnter (to, from, next) {
       return Promise.all([
         store.dispatch('faq/fetchItem', to.params.id),
+        store.dispatch('faq/fetchListOther', {with: 'metas,thumbnail'}),
         store.dispatch('postMeta/fetchPostMeta', to.params.id),
       ]).then(() => next())
     },

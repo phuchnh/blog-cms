@@ -5,6 +5,7 @@ import Vue from 'vue'
 const initialState = {
   postType: 'post',
   lists: [],
+  listsOther: [],
   total: 0,
   queryParams: {
     sort: 'updated_at',
@@ -38,6 +39,10 @@ export default {
 
     getLists: (state) => {
       return state.lists
+    },
+
+    getListsOther: (state) => {
+      return state.listsOther
     },
 
     getListByType: (state) => (type) => {
@@ -82,6 +87,10 @@ export default {
       state.lists = [...lists]
       state.total = total
       state.queryParams = { ...queryParams }
+    },
+
+    setListOther (state, { lists}) {
+      state.listsOther = [...lists]
     },
 
     setListByType (state, { type, lists }) {
@@ -162,6 +171,25 @@ export default {
         })
 
         commit('endLoading')
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    fetchListOther ({ state, commit }, params = {}) {
+      return PostService.getPosts(state.postType, params).then(resp => {
+        // set data for select list
+        const results = resp.data.data;
+        const list = results.map(val => ({
+          id: val.id,
+          title: val.title,
+          url: `${ window.location.origin }/${ val.slug }`,
+          thumbnail: null,
+        }))
+
+        commit('setListOther', {
+          lists: _.toArray(list),
+        })
       }).catch(err => {
         console.log(err)
       })

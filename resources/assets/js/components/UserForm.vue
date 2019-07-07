@@ -73,7 +73,7 @@
             <button @click="handleChangePassword" class="btn btn-warning btn-sm">Change Password</button>
           </div>
         </div>
-        <div class="form-group" :class="{ 'has-error': errors.first('type') }">
+        <div v-if="currentUser.type === 'admin'" class="form-group" :class="{ 'has-error': errors.first('type') }">
           <label for="type" class="col-sm-2 control-label">
             Level
             <span class="required">*</span>
@@ -97,6 +97,7 @@
             </div>
           </div>
         </div>
+
         <div class="form-group">
           <label class="col-sm-2 control-label">Avatar</label>
           <div class="col-sm-8">
@@ -136,7 +137,10 @@ export default {
   computed: {
     ...mapGetters({
       userData: "user/user"
-    })
+    }),
+    currentUser () {
+      return this.$store.state.auth.currentUser
+    },
   },
   props: {
     formAction: String
