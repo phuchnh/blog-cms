@@ -196,10 +196,10 @@
                             <div class="col-sm-8 col-xs-12">
                                 <div class="event-content">
                                     <div class="event-content__date background--orange font_color--white margin_bottom--15">
-                                        <span class="font-weight-bold event-content__date--day">{{\Carbon\Carbon::parse($ep['meta']['event']['date'])->format('d')}}</span>
+                                        <span class="font-weight-bold event-content__date--day">{{\Carbon\Carbon::parse($ep['meta']['event']['date']))->addHours(+5)->format('d')}}</span>
                                         <span>|</span>
-                                        <span class="event-content__date--month">{{\Carbon\Carbon::parse($ep['meta']['event']['date'])->format('F')}}</span>
-                                        <span class="event-content__date--year">{{\Carbon\Carbon::parse($ep['meta']['event']['date'])->format('Y')}}</span>
+                                        <span class="event-content__date--month">{{\Carbon\Carbon::parse($ep['meta']['event']['date']))->addHours(+5)->format('F')}}</span>
+                                        <span class="event-content__date--year">{{\Carbon\Carbon::parse($ep['meta']['event']['date']))->addHours(+5)->format('Y')}}</span>
                                     </div>
 
                                     <div class="event-content__body">
